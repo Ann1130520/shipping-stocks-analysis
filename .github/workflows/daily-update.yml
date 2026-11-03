@@ -1,0 +1,42 @@
+name: Daily Auto Update Shipping Stocks & News
+
+on:
+  schedule:
+    # UTC 02:30 -> 台灣時間 10:30 (盤中撮合)
+    - cron: '30 2 * * 1-5'
+    # UTC 06:00 -> 台灣時間 14:00 (收盤定價)
+    - cron: '0 6 * * 1-5'
+    # UTC 12:00 -> 台灣時間 20:00 (夜間國際運價與美股新聞)
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch: # 支援手動一鍵觸發更新
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Market Data & News Crawler
+        run: |
+          python update_data.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add latest_data.json
+          if git diff --staged --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "chore(data): auto-update stock quotes & shipping news [skip ci]"
+            git push
+          fi
