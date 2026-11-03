@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>航運雙雄情報戰情室 | 長榮(2603) vs 陽明(2609) 產業分析與世界動態</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ocean: {
+              900: '#061325',
+              850: '#0a1a33',
+              800: '#0f2442',
+              700: '#173661',
+              600: '#234d85',
+              500: '#3268ad',
+              400: '#4a8cd4',
+              300: '#75b0ef',
+              200: '#aed2f9',
+              100: '#dbeafe'
+            },
+            evergreen: '#00875A',
+            yangming: '#3B82F6',
+            bull: '#EF4444',
+            bear: '#10B981',
+            warning: '#F59E0B'
+          },
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans TC', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- Top Ticker Bar -->
+  <div class="bg-slate-900 border-b border-slate-800 text-xs py-2 px-4 sticky top-0 z-50 shadow-md backdrop-blur-md bg-opacity-95">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <!-- Live Indicators Marquee/Ticker -->
+      <div class="flex items-center space-x-6 overflow-x-auto no-scrollbar py-0.5">
+        <span class="inline-flex items-center gap-1.5 font-semibold text-sky-400 uppercase tracking-wider text-[11px] shrink-0">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          航運動態即時監控
+        </span>
+
+        <!-- 2603 Ticker -->
+        <div class="flex items-center gap-2 shrink-0 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700">
+          <span class="font-bold text-white">長榮 (2603)</span>
+          <span class="font-mono font-semibold text-rose-400" id="ticker-2603-price">NT$ 218.5</span>
+          <span class="text-rose-400 font-mono text-[11px] flex items-center" id="ticker-2603-change">
+            <i class="fa-solid fa-caret-up mr-0.5"></i>+3.5 (+1.63%)
+          </span>
+          <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-2">PE: 5.1x | 殖利率: 8.5%</span>
+        </div>
+
+        <!-- 2609 Ticker -->
+        <div class="flex items-center gap-2 shrink-0 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700">
+          <span class="font-bold text-white">陽明 (2609)</span>
+          <span class="font-mono font-semibold text-rose-400" id="ticker-2609-price">NT$ 72.8</span>
+          <span class="text-rose-400 font-mono text-[11px] flex items-center" id="ticker-2609-change">
+            <i class="fa-solid fa-caret-up mr-0.5"></i>+1.4 (+1.96%)
+          </span>
+          <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-2">PE: 4.8x | 殖利率: 7.8%</span>
+        </div>
+
+        <!-- SCFI Ticker -->
+        <div class="flex items-center gap-2 shrink-0 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700">
+          <span class="text-slate-300 font-medium">SCFI運價指數</span>
+          <span class="font-mono font-bold text-amber-400" id="ticker-scfi">2,235.4 點</span>
+          <span class="text-rose-400 font-mono text-[11px]"><i class="fa-solid fa-arrow-trend-up mr-0.5"></i>+4.2%</span>
+        </div>
+
+        <!-- Brent Oil & Choke Point -->
+        <div class="flex items-center gap-2 shrink-0 text-slate-400">
+          <span>布蘭特原油: <strong class="text-slate-200 font-mono">$74.2/桶</strong></span>
+          <span class="mx-1">•</span>
+          <span>蘇伊士繞道率: <strong class="text-amber-400 font-mono">87.5%</strong></span>
+        </div>
+      </div>
+
+      <!-- Quick Nav Buttons & Theme Toggle -->
+      <div class="flex items-center gap-2 shrink-0">
+        <span class="text-[11px] text-slate-400 hidden sm:inline">更新時間: <span id="last-update-time">2026-11-03 13:20</span></span>
+        <button id="refresh-data-btn" class="p-1.5 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition" title="重新整理模擬數據">
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="bg-gradient-to-r from-slate-900 via-ocean-900 to-slate-900 border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center shadow-lg shadow-blue-500/20 text-white text-2xl">
+            <i class="fa-solid fa-ship"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-2xl font-black tracking-tight text-white">貨櫃航運戰情中心</h1>
+              <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">專業分析版</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">
+              長榮海運 (2603) & 陽明海運 (2609) 深入比對 • 運價供需週期 • 全球航道地緣政治 • 投資情境試算
+            </p>
+          </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <nav class="flex items-center overflow-x-auto space-x-1 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800/80">
+          <button data-tab="overview" class="tab-btn active px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-white bg-blue-600 shadow-sm">
+            <i class="fa-solid fa-chart-pie"></i> 戰情總覽
+          </button>
+          <button data-tab="comparison" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-code-compare"></i> 雙雄對決
+          </button>
+          <button data-tab="industry" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-anchor"></i> 產業與供需
+          </button>
+          <button data-tab="geopolitics" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-earth-americas"></i> 世界動態與咽喉
+          </button>
+          <button data-tab="news" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-newspaper"></i> 航運新聞情報
+          </button>
+          <button data-tab="calculator" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-calculator"></i> 獲利情境試算
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+
+    <!-- ========================================== -->
+    <!-- SECTION 1: OVERVIEW TAB (總覽儀表板) -->
+    <!-- ========================================== -->
+    <div id="tab-overview" class="tab-content space-y-6">
+      
+      <!-- Key Summary Highlights Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card 1: 航運景氣綜合雷達 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 relative overflow-hidden group hover:border-slate-700 transition">
+          <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
+            <span>當前產業景氣評級</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-amber-400">溫和擴張</span>
+            <span class="text-xs text-slate-400 font-mono">繞道吸收過剩運力</span>
+          </div>
+          <div class="mt-3 text-xs text-slate-300 leading-relaxed">
+            紅海危機拉長週轉天數，吸收約 <span class="text-amber-400 font-semibold">9.5%</span> 運力，歐美線長約簽署價優於去年。
+          </div>
+          <div class="absolute -right-3 -bottom-3 opacity-10 text-6xl text-blue-400 pointer-events-none">
+            <i class="fa-solid fa-gauge-high"></i>
+          </div>
+        </div>
+
+        <!-- Card 2: 長榮 (2603) 簡評 -->
+        <div class="bg-gradient-to-br from-slate-900 to-emerald-950/30 border border-emerald-900/40 rounded-xl p-4 relative overflow-hidden group hover:border-emerald-700/60 transition">
+          <div class="flex items-center justify-between text-emerald-400 text-xs mb-2">
+            <span class="font-bold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 長榮 (2603)
+            </span>
+            <span class="text-[10px] bg-emerald-900/40 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-700/50">海洋聯盟</span>
+          </div>
+          <div class="flex items-baseline justify-between">
+            <div>
+              <span class="text-2xl font-black text-white font-mono">218.5</span>
+              <span class="text-rose-400 text-xs font-semibold ml-1">+1.63%</span>
+            </div>
+            <div class="text-right">
+              <span class="text-[11px] text-slate-400">預估2025 EPS</span>
+              <div class="text-sm font-bold text-emerald-400 font-mono">38.5 ~ 44 元</div>
+            </div>
+          </div>
+          <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/80 pt-2">
+            <span>本益比: <strong class="text-white">5.1x</strong></span>
+            <span>淨值: <strong class="text-white">245元 (PB 0.89x)</strong></span>
+            <span>預估殖利率: <strong class="text-amber-400">8.5%</strong></span>
+          </div>
+        </div>
+
+        <!-- Card 3: 陽明 (2609) 簡評 -->
+        <div class="bg-gradient-to-br from-slate-900 to-blue-950/30 border border-blue-900/40 rounded-xl p-4 relative overflow-hidden group hover:border-blue-700/60 transition">
+          <div class="flex items-center justify-between text-blue-400 text-xs mb-2">
+            <span class="font-bold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-blue-500"></span> 陽明 (2609)
+            </span>
+            <span class="text-[10px] bg-blue-900/40 text-blue-300 px-1.5 py-0.5 rounded border border-blue-700/50">Premier卓越聯盟</span>
+          </div>
+          <div class="flex items-baseline justify-between">
+            <div>
+              <span class="text-2xl font-black text-white font-mono">72.8</span>
+              <span class="text-rose-400 text-xs font-semibold ml-1">+1.96%</span>
+            </div>
+            <div class="text-right">
+              <span class="text-[11px] text-slate-400">預估2025 EPS</span>
+              <div class="text-sm font-bold text-blue-400 font-mono">14.0 ~ 16.5 元</div>
+            </div>
+          </div>
+          <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/80 pt-2">
+            <span>本益比: <strong class="text-white">4.8x</strong></span>
+            <span>淨值: <strong class="text-white">88元 (PB 0.82x)</strong></span>
+            <span>預估殖利率: <strong class="text-amber-400">7.8%</strong></span>
+          </div>
+        </div>
+
+        <!-- Card 4: 運價指標與油價差 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 relative overflow-hidden group hover:border-slate-700 transition">
+          <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
+            <span>高低硫油價差 (脫硫塔紅利)</span>
+            <span class="text-emerald-400 text-xs font-mono">長榮最受惠</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-white font-mono">$128</span>
+            <span class="text-xs text-slate-400">美元/噸 (HSFO vs VLSFO)</span>
+          </div>
+          <div class="mt-3 text-xs text-slate-300 leading-relaxed">
+            長榮高達 80%+ 船舶配備脫硫塔，單日燃油節省可觀，每航次成本比無脫硫塔船隻低 12-18%。
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Interactive Chart: Stock & Freight Comparison -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Chart: 2603 vs 2609 vs SCFI Index -->
+        <div class="lg:col-span-2 bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-base font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-chart-line text-blue-400"></i>
+                雙雄走勢與 SCFI 運價連動歷史對照
+              </h2>
+              <p class="text-xs text-slate-400">觀察運價波動與長榮、陽明股價之滯後反應與正相關性</p>
+            </div>
+            <!-- Timeframe toggles -->
+            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
+              <button class="px-2.5 py-1 rounded bg-blue-600 text-white font-medium chart-timeframe-btn" data-range="1Y">近1年</button>
+              <button class="px-2.5 py-1 rounded hover:text-white text-slate-400 font-medium chart-timeframe-btn" data-range="2Y">近2年</button>
+              <button class="px-2.5 py-1 rounded hover:text-white text-slate-400 font-medium chart-timeframe-btn" data-range="CYCLE">景氣大週期</button>
+            </div>
+          </div>
+          <div class="h-72 w-full relative">
+            <canvas id="overviewCombinedChart"></canvas>
+          </div>
+          <div class="mt-3 flex flex-wrap items-center justify-between text-xs text-slate-400 pt-3 border-t border-slate-800">
+            <div class="flex items-center gap-4">
+              <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-emerald-500 inline-block"></span> 長榮 (2603)</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-blue-500 inline-block"></span> 陽明 (2609)</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-amber-400 inline-block"></span> SCFI 貨櫃運價指數</span>
+            </div>
+            <div class="text-[11px] text-slate-500">
+              *SCFI 與航商營收約有 3~5 週營收認列遞延效應
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Top Strategic News Alert & Choke-point Mini-Status -->
+        <div class="space-y-4">
+          <!-- Critical Chokepoint Flash -->
+          <div class="bg-gradient-to-br from-slate-900 to-rose-950/20 border border-rose-900/40 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-rose-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-triangle-exclamation animate-pulse"></i> 地緣動態核心關注
+              </span>
+              <span class="text-[10px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">實質影響極大</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1.5">紅海繞行常態化：好望角航程維持</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+              以星 (ZIM)、地中海航運 (MSC)、馬士基與長榮目前往返遠東-歐洲航線超過 85% 仍採取繞行非洲好望角策略，單程增加航期 12-14 天。
+            </p>
+            <div class="bg-slate-950/70 p-2.5 rounded-lg border border-slate-800/80 text-xs space-y-1.5">
+              <div class="flex justify-between">
+                <span class="text-slate-400">運力吸收估算</span>
+                <span class="font-mono font-bold text-amber-400">約 220 萬 TEU</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">歐洲線運價支撐力</span>
+                <span class="text-emerald-400 font-semibold">強勁</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Comparison Snapshot Card -->
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">雙雄關鍵優勢一句話</h3>
+              <i class="fa-solid fa-bolt text-amber-400 text-xs"></i>
+            </div>
+            <div class="space-y-2.5 text-xs">
+              <div class="p-2.5 rounded-lg bg-emerald-950/20 border border-emerald-900/30">
+                <div class="font-bold text-emerald-400 mb-0.5 flex items-center gap-1">
+                  <i class="fa-solid fa-crown text-[10px]"></i> 長榮 (2603)
+                </div>
+                <div class="text-slate-300 text-[11px] leading-relaxed">
+                  全球第7大航商，海洋聯盟長約量大穩健，船隊新、大船多、脫硫塔裝載率第一，成本護城河極深。
+                </div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-blue-950/20 border border-blue-900/30">
+                <div class="font-bold text-blue-400 mb-0.5 flex items-center gap-1">
+                  <i class="fa-solid fa-fire-flame-curved text-[10px]"></i> 陽明 (2609)
+                </div>
+                <div class="text-slate-300 text-[11px] leading-relaxed">
+                  歐洲線佔比高達 35-40%，對紅海危機現貨運價敏感度最高，股價位階低且淨值比僅 0.8x，反彈彈性強。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 2: COMPARISON TAB (雙雄深度對決) -->
+    <!-- ========================================== -->
+    <div id="tab-comparison" class="tab-content hidden space-y-6">
+      
+      <!-- Comparison Header Banner -->
+      <div class="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-blue-950/40 border border-slate-800 rounded-xl p-6">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex items-center gap-4 text-center md:text-left">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-3xl text-emerald-400">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+              <h2 class="text-xl font-bold text-white">長榮 (2603) vs 陽明 (2609) 綜合戰力大盤點</h2>
+              <p class="text-xs text-slate-400 mt-1">從船隊結構、聯盟佈局、航線曝險、財務體質到籌碼評價的全方位量化比對</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="px-4 py-2 rounded-lg bg-emerald-900/30 border border-emerald-700/50 text-center">
+              <div class="text-[10px] text-emerald-400 font-semibold uppercase">長榮定位</div>
+              <div class="text-sm font-bold text-white">大型旗艦 • 高毛利領頭羊</div>
+            </div>
+            <div class="px-4 py-2 rounded-lg bg-blue-900/30 border border-blue-700/50 text-center">
+              <div class="text-[10px] text-blue-400 font-semibold uppercase">陽明定位</div>
+              <div class="text-sm font-bold text-white">歐洲先鋒 • 運價高槓桿彈性</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quantitative Comparison Table -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+        <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-table-columns text-blue-400"></i> 關鍵營運與財務指標詳細對比表
+          </h3>
+          <span class="text-xs text-slate-400">單位：新台幣 / TEU (標準箱)</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-950/70 text-slate-400 border-b border-slate-800">
+                <th class="py-3.5 px-4 font-semibold w-1/4">比較維度 / 指標</th>
+                <th class="py-3.5 px-4 font-bold text-emerald-400 w-1/3 bg-emerald-950/10">
+                  <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                    長榮 (2603)
+                  </div>
+                </th>
+                <th class="py-3.5 px-4 font-bold text-blue-400 w-1/3 bg-blue-950/10">
+                  <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                    陽明 (2609)
+                  </div>
+                </th>
+                <th class="py-3.5 px-4 font-semibold text-slate-400 w-1/6 text-center">優勢方分析</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/80">
+              <!-- Row 1: Global Rank & Fleet -->
+              <tr class="hover:bg-slate-850/50 transition">
+                <td class="py-3 px-4 font-medium text-slate-300">
+                  <span class="font-bold">全球排名與總運力</span>
+                  <div class="text-[11px] text-slate-500">Alphaliner 全球貨櫃船商運力</div>
+                </td>
+                <td class="py-3 px-4 font-mono font-semibold text-white bg-emerald-950/5">
+                  <span class="text-emerald-400 font-bold">第 7 名</span> (約 1,720,000 TEU, 218 艘)
+                </td>
+                <td class="py-3 px-4 font-mono font-semibold text-white bg-blue-950/5">
+                  <span class="text-blue-400 font-bold">第 10 名</span> (約 715,000 TEU, 94 艘)
+                </td>
+                <td class="py-3 px-4 text-center">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">長榮規模領先 2.4倍</span>
+                </td>
+              </tr>
+
+              <!-- Row 2: Alliances -->
+              <tr class="hover:bg-slate-850/50 transition">
+                <td class="py-3 px-4 font-medium text-slate-300">
+                  <span class="font-bold">所屬航運聯盟</span>
+                  <div class="text-[11px] text-slate-500">聯盟合約效期與夥伴</div>
+                </td>
+                <td class="py-3 px-4 text-slate-200 bg-emerald-950/5">
+                  <span class="font-semibold text-emerald-400">Ocean Alliance (海洋聯盟)</span>
+                  <div class="text-[11px] text-slate-400">已延長至 2032 年 (達飛 CMA、中遠 COSCO、東方海外 OOCL)</div>
+                </td>
+                <td class="py-3 px-4 text-slate-200 bg-blue-950/5">
+                  <span class="font-semibold text-blue-400">Premier Alliance (卓越聯盟)</span>
+                  <div class="text-[11px] text-slate-400">2025新架構 (ONE、HMM、陽明) + 歐歐線與 MSC 艙位互換合作</div>
+                </td>
+                <td class="py-3 px-4 text-center">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">長榮聯盟最穩固長久</span>
+                </td>
+              </tr>
+
+              <!-- Row 3: Owned vs Chartered -->
+              <tr class="hover:bg-slate-850/50 transition">
+                <td class="py-3 px-4 font-medium text-slate-300">
+                  <span class="font-bold">自有船比例 / 脫硫塔配備</span>
+                  <div class="text-[11px] text-slate-500">決定低硫燃油高成本轉嫁能力</div>
+                </td>
+                <td class="py-3 px-4 font-mono text-slate-200 bg-emerald-950/5">
+                  自有船比例 <strong class="text-white">~66%</strong> / 脫硫塔安裝率 <strong class="text-emerald-400">>80%</strong>
+                </td>
+                <td class="py-3 px-4 font-mono text-slate-200 bg-blue-950/5">
+                  自有船比例 <strong class="text-white">~62%</strong> / 脫硫塔安裝率 <strong class="text-blue-400">~45%</strong>
+                </td>
+                <td class="py-3 px-4 text-center">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">長榮燃油成本效益壓倒性勝出</span>
+                </td>
+              </tr>
+
+              <!-- Row 4: Route Exposure -->
+              <tr class="hover:bg-slate-850/50 transition">
+                <td class="py-3 px-4 font-medium text-slate-300">
+                  <span class="font-bold">主要航線營收結構</span>
+                  <div class="text-[11px] text-slate-500">美線 (美西/美東) vs 歐洲地中海線</div>
+                </td>
+                <td class="py-3 px-4 text-slate-200 bg-emerald-950/5">
+                  美洲線 <strong class="text-white">40-45%</strong> | 歐洲線 <strong class="text-white">30-33%</strong> | 亞洲近洋與其他 <strong class="text-white">25%</strong>
+                </td>
+                <td class="py-3 px-4 text-slate-200 bg-blue-950/5">
+                  美洲線 <strong class="text-white">34-38%</strong> | 歐洲線 <strong class="text-white">38-42%</strong> | 亞洲近洋與其他 <strong class="text-white">22%</strong>
+                </td>
+                <td class="py-3 px-4 text-center">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">陽明對歐洲/紅海彈性更高</span>
+                </td>
+              </tr>
+
+              <!-- Row 5: EPS & Margin -->
+              <tr class="hover:bg-slate-850/50 transition">
+                <td class="py-3 px-4 font-medium text-slate-300">
+                  <span class="font-bold">毛利率與 EPS 獲利能力</span>
+                  <div class="text-[11px] text-slate-500">2024 前三季累積與 2025 展望</div>
+                </td>
+                <td class="py-3 px-4 font-mono text-slate-200 bg-emerald-950/5">
+                  營業毛利率 <strong class="text-emerald-400">~38.5%</strong> | 預估全年 EPS <strong class="text-white font-bold">38 ~ 42 元</strong>
+                </td>
+                <td class="py-3 px-4 font-mono text-slate-200 bg-blue-950/5">
+                  營業毛利率 <strong class="text-blue-400">~32.1%</strong> | 預估全年 EPS <strong class="text-white font-bold">14 ~ 16 元</strong>
+                </td>
+                <td class="py-3 px-4 text-center">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">長榮獲利能力與毛利率更優</span>
+                </td>
+              </tr>
+
+              <!-- Row 6: Valuation (PB, PE, Yield) -->
+              <tr class="hover:bg-slate-850/50 transition">
+                <td class="py-3 px-4 font-medium text-slate-300">
+                  <span class="font-bold">評價倍數與股利殖利率</span>
+                  <div class="text-[11px] text-slate-500">每股淨值 BVPS、P/B、本益比、預估股利</div>
+                </td>
+                <td class="py-3 px-4 font-mono text-slate-200 bg-emerald-950/5">
+                  淨值 <strong class="text-white">245元</strong> (P/B 0.89x) | 預估配息 <strong class="text-emerald-400">18-20元</strong> (殖利率 ~8.5%)
+                </td>
+                <td class="py-3 px-4 font-mono text-slate-200 bg-blue-950/5">
+                  淨值 <strong class="text-white">88元</strong> (P/B 0.82x) | 預估配息 <strong class="text-blue-400">5.5-6.5元</strong> (殖利率 ~7.8%)
+                </td>
+                <td class="py-3 px-4 text-center">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">陽明淨值折價更深 (防禦性強)</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Radar Comparison & Fleet Route Visualizations -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Radar Chart: Multi-dimensional Attributes -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-chart-radar text-blue-400"></i> 六大維度戰力雷達圖
+            </h3>
+            <span class="text-xs text-slate-400">滿分 100 分</span>
+          </div>
+          <div class="h-64 w-full relative">
+            <canvas id="comparisonRadarChart"></canvas>
+          </div>
+          <p class="mt-3 text-xs text-slate-400 text-center">
+            長榮在「船隊規模、成本競爭力、獲利毛利率」領先；陽明在「估值折價安全邊際、運價反彈彈性」具吸引力。
+          </p>
+        </div>
+
+        <!-- Route Allocation Comparison Chart -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-route text-teal-400"></i> 雙雄航線運力配置佔比
+            </h3>
+            <span class="text-xs text-slate-400">依 TEU 部署比例</span>
+          </div>
+          <div class="h-64 w-full relative">
+            <canvas id="routeAllocationChart"></canvas>
+          </div>
+          <div class="mt-3 flex items-center justify-around text-xs text-slate-300 border-t border-slate-800 pt-2">
+            <div><span class="font-bold text-emerald-400">長榮:</span> 均衡布局，美洲長約壓艙</div>
+            <div><span class="font-bold text-blue-400">陽明:</span> 歐洲線比重突出，紅海運價拉動顯著</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed SWOT / Investment Theses Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 2603 Thesis -->
+        <div class="bg-slate-900/90 border border-emerald-900/50 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="p-2 rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">2603</span>
+              <div>
+                <h4 class="font-bold text-white">長榮海運 核心投資亮點與風險</h4>
+                <div class="text-xs text-emerald-400">防禦與進攻兼具的龍頭首選</div>
+              </div>
+            </div>
+            <span class="text-xs font-semibold px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">推薦族群：穩健價值型</span>
+          </div>
+          <div class="space-y-3 text-xs text-slate-300">
+            <div>
+              <strong class="text-emerald-400 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-circle-check"></i> 優勢 (Strengths):
+              </strong>
+              <p class="leading-relaxed text-slate-400">
+                1. 24,000 TEU A級超大型貨輪多，單箱運輸油耗成本為業界最低。<br>
+                2. 脫硫塔裝機率逾八成，持續坐享每噸 100~150 美元的高低硫燃料油價差超額利潤。<br>
+                3. 與達飛、中遠同屬海洋聯盟，合約延長至 2032，無聯盟拆夥重組動盪。
+              </p>
+            </div>
+            <div>
+              <strong class="text-rose-400 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-circle-exclamation"></i> 潛在風險 (Risks):
+              </strong>
+              <p class="leading-relaxed text-slate-400">
+                若紅海衝突迅速降溫全面復航蘇伊士，全球新增大船大量投入市場，運價恐面臨較大幅度回檔修正。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2609 Thesis -->
+        <div class="bg-slate-900/90 border border-blue-900/50 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="p-2 rounded-lg bg-blue-950 text-blue-400 border border-blue-800 font-bold">2609</span>
+              <div>
+                <h4 class="font-bold text-white">陽明海運 核心投資亮點與風險</h4>
+                <div class="text-xs text-blue-400">歐洲線暴發力高、淨值保護傘厚</div>
+              </div>
+            </div>
+            <span class="text-xs font-semibold px-2 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">推薦族群：波段攻擊型</span>
+          </div>
+          <div class="space-y-3 text-xs text-slate-300">
+            <div>
+              <strong class="text-blue-400 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-circle-check"></i> 優勢 (Strengths):
+              </strong>
+              <p class="leading-relaxed text-slate-400">
+                1. 歐洲線營收佔比近 40%，現貨運價飆漲時獲利上修彈性全台航商最顯著。<br>
+                2. 每股淨值接近 88 元，目前股價約 72 元，股價淨值比僅 0.82 倍，下檔具高度清算價值與高配息防護。<br>
+                3. 帳上現金極其充裕，無沉重造船負債壓力，利息收益雄厚。
+              </p>
+            </div>
+            <div>
+              <strong class="text-rose-400 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-circle-exclamation"></i> 潛在風險 (Risks):
+              </strong>
+              <p class="leading-relaxed text-slate-400">
+                脫硫塔安裝率低於長榮，若高低硫油價差擴大，燃油成本侵蝕較明顯；2025 新聯盟過渡期需觀察航線準班率。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 3: INDUSTRY TAB (產業與供需) -->
+    <!-- ========================================== -->
+    <div id="tab-industry" class="tab-content hidden space-y-6">
+      
+      <!-- Industry Executive Overview -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+        <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-compass-drafting text-blue-400"></i>
+          貨櫃航運產業核心驅動模型：三大決定性力量
+        </h2>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          貨櫃航運屬於強週期性資本密集產業，獲利核心由「有效運力供給 (Effective Supply)」、「實體貿易需求 (Cargo Demand)」以及「航道阻礙地緣外生變數 (Exogenous Disruption)」三者交織決定。
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div class="bg-slate-950/80 p-4 rounded-lg border border-slate-800">
+            <div class="text-amber-400 font-bold text-xs mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-box-open"></i> 1. 新船交付與拆船 (名目供給)
+            </div>
+            <p class="text-xs text-slate-300">
+              全球新船在手訂單運力比（Orderbook-to-Fleet）約為 <strong class="text-white font-mono">20.5%</strong>，2024-2026年每年新增交付運力約 250~300 萬 TEU，面臨名目供給大幅擴張壓力。
+            </p>
+          </div>
+
+          <div class="bg-slate-950/80 p-4 rounded-lg border border-slate-800">
+            <div class="text-rose-400 font-bold text-xs mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-rotate-left"></i> 2. 繞道好望角 (有效吸收)
+            </div>
+            <p class="text-xs text-slate-300">
+              紅海危機迫使遠東-歐地線繞行非洲，航程拉長 30%~35%，全球貨櫃船隊需要額外配置 9%~11% 的有效船舶才能維持每週班次，完美抵消了新船交付潮衝擊。
+            </p>
+          </div>
+
+          <div class="bg-slate-950/80 p-4 rounded-lg border border-slate-800">
+            <div class="text-emerald-400 font-bold text-xs mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-leaf"></i> 3. IMO 環保新規 (減速減壓)
+            </div>
+            <p class="text-xs text-slate-300">
+              CII（碳強度指標）與 EEXI 上路，老舊船舶被迫降速（Slow steaming）5%~10% 以達標，進一步實質扣減市場有效運力約 3%~5%，加速 20 年以上老船拆解。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Freight Index Trends & Supply-Demand Chart -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Freight Rate Indices Sub-chart -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-money-bill-trend-up text-amber-400"></i> 各大主力航線運價趨勢 (美西 vs 歐基線)
+              </h3>
+              <p class="text-xs text-slate-400">單位：美元 / FEU (40呎大櫃)</p>
+            </div>
+          </div>
+          <div class="h-64 w-full relative">
+            <canvas id="subRouteFreightChart"></canvas>
+          </div>
+          <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800 pt-2">
+            <span>歐洲線高檔震盪: <strong class="text-emerald-400">$3,800-4,500/FEU</strong></span>
+            <span>美西線維持獲利區間: <strong class="text-blue-400">$4,200-4,800/FEU</strong></span>
+          </div>
+        </div>
+
+        <!-- Supply vs Fleet Absorption Model -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-scale-balanced text-teal-400"></i> 全球貨櫃船供需平衡模擬分析
+              </h3>
+              <p class="text-xs text-slate-400">交付運力 vs 繞道吸收 vs 老船拆解淨增加</p>
+            </div>
+          </div>
+          <div class="h-64 w-full relative">
+            <canvas id="supplyDemandBalanceChart"></canvas>
+          </div>
+          <div class="mt-3 text-xs text-slate-400 border-t border-slate-800 pt-2">
+            繞道好望角是當前運價高居不下的「定海神針」，一旦蘇伊士復航，供需缺口將轉為明顯供給過剩。
+          </div>
+        </div>
+      </div>
+
+      <!-- Global Shipping Alliances Reorganization Map (2025/2026) -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+        <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-diagram-project text-purple-400"></i>
+          航運三國志：2025-2026 全球三大航運聯盟全新勢力版圖
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Ocean Alliance -->
+          <div class="bg-gradient-to-b from-emerald-950/30 to-slate-950 p-4 rounded-xl border border-emerald-900/50">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-emerald-400 text-sm">Ocean Alliance (海洋聯盟)</span>
+              <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono">續約至2032</span>
+            </div>
+            <div class="text-xs text-slate-300 font-medium mb-2">
+              成員：長榮海運 (Evergreen) • 達飛 (CMA CGM) • 中遠海運 (COSCO) • 東方海外 (OOCL)
+            </div>
+            <div class="text-xs text-slate-400 space-y-1">
+              <p>• <strong>市場份額：</strong>全球最大貨櫃聯盟，運力佔比約 <strong class="text-white">35%</strong></p>
+              <p>• <strong>特點：</strong>結構最穩定、合約最長，長榮在此聯盟中擁有極佳話語權與艙位互換經濟規模。</p>
+            </div>
+          </div>
+
+          <!-- Gemini Cooperation -->
+          <div class="bg-gradient-to-b from-amber-950/30 to-slate-950 p-4 rounded-xl border border-amber-900/50">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-amber-400 text-sm">Gemini (雙子星合作聯盟)</span>
+              <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-mono">2025 正式啟動</span>
+            </div>
+            <div class="text-xs text-slate-300 font-medium mb-2">
+              成員：馬士基 (Maersk) • 赫伯羅德 (Hapag-Lloyd)
+            </div>
+            <div class="text-xs text-slate-400 space-y-1">
+              <p>• <strong>市場份額：</strong>全球第二大聯盟，運力佔比約 <strong class="text-white">22%</strong></p>
+              <p>• <strong>策略核心：</strong>主打「樞紐港集中 (Hub & Spoke)」模式，承諾船期準班率達 90% 以上。</p>
+            </div>
+          </div>
+
+          <!-- Premier Alliance + MSC -->
+          <div class="bg-gradient-to-b from-blue-950/30 to-slate-950 p-4 rounded-xl border border-blue-900/50">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-blue-400 text-sm">Premier Alliance (卓越聯盟)</span>
+              <span class="text-[10px] bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded font-mono">原 THE Alliance</span>
+            </div>
+            <div class="text-xs text-slate-300 font-medium mb-2">
+              成員：陽明海運 (Yang Ming) • ONE (海洋網聯) • 韓新海運 (HMM)
+            </div>
+            <div class="text-xs text-slate-400 space-y-1">
+              <p>• <strong>關鍵合作：</strong>亞洲-歐洲航線與全球霸主 MSC 簽署 5 年長期艙位互換 (Slot Sharing) 協議。</p>
+              <p>• <strong>特點：</strong>陽明化解了赫伯羅德出走的運力缺口，藉由 MSC 巨型船擴大歐洲線航網覆蓋。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 4: GEOPOLITICS & CHOKE POINTS (世界動態) -->
+    <!-- ========================================== -->
+    <div id="tab-geopolitics" class="tab-content hidden space-y-6">
+      
+      <!-- Geopolitics Global Radar Card -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-earth-americas text-blue-400"></i>
+              全球航運咽喉要道與地緣戰略即時狀態
+            </h2>
+            <p class="text-xs text-slate-400">監控紅海、蘇伊士、巴拿馬、美東工會與重要水道動態</p>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span> 高度阻礙 / 危機</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> 限制調節 / 監控</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> 正常通行</span>
+          </div>
+        </div>
+
+        <!-- Hotspots Interactive Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          
+          <!-- Hotspot 1: Red Sea & Bab el-Mandeb -->
+          <div class="bg-slate-950/90 border-2 border-rose-600/70 rounded-xl p-4 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-white flex items-center gap-1.5">
+                <i class="fa-solid fa-skull-crossbones text-rose-500"></i> 紅海與曼德海峽
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                紅色警戒
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-2 mb-3">
+              <div class="flex justify-between border-b border-slate-800 pb-1">
+                <span class="text-slate-400">商船通行狀態</span>
+                <span class="font-bold text-rose-400">貨櫃船 85%+ 繞行好望角</span>
+              </div>
+              <div class="flex justify-between border-b border-slate-800 pb-1">
+                <span class="text-slate-400">額外航行時間</span>
+                <span class="font-mono text-amber-400">+12 ~ 14 天 / 單程</span>
+              </div>
+              <div class="flex justify-between border-b border-slate-800 pb-1">
+                <span class="text-slate-400">每航次燃油與保費</span>
+                <span class="font-mono text-rose-300">+100 ~ 150 萬美元</span>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400 leading-relaxed bg-slate-900/60 p-2.5 rounded border border-slate-800">
+              <strong>對陽明/長榮影響：</strong>實質推升歐洲線與地中海線現貨運價在每 FEU $3,500 以上，為兩大航商提供巨大獲利防護網。
+            </div>
+          </div>
+
+          <!-- Hotspot 2: Panama Canal -->
+          <div class="bg-slate-950/90 border-2 border-amber-500/60 rounded-xl p-4 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-white flex items-center gap-1.5">
+                <i class="fa-solid fa-water text-amber-400"></i> 巴拿馬運河
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                乾季水位調節
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-2 mb-3">
+              <div class="flex justify-between border-b border-slate-800 pb-1">
+                <span class="text-slate-400">每日預約通行槽位</span>
+                <span class="font-mono font-bold text-white">35 ~ 36 艘 (接近常態)</span>
+              </div>
+              <div class="flex justify-between border-b border-slate-800 pb-1">
+                <span class="text-slate-400">加通湖水深限制</span>
+                <span class="font-mono text-emerald-400">48 ~ 50 呎 (逐步放寬)</span>
+              </div>
+              <div class="flex justify-between border-b border-slate-800 pb-1">
+                <span class="text-slate-400">競標過閘溢價拍賣</span>
+                <span class="font-mono text-slate-300">正常回落</span>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400 leading-relaxed bg-slate-900/60 p-2.5 rounded border border-slate-800">
+              <strong>對美東線影響：</strong>全水路經巴拿馬通往美東運價維持平穩，長榮與陽明可彈性調節美東與美西航線分配。
+            </div>
+          </div>
+
+          <!-- Hotspot 3: US East Coast Labor (ILA) -->
+          <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-4 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-white flex items-center gap-1.5">
+                <i class="fa-solid fa-person-digging text-blue-400"></i> 美東及墨灣碼頭工會 (ILA)
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                勞資協議監控中
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-2 mb-3">
+              <div class="flex justify-between border-b border-slate-800 pb-1">
+                <span class="text-slate-400">薪資增幅協議</span>
+                <span class="font-bold text-emerald-400">已達成 61.5% 調薪原則</span>
+              </div>
+              <div class="flex justify-between border-b border-slate-800 pb-1">
+                <span class="text-slate-400">碼頭自動化爭議</span>
+                <span class="font-bold text-amber-400">持續進行深度談判</span>
+              </div>
+              <div class="flex justify-between border-b border-slate-800 pb-1">
+                <span class="text-slate-400">貨主策略</span>
+                <span class="text-slate-300">部分貨量持續移轉美西港口</span>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400 leading-relaxed bg-slate-900/60 p-2.5 rounded border border-slate-800">
+              <strong>市場影響：</strong>推升美西港口洛杉磯 (LA) / 長灘 (LB) 吞吐量，美西線現貨運價保持強韌。
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Oil Prices & Fuel Differential (Bunker Hi-5 Spread) -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-oil-well text-amber-500"></i>
+              燃油價格與高低硫油價差 (Scrubber Hi-5 Spread) 深度剖析
+            </h3>
+            <p class="text-xs text-slate-400">長榮擁脫硫塔護城河 vs 陽明油料成本變動敏感性</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400">高硫油 HSFO 380cSt (新加坡)</span>
+            <div class="text-lg font-bold font-mono text-white mt-1">$465 / 噸</div>
+            <span class="text-emerald-400 text-[10px]">長榮脫硫船主要燃料</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400">極低硫油 VLSFO 0.5% (新加坡)</span>
+            <div class="text-lg font-bold font-mono text-white mt-1">$593 / 噸</div>
+            <span class="text-blue-400 text-[10px]">一般常規船指定燃料</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400">Hi-5 價差 (超額節省利潤)</span>
+            <div class="text-lg font-bold font-mono text-amber-400 mt-1">$128 / 噸</div>
+            <span class="text-emerald-400 text-[10px]">>100美元即具高獲利回報</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400">長榮船隊單月燃油節省估計</span>
+            <div class="text-lg font-bold font-mono text-emerald-400 mt-1">約 2,500~3,000 萬美元</div>
+            <span class="text-slate-400 text-[10px]">對 EPS 實質貢獻約 0.35元/季</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-lg bg-blue-950/20 border border-blue-900/40 text-xs text-slate-300 leading-relaxed">
+          <strong class="text-blue-300">專家洞察：</strong>
+          當原油價格走高時，高低硫油價差通常同步放大，此時長榮超過 80% 的脫硫塔配備率將拉開與同業（包括陽明與馬士基）的成本差距；陽明因低硫油使用比例較高，主要透過燃油附加費 (BAF) 機制與客戶分擔成本。
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 5: NEWS TAB (新聞與情報牆) -->
+    <!-- ========================================== -->
+    <div id="tab-news" class="tab-content hidden space-y-6">
+      
+      <!-- Filter and Search Header -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- Tag filters -->
+        <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto">
+          <span class="text-xs font-semibold text-slate-400">篩選分類：</span>
+          <button class="news-filter-btn active px-3 py-1 rounded-full text-xs font-semibold bg-blue-600 text-white" data-filter="all">全部新聞</button>
+          <button class="news-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="geopolitics">地緣政治</button>
+          <button class="news-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="freight">運價指數</button>
+          <button class="news-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="corporate">長榮/陽明法說</button>
+          <button class="news-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="alliances">聯盟重組</button>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative w-full md:w-64">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+          <input type="text" id="news-search-input" placeholder="搜尋新聞關鍵字..." class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+        </div>
+      </div>
+
+      <!-- News Articles Stream Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="news-container">
+        <!-- Dynamically rendered via JS -->
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 6: CALCULATOR TAB (獲利與情境模擬器) -->
+    <!-- ========================================== -->
+    <div id="tab-calculator" class="tab-content hidden space-y-6">
+      
+      <div class="bg-gradient-to-r from-slate-900 via-blue-950/40 to-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-blue-400"></i>
+          雙雄獲利與股價評價敏感度模擬計算機
+        </h2>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          拖動下方各項關鍵變數（SCFI運價水準、紅海繞行持續比例、高低硫油價差），即時動態推估長榮 (2603) 與陽明 (2609) 的季度 EPS、年度預估 EPS、配息能力與潛在殖利率區間！
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Controls Column (Left) -->
+        <div class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-6">
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-gears text-blue-400"></i> 參數調校面板
+          </h3>
+
+          <!-- Slider 1: SCFI Index Level -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <label for="slider-scfi" class="text-slate-300 font-semibold">SCFI 綜合運價指數預期：</label>
+              <span class="font-mono font-bold text-amber-400 text-sm" id="val-scfi">2,200 點</span>
+            </div>
+            <input type="range" id="slider-scfi" min="1200" max="4000" step="50" value="2200" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500">
+            <div class="flex justify-between text-[10px] text-slate-500">
+              <span>低迷景氣 (1,200點)</span>
+              <span>當前常態 (2,200點)</span>
+              <span>大飆風行情 (4,000點)</span>
+            </div>
+          </div>
+
+          <!-- Slider 2: Red Sea Rerouting % -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <label for="slider-reroute" class="text-slate-300 font-semibold">紅海繞行非洲好望角比率：</label>
+              <span class="font-mono font-bold text-rose-400 text-sm" id="val-reroute">85% (大部分繞道)</span>
+            </div>
+            <input type="range" id="slider-reroute" min="0" max="100" step="5" value="85" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
+            <div class="flex justify-between text-[10px] text-slate-500">
+              <span>0% (蘇伊士完全復航)</span>
+              <span>50% (部分通航)</span>
+              <span>100% (全數繞道)</span>
+            </div>
+          </div>
+
+          <!-- Slider 3: Hi-5 Spread -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <label for="slider-fuel" class="text-slate-300 font-semibold">高低硫油價差 (Hi-5 Spread)：</label>
+              <span class="font-mono font-bold text-emerald-400 text-sm" id="val-fuel">$130 / 噸</span>
+            </div>
+            <input type="range" id="slider-fuel" min="50" max="250" step="10" value="130" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            <div class="flex justify-between text-[10px] text-slate-500">
+              <span>$50/噸 (低利基)</span>
+              <span>$130/噸 (當前水準)</span>
+              <span>$250/噸 (脫硫暴利)</span>
+            </div>
+          </div>
+
+          <!-- Slider 4: Dividend Payout Ratio -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <label for="slider-payout" class="text-slate-300 font-semibold">預期現金股利配發率：</label>
+              <span class="font-mono font-bold text-purple-400 text-sm" id="val-payout">45%</span>
+            </div>
+            <input type="range" id="slider-payout" min="30" max="65" step="5" value="45" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-500">
+            <div class="flex justify-between text-[10px] text-slate-500">
+              <span>30% (保留現金)</span>
+              <span>45% (常態發放)</span>
+              <span>65% (高配息回饋)</span>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 flex justify-between items-center">
+            <button id="reset-sim-btn" class="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition">
+              <i class="fa-solid fa-arrow-rotate-left"></i> 重設預設基準
+            </button>
+            <span class="text-[11px] text-slate-500">*運算基於雙雄運力與營收敏感度實證模型</span>
+          </div>
+        </div>
+
+        <!-- Results Projection Column (Right) -->
+        <div class="lg:col-span-7 space-y-4">
+          
+          <!-- Evergreen Simulation Result Card -->
+          <div class="bg-gradient-to-br from-slate-900 to-emerald-950/20 border-2 border-emerald-800/60 rounded-xl p-5 relative">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                <h4 class="font-bold text-white text-base">長榮海運 (2603) 模擬評價結果</h4>
+              </div>
+              <span class="text-xs font-mono text-slate-400">目前股價：<strong class="text-white">218.5元</strong></span>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center my-3">
+              <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-400">預估單季 EPS</span>
+                <div class="text-lg font-bold font-mono text-emerald-400 mt-0.5" id="sim-2603-qeps">9.8 元</div>
+              </div>
+              <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-400">預估年度 EPS</span>
+                <div class="text-xl font-black font-mono text-white mt-0.5" id="sim-2603-fyeps">39.2 元</div>
+              </div>
+              <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-400">預估每股股利</span>
+                <div class="text-lg font-bold font-mono text-amber-400 mt-0.5" id="sim-2603-div">17.6 元</div>
+              </div>
+              <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-400">潛在現金殖利率</span>
+                <div class="text-xl font-black font-mono text-rose-400 mt-0.5" id="sim-2603-yield">8.1%</div>
+              </div>
+            </div>
+
+            <div class="mt-3 flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800/80">
+              <span>動態本益比 (PE)：<strong class="text-white font-mono" id="sim-2603-pe">5.5x</strong></span>
+              <span>股價淨值比 (PB)：<strong class="text-white font-mono">0.89x</strong></span>
+              <span id="sim-2603-verdict" class="text-emerald-400 font-semibold">獲利韌性極佳，下檔有高殖利率支撐</span>
+            </div>
+          </div>
+
+          <!-- Yang Ming Simulation Result Card -->
+          <div class="bg-gradient-to-br from-slate-900 to-blue-950/20 border-2 border-blue-800/60 rounded-xl p-5 relative">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                <h4 class="font-bold text-white text-base">陽明海運 (2609) 模擬評價結果</h4>
+              </div>
+              <span class="text-xs font-mono text-slate-400">目前股價：<strong class="text-white">72.8元</strong></span>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center my-3">
+              <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-400">預估單季 EPS</span>
+                <div class="text-lg font-bold font-mono text-blue-400 mt-0.5" id="sim-2609-qeps">3.7 元</div>
+              </div>
+              <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-400">預估年度 EPS</span>
+                <div class="text-xl font-black font-mono text-white mt-0.5" id="sim-2609-fyeps">14.8 元</div>
+              </div>
+              <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-400">預估每股股利</span>
+                <div class="text-lg font-bold font-mono text-amber-400 mt-0.5" id="sim-2609-div">6.7 元</div>
+              </div>
+              <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-400">潛在現金殖利率</span>
+                <div class="text-xl font-black font-mono text-rose-400 mt-0.5" id="sim-2609-yield">9.2%</div>
+              </div>
+            </div>
+
+            <div class="mt-3 flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800/80">
+              <span>動態本益比 (PE)：<strong class="text-white font-mono" id="sim-2609-pe">4.9x</strong></span>
+              <span>股價淨值比 (PB)：<strong class="text-white font-mono">0.83x</strong></span>
+              <span id="sim-2609-verdict" class="text-blue-400 font-semibold">歐洲線彈性大，淨值折價保護傘厚實</span>
+            </div>
+          </div>
+
+          <!-- Scenario Conclusion Guide -->
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 text-xs text-slate-300 leading-relaxed">
+            <div class="font-bold text-white mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-lightbulb text-amber-400"></i> 專家操作策略指引：
+            </div>
+            <p class="text-slate-400">
+              當運價 SCFI 高於 2,000 點且紅海繞行維持時，雙雄年化殖利率均達 8%~10% 的高水準；若運價跌破 1,500 點（蘇伊士完全暢通），長榮憑藉大船油耗與脫硫優勢仍能保有 20 元以上 EPS，防禦性顯著優於同業。
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-16 border-t border-slate-800 bg-slate-950 py-8 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+      <div class="flex items-center justify-center gap-2 text-slate-300 font-semibold">
+        <i class="fa-solid fa-ship text-blue-500"></i> 航運雙雄智能研究戰情室
+      </div>
+      <p class="text-slate-500">
+        本戰情室數據綜合 Alphaliner、Drewry、上海航交所 (SSE)、各大法人研究報告與公開財務資訊模型。
+      </p>
+      <p class="text-[11px] text-slate-600">
+        免責聲明：所有預估財務數據、情境模擬與分析結論僅供投資研究參考，不構成任何買賣決策之要約或承諾，投資人應獨立承擔風險。
+      </p>
+    </div>
+  </footer>
+
+  <!-- App Logic JS -->
+  <script src="app.js"></script>
+</body>
+</html>
