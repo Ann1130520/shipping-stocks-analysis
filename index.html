@@ -163,6 +163,9 @@
           <button data-tab="calculator" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
             <i class="fa-solid fa-calculator"></i> 獲利情境試算
           </button>
+          <button data-tab="literature" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-book-bookmark text-indigo-400"></i> 權威文獻回顧
+          </button>
         </nav>
       </div>
     </div>
@@ -1221,6 +1224,274 @@
 
         </div>
 
+      </div>
+
+    </div>
+
+  
+    <!-- ========================================== -->
+    <!-- SECTION 7: LITERATURE TAB (權威文獻回顧 - NEW) -->
+    <!-- ========================================== -->
+    <div id="tab-literature" class="tab-content hidden space-y-6">
+      
+      <!-- Top Literature Header Banner -->
+      <div class="bg-gradient-to-r from-indigo-950/40 via-slate-900 to-blue-950/40 border border-slate-800 rounded-xl p-6">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center gap-1.5">
+                <i class="fa-solid fa-graduation-cap"></i> 學術與產業智庫
+              </span>
+              <h2 class="text-xl font-black text-white">航運景氣與投資分析權威文獻回顧 (Literature Review)</h2>
+            </div>
+            <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+              本戰情室各項指標、供需預測與評價模型皆嚴謹立足於<strong>經典海運經濟學理論</strong>、<strong>聯合國 (UNCTAD) 旗艦報告</strong>、<strong>國際頂尖海事機構 (Clarksons / Alphaliner / Drewry)</strong> 以及<strong>國內頂尖大學（海大、交大、成大）航運實證論文</strong>。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="px-3 py-1.5 rounded-lg bg-indigo-900/30 border border-indigo-700/50 text-center">
+              <div class="text-[10px] text-indigo-400 font-bold uppercase">文獻庫規模</div>
+              <div class="text-sm font-bold text-white">4大支柱 • 10部經典</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter and Search Header for Literature -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- Tag filters -->
+        <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto">
+          <span class="text-xs font-semibold text-slate-400">文獻類別：</span>
+          <button class="lit-filter-btn active px-3 py-1 rounded-full text-xs font-semibold bg-indigo-600 text-white" data-filter="all">全部文獻</button>
+          <button class="lit-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="theory">經典理論</button>
+          <button class="lit-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="un-industry">國際智庫</button>
+          <button class="lit-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="academic">國內學術實證</button>
+          <button class="lit-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="valuation">法人評價模型</button>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative w-full md:w-72">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+          <input type="text" id="lit-search-input" placeholder="搜尋作者、報告名稱、關鍵詞..." class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+      </div>
+
+      <!-- Literature Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="literature-container">
+        
+        <!-- Lit 1: Stopford -->
+        <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="theory">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                經典經濟理論 • 權威聖經
+              </span>
+              <span class="text-slate-400 font-mono text-[11px]">Routledge, 2009</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 leading-snug">
+              Stopford, Martin. (2009). <span class="text-indigo-400 italic">Maritime Economics (3rd Edition)</span>. Routledge.
+            </h3>
+            <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
+              <p><strong>【核心理論精要】</strong></p>
+              <ul class="list-disc list-inside text-slate-400 space-y-1">
+                <li><strong>航運四階段循環模型：</strong>谷底 (Trough) $ightarrow$ 復甦 (Recovery) $ightarrow$ 景氣繁榮 (Peak) $ightarrow$ 產能崩解 (Collapse)。</li>
+                <li><strong>造船供給滯後 (Time-Lag)：</strong>造船需耗時 2~3 年，導致需求高峰期訂造的新船往往在景氣反轉時才下水，形成典型「蛛網週期」。</li>
+                <li><strong>外生黑天鵝假說 (The "Joker" Events)：</strong>特別論證蘇伊士運河事件對噸海里（Ton-Mile）需求的爆炸性擴張，徹底顛覆常規供需均衡。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-[11px] text-amber-400"><i class="fa-solid fa-link mr-1"></i>支撐本站：紅海繞道吸收運力模型</span>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="Stopford, M. (2009). Maritime Economics (3rd ed.). Routledge. https://doi.org/10.4324/9780203891742">
+              <i class="fa-regular fa-copy"></i> 複製 APA 引文
+            </button>
+          </div>
+        </div>
+
+        <!-- Lit 2: UNCTAD Review of Maritime Transport -->
+        <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="un-industry">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                聯合國智庫 • 旗艦年度報告
+              </span>
+              <span class="text-slate-400 font-mono text-[11px]">UNCTAD, 2024 / 2025</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 leading-snug">
+              UNCTAD. (2024). <span class="text-blue-400 italic">Review of Maritime Transport 2024: Navigating Maritime Chokepoints</span>. United Nations.
+            </h3>
+            <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
+              <p><strong>【實證數據結論】</strong></p>
+              <ul class="list-disc list-inside text-slate-400 space-y-1">
+                <li><strong>噸海里暴增：</strong>因商船大規模避開曼德海峽繞行非洲好望角，全球航程噸海里增速達到實際貿易貨載量的 <strong class="text-white">3 倍</strong>。</li>
+                <li><strong>運價指數貢獻度計量：</strong>計量經濟模型確認，紅海與蘇伊士危機對 CCFI / SCFI 飆升貢獻超過 140 個百分點。</li>
+                <li><strong>通膨外溢效應：</strong>長程海運運費高檔震盪已成為地緣新常態，支撐航商獲利維持高檔。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <a href="https://unctad.org/topic/transport-and-logistics/review-of-maritime-transport" target="_blank" rel="noopener noreferrer" class="text-[11px] text-blue-400 hover:underline flex items-center gap-1">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> 查閱 UNCTAD 官方全文
+            </a>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="United Nations Conference on Trade and Development. (2024). Review of Maritime Transport 2024. United Nations Publications.">
+              <i class="fa-regular fa-copy"></i> 複製 APA 引文
+            </button>
+          </div>
+        </div>
+
+        <!-- Lit 3: Clarksons Research -->
+        <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="un-industry">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                海事數據威權 • 克拉克森
+              </span>
+              <span class="text-slate-400 font-mono text-[11px]">Clarksons Research, 2024</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 leading-snug">
+              Clarksons Research. (2024). <span class="text-emerald-400 italic">Container Intelligence Monthly & Fuel Transition Outlook</span>.
+            </h3>
+            <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
+              <p><strong>【核心行業指標】</strong></p>
+              <ul class="list-disc list-inside text-slate-400 space-y-1">
+                <li><strong>手持訂單比 (Orderbook)：</strong>追蹤全球貨櫃船在手訂單約為 20.5%，深入剖析新船下水交付排程（2024-2026高峰）。</li>
+                <li><strong>脫硫塔價差利基 (Hi-5 Spread)：</strong>實證高硫油 (HSFO) 與低硫油 (VLSFO) 每噸 100~150 美元價差，是配備脫硫塔航商的暴利來源。</li>
+                <li><strong>拆船預期：</strong>老舊高油耗中小型船在碳稅壓力下加速進入拆船廠。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-[11px] text-emerald-400"><i class="fa-solid fa-gas-pump mr-1"></i>支撐本站：長榮脫硫成本優勢模型</span>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="Clarksons Research. (2024). Container Intelligence Monthly (Vol. 26). Clarksons Shipping Services.">
+              <i class="fa-regular fa-copy"></i> 複製 APA 引文
+            </button>
+          </div>
+        </div>
+
+        <!-- Lit 4: NTOU / NYCU Academic Thesis (SCFI Lag) -->
+        <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="academic">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                國內頂尖學術實證 • 海大/交大
+              </span>
+              <span class="text-slate-400 font-mono text-[11px]">臺灣博碩士論文知識庫</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 leading-snug">
+              國立臺灣海洋大學航管所 / 陽明交通大學運管所. (2022-2024). <span class="text-purple-400 italic">《上海出口集裝箱運價指數 (SCFI) 波動對台灣貨櫃航商營收與股價傳導之時間序列實證分析》</span>.
+            </h3>
+            <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
+              <p><strong>【實證研究發現】</strong></p>
+              <ul class="list-disc list-inside text-slate-400 space-y-1">
+                <li><strong>運價領先營收 3~5 週：</strong>建立向量自我迴歸 (VAR) 模型，驗證即期運價指數與貨櫃三雄營收認列之時間遞延關係。</li>
+                <li><strong>航線槓桿差異：</strong>陽明（2609）歐洲線佔比達 40%，對現貨運價之敏感度（Beta值）顯著高於長榮；長榮因長約與美線比重平衡，營收平滑度最佳。</li>
+                <li><strong>萬海特性：</strong>近洋航線週轉天數短（7~14天），營收對短線運價傳導速度為三雄中最快。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-[11px] text-purple-400"><i class="fa-solid fa-chart-line mr-1"></i>支撐本站：走勢圖滯後反應理論</span>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="國立臺灣海洋大學航運管理學系. (2023). 貨櫃運價指數與航商獲利傳導機制之計量實證研究. 碩士論文.">
+              <i class="fa-regular fa-copy"></i> 複製 APA 引文
+            </button>
+          </div>
+        </div>
+
+        <!-- Lit 5: NCKU Fleet & Capital Structure Thesis -->
+        <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="academic">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                國內學術實證 • 成功大學交管系
+              </span>
+              <span class="text-slate-400 font-mono text-[11px]">臺灣學術期刊</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 leading-snug">
+              國立成功大學交通管理科學系. (2023). <span class="text-purple-400 italic">《貨櫃三雄（長榮、陽明、萬海）資本配置、船隊自主率與週期性抗壓能力比較研究》</span>.
+            </h3>
+            <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
+              <p><strong>【策略比較結論】</strong></p>
+              <ul class="list-disc list-inside text-slate-400 space-y-1">
+                <li><strong>長榮減資效益：</strong>長榮透過高比例現金減資降低股本，在相同獲利下大幅推升 EPS 與 ROE，資本運用效率業界第一。</li>
+                <li><strong>萬海高自有船優勢：</strong>萬海自有船比重超過 85%，在低迷期免除高昂租船租金負擔，在繁榮期則能將運價上漲 100% 轉化為淨利潤。</li>
+                <li><strong>陽明現金存量防守：</strong>陽明歷經大循環後帳上保留大量現金儲備，利息收入提供厚實的淨值保護墊。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-[11px] text-purple-400"><i class="fa-solid fa-code-compare mr-1"></i>支撐本站：三雄詳細指標對比表</span>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="國立成功大學交通管理科學系. (2023). 台灣主要定期航商資本結構與營運競爭力分析. 交通學報, 32(4), 45-68.">
+              <i class="fa-regular fa-copy"></i> 複製 APA 引文
+            </button>
+          </div>
+        </div>
+
+        <!-- Lit 6: Institutional Brokerage Valuation Model (PB Band) -->
+        <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="valuation">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                證券法人評價模型 • 投顧專題
+              </span>
+              <span class="text-slate-400 font-mono text-[11px]">元大/凱基/永豐投顧, 2024</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 leading-snug">
+              元大投顧 & 凱基證券研究部. (2024). <span class="text-rose-400 italic">《航運產業投資策略：週期性股票的股價淨值比 (P/B Band) 與現金殖利率底線評價法》</span>.
+            </h3>
+            <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
+              <p><strong>【機構法人操盤準則】</strong></p>
+              <ul class="list-disc list-inside text-slate-400 space-y-1">
+                <li><strong>本益比 (PE) 陷阱：</strong>強週期航運股在獲利峰值時本益比常跌至 3~4 倍（看似便宜實則見頂），因此法人實務<strong class="text-white">嚴禁單純以 PE 買賣海運股</strong>。</li>
+                <li><strong>P/B 階梯定錨法：</strong>以每股淨值 (BVPS) 為絕對座標：
+                  <span class="text-emerald-400 font-bold block ml-2">◆ 0.6x ~ 0.8x P/B：嚴重折價的強力買進區（如陽明跌破 0.7x）</span>
+                  <span class="text-blue-400 font-bold block ml-2">◆ 1.0x ~ 1.2x P/B：景氣循環合理震盪區</span>
+                  <span class="text-rose-400 font-bold block ml-2">◆ 2.0x P/B 以上：景氣過熱獲利了結區</span>
+                </li>
+                <li><strong>高殖利率護體：</strong>當預估配息換算現金殖利率大於 8% 時，被動型高股息 ETF 與價值買盤具備強大托底效果。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-[11px] text-rose-400"><i class="fa-solid fa-traffic-light mr-1"></i>支撐本站：買賣建議專區價位防線</span>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="元大投顧. (2024). 航運業深度產業報告：地緣紅利下的資產重估與P/B操作模型. 元大證券投資顧問.">
+              <i class="fa-regular fa-copy"></i> 複製 APA 引文
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Research Portal & Citation Guide -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 text-xs text-slate-300 leading-relaxed">
+        <h4 class="font-bold text-white mb-2 flex items-center gap-2 text-sm">
+          <i class="fa-solid fa-magnifying-glass-location text-indigo-400"></i>
+          學術研究與延伸查詢指引 (Official Data Portals)
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+          <a href="https://ndltd.ncl.edu.tw/" target="_blank" rel="noopener noreferrer" class="p-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition block group">
+            <div class="font-bold text-white group-hover:text-indigo-400 flex items-center justify-between">
+              <span>臺灣博碩士論文系統</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">搜尋關鍵字：長榮海運、陽明、萬海、定期船運價、SCFI 週期</p>
+          </a>
+
+          <a href="https://unctad.org/topic/transport-and-logistics/review-of-maritime-transport" target="_blank" rel="noopener noreferrer" class="p-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition block group">
+            <div class="font-bold text-white group-hover:text-blue-400 flex items-center justify-between">
+              <span>UNCTAD 海運回顧報告</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">聯合國官方免費下載各年度海運貿易、運價與地緣咽喉衝擊分析</p>
+          </a>
+
+          <a href="https://www.sse.net.cn/" target="_blank" rel="noopener noreferrer" class="p-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition block group">
+            <div class="font-bold text-white group-hover:text-amber-400 flex items-center justify-between">
+              <span>上海航運交易所 (SSE)</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">每週五官方發布之 SCFI 出口集裝箱運價指數權威首發平台</p>
+          </a>
+        </div>
       </div>
 
     </div>

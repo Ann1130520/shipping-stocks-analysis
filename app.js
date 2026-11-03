@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSensitivityCalculator();
   initTickerUpdater();
   loadLiveExternalData();
+  initLiteratureSystem();
 });
 
 /* ========================================================
@@ -996,4 +997,68 @@ function initTickerUpdater() {
       });
     });
   }
+}
+
+
+/* ========================================================
+   6. LITERATURE REVIEW INTERACTION SYSTEM
+   ======================================================== */
+function initLiteratureSystem() {
+  const filterBtns = document.querySelectorAll('.lit-filter-btn');
+  const searchInput = document.getElementById('lit-search-input');
+  const litCards = document.querySelectorAll('.lit-card');
+  const copyBtns = document.querySelectorAll('.copy-citation-btn');
+
+  function filterLiterature() {
+    const activeBtn = document.querySelector('.lit-filter-btn.active');
+    const category = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+    litCards.forEach(card => {
+      const cardCat = card.getAttribute('data-category');
+      const text = card.textContent.toLowerCase();
+
+      const matchCat = category === 'all' || cardCat === category;
+      const matchQuery = query === '' || text.includes(query);
+
+      if (matchCat && matchQuery) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => {
+        b.classList.remove('active', 'bg-indigo-600', 'text-white');
+        b.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      btn.classList.add('active', 'bg-indigo-600', 'text-white');
+      btn.classList.remove('bg-slate-800', 'text-slate-300');
+      filterLiterature();
+    });
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener('input', filterLiterature);
+  }
+
+  copyBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const citation = btn.getAttribute('data-citation');
+      if (citation) {
+        navigator.clipboard.writeText(citation).then(() => {
+          const originalHtml = btn.innerHTML;
+          btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> 已複製！';
+          btn.classList.add('border-emerald-500');
+          setTimeout(() => {
+            btn.innerHTML = originalHtml;
+            btn.classList.remove('border-emerald-500');
+          }, 2000);
+        });
+      }
+    });
+  });
 }
