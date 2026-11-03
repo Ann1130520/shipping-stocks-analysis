@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-03 14:43:37",
+  "last_updated": "2026-11-03 15:01:01",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
@@ -22,6 +22,63 @@
       "low": 61.7,
       "volume": 14989871,
       "status": "success"
+    },
+    "2615": {
+      "symbol": "2615.TW",
+      "price": 115.5,
+      "prev_close": 119.5,
+      "change": -4.0,
+      "change_percent": -3.35,
+      "high": 120.5,
+      "low": 115.0,
+      "volume": 9009147,
+      "status": "success"
+    }
+  },
+  "global_indices": {
+    "tw": {
+      "symbol": "^TWII",
+      "price": 43307.54,
+      "prev_close": 44920.14,
+      "change": -1612.6,
+      "change_percent": -3.59,
+      "high": 44614.64,
+      "low": 43191.58,
+      "volume": 0,
+      "status": "success"
+    },
+    "us": {
+      "symbol": "^GSPC",
+      "price": 7541.4,
+      "prev_close": 7580.07,
+      "change": -38.67,
+      "change_percent": -0.51,
+      "high": 7662.23,
+      "low": 7539.38,
+      "volume": 3558585000,
+      "status": "success"
+    },
+    "jp": {
+      "symbol": "^N225",
+      "price": 63081.86,
+      "prev_close": 63290.1,
+      "change": -208.24,
+      "change_percent": -0.33,
+      "high": 63615.32,
+      "low": 62712.91,
+      "volume": 0,
+      "status": "success"
+    },
+    "eu": {
+      "symbol": "^STOXX50E",
+      "price": 6176.06,
+      "prev_close": 6131.31,
+      "change": 44.75,
+      "change_percent": 0.73,
+      "high": 0.0,
+      "low": 0.0,
+      "volume": 0,
+      "status": "success"
     }
   },
   "live_news": [
@@ -33,27 +90,27 @@
       "source": "經濟日報",
       "sentiment": "neutral",
       "category": "freight",
-      "impact": "即時追蹤航運雙雄營運與籌碼影響"
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
       "id": "live-2",
-      "title": "航海王揚帆！貨櫃運價走勢強於預期　法人按讚長榮、陽明",
-      "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5ySmtEeUlvQXJqcnd2OFpyMnVuXzR2UjZtWmpCRTJMRUFsbUNOY3luQ1VBYzdNTWJ2UDRYTXhaclJvT2NPZ2h4UkNrTVBoTDdjMEHSAVBBVV95cUxPRmNuTnROeTVFbUh1RERFTThtT2NhaFQwMkt4YndhbEtlV0d6alpZdENWSTh5dUlZLU5HT09nUFVHemVfd3FwYVBWZVQyZG9kYg?oc=5",
-      "pubDate": "Wed, 21 Oct 2026 07:00:00 GMT",
-      "source": "ETtoday財經雲",
-      "sentiment": "bull",
-      "category": "freight",
-      "impact": "即時追蹤航運雙雄營運與籌碼影響"
-    },
-    {
-      "id": "live-3",
       "title": "明明不缺船，運價為什麼還能大漲？看懂長榮、萬海、陽明這一輪航運循環，抓住下一個轉折點在哪裡",
       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1tN1RtWFF3aWpZUHQtUjJaQ1VqckRwMDFlaGJTaXRiaXlVNncyOHU0NWVpUG1DWTBuN0sxU3JZVjhOanVOVkJpWUw5eEgtV1JiY0kwYTNB?oc=5",
       "pubDate": "Wed, 28 Oct 2026 12:05:00 GMT",
       "source": "優分析UAnalyze",
       "sentiment": "bull",
       "category": "freight",
-      "impact": "即時追蹤航運雙雄營運與籌碼影響"
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-3",
+      "title": "【今日盤後速報】美國線運價撐高檔，大盤重挫下貨櫃三雄為何還能同步收紅？-起漲K線",
+      "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPcUhCd3A0T3JXMFRHdFhMRFVfck5rc0lSb1NmVnY2QnhuUXV4TzlUT0RsOUdGaEtiM2o3UUhWcU5qazhPejl1SVJTVHFHSXZ3MlFTZ0c5N2txdHNwV1c5WWRuc25nQjNKZFRYaHBSbGJNdno4MHlLM0RxcWM3TWNxNV9mWTNMVzhHUi1DdHV4RXd6eDlOcnNSUUthY3hxWmljMG9VQXZkNnBZNUNWcVN6NkRRQzN2ZUVzYjRZVWRDZjJzaDFoQUE?oc=5",
+      "pubDate": "Fri, 30 Oct 2026 12:17:06 GMT",
+      "source": "CMoney投資網誌",
+      "sentiment": "bull",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
       "id": "live-4",
@@ -63,47 +120,67 @@
       "source": "鉅亨網",
       "sentiment": "bull",
       "category": "freight",
-      "impact": "即時追蹤航運雙雄營運與籌碼影響"
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
       "id": "live-5",
-      "title": "【今日盤後速報】美國線運價撐高檔，大盤重挫下貨櫃三雄為何還能同步收紅？-起漲K線",
-      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNWGViZmg3TnZIaERuZG9YbzA5dno3VThZdncxMGgtakZaeXlUREduaTBSSUtNUm5kYXVISlFCMnNTWkJhMXNGTzRvYkJTZUhjOVZrZjU2d0dtcTRvR3ZucDNUaEUwY0JZc0R4Rko1NEQzeVUzWmx1VWtnbmFfTmg5LVhWSHo?oc=5",
-      "pubDate": "Fri, 30 Oct 2026 12:17:06 GMT",
-      "source": "CMoney投資網誌",
-      "sentiment": "bull",
-      "category": "freight",
-      "impact": "即時追蹤航運雙雄營運與籌碼影響"
-    },
-    {
-      "id": "live-6",
       "title": "跨洲大罷工恐擾船期長榮等貨櫃三雄得利下檔有支撐法人解析運價將如何波動- 日報",
       "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE93bnBwcnctY04wWDlpeV80Zmx6U0ZfZFZGdFJnZFdyYk1ZYWtrZC1XMzdZZS1yWTV3d0J5YmY2UkpPc1k1aExaTGxObUpwY1ZUMjVGSGVUbVRzendsS1ZR?oc=5",
       "pubDate": "Wed, 28 Oct 2026 19:00:00 GMT",
       "source": "工商時報",
       "sentiment": "neutral",
       "category": "freight",
-      "impact": "即時追蹤航運雙雄營運與籌碼影響"
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-6",
+      "title": "【貨櫃三雄新輪迴？1】長榮、陽明、萬海淡季不淡？一表看近10年第四季它最會漲分析師曝關鍵「買淡季賣旺季」",
+      "link": "https://news.google.com/rss/articles/CBMirAVBVV95cUxNQThMcDgtdlVHb0NGWDRCRWZJZzV1RGcwUV8tSFB3a1g4TGFGblZ2Tm1Xb3NKdlFBdWZacF9HTzhUeGRldkQ3NnRodlBSNC04YjlMbTBNd3Y4cVpwTXlHQzVCbGNRbWt4OFpMOURzdGRrbzNNczI3b0NIVzlha3lMTGFyMjVsZ1NlZzRxZU1HenAzQmoxTEE0NHJTU3hmOTRjQWhIZldzdVp5cHdIUlVPLXBVcGo0Tm91NENYYnVfc1lqVmUzYTBqeThKeHhlazVJSTRNbnNLT0R0V0NRaFozMDNXblNoaWZpSEtuN0lsM3BGdjh6TmVXd1phZ2hKOEhFWUZ3RDk5cmU5WDk0cmNPSEtWUUI2RFdHaE15VG82Ynkwalp5dm1fR29JVnBvQVRKWDlJWDlOYWFDSzRqZTVVOElNbm1WcElSS0pWc1lUY3l0MzlTSHdLUHVuVm9SQW01cVRQUFE2ci0tUmRWdk9lN0FLOU5RYnBnc0taV2p6UTdIR0pCWHZqTnZ0NDJIMm9wUjZEak41X202aldSZkJSTDFkTk93VWxDckxHS25uY1E2SExxYm5xdDJXN0FQc0RUSHBHcmxiaTFYbDJDSWJENVZULURHMThERndldHU3bkJyUUprUW5nSGlFaXRtWVNLM2llR2l2ODdtSFA4dmJfQy03MF9MUE42QkNYa3BLOEtzUWZia3FZWTN4OEJ6QUNGTUhpSVBmbnkxMzVpVXlQVUdSRFFCVDNKQnE5VDhJQTF0NUVnMjFFakY1d2ZZdGdlUm80M0xIX213UU55cHZlUTZYRWtVdzVSNVB4dHh0YjNybWZ2QTNIUE9Db0F2Sm5sVnQybGlUX25yUUk1NEc1Nk40UW5MMl82WmxjcjRmZXViTWlEdzJtNEdJb2I?oc=5",
+      "pubDate": "Sun, 18 Oct 2026 07:00:00 GMT",
+      "source": "Yahoo股市",
+      "sentiment": "bull",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
       "id": "live-7",
-      "title": "地緣政治攪動全球航運，SCFI連3漲，貨櫃三雄長榮、萬海、陽明怎麼看？｜股市話題｜豐雲學堂2026 年 10 月",
-      "link": "https://news.google.com/rss/articles/CBMi5wNBVV95cUxQRVptZmdtbmQyTERzME1ZMHc1RVRFZk1CcDdjVnFTOG9zb28ybmdIdnhqNGZjamRBc0ZkNFp4ZmNRcl9SRjZXSF9wYUowM296U29IY2F5WnowSlVHMFR3T0NHTEs1RmJPeHg3RmJaNjEwTk1MRkVBdUs3WnYyMmNfenBMNXBmMUQwSHY1NFlmUzhJV0RrY2VkbkR5a24tZ1ExNXlxanFkTGd0VmlDWkg1VjFGWU5tbFJZd2IzVzJ5V1lld0xidjlBQnBWbFlEYkhpdEE1aTBKTWYyUVFSRlNuMFhMZzZQWFVqdmxad2pfVTJPbXg2eTdraG9peF9OTDZXRzRaTjBWTnBXZXEwTktvenJHbThkaGNlYlRDZ05GOFd1a2k0VTQ3TnlfeUE5RFdEdFdvcEdJcEFXc1kyaDZFT2xCQk5ZUEdPNjkweVBUVkVOOWlScXV1cmZIT3VzSVhpN3BrQk1ReWdKZHBGdnJJQU1pUEtIQW9aazhRdDJoeXZyVmVSbHp2TFBjNTYzYlc3ZHU2WW4ySml4QmVjdEdwMW5IYXk4S1U5WnFPdzNKTzAtRUwzR2lMdmJQTzF4U196ejM5cTZvaXR5UXdvTHpENXVacU9fdlhNUFZnV0lPVXVCaS1PeHVv?oc=5",
-      "pubDate": "Wed, 19 Aug 2026 07:00:00 GMT",
-      "source": "永豐金證券",
-      "sentiment": "bull",
-      "category": "freight",
-      "impact": "即時追蹤航運雙雄營運與籌碼影響"
-    },
-    {
-      "id": "live-8",
       "title": "運價喊漲201％！長榮、陽明、萬海...貨櫃3雄最新目標價1次看這檔別接刀？法人「2原因」不推：明年獲利反摔60％ - 上市櫃",
       "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBGWW1KSW9hb2tkNTE2N1hHTFc0TTRvQ1ZlNERfSXdtZjFjVDY1WGY1Xy1MQzBBVDlGczFveUt6LWt2NVlLMFRhZ3JhMkVXTHA3SGowckRkSEJqVHFIU2NjMTVyZjVlMXF3QWc?oc=5",
       "pubDate": "Thu, 24 Sep 2026 07:00:00 GMT",
       "source": "旺得富理財網",
       "sentiment": "bull",
       "category": "freight",
-      "impact": "即時追蹤航運雙雄營運與籌碼影響"
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-8",
+      "title": "地緣政治攪動全球航運，SCFI連3漲，貨櫃三雄長榮、萬海、陽明怎麼看？｜股市話題｜豐雲學堂2026 年 10 月",
+      "link": "https://news.google.com/rss/articles/CBMi5wNBVV95cUxQRVptZmdtbmQyTERzME1ZMHc1RVRFZk1CcDdjVnFTOG9zb28ybmdIdnhqNGZjamRBc0ZkNFp4ZmNRcl9SRjZXSF9wYUowM296U29IY2F5WnowSlVHMFR3T0NHTEs1RmJPeHg3RmJaNjEwTk1MRkVBdUs3WnYyMmNfenBMNXBmMUQwSHY1NFlmUzhJV0RrY2VkbkR5a24tZ1ExNXlxanFkTGd0VmlDWkg1VjFGWU5tbFJZd2IzVzJ5V1lld0xidjlBQnBWbFlEYkhpdEE1aTBKTWYyUVFSRlNuMFhMZzZQWFVqdmxad2pfVTJPbXg2eTdraG9peF9OTDZXRzRaTjBWTnBXZXEwTktvenJHbThkaGNlYlRDZ05GOFd1a2k0VTQ3TnlfeUE5RFdEdFdvcEdJcEFXc1kyaDZFT2xCQk5ZUEdPNjkweVBUVkVOOWlScXV1cmZIT3VzSVhpN3BrQk1ReWdKZHBGdnJJQU1pUEtIQW9aazhRdDJoeXZyVmVSbHp2TFBjNTYzYlc3ZHU2WW4ySml4QmVjdEdwMW5IYXk4S1U5WnFPdzNKTzAtRUwzR2lMdmJQTzF4U196ejM5cTZvaXR5UXdvTHpENXVacU9fdlhNUFZnV0lPVXVCaS1PeHVv?oc=5",
+      "pubDate": "Wed, 19 Aug 2026 07:00:00 GMT",
+      "source": "永豐金證券",
+      "sentiment": "bull",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-9",
+      "title": "萬海9月營收月增13.41%領先，貨櫃三雄差在哪？",
+      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBfM3BidjR2bnJGcllsR0ctU0Rqcndaa3JQaUE5N0ZzNmpodlZ3V3I3Z1JQcGQ4c0ZuLUx5Z3A5TC1ZY0xqbi1VQ2p3Z3BEQTJvWlN0SzNn?oc=5",
+      "pubDate": "Sun, 18 Oct 2026 22:48:17 GMT",
+      "source": "口袋證券",
+      "sentiment": "neutral",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-10",
+      "title": "2603 長榮 - 貨櫃業兩變數牽動運價恐影響三雄船舶調度- 股市爆料同學會",
+      "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFA1OUJkUGpSM1k5SEF6YS1SQVF0N0dVMG1BM1A0TWFiMVhwZGRwc2phRlFtVkc2WXQtZXFfQWtkenhlTG1qNHNkUEp2UWV1MDhJT1U0MkxPNEY?oc=5",
+      "pubDate": "Thu, 29 Oct 2026 23:59:33 GMT",
+      "source": "CMoney",
+      "sentiment": "neutral",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     }
   ]
 }

@@ -1,14 +1,24 @@
 /**
- * 航運雙雄情報戰情室 (Shipping Stocks Intelligence App)
- * Focus: 長榮 (2603) & 陽明 (2609)
- * Supports dynamic auto-updates from latest_data.json
+ * 貨櫃三雄情報戰情室 (Shipping Stocks Intelligence App)
+ * Focus: 長榮 (2603), 陽明 (2609), 萬海 (2615)
+ * With Global Market Indices: Taiwan (TAIEX), US (S&P 500), Japan (Nikkei 225), Europe (STOXX 50)
  */
 
 let liveMarketData = {
   price2603: 266.5,
   price2609: 62.1,
-  lastUpdated: '2026-11-03 14:40:00'
+  price2615: 115.5,
+  lastUpdated: '2026-11-03 14:45:00',
+  indices: {
+    tw: { price: 43307.54, change: -3.59 },
+    us: { price: 7541.40, change: -0.51 },
+    jp: { price: 63081.86, change: -0.33 },
+    eu: { price: 6176.06, change: 0.73 }
+  }
 };
+
+let currentChartTimeframe = '1Y';
+let currentChartMode = 'PCT'; // 'PCT' (Normalized %) or 'RAW' (Prices)
 
 document.addEventListener('DOMContentLoaded', () => {
   initTabs();
@@ -35,42 +45,70 @@ async function loadLiveExternalData() {
       if (timeElem) timeElem.textContent = data.last_updated;
     }
 
-    // Update 2603 Ticker
-    if (data.stocks && data.stocks['2603'] && data.stocks['2603'].status === 'success') {
-      const s = data.stocks['2603'];
-      liveMarketData.price2603 = s.price;
-      
-      const priceElem = document.getElementById('ticker-2603-price');
-      const changeElem = document.getElementById('ticker-2603-change');
-      
-      if (priceElem) priceElem.textContent = `NT$ ${s.price}`;
-      if (changeElem) {
-        const isUp = s.change >= 0;
-        const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
-        const icon = isUp ? 'fa-caret-up' : 'fa-caret-down';
-        const sign = isUp ? '+' : '';
-        changeElem.className = `${colorClass} font-mono text-[11px] flex items-center`;
-        changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5"></i>${sign}${s.change} (${sign}${s.change_percent}%)`;
+    // Helper for stock ticker update
+    function updateStockTicker(code, keyPrice, keyChange, elemPriceId, elemChangeId) {
+      if (data.stocks && data.stocks[code] && data.stocks[code].status === 'success') {
+        const s = data.stocks[code];
+        liveMarketData[keyPrice] = s.price;
+        
+        const priceElem = document.getElementById(elemPriceId);
+        const changeElem = document.getElementById(elemChangeId);
+        
+        if (priceElem) priceElem.textContent = `NT$ ${s.price}`;
+        if (changeElem) {
+          const isUp = s.change >= 0;
+          const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
+          const icon = isUp ? 'fa-caret-up' : 'fa-caret-down';
+          const sign = isUp ? '+' : '';
+          changeElem.className = `${colorClass} font-mono text-[10px] flex items-center`;
+          changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5"></i>${sign}${s.change_percent}%`;
+        }
       }
     }
 
-    // Update 2609 Ticker
-    if (data.stocks && data.stocks['2609'] && data.stocks['2609'].status === 'success') {
-      const s = data.stocks['2609'];
-      liveMarketData.price2609 = s.price;
-      
-      const priceElem = document.getElementById('ticker-2609-price');
-      const changeElem = document.getElementById('ticker-2609-change');
-      
-      if (priceElem) priceElem.textContent = `NT$ ${s.price}`;
-      if (changeElem) {
-        const isUp = s.change >= 0;
-        const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
-        const icon = isUp ? 'fa-caret-up' : 'fa-caret-down';
-        const sign = isUp ? '+' : '';
-        changeElem.className = `${colorClass} font-mono text-[11px] flex items-center`;
-        changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5"></i>${sign}${s.change} (${sign}${s.change_percent}%)`;
-      }
+    updateStockTicker('2603', 'price2603', 'change2603', 'ticker-2603-price', 'ticker-2603-change');
+    updateStockTicker('2609', 'price2609', 'change2609', 'ticker-2609-price', 'ticker-2609-change');
+    updateStockTicker('2615', 'price2615', 'change2615', 'ticker-2615-price', 'ticker-2615-change');
+
+    // Overview cards price update
+    const ov2603 = document.getElementById('overview-2603-price');
+    const ov2609 = document.getElementById('overview-2609-price');
+    const ov2615 = document.getElementById('overview-2615-price');
+    if (ov2603) ov2603.textContent = liveMarketData.price2603;
+    if (ov2609) ov2609.textContent = liveMarketData.price2609;
+    if (ov2615) ov2615.textContent = liveMarketData.price2615;
+
+    // Calculator base price labels
+    const simBase2603 = document.getElementById('sim-2603-baseprice');
+    const simBase2609 = document.getElementById('sim-2609-baseprice');
+    const simBase2615 = document.getElementById('sim-2615-baseprice');
+    if (simBase2603) simBase2603.textContent = `${liveMarketData.price2603}元`;
+    if (simBase2609) simBase2609.textContent = `${liveMarketData.price2609}元`;
+    if (simBase2615) simBase2615.textContent = `${liveMarketData.price2615}元`;
+
+    // Global Indices update
+    if (data.global_indices) {
+      const g = data.global_indices;
+      const updateIndexTicker = (key, priceElemId, changeElemId) => {
+        if (g[key] && g[key].status === 'success') {
+          const item = g[key];
+          const priceElem = document.getElementById(priceElemId);
+          const changeElem = document.getElementById(changeElemId);
+          if (priceElem) priceElem.textContent = Math.round(item.price).toLocaleString();
+          if (changeElem) {
+            const isUp = item.change >= 0;
+            const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
+            const sign = isUp ? '+' : '';
+            changeElem.className = `${colorClass} font-mono text-[10px]`;
+            changeElem.textContent = `${sign}${item.change_percent}%`;
+          }
+        }
+      };
+
+      updateIndexTicker('tw', 'ticker-idx-tw', 'ticker-idx-tw-change');
+      updateIndexTicker('us', 'ticker-idx-us', 'ticker-idx-us-change');
+      updateIndexTicker('jp', 'ticker-idx-jp', 'ticker-idx-jp-change');
+      updateIndexTicker('eu', 'ticker-idx-eu', 'ticker-idx-eu-change');
     }
 
     // Merge live news if available
@@ -79,7 +117,7 @@ async function loadLiveExternalData() {
       renderNewsCards(combined);
     }
 
-    // Re-trigger calculator with new live prices
+    // Trigger calculator recalculation
     if (typeof window.triggerCalculatorUpdate === 'function') {
       window.triggerCalculatorUpdate();
     }
@@ -99,7 +137,6 @@ function initTabs() {
     button.addEventListener('click', () => {
       const targetTab = button.getAttribute('data-tab');
 
-      // Update button state
       tabButtons.forEach(btn => {
         btn.classList.remove('active', 'bg-blue-600', 'text-white', 'shadow-sm');
         btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
@@ -107,7 +144,6 @@ function initTabs() {
       button.classList.add('active', 'bg-blue-600', 'text-white', 'shadow-sm');
       button.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
 
-      // Update content visibility
       tabContents.forEach(content => {
         if (content.id === `tab-${targetTab}`) {
           content.classList.remove('hidden');
@@ -130,97 +166,225 @@ let subRouteChartInstance = null;
 let supplyDemandChartInstance = null;
 
 const chartColors = {
-  evergreen: '#10b981',
-  yangming: '#3b82f6',
-  scfi: '#f59e0b',
-  accent: '#ec4899',
-  slateGrid: 'rgba(51, 65, 85, 0.4)',
+  evergreen: '#10b981', // green
+  yangming: '#3b82f6',  // blue
+  wanhai: '#a855f7',    // purple
+  tw: '#f43f5e',        // rose/red for Taiwan
+  us: '#eab308',        // gold/yellow for US S&P500
+  jp: '#ec4899',        // pink for Japan Nikkei
+  eu: '#14b8a6',        // teal for Euro Stoxx
+  scfi: '#f97316',      // orange
+  slateGrid: 'rgba(51, 65, 85, 0.35)',
   slateText: '#94a3b8'
 };
 
 function initCharts() {
-  renderOverviewCombinedChart('1Y');
+  renderOverviewCombinedChart();
   renderComparisonRadarChart();
   renderRouteAllocationChart();
   renderSubRouteFreightChart();
   renderSupplyDemandBalanceChart();
   setupTimeframeButtons();
+  setupChartModeButtons();
+  setupLegendChips();
 }
 
-// 1. Overview Combined Chart (2603 vs 2609 vs SCFI)
-function renderOverviewCombinedChart(timeframe = '1Y') {
+// Global Macro & Shipping Trend Historical Data
+const globalHistoricalData = {
+  '1Y': {
+    labels: ['24Q1', '24Q2', '24Q3', '24Q4', '25Q1', '25Q2', '25Q3', '25Q4', '26Q1', '26Q2(現)'],
+    raw: {
+      evergreen: [155, 178, 195, 212, 235, 248, 255, 260, 274, 266.5],
+      yangming: [48, 62, 68, 74, 69, 73, 76, 70, 64, 62.1],
+      wanhai: [45, 68, 82, 92, 98, 105, 118, 122, 119, 115.5],
+      tw: [20200, 23000, 22200, 23000, 28000, 34000, 39000, 42000, 44920, 43307],
+      us: [5100, 5450, 5700, 5900, 6300, 6700, 7100, 7350, 7580, 7541],
+      jp: [39000, 39500, 38000, 39000, 44000, 51000, 56000, 60000, 63290, 63081],
+      eu: [4900, 4950, 5000, 4900, 5200, 5500, 5800, 6000, 6131, 6176],
+      scfi: [2150, 2900, 3250, 2300, 2100, 2400, 2550, 2235, 2350, 2480]
+    }
+  },
+  '2Y': {
+    labels: ['23Q1', '23Q2', '23Q3', '23Q4', '24Q1', '24Q2', '24Q3', '24Q4', '25Q1', '25Q2', '25Q3', '25Q4'],
+    raw: {
+      evergreen: [130, 125, 115, 140, 155, 178, 195, 212, 235, 248, 255, 266.5],
+      yangming: [42, 40, 37, 44, 48, 62, 68, 74, 69, 73, 76, 62.1],
+      wanhai: [44, 42, 40, 48, 45, 68, 82, 92, 98, 105, 118, 115.5],
+      tw: [15800, 16900, 16500, 17900, 20200, 23000, 22200, 23000, 28000, 34000, 39000, 43307],
+      us: [4100, 4400, 4300, 4750, 5100, 5450, 5700, 5900, 6300, 6700, 7100, 7541],
+      jp: [28000, 33000, 32000, 33500, 39000, 39500, 38000, 39000, 44000, 51000, 56000, 63081],
+      eu: [4200, 4300, 4150, 4500, 4900, 4950, 5000, 4900, 5200, 5500, 5800, 6176],
+      scfi: [980, 950, 890, 1450, 2150, 2900, 3250, 2300, 2100, 2400, 2550, 2235]
+    }
+  },
+  'CYCLE': {
+    labels: ['2020疫情前', '2021大多頭', '2022歷史天價', '2023庫存去化', '2024紅海爆發', '2025高檔整理', '2026當前行情'],
+    raw: {
+      evergreen: [18, 140, 233, 115, 212, 245, 266.5],
+      yangming: [7, 120, 182, 38, 74, 72, 62.1],
+      wanhai: [15, 160, 250, 45, 92, 110, 115.5],
+      tw: [12000, 18200, 14100, 17900, 23000, 35000, 43307],
+      us: [3300, 4750, 3850, 4750, 5900, 6900, 7541],
+      jp: [23000, 28800, 26000, 33500, 39000, 52000, 63081],
+      eu: [3700, 4300, 3800, 4500, 4900, 5600, 6176],
+      scfi: [900, 4800, 5100, 950, 3250, 2400, 2235]
+    }
+  }
+};
+
+// Convert raw series to percentage returns based on initial point
+function toPercentageReturn(series) {
+  if (!series || series.length === 0) return [];
+  const base = series[0];
+  return series.map(val => Number((((val - base) / base) * 100).toFixed(1)));
+}
+
+function renderOverviewCombinedChart() {
   const ctx = document.getElementById('overviewCombinedChart');
   if (!ctx) return;
 
-  const datasetsByRange = {
-    '1Y': {
-      labels: ['24Q1', '24Q2', '24Q3', '24Q4', '25Q1', '25Q2', '25Q3', '25Q4', '26Q1', '26Q2(現)'],
-      evergreen: [155, 178, 195, 212, 235, 248, 255, 260, 274, 266.5],
-      yangming: [48, 62, 68, 74, 69, 73, 76, 70, 64, 62.1],
-      scfi: [2150, 2900, 3250, 2300, 2100, 2400, 2550, 2235, 2350, 2480]
-    },
-    '2Y': {
-      labels: ['23Q1', '23Q2', '23Q3', '23Q4', '24Q1', '24Q2', '24Q3', '24Q4', '25Q1', '25Q2', '25Q3', '25Q4'],
-      evergreen: [130, 125, 115, 140, 155, 178, 195, 212, 235, 248, 255, 266.5],
-      yangming: [42, 40, 37, 44, 48, 62, 68, 74, 69, 73, 76, 62.1],
-      scfi: [980, 950, 890, 1450, 2150, 2900, 3250, 2300, 2100, 2400, 2550, 2235]
-    },
-    'CYCLE': {
-      labels: ['2020疫情前', '2021大多頭', '2022歷史天價', '2023庫存去化', '2024紅海爆發', '2025高檔整理', '2026當前行情'],
-      evergreen: [18, 140, 233, 115, 212, 245, 266.5],
-      yangming: [7, 120, 182, 38, 74, 72, 62.1],
-      scfi: [900, 4800, 5100, 950, 3250, 2400, 2235]
-    }
-  };
+  const datasetConfig = globalHistoricalData[currentChartTimeframe] || globalHistoricalData['1Y'];
+  const labels = datasetConfig.labels;
+  const raw = datasetConfig.raw;
 
-  const currentData = datasetsByRange[timeframe] || datasetsByRange['1Y'];
+  const isPct = currentChartMode === 'PCT';
+
+  const datasets = [
+    {
+      label: '長榮 (2603)',
+      data: isPct ? toPercentageReturn(raw.evergreen) : raw.evergreen,
+      borderColor: chartColors.evergreen,
+      backgroundColor: 'rgba(16, 185, 129, 0.08)',
+      borderWidth: 2.8,
+      yAxisID: isPct ? 'yMain' : 'yStock',
+      tension: 0.35,
+      pointRadius: 3.5,
+      pointHoverRadius: 6
+    },
+    {
+      label: '陽明 (2609)',
+      data: isPct ? toPercentageReturn(raw.yangming) : raw.yangming,
+      borderColor: chartColors.yangming,
+      backgroundColor: 'rgba(59, 130, 246, 0.08)',
+      borderWidth: 2.8,
+      yAxisID: isPct ? 'yMain' : 'yStock',
+      tension: 0.35,
+      pointRadius: 3.5,
+      pointHoverRadius: 6
+    },
+    {
+      label: '萬海 (2615)',
+      data: isPct ? toPercentageReturn(raw.wanhai) : raw.wanhai,
+      borderColor: chartColors.wanhai,
+      backgroundColor: 'rgba(168, 85, 247, 0.08)',
+      borderWidth: 2.8,
+      yAxisID: isPct ? 'yMain' : 'yStock',
+      tension: 0.35,
+      pointRadius: 3.5,
+      pointHoverRadius: 6
+    },
+    {
+      label: '🇹🇼 台灣加權',
+      data: isPct ? toPercentageReturn(raw.tw) : raw.tw,
+      borderColor: chartColors.tw,
+      borderDash: [3, 2],
+      borderWidth: 2,
+      yAxisID: isPct ? 'yMain' : 'yIndex',
+      tension: 0.35,
+      pointRadius: 2.5
+    },
+    {
+      label: '🇺🇸 美國S&P500',
+      data: isPct ? toPercentageReturn(raw.us) : raw.us,
+      borderColor: chartColors.us,
+      borderDash: [3, 2],
+      borderWidth: 2,
+      yAxisID: isPct ? 'yMain' : 'yIndex',
+      tension: 0.35,
+      pointRadius: 2.5
+    },
+    {
+      label: '🇯🇵 日本日經225',
+      data: isPct ? toPercentageReturn(raw.jp) : raw.jp,
+      borderColor: chartColors.jp,
+      borderDash: [3, 2],
+      borderWidth: 2,
+      yAxisID: isPct ? 'yMain' : 'yIndex',
+      tension: 0.35,
+      pointRadius: 2.5
+    },
+    {
+      label: '🇪🇺 歐洲STOXX50',
+      data: isPct ? toPercentageReturn(raw.eu) : raw.eu,
+      borderColor: chartColors.eu,
+      borderDash: [3, 2],
+      borderWidth: 2,
+      yAxisID: isPct ? 'yMain' : 'yIndex',
+      tension: 0.35,
+      pointRadius: 2.5
+    },
+    {
+      label: 'SCFI 貨櫃運價',
+      data: isPct ? toPercentageReturn(raw.scfi) : raw.scfi,
+      borderColor: chartColors.scfi,
+      borderDash: [6, 4],
+      borderWidth: 2.2,
+      yAxisID: isPct ? 'yMain' : 'yFreight',
+      tension: 0.35,
+      pointRadius: 3
+    }
+  ];
 
   if (overviewChartInstance) {
+    // Preserve hidden states from previous render if any
     overviewChartInstance.destroy();
   }
+
+  const scalesConfig = isPct ? {
+    x: {
+      grid: { color: chartColors.slateGrid },
+      ticks: { color: chartColors.slateText, font: { size: 11 } }
+    },
+    yMain: {
+      type: 'linear',
+      position: 'left',
+      grid: { color: chartColors.slateGrid },
+      ticks: {
+        color: chartColors.slateText,
+        font: { size: 11 },
+        callback: val => `${val > 0 ? '+' : ''}${val}%`
+      }
+    }
+  } : {
+    x: {
+      grid: { color: chartColors.slateGrid },
+      ticks: { color: chartColors.slateText, font: { size: 11 } }
+    },
+    yStock: {
+      type: 'linear',
+      position: 'left',
+      grid: { color: chartColors.slateGrid },
+      ticks: {
+        color: chartColors.slateText,
+        callback: val => `NT$ ${val}`
+      }
+    },
+    yIndex: {
+      type: 'linear',
+      position: 'right',
+      grid: { drawOnChartArea: false },
+      ticks: {
+        color: '#f43f5e',
+        callback: val => `${Math.round(val).toLocaleString()}`
+      }
+    }
+  };
 
   overviewChartInstance = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: currentData.labels,
-      datasets: [
-        {
-          label: '長榮 (2603) 股價 NT$',
-          data: currentData.evergreen,
-          borderColor: chartColors.evergreen,
-          backgroundColor: 'rgba(16, 185, 129, 0.1)',
-          borderWidth: 2.5,
-          yAxisID: 'yStock',
-          tension: 0.35,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          pointBackgroundColor: chartColors.evergreen
-        },
-        {
-          label: '陽明 (2609) 股價 NT$',
-          data: currentData.yangming,
-          borderColor: chartColors.yangming,
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
-          borderWidth: 2.5,
-          yAxisID: 'yStock',
-          tension: 0.35,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          pointBackgroundColor: chartColors.yangming
-        },
-        {
-          label: 'SCFI 綜合運價指數',
-          data: currentData.scfi,
-          borderColor: chartColors.scfi,
-          borderDash: [5, 4],
-          borderWidth: 2,
-          yAxisID: 'yFreight',
-          tension: 0.35,
-          pointRadius: 3,
-          pointHoverRadius: 5,
-          pointBackgroundColor: chartColors.scfi
-        }
-      ]
+      labels: labels,
+      datasets: datasets
     },
     options: {
       responsive: true,
@@ -240,41 +404,53 @@ function renderOverviewCombinedChart(timeframe = '1Y') {
           padding: 10,
           callbacks: {
             label: function(context) {
-              if (context.dataset.yAxisID === 'yStock') {
-                return `${context.dataset.label}: NT$ ${context.parsed.y}`;
+              const label = context.dataset.label;
+              const val = context.parsed.y;
+              if (isPct) {
+                return `${label}: ${val > 0 ? '+' : ''}${val}%`;
               }
-              return `${context.dataset.label}: ${context.parsed.y} 點`;
+              if (context.datasetIndex <= 2) {
+                return `${label}: NT$ ${val}`;
+              }
+              return `${label}: ${val.toLocaleString()}`;
             }
           }
         }
       },
-      scales: {
-        x: {
-          grid: { color: chartColors.slateGrid },
-          ticks: { color: chartColors.slateText, font: { size: 11 } }
-        },
-        yStock: {
-          type: 'linear',
-          position: 'left',
-          grid: { color: chartColors.slateGrid },
-          ticks: {
-            color: chartColors.slateText,
-            font: { size: 11 },
-            callback: value => `NT$ ${value}`
-          }
-        },
-        yFreight: {
-          type: 'linear',
-          position: 'right',
-          grid: { drawOnChartArea: false },
-          ticks: {
-            color: chartColors.scfi,
-            font: { size: 11 },
-            callback: value => `${value} 點`
-          }
-        }
-      }
+      scales: scalesConfig
     }
+  });
+
+  // Re-sync chips active visual state
+  syncChipsWithChart();
+}
+
+function syncChipsWithChart() {
+  const chips = document.querySelectorAll('.chart-toggle-chip');
+  chips.forEach(chip => {
+    const idx = parseInt(chip.getAttribute('data-dataset-index'));
+    if (overviewChartInstance && overviewChartInstance.isDatasetVisible(idx)) {
+      chip.classList.add('opacity-100');
+      chip.classList.remove('opacity-40', 'line-through');
+    } else {
+      chip.classList.add('opacity-40', 'line-through');
+      chip.classList.remove('opacity-100');
+    }
+  });
+}
+
+function setupLegendChips() {
+  const chips = document.querySelectorAll('.chart-toggle-chip');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const idx = parseInt(chip.getAttribute('data-dataset-index'));
+      if (overviewChartInstance) {
+        const isVisible = overviewChartInstance.isDatasetVisible(idx);
+        overviewChartInstance.setDatasetVisibility(idx, !isVisible);
+        overviewChartInstance.update();
+        syncChipsWithChart();
+      }
+    });
   });
 }
 
@@ -288,13 +464,37 @@ function setupTimeframeButtons() {
       });
       btn.classList.add('bg-blue-600', 'text-white');
       btn.classList.remove('text-slate-400');
-      const range = btn.getAttribute('data-range');
-      renderOverviewCombinedChart(range);
+      currentChartTimeframe = btn.getAttribute('data-range');
+      renderOverviewCombinedChart();
     });
   });
 }
 
-// 2. Comparison Radar Chart
+function setupChartModeButtons() {
+  const btnPct = document.getElementById('chart-mode-pct');
+  const btnRaw = document.getElementById('chart-mode-raw');
+  if (!btnPct || !btnRaw) return;
+
+  btnPct.addEventListener('click', () => {
+    btnPct.classList.add('bg-blue-600', 'text-white');
+    btnPct.classList.remove('text-slate-400');
+    btnRaw.classList.remove('bg-blue-600', 'text-white');
+    btnRaw.classList.add('text-slate-400');
+    currentChartMode = 'PCT';
+    renderOverviewCombinedChart();
+  });
+
+  btnRaw.addEventListener('click', () => {
+    btnRaw.classList.add('bg-blue-600', 'text-white');
+    btnRaw.classList.remove('text-slate-400');
+    btnPct.classList.remove('bg-blue-600', 'text-white');
+    btnPct.classList.add('text-slate-400');
+    currentChartMode = 'RAW';
+    renderOverviewCombinedChart();
+  });
+}
+
+// 2. Comparison Radar Chart (三雄)
 function renderComparisonRadarChart() {
   const ctx = document.getElementById('comparisonRadarChart');
   if (!ctx) return;
@@ -307,24 +507,32 @@ function renderComparisonRadarChart() {
         '脫硫低成本優勢',
         '聯盟合約穩定度',
         '歐洲線獲利彈性',
-        '淨值折價安全邊際',
+        '近洋市佔與週轉',
         '現金水位與殖利率'
       ],
       datasets: [
         {
           label: '長榮 (2603)',
-          data: [96, 95, 92, 75, 78, 90],
-          backgroundColor: 'rgba(16, 185, 129, 0.25)',
+          data: [96, 95, 92, 75, 70, 90],
+          backgroundColor: 'rgba(16, 185, 129, 0.2)',
           borderColor: chartColors.evergreen,
           pointBackgroundColor: chartColors.evergreen,
           borderWidth: 2
         },
         {
           label: '陽明 (2609)',
-          data: [68, 65, 75, 95, 92, 85],
-          backgroundColor: 'rgba(59, 130, 246, 0.25)',
+          data: [68, 65, 75, 95, 65, 85],
+          backgroundColor: 'rgba(59, 130, 246, 0.2)',
           borderColor: chartColors.yangming,
           pointBackgroundColor: chartColors.yangming,
+          borderWidth: 2
+        },
+        {
+          label: '萬海 (2615)',
+          data: [60, 72, 60, 40, 98, 88],
+          backgroundColor: 'rgba(168, 85, 247, 0.2)',
+          borderColor: chartColors.wanhai,
+          pointBackgroundColor: chartColors.wanhai,
           borderWidth: 2
         }
       ]
@@ -340,7 +548,7 @@ function renderComparisonRadarChart() {
       },
       scales: {
         r: {
-          min: 40,
+          min: 30,
           max: 100,
           ticks: { display: false, stepSize: 20 },
           grid: { color: chartColors.slateGrid },
@@ -352,7 +560,7 @@ function renderComparisonRadarChart() {
   });
 }
 
-// 3. Route Allocation Chart
+// 3. Route Allocation Chart (三雄)
 function renderRouteAllocationChart() {
   const ctx = document.getElementById('routeAllocationChart');
   if (!ctx) return;
@@ -372,6 +580,12 @@ function renderRouteAllocationChart() {
           label: '陽明 (2609)',
           data: [36, 40, 14, 10],
           backgroundColor: chartColors.yangming,
+          borderRadius: 4
+        },
+        {
+          label: '萬海 (2615)',
+          data: [25, 0, 62, 13],
+          backgroundColor: chartColors.wanhai,
           borderRadius: 4
         }
       ]
@@ -395,7 +609,7 @@ function renderRouteAllocationChart() {
         y: {
           grid: { color: chartColors.slateGrid },
           ticks: { color: chartColors.slateText, callback: val => `${val}%` },
-          max: 50
+          max: 70
         }
       }
     }
@@ -521,7 +735,7 @@ const newsDatabase = [
     sentiment: 'bull',
     sentimentLabel: '偏多利多',
     summary: '地中海航運 (MSC)、達飛、馬士基及長榮海運最新客戶通告顯示，因曼德海峽商船安全評級未見實質改善，2026 上半年歐地線船隊仍 100% 採取繞行南非好望角航線，有效吸收全球約 9.5% 貨櫃運力。',
-    impact: '長榮、陽明歐洲航線每 FEU 運價獲得堅固底部支撐，陽明獲利敏感度尤高。'
+    impact: '長榮、陽明歐洲航線每 FEU 運價獲得堅固底部支撐；萬海近洋駁運需求大增。'
   },
   {
     id: 'base-2',
@@ -532,10 +746,21 @@ const newsDatabase = [
     sentiment: 'bull',
     sentimentLabel: '運價走揚',
     summary: '上海出口集裝箱運價指數 (SCFI) 報 2,235.4 點，週漲幅 4.2%。受歐美年終補庫存訂單支撐，美西線每大櫃站穩 4,200 美元關卡，歐洲線回升至 3,950 美元，裝載率維持在 92% 高檔。',
-    impact: '法人預估長榮 Q4 單季 EPS 可望守穩 9 元以上，陽明 Q4 單季上看 3.5 元。'
+    impact: '長榮、陽明、萬海 Q4 單季獲利全面上修，萬海美西線裝載滿載。'
   },
   {
     id: 'base-3',
+    title: '萬海航運：亞洲近洋貨量旺季發威，美西航線滿載率衝破 95%',
+    category: 'corporate',
+    date: '2026-10-29',
+    source: '工商時報',
+    sentiment: 'bull',
+    sentimentLabel: '業績噴發',
+    summary: '萬海受惠東南亞供應鏈遷移，近洋區間貨載量創同期新高；同時美西 AP1 航線因應美東工會轉單潮，運價維持每櫃 4,500 美元以上，毛利率大幅躍升。',
+    impact: '萬海 Q4 單季 EPS 上看 5.5 元，全年獲利暴衝挑戰 20 元關卡。'
+  },
+  {
+    id: 'base-4',
     title: '長榮海運法說會：新造節能大船陸續入列，脫硫塔普及率居全球同業第一',
     category: 'corporate',
     date: '2026-10-27',
@@ -543,18 +768,7 @@ const newsDatabase = [
     sentiment: 'bull',
     sentimentLabel: '基本面強勁',
     summary: '長榮總經理指出，受惠於早年佈局的 24,000 TEU A型巨輪與脫硫塔改裝計畫，當前每噸油料成本比競爭者低 120 美元以上；海洋聯盟合約已鎖定至 2032 年，營運護城河極度寬廣。',
-    impact: '凸顯長榮優於陽明之超額毛利結構，高現金股利政策維持不變。'
-  },
-  {
-    id: 'base-4',
-    title: '美東碼頭工會 (ILA) 新一輪自動化談判展開，航商預防性調度部分運力至美西港口',
-    category: 'geopolitics',
-    date: '2026-10-24',
-    source: 'JOC 航運週刊',
-    sentiment: 'neutral',
-    sentimentLabel: '中立監控',
-    summary: '儘管美東港口工資調升已達成初步共識，但工會對於無人碼頭與全自動化裝卸設施態度強硬。部分美國大型零售商為防範潜在二次斷鏈，將約 15% 貨載提前轉向美西洛杉磯/長灘港。',
-    impact: '長榮美西長灘專用碼頭 (Everport) 受惠轉單，裝卸週轉維持高效率。'
+    impact: '凸顯長榮優於同業之超額毛利結構，高現金股利政策維持不變。'
   },
   {
     id: 'base-5',
@@ -666,7 +880,7 @@ function renderNewsCards(items) {
 }
 
 /* ========================================================
-   4. SENSITIVITY & VALUATION CALCULATOR ENGINE
+   4. SENSITIVITY & VALUATION CALCULATOR ENGINE (三雄)
    ======================================================== */
 function initSensitivityCalculator() {
   const sliderScfi = document.getElementById('slider-scfi');
@@ -691,25 +905,34 @@ function initSensitivityCalculator() {
 
     const curPrice2603 = liveMarketData.price2603 || 266.5;
     const curPrice2609 = liveMarketData.price2609 || 62.1;
+    const curPrice2615 = liveMarketData.price2615 || 115.5;
 
-    // 2603 Calculations
     const scfiDelta = (scfi - 1500) / 100;
+
+    // 1. 長榮 2603
     const rerouteFactor2603 = 1 + (reroute / 100) * 0.28;
     const fuelBonus2603 = Math.max(0, (fuelSpread - 80) * 0.012);
-
     let qEps2603 = Math.max(0.5, (4.5 + scfiDelta * 0.95) * rerouteFactor2603 + fuelBonus2603);
     let fyEps2603 = qEps2603 * 4;
     let div2603 = fyEps2603 * payoutRatio;
     let yield2603 = (div2603 / curPrice2603) * 100;
     let pe2603 = curPrice2603 / fyEps2603;
 
-    // 2609 Calculations
+    // 2. 陽明 2609 (歐洲線現貨槓桿大)
     const rerouteFactor2609 = 1 + (reroute / 100) * 0.38;
     let qEps2609 = Math.max(0.2, (1.4 + scfiDelta * 0.45) * rerouteFactor2609);
     let fyEps2609 = qEps2609 * 4;
     let div2609 = fyEps2609 * payoutRatio;
     let yield2609 = (div2609 / curPrice2609) * 100;
     let pe2609 = curPrice2609 / fyEps2609;
+
+    // 3. 萬海 2615 (亞洲近洋 + 美西現貨彈性)
+    const rerouteFactor2615 = 1 + (reroute / 100) * 0.22;
+    let qEps2615 = Math.max(0.3, (2.2 + scfiDelta * 0.55) * rerouteFactor2615);
+    let fyEps2615 = qEps2615 * 4;
+    let div2615 = fyEps2615 * payoutRatio;
+    let yield2615 = (div2615 / curPrice2615) * 100;
+    let pe2615 = curPrice2615 / fyEps2615;
 
     // Update 2603 DOM
     document.getElementById('sim-2603-qeps').textContent = `${qEps2603.toFixed(1)} 元`;
@@ -725,30 +948,17 @@ function initSensitivityCalculator() {
     document.getElementById('sim-2609-yield').textContent = `${yield2609.toFixed(1)}%`;
     document.getElementById('sim-2609-pe').textContent = `${pe2609.toFixed(1)}x`;
 
-    // Dynamic verdict update
-    const verdict2603 = document.getElementById('sim-2603-verdict');
-    if (yield2603 >= 9) {
-      verdict2603.textContent = '超高殖利率保護，下檔極具投資安全邊際';
-      verdict2603.className = 'text-emerald-400 font-semibold';
-    } else if (yield2603 >= 6) {
-      verdict2603.textContent = '獲利韌性優異，配息維持高水準常態';
-      verdict2603.className = 'text-blue-400 font-semibold';
-    } else {
-      verdict2603.textContent = '景氣進入低檔震盪，長約防守發揮核心價值';
-      verdict2603.className = 'text-amber-400 font-semibold';
-    }
-
-    const verdict2609 = document.getElementById('sim-2609-verdict');
-    if (yield2609 >= 9) {
-      verdict2609.textContent = '現貨運價獲利爆發，波段攻擊動能最強烈';
-      verdict2609.className = 'text-rose-400 font-semibold';
-    } else if (yield2609 >= 6) {
-      verdict2609.textContent = '歐洲線利差穩健，每股淨值折價提供下檔後盾';
-      verdict2609.className = 'text-blue-400 font-semibold';
-    } else {
-      verdict2609.textContent = '若蘇伊士全面復航，運價回落敏感度較長榮大';
-      verdict2609.className = 'text-amber-400 font-semibold';
-    }
+    // Update 2615 DOM
+    const sim2615Q = document.getElementById('sim-2615-qeps');
+    const sim2615FY = document.getElementById('sim-2615-fyeps');
+    const sim2615Div = document.getElementById('sim-2615-div');
+    const sim2615Yield = document.getElementById('sim-2615-yield');
+    const sim2615Pe = document.getElementById('sim-2615-pe');
+    if (sim2615Q) sim2615Q.textContent = `${qEps2615.toFixed(1)} 元`;
+    if (sim2615FY) sim2615FY.textContent = `${fyEps2615.toFixed(1)} 元`;
+    if (sim2615Div) sim2615Div.textContent = `${div2615.toFixed(1)} 元`;
+    if (sim2615Yield) sim2615Yield.textContent = `${yield2615.toFixed(1)}%`;
+    if (sim2615Pe) sim2615Pe.textContent = `${pe2615.toFixed(1)}x`;
   }
 
   window.triggerCalculatorUpdate = recalculate;
