@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-06 17:45:19",
+  "last_updated": "2026-11-06 22:00:31",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
@@ -71,12 +71,12 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 6185.38,
+      "price": 6139.14,
       "prev_close": 6231.54,
-      "change": -46.16,
-      "change_percent": -0.74,
+      "change": -92.4,
+      "change_percent": -1.48,
       "high": 6207.7,
-      "low": 6139.32,
+      "low": 6127.84,
       "volume": 0,
       "status": "success"
     }
@@ -124,21 +124,21 @@
     },
     {
       "id": "live-5",
-      "title": "明明不缺船，運價為什麼還能大漲？看懂長榮、萬海、陽明這一輪航運循環，抓住下一個轉折點在哪裡",
-      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1tN1RtWFF3aWpZUHQtUjJaQ1VqckRwMDFlaGJTaXRiaXlVNncyOHU0NWVpUG1DWTBuN0sxU3JZVjhOanVOVkJpWUw5eEgtV1JiY0kwYTNB?oc=5",
-      "pubDate": "Wed, 28 Oct 2026 12:05:00 GMT",
-      "source": "優分析UAnalyze",
+      "title": "【貨櫃三雄新輪迴？1】長榮、陽明、萬海淡季不淡？一表看近10年第四季它最會漲分析師曝關鍵「買淡季賣旺季」",
+      "link": "https://news.google.com/rss/articles/CBMirAVBVV95cUxNQThMcDgtdlVHb0NGWDRCRWZJZzV1RGcwUV8tSFB3a1g4TGFGblZ2Tm1Xb3NKdlFBdWZacF9HTzhUeGRldkQ3NnRodlBSNC04YjlMbTBNd3Y4cVpwTXlHQzVCbGNRbWt4OFpMOURzdGRrbzNNczI3b0NIVzlha3lMTGFyMjVsZ1NlZzRxZU1HenAzQmoxTEE0NHJTU3hmOTRjQWhIZldzdVp5cHdIUlVPLXBVcGo0Tm91NENYYnVfc1lqVmUzYTBqeThKeHhlazVJSTRNbnNLT0R0V0NRaFozMDNXblNoaWZpSEtuN0lsM3BGdjh6TmVXd1phZ2hKOEhFWUZ3RDk5cmU5WDk0cmNPSEtWUUI2RFdHaE15VG82Ynkwalp5dm1fR29JVnBvQVRKWDlJWDlOYWFDSzRqZTVVOElNbm1WcElSS0pWc1lUY3l0MzlTSHdLUHVuVm9SQW01cVRQUFE2ci0tUmRWdk9lN0FLOU5RYnBnc0taV2p6UTdIR0pCWHZqTnZ0NDJIMm9wUjZEak41X202aldSZkJSTDFkTk93VWxDckxHS25uY1E2SExxYm5xdDJXN0FQc0RUSHBHcmxiaTFYbDJDSWJENVZULURHMThERndldHU3bkJyUUprUW5nSGlFaXRtWVNLM2llR2l2ODdtSFA4dmJfQy03MF9MUE42QkNYa3BLOEtzUWZia3FZWTN4OEJ6QUNGTUhpSVBmbnkxMzVpVXlQVUdSRFFCVDNKQnE5VDhJQTF0NUVnMjFFakY1d2ZZdGdlUm80M0xIX213UU55cHZlUTZYRWtVdzVSNVB4dHh0YjNybWZ2QTNIUE9Db0F2Sm5sVnQybGlUX25yUUk1NEc1Nk40UW5MMl82WmxjcjRmZXViTWlEdzJtNEdJb2I?oc=5",
+      "pubDate": "Sun, 18 Oct 2026 07:00:00 GMT",
+      "source": "Yahoo股市",
       "sentiment": "bull",
       "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
       "id": "live-6",
-      "title": "貨櫃三雄淡季撿便宜？殖利率上看7％、美東運價破萬美元 法人喊買長榮、陽明、萬海",
-      "link": "https://news.google.com/rss/articles/CBMiygNBVV95cUxNa09jXzh3R3psSDg1dXVmTEtVXzFndjlBakQ0a0dkaXpPOWRvYUlKeUdYaGhaU3NLeS05R0lvS1B6S3hSV1d2T0wyUmFkZE1aTjRuVF9EazN4VGF1MVNiR21sMmRGNEg1QnB2VUhiR2h0TFdGSFhQcmo1b2RENWFXVVZfXzFaTm12eFhubHBydUdRYV9uMzM0V21vU1pJQnY0c3h4S2ZqMDRVWjRVWm5wWGt2R1R2eThHMWptWXlIb3hSbTNsTE9oTXVaUWNla3BRaDhGdWh1aXMzV2hyUjlDWFFrSEx3aTZGSzdsVFlYWmxvR1Z4bDZxcmJGSG9KOXBlQ2dTMkZaRkdWWWJCLVh5cW55Zll1dFMyU1dNZ0E4dm5qMU44aFpocWE4SG5EcS1CdWV2TUJqTXJhY1p1NkpwRFNSU25vY1EwZXB1OUZzd1l3S01ISi1NaFBGT0dQeWlzYW5vRFNDbGRmalY1Q2dOU0gwdDBUdEJQZExTMy1jNEJFeUZKekFnTkprbmIxVkRERTVwNVNIdFRCUFVWYy0yZEdNN2pWdEF0NDVoSVpjMkoxSHdVQjJnNjR3dWtacFFwLUpYaXl3RndMZw?oc=5",
-      "pubDate": "Sun, 18 Oct 2026 07:00:00 GMT",
-      "source": "Yahoo股市",
-      "sentiment": "neutral",
+      "title": "明明不缺船，運價為什麼還能大漲？看懂長榮、萬海、陽明這一輪航運循環，抓住下一個轉折點在哪裡",
+      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1tN1RtWFF3aWpZUHQtUjJaQ1VqckRwMDFlaGJTaXRiaXlVNncyOHU0NWVpUG1DWTBuN0sxU3JZVjhOanVOVkJpWUw5eEgtV1JiY0kwYTNB?oc=5",
+      "pubDate": "Wed, 28 Oct 2026 12:05:00 GMT",
+      "source": "優分析UAnalyze",
+      "sentiment": "bull",
       "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
@@ -174,12 +174,12 @@
     },
     {
       "id": "live-10",
-      "title": "【貨櫃三雄新輪迴？1】長榮、陽明、萬海淡季不淡？一表看近10年第四季它最會漲分析師曝關鍵「買淡季賣旺季」",
-      "link": "https://news.google.com/rss/articles/CBMirAVBVV95cUxNQThMcDgtdlVHb0NGWDRCRWZJZzV1RGcwUV8tSFB3a1g4TGFGblZ2Tm1Xb3NKdlFBdWZacF9HTzhUeGRldkQ3NnRodlBSNC04YjlMbTBNd3Y4cVpwTXlHQzVCbGNRbWt4OFpMOURzdGRrbzNNczI3b0NIVzlha3lMTGFyMjVsZ1NlZzRxZU1HenAzQmoxTEE0NHJTU3hmOTRjQWhIZldzdVp5cHdIUlVPLXBVcGo0Tm91NENYYnVfc1lqVmUzYTBqeThKeHhlazVJSTRNbnNLT0R0V0NRaFozMDNXblNoaWZpSEtuN0lsM3BGdjh6TmVXd1phZ2hKOEhFWUZ3RDk5cmU5WDk0cmNPSEtWUUI2RFdHaE15VG82Ynkwalp5dm1fR29JVnBvQVRKWDlJWDlOYWFDSzRqZTVVOElNbm1WcElSS0pWc1lUY3l0MzlTSHdLUHVuVm9SQW01cVRQUFE2ci0tUmRWdk9lN0FLOU5RYnBnc0taV2p6UTdIR0pCWHZqTnZ0NDJIMm9wUjZEak41X202aldSZkJSTDFkTk93VWxDckxHS25uY1E2SExxYm5xdDJXN0FQc0RUSHBHcmxiaTFYbDJDSWJENVZULURHMThERndldHU3bkJyUUprUW5nSGlFaXRtWVNLM2llR2l2ODdtSFA4dmJfQy03MF9MUE42QkNYa3BLOEtzUWZia3FZWTN4OEJ6QUNGTUhpSVBmbnkxMzVpVXlQVUdSRFFCVDNKQnE5VDhJQTF0NUVnMjFFakY1d2ZZdGdlUm80M0xIX213UU55cHZlUTZYRWtVdzVSNVB4dHh0YjNybWZ2QTNIUE9Db0F2Sm5sVnQybGlUX25yUUk1NEc1Nk40UW5MMl82WmxjcjRmZXViTWlEdzJtNEdJb2I?oc=5",
-      "pubDate": "Sun, 18 Oct 2026 07:00:00 GMT",
-      "source": "Yahoo股市",
+      "title": "萬海(2615)股價月飆43%！陽明(2609)、長榮(2603)...航運股大噴出還能追？最新目標價！誰最值得買？老手點出「下船時機」",
+      "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPMTM3alRwbmVZNmh2ZFk4OFA5Z3EzRHJTaTJNaEF3bDhmOFFMWjR1SUdQWF9iTWJ5dWlpNEFfVGlmdTJMS0ZyNElsU1pjdTNJVW5JNXFJX1p0YUFia1QyUWhFNk44aUt0bTlKN3FUN1g4WHlGcDVEUVBkTHBkVGRNVw?oc=5",
+      "pubDate": "Mon, 24 Aug 2026 07:00:00 GMT",
+      "source": "今周刊",
       "sentiment": "bull",
-      "category": "freight",
+      "category": "corporate",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     }
   ]
