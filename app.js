@@ -32,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
   safeRun(initMobileBenchmarkToggle);
   safeRun(initPortfolioTracker);
   safeRun(initLiteratureSystem);
+  safeRun(initDividendCalculator);
+  safeRun(initMacroFxSimulator);
+  safeRun(initChecklistAndNotes);
+  safeRun(initShipCursor);
   loadLiveExternalData();
 });
 
@@ -256,6 +260,10 @@ async function loadLiveExternalData() {
       window.triggerPortfolioUpdate();
     }
 
+    // Store full live payload for Technicals tab & render
+    window.latestPayloadCache = data;
+    renderTechnicalsPanel(data);
+
     // Calculator base price labels
     const simBase2603 = document.getElementById('sim-2603-baseprice');
     const simBase2609 = document.getElementById('sim-2609-baseprice');
@@ -371,6 +379,8 @@ function initTabs() {
             } else if (targetTab === 'industry') {
               if (subRouteChartInstance) subRouteChartInstance.resize();
               if (supplyDemandChartInstance) supplyDemandChartInstance.resize();
+            } else if (targetTab === 'technicals') {
+              renderTechnicalsCharts();
             }
           });
         } else {
@@ -1769,4 +1779,409 @@ function renderGeoBunkerSpreadChart() {
       }
     }
   });
+}
+
+
+/* ========================================================
+   10. DIVIDEND TAX & DRIP CALCULATOR (除權息與二代健保試算)
+   ======================================================== */
+function initDividendCalculator() {
+  const stockSel = document.getElementById('div-stock-select');
+  const lotsIn = document.getElementById('div-lots-input');
+  const payoutIn = document.getElementById('div-payout-input');
+  if (!stockSel || !lotsIn || !payoutIn) return;
+
+  const defaultPayouts = { '2603': 16.0, '2609': 2.0, '2615': 3.0 };
+
+  function calcDiv() {
+    const lots = Math.max(0, parseFloat(lotsIn.value) || 0);
+    const payout = Math.max(0, parseFloat(payoutIn.value) || 0);
+    const gross = Math.round(lots * 1000 * payout);
+    // Taiwan 2nd-gen NHI (二代健保補充保費): single dividend >= 20,000 NTD incurs 2.11%
+    const nhi = gross >= 20000 ? Math.round(gross * 0.0211) : 0;
+    const net = gross - nhi;
+    const credit = Math.round(gross * 0.085);
+
+    const gEl = document.getElementById('div-res-gross');
+    const nEl = document.getElementById('div-res-nhi');
+    const netEl = document.getElementById('div-res-net');
+    const cEl = document.getElementById('div-res-credit');
+    const tipEl = document.getElementById('div-res-tip');
+
+    if (gEl) gEl.textContent = `NT$ ${gross.toLocaleString()}`;
+    if (nEl) {
+      nEl.textContent = nhi > 0 ? `-NT$ ${nhi.toLocaleString()}` : 'NT$ 0 (未達2萬免扣)';
+      nEl.className = nhi > 0 ? 'text-rose-400 font-mono' : 'text-emerald-400 font-mono';
+    }
+    if (netEl) netEl.textContent = `NT$ ${net.toLocaleString()}`;
+    if (cEl) cEl.textContent = `+NT$ ${credit.toLocaleString()}`;
+
+    if (tipEl && payout > 0) {
+      const maxShares = Math.floor(19999 / payout);
+      const maxLots = (maxShares / 1000).toFixed(2);
+      tipEl.textContent = `💡 若欲避開 2.11% 二代健保補充保費，以每股配 ${payout} 元計算，單次除息須控制在 ${maxLots} 張 (${maxShares.toLocaleString()}股) 以內。`;
+    }
+  }
+
+  stockSel.addEventListener('change', () => {
+    const code = stockSel.value;
+    if (defaultPayouts[code] !== undefined) {
+      payoutIn.value = defaultPayouts[code];
+    }
+    calcDiv();
+  });
+
+  [lotsIn, payoutIn].forEach(el => el.addEventListener('input', calcDiv));
+  calcDiv();
+}
+
+/* ========================================================
+   11. TECHNICALS & INSTITUTIONAL TAB (技術與籌碼面)
+   ======================================================== */
+let techMaChartInstance = null;
+let techInstChartInstance = null;
+
+function renderTechnicalsPanel(data) {
+  if (!data || !data.stocks) return;
+  const metaMap = {
+    '2603': { name: '長榮 (2603)', color: 'text-emerald-400' },
+    '2609': { name: '陽明 (2609)', color: 'text-blue-400' },
+    '2615': { name: '萬海 (2615)', color: 'text-purple-400' }
+  };
+
+  ['2603', '2609', '2615'].forEach(code => {
+    const card = document.getElementById(`tech-card-${code}`);
+    const s = data.stocks[code];
+    const inst = data.institutional && data.institutional[code];
+    if (!card || !s) return;
+
+    const t = s.technicals || {};
+    const rsi = t.rsi14 ?? '-';
+    const rsiBadge = rsi >= 70
+      ? '<span class="text-rose-400 font-bold">過熱</span>'
+      : (rsi <= 30 ? '<span class="text-emerald-400 font-bold">超賣</span>' : '<span class="text-amber-300">中性</span>');
+    const b20 = t.bias_20 ?? 0;
+    const b60 = t.bias_60 ?? 0;
+    const totLots = inst ? Math.round(inst.total_lots) : 0;
+
+    card.innerHTML = `
+      <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+        <strong class="${metaMap[code].color} text-sm">${metaMap[code].name}</strong>
+        <span class="font-mono font-bold text-white">NT$ ${s.price}</span>
+      </div>
+      <div class="grid grid-cols-2 gap-2 text-[11px]">
+        <div class="bg-slate-950/70 p-2 rounded border border-slate-800">5MA週線: <strong class="text-white font-mono">${t.ma5 ?? '-'}</strong></div>
+        <div class="bg-slate-950/70 p-2 rounded border border-slate-800">20MA月線: <strong class="text-white font-mono">${t.ma20 ?? '-'}</strong></div>
+        <div class="bg-slate-950/70 p-2 rounded border border-slate-800">60MA季線: <strong class="text-white font-mono">${t.ma60 ?? '-'}</strong></div>
+        <div class="bg-slate-950/70 p-2 rounded border border-slate-800">240MA年線: <strong class="text-white font-mono">${t.ma240 ?? '-'}</strong></div>
+      </div>
+      <div class="flex justify-between items-center text-[11px] pt-1">
+        <span>月線乖離: <strong class="${b20 >= 0 ? 'text-rose-400' : 'text-emerald-400'} font-mono">${b20 >= 0 ? '+' : ''}${b20}%</strong></span>
+        <span>季線乖離: <strong class="${b60 >= 0 ? 'text-rose-400' : 'text-emerald-400'} font-mono">${b60 >= 0 ? '+' : ''}${b60}%</strong></span>
+        <span>RSI(14): <strong class="font-mono text-white">${rsi}</strong> (${rsiBadge})</span>
+      </div>
+      <div class="flex justify-between items-center text-[11px] border-t border-slate-800/80 pt-2">
+        <span class="text-sky-300 font-semibold">${t.trend || '趨勢計算中'}</span>
+        <span>三大法人: <strong class="${totLots >= 0 ? 'text-rose-400' : 'text-emerald-400'} font-mono">${totLots >= 0 ? '+' : ''}${totLots}張</strong></span>
+      </div>
+    `;
+  });
+
+  renderTechnicalsCharts();
+}
+
+function renderTechnicalsCharts() {
+  const data = window.latestPayloadCache;
+  if (!data) return;
+
+  // Chart 1: MA Bias Comparison
+  const ctxMa = document.getElementById('techMaChart');
+  if (ctxMa && data.stocks) {
+    if (techMaChartInstance) techMaChartInstance.destroy();
+    const s2603 = data.stocks['2603']?.technicals || {};
+    const s2609 = data.stocks['2609']?.technicals || {};
+    const s2615 = data.stocks['2615']?.technicals || {};
+
+    const calcBias = (price, ma) => (price && ma) ? Number((((price - ma) / ma) * 100).toFixed(2)) : 0;
+    const p3 = data.stocks['2603']?.price, p9 = data.stocks['2609']?.price, p5 = data.stocks['2615']?.price;
+
+    techMaChartInstance = new Chart(ctxMa, {
+      type: 'bar',
+      data: {
+        labels: ['5MA 週線乖離', '20MA 月線乖離', '60MA 季線乖離', '240MA 年線乖離'],
+        datasets: [
+          {
+            label: '長榮 (2603)',
+            data: [calcBias(p3, s2603.ma5), s2603.bias_20 || 0, s2603.bias_60 || 0, calcBias(p3, s2603.ma240)],
+            backgroundColor: '#10b981',
+            borderRadius: 4
+          },
+          {
+            label: '陽明 (2609)',
+            data: [calcBias(p9, s2609.ma5), s2609.bias_20 || 0, s2609.bias_60 || 0, calcBias(p9, s2609.ma240)],
+            backgroundColor: '#3b82f6',
+            borderRadius: 4
+          },
+          {
+            label: '萬海 (2615)',
+            data: [calcBias(p5, s2615.ma5), s2615.bias_20 || 0, s2615.bias_60 || 0, calcBias(p5, s2615.ma240)],
+            backgroundColor: '#a855f7',
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 11 } } } },
+        scales: {
+          x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 10 } } },
+          y: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, callback: v => `${v}%` } }
+        }
+      }
+    });
+  }
+
+  // Chart 2: Institutional Investors Breakdown
+  const ctxInst = document.getElementById('techInstChart');
+  if (ctxInst && data.institutional) {
+    if (techInstChartInstance) techInstChartInstance.destroy();
+    const codes = ['2603', '2609', '2615', '2330'];
+    const labels = ['長榮 (2603)', '陽明 (2609)', '萬海 (2615)', '台積電 (2330)'];
+    const foreign = codes.map(c => Math.round(data.institutional[c]?.foreign_lots || 0));
+    const trust = codes.map(c => Math.round(data.institutional[c]?.trust_lots || 0));
+    const dealer = codes.map(c => Math.round(data.institutional[c]?.dealer_lots || 0));
+
+    techInstChartInstance = new Chart(ctxInst, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: '外資 (張)', data: foreign, backgroundColor: '#ef4444', borderRadius: 3 },
+          { label: '投信 (張)', data: trust, backgroundColor: '#f59e0b', borderRadius: 3 },
+          { label: '自營商 (張)', data: dealer, backgroundColor: '#38bdf8', borderRadius: 3 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 11 } } } },
+        scales: {
+          x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 11 } } },
+          y: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, callback: v => `${v}張` } }
+        }
+      }
+    });
+  }
+}
+
+/* ========================================================
+   12. MACRO FX SENSITIVITY SIMULATOR (匯率敏感度)
+   ======================================================== */
+function initMacroFxSimulator() {
+  const slider = document.getElementById('fx-rate-slider');
+  const valEl = document.getElementById('fx-rate-val');
+  if (!slider || !valEl) return;
+
+  function calcFx() {
+    const rate = parseFloat(slider.value);
+    valEl.textContent = `${rate.toFixed(2)} 元`;
+    const deltaPct = (rate - 32.0) / 32.0; // relative to 32.0 baseline
+
+    const eps3 = (deltaPct * 28.0).toFixed(2);
+    const eps9 = (deltaPct * 18.0).toFixed(2);
+    const eps5 = (deltaPct * 16.0).toFixed(2);
+
+    const fmt = (elId, v) => {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      const num = parseFloat(v);
+      el.textContent = `${num >= 0 ? '+' : ''}${num.toFixed(2)} 元 / 季`;
+      el.className = num >= 0 ? 'font-mono text-rose-400' : 'font-mono text-emerald-400';
+    };
+
+    fmt('fx-2603-impact', eps3);
+    fmt('fx-2609-impact', eps9);
+    fmt('fx-2615-impact', eps5);
+  }
+
+  slider.addEventListener('input', calcFx);
+  calcFx();
+}
+
+/* ========================================================
+   13. PRE-TRADE CHECKLIST & LOCAL TRADING NOTES
+   ======================================================== */
+function initChecklistAndNotes() {
+  const checks = document.querySelectorAll('.trade-check');
+  const badge = document.getElementById('checklist-score-badge');
+  const bar = document.getElementById('checklist-progress-bar');
+  const verdict = document.getElementById('checklist-verdict-box');
+
+  function updateChecklist() {
+    const total = checks.length;
+    const checked = Array.from(checks).filter(c => c.checked).length;
+    const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+
+    if (bar) bar.style.width = `${pct}%`;
+    if (badge) {
+      badge.textContent = `當前把握度：${pct}% (${checked}/${total} 項)`;
+      if (pct >= 75) {
+        badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono';
+      } else if (pct >= 50) {
+        badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono';
+      } else {
+        badge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 font-mono';
+      }
+    }
+
+    if (verdict) {
+      if (pct >= 75) {
+        verdict.innerHTML = '<strong class="text-emerald-400">決策建議：</strong>多項條件高度共振！具備高勝率與安全邊際，適合依計劃分批進場布局。';
+      } else if (pct >= 50) {
+        verdict.innerHTML = '<strong class="text-amber-400">決策建議：</strong>目前符合部分條件，適合小額試單或等待回測強力買進區再行加碼。';
+      } else {
+        verdict.innerHTML = '<strong class="text-rose-400">決策建議：</strong>條件尚未成熟！建議先保持現金耐心觀望，切勿盲目追高。';
+      }
+    }
+  }
+
+  checks.forEach(c => c.addEventListener('change', updateChecklist));
+  updateChecklist();
+
+  // Notes persistence in localStorage
+  const NOTE_KEY = 'shipping_trading_notes_v1';
+  const notesArea = document.getElementById('trading-notes-area');
+  const statusEl = document.getElementById('notes-save-status');
+  const clearBtn = document.getElementById('clear-notes-btn');
+
+  if (notesArea) {
+    try {
+      const savedNote = localStorage.getItem(NOTE_KEY);
+      if (savedNote !== null) notesArea.value = savedNote;
+    } catch (e) {}
+
+    notesArea.addEventListener('input', () => {
+      try {
+        localStorage.setItem(NOTE_KEY, notesArea.value);
+        if (statusEl) {
+          statusEl.textContent = '已自動儲存 ✔';
+          setTimeout(() => { statusEl.textContent = '已同步本機'; }, 1500);
+        }
+      } catch (e) {}
+    });
+  }
+
+  if (clearBtn && notesArea) {
+    clearBtn.addEventListener('click', () => {
+      notesArea.value = '';
+      try { localStorage.removeItem(NOTE_KEY); } catch (e) {}
+      if (statusEl) statusEl.textContent = '已清空筆記';
+    });
+  }
+}
+
+
+/* ========================================================
+   14. RANDOM 3-COMPANY CONTAINER SHIP CURSOR (長榮/陽明/萬海)
+   ======================================================== */
+function initShipCursor() {
+  const fleets = [
+    {
+      id: 'evergreen',
+      name: '長榮號 (2603)',
+      hull: '#00965E',
+      deck: '#065F46',
+      c1: '#10B981',
+      c2: '#F8FAFC',
+      c3: '#34D399',
+      badgeClass: 'px-2 py-0.5 text-[11px] font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:scale-105 transition flex items-center gap-1'
+    },
+    {
+      id: 'yangming',
+      name: '陽明號 (2609)',
+      hull: '#1D4ED8',
+      deck: '#1E3A8A',
+      c1: '#3B82F6',
+      c2: '#F97316',
+      c3: '#E2E8F0',
+      badgeClass: 'px-2 py-0.5 text-[11px] font-bold rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 hover:scale-105 transition flex items-center gap-1'
+    },
+    {
+      id: 'wanhai',
+      name: '萬海號 (2615)',
+      hull: '#9333EA',
+      deck: '#581C87',
+      c1: '#C084FC',
+      c2: '#EF4444',
+      c3: '#FACC15',
+      badgeClass: 'px-2 py-0.5 text-[11px] font-bold rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 hover:scale-105 transition flex items-center gap-1'
+    }
+  ];
+
+  let currentIdx = Math.floor(Math.random() * fleets.length);
+
+  function buildShipCursorUri(ship, isHover = false) {
+    const strokeCol = isHover ? '#FACC15' : '#FFFFFF';
+    // 32x32 diagonal container ship SVG; bow points to (3,3) for crisp pointer precision
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+      <g transform="rotate(-42 16 16)">
+        <!-- Bow wake -->
+        <path d="M16 1 L13 6 M16 1 L19 6" stroke="rgba(186,230,253,0.85)" stroke-width="1.2" stroke-linecap="round"/>
+        <!-- Ship Hull -->
+        <path d="M16 2 L22 10 L22 27 Q16 30 10 27 L10 10 Z" fill="${ship.hull}" stroke="${strokeCol}" stroke-width="1.5" stroke-linejoin="round"/>
+        <!-- Deck -->
+        <path d="M16 4.5 L20.2 10.5 L20.2 25.5 L11.8 25.5 L11.8 10.5 Z" fill="${ship.deck}"/>
+        <!-- Stacked Containers -->
+        <rect x="12.6" y="10" width="3.2" height="4" rx="0.5" fill="${ship.c1}"/>
+        <rect x="16.2" y="10" width="3.2" height="4" rx="0.5" fill="${ship.c2}"/>
+        <rect x="12.6" y="14.6" width="3.2" height="4" rx="0.5" fill="${ship.c3}"/>
+        <rect x="16.2" y="14.6" width="3.2" height="4" rx="0.5" fill="${ship.c1}"/>
+        <rect x="12.6" y="19.2" width="6.8" height="2.6" rx="0.5" fill="${ship.c2}"/>
+        <!-- Bridge -->
+        <rect x="12.2" y="22.4" width="7.6" height="2.6" rx="0.6" fill="#FFFFFF"/>
+        <rect x="13.5" y="23" width="5" height="0.9" fill="#0F172A"/>
+      </g>
+    </svg>`;
+    return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}") 3 3, auto`;
+  }
+
+  function applyShipCursor(idx) {
+    const ship = fleets[idx];
+    const normalCursor = buildShipCursorUri(ship, false);
+    const pointerCursor = buildShipCursorUri(ship, true);
+
+    let styleTag = document.getElementById('ship-cursor-style');
+    if (!styleTag) {
+      styleTag = document.createElement('style');
+      styleTag.id = 'ship-cursor-style';
+      document.head.appendChild(styleTag);
+    }
+
+    styleTag.textContent = `
+      html, body { cursor: ${normalCursor} !important; }
+      a, button, select, label, input[type="range"], input[type="checkbox"], [role="button"], .geo-hotspot {
+        cursor: ${pointerCursor} !important;
+      }
+      input[type="text"], input[type="number"], textarea {
+        cursor: text !important;
+      }
+    `;
+
+    const badge = document.getElementById('ship-cursor-badge');
+    if (badge) {
+      badge.className = ship.badgeClass;
+      badge.innerHTML = `<i class="fa-solid fa-ship"></i> 鼠標：${ship.name}`;
+    }
+  }
+
+  applyShipCursor(currentIdx);
+
+  const badge = document.getElementById('ship-cursor-badge');
+  if (badge) {
+    badge.addEventListener('click', () => {
+      currentIdx = (currentIdx + 1) % fleets.length;
+      applyShipCursor(currentIdx);
+    });
+  }
 }

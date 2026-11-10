@@ -43,7 +43,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261110e">
+  <link rel="stylesheet" href="style.css?v=20261110f">
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-blue-600 selection:text-white">
 
@@ -151,7 +151,7 @@
   <!-- Main Navigation Header -->
   <header class="bg-gradient-to-r from-slate-900 via-ocean-900 to-slate-900 border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
         <div class="flex items-center space-x-3">
           <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center shadow-lg shadow-blue-500/20 text-white text-2xl">
             <i class="fa-solid fa-ship"></i>
@@ -162,6 +162,9 @@
               <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1">
                 <i class="fa-solid fa-signal"></i> 買賣訊號強化版
               </span>
+              <button id="ship-cursor-badge" class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:scale-105 transition flex items-center gap-1" title="點擊切換隨機貨櫃船鼠標">
+                <i class="fa-solid fa-ship"></i> 鼠標：長榮號
+              </button>
             </div>
             <p class="text-xs text-slate-400 mt-0.5">
               長榮 (2603) • 陽明 (2609) • 萬海 (2615) • 買賣建議區間 • 全球大盤連動 • 獲利敏感度試算
@@ -169,31 +172,43 @@
           </div>
         </div>
 
-        <!-- Tab Navigation -->
-        <nav class="flex flex-wrap items-center gap-1 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800/80">
-          <button data-tab="signals" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-rose-300 bg-rose-950/40 border border-rose-700/60 hover:bg-rose-900/60">
+        <!-- Tab Navigation (6x2 Aligned Grid: 12 Tabs) -->
+        <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800/80 w-full xl:w-auto">
+          <button data-tab="signals" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-rose-300 bg-rose-950/40 border border-rose-700/60 hover:bg-rose-900/60 whitespace-nowrap">
             <i class="fa-solid fa-traffic-light text-rose-400"></i> 買賣建議專區
           </button>
-          <button data-tab="overview" class="tab-btn active px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-white bg-blue-600 shadow-sm">
+          <button data-tab="overview" class="tab-btn active justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-white bg-blue-600 shadow-sm whitespace-nowrap">
             <i class="fa-solid fa-chart-pie"></i> 戰情總覽
           </button>
-          <button data-tab="comparison" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+          <button data-tab="comparison" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-code-compare"></i> 三雄對決
           </button>
-          <button data-tab="industry" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+          <button data-tab="industry" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-anchor"></i> 產業與供需
           </button>
-          <button data-tab="geopolitics" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+          <button data-tab="geopolitics" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-earth-americas"></i> 世界動態與咽喉
           </button>
-          <button data-tab="news" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+          <button data-tab="news" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-newspaper"></i> 航運新聞情報
           </button>
-          <button data-tab="calculator" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+          <button data-tab="calculator" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-calculator"></i> 獲利情境試算
           </button>
-          <button data-tab="literature" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800">
+          <button data-tab="literature" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-book-bookmark text-indigo-400"></i> 權威文獻回顧
+          </button>
+          <button data-tab="dividend" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-sack-dollar text-amber-400"></i> 除權息與存股
+          </button>
+          <button data-tab="technicals" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-chart-column text-emerald-400"></i> 技術與籌碼面
+          </button>
+          <button data-tab="macro" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-dollar-sign text-cyan-400"></i> 匯率與散裝對比
+          </button>
+          <button data-tab="checklist" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-list-check text-purple-400"></i> 進場檢核與筆記
           </button>
         </nav>
       </div>
@@ -1989,6 +2004,387 @@ ightarrow$ 產能崩解 (Collapse)。</li>
 
     </div>
 
+
+    <!-- ========================================== -->
+    <!-- SECTION 8: DIVIDEND & DRIP (除權息與存股 - NEW) -->
+    <!-- ========================================== -->
+    <div id="tab-dividend" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-amber-950/35 via-slate-900 to-emerald-950/35 border border-slate-800 rounded-xl p-6">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              <i class="fa-solid fa-coins mr-1"></i> 台股領息節稅小幫手
+            </span>
+            <h2 class="text-xl font-black text-white mt-1.5">貨櫃三雄除權息紀錄、二代健保補充保費與複利試算</h2>
+            <p class="text-xs text-slate-400 mt-1">完整追蹤長榮、陽明、萬海歷年配息與填息天數，並精算二代健保 2.11% 門檻與 8.5% 股利抵減稅額</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left: Dividend Tax & DRIP Calculator -->
+        <div class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-calculator text-amber-400"></i> 實領股息與二代健保試算器
+          </h3>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="text-slate-400 block mb-1">選擇領息標的</label>
+              <select id="div-stock-select" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-semibold focus:outline-none focus:border-amber-500">
+                <option value="2603">長榮 (2603) — 預估配息參考 16.0 ~ 19.0 元</option>
+                <option value="2609">陽明 (2609) — 預估配息參考 2.0 ~ 5.5 元</option>
+                <option value="2615">萬海 (2615) — 預估配息參考 3.0 ~ 8.5 元</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-slate-400 block mb-1">預計參與除息張數 (張)</label>
+                <input type="number" id="div-lots-input" value="2" min="0.1" step="0.5" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-500">
+              </div>
+              <div>
+                <label class="text-slate-400 block mb-1">預估每股現金股利 (元)</label>
+                <input type="number" id="div-payout-input" value="16.0" min="0" step="0.5" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-500">
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/90 p-4 rounded-xl border border-slate-800 space-y-2.5 text-xs">
+            <div class="flex justify-between">
+              <span class="text-slate-400">稅前股利總額</span>
+              <strong id="div-res-gross" class="text-white font-mono text-sm">NT$ 32,000</strong>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">二代健保補充保費 (單筆≥2萬扣2.11%)</span>
+              <strong id="div-res-nhi" class="text-rose-400 font-mono">-NT$ 675</strong>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">實領現金入帳淨額</span>
+              <strong id="div-res-net" class="text-emerald-400 font-mono text-base font-black">NT$ 31,325</strong>
+            </div>
+            <div class="flex justify-between border-t border-slate-800 pt-2">
+              <span class="text-slate-400">報稅 8.5% 股利可抵減稅額 (節稅紅利)</span>
+              <strong id="div-res-credit" class="text-amber-400 font-mono">+NT$ 2,720</strong>
+            </div>
+            <div id="div-res-tip" class="text-[11px] text-sky-300 bg-sky-950/30 p-2 rounded border border-sky-900/40">
+              💡 若欲避開 2.11% 二代健保補充保費，單次除息張數需控制在 1.2 張 (1,249股) 以下。
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Historical Dividend & Fill Speed Table -->
+        <div class="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-clock-rotate-left text-emerald-400"></i> 貨櫃三雄歷年除權息與填息效率總表 (2022–2026)
+            </h3>
+            <span class="text-[11px] text-slate-400">單位：元 / 天</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-950/70 text-slate-400 border-b border-slate-800">
+                  <th class="py-2.5 px-3">年度</th>
+                  <th class="py-2.5 px-3 text-emerald-400">長榮 (2603) 配息 / 填息</th>
+                  <th class="py-2.5 px-3 text-blue-400">陽明 (2609) 配息 / 填息</th>
+                  <th class="py-2.5 px-3 text-purple-400">萬海 (2615) 配息 / 填息</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/80 font-mono text-[11px]">
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">2026</td>
+                  <td class="py-2.5 px-3">16.0元 / <span class="text-emerald-400">12日填息</span></td>
+                  <td class="py-2.5 px-3">2.0元 / <span class="text-emerald-400">8日填息</span></td>
+                  <td class="py-2.5 px-3">3.0元 / <span class="text-emerald-400">14日填息</span></td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">2025</td>
+                  <td class="py-2.5 px-3">32.5元 / <span class="text-amber-300">28日填息</span></td>
+                  <td class="py-2.5 px-3">7.5元 / <span class="text-amber-300">45日填息</span></td>
+                  <td class="py-2.5 px-3">3.5元 / <span class="text-amber-300">19日填息</span></td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">2024</td>
+                  <td class="py-2.5 px-3">10.0元 / <span class="text-emerald-400">2日速填</span></td>
+                  <td class="py-2.5 px-3">2.0元 / <span class="text-emerald-400">1日秒填</span></td>
+                  <td class="py-2.5 px-3">1.5元 / <span class="text-emerald-400">1日秒填</span></td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">2023</td>
+                  <td class="py-2.5 px-3">70.0元 / <span class="text-slate-400">約半年填息</span></td>
+                  <td class="py-2.5 px-3">20.0元 / <span class="text-slate-400">貼息後反彈</span></td>
+                  <td class="py-2.5 px-3">5.0元 / <span class="text-amber-300">38日填息</span></td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">2022</td>
+                  <td class="py-2.5 px-3">18.0元 (含減資)</td>
+                  <td class="py-2.5 px-3">20.0元 / <span class="text-slate-400">景氣反轉</span></td>
+                  <td class="py-2.5 px-3">10.5元 + 1.5股</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+              <strong class="text-emerald-400 block mb-1">📌 參與除息實戰訣竅</strong>
+              <p class="text-[11px] text-slate-400 leading-relaxed">當 SCFI 運價處於上升趨勢且股價在淨值附近（PB &lt; 1.0x）時，通常能快速填息；反之高殖利率若伴隨運價下滑，應慎防「賺了股息、賠了價差」。</p>
+            </div>
+            <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+              <strong class="text-amber-400 block mb-1">📌 高股息 ETF 買盤效應</strong>
+              <p class="text-[11px] text-slate-400 leading-relaxed">每年 5 月與 12 月高股息 ETF 換股期間，長榮與陽明常因高殖利率入選成分股而獲得被動投信資金大幅買進。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 9: TECHNICALS & CHIPS (技術與籌碼面 - NEW) -->
+    <!-- ========================================== -->
+    <div id="tab-technicals" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-emerald-950/35 via-slate-900 to-cyan-950/35 border border-slate-800 rounded-xl p-6">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <i class="fa-solid fa-wave-square mr-1"></i> 即時技術指標與法人籌碼
+            </span>
+            <h2 class="text-xl font-black text-white mt-1.5">均線位階 (5MA / 20MA / 60MA / 240MA)、RSI 與三大法人動向</h2>
+            <p class="text-xs text-slate-400 mt-1">自動依過去 1 年真實日 K 線與證交所 T86 資料計算乖離率、強弱指標與外資投信買賣超</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical Matrix Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="tech-cards-container">
+        <div class="bg-slate-900/90 border border-emerald-900/50 rounded-xl p-4 space-y-2 text-xs" id="tech-card-2603">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <strong class="text-emerald-400 text-sm">長榮 (2603) 技術透視</strong>
+            <span class="text-slate-400 font-mono">載入中...</span>
+          </div>
+        </div>
+        <div class="bg-slate-900/90 border border-blue-900/50 rounded-xl p-4 space-y-2 text-xs" id="tech-card-2609">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <strong class="text-blue-400 text-sm">陽明 (2609) 技術透視</strong>
+            <span class="text-slate-400 font-mono">載入中...</span>
+          </div>
+        </div>
+        <div class="bg-slate-900/90 border border-purple-900/50 rounded-xl p-4 space-y-2 text-xs" id="tech-card-2615">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <strong class="text-purple-400 text-sm">萬海 (2615) 技術透視</strong>
+            <span class="text-slate-400 font-mono">載入中...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two Charts: MA Position Chart & Institutional Flows Bar Chart -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <h3 class="text-sm font-bold text-white mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-bars-staggered text-emerald-400"></i> 三雄現價與各期均線乖離率 (%) 對照
+          </h3>
+          <p class="text-xs text-slate-400 mb-3">正值代表股價站上均線（多方強勢）；負值代表跌破均線回測支撐</p>
+          <div class="h-64 w-full relative">
+            <canvas id="techMaChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <h3 class="text-sm font-bold text-white mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-building-columns text-amber-400"></i> 三大法人單日買賣超張數對比 (外資 / 投信 / 自營商)
+          </h3>
+          <p class="text-xs text-slate-400 mb-3">直接對比長榮、陽明、萬海與台積電 (2330) 最新籌碼流向</p>
+          <div class="h-64 w-full relative">
+            <canvas id="techInstChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 10: MACRO FX & BULK (匯率與散裝對比 - NEW) -->
+    <!-- ========================================== -->
+    <div id="tab-macro" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-cyan-950/35 via-slate-900 to-blue-950/35 border border-slate-800 rounded-xl p-6">
+        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+          <i class="fa-solid fa-globe mr-1"></i> 總體經濟與航運次產業對照
+        </span>
+        <h2 class="text-xl font-black text-white mt-1.5">新台幣匯率 (USD/TWD) 匯兌敏感度 & 貨櫃 vs 散裝航運百科</h2>
+        <p class="text-xs text-slate-400 mt-1">航商運費以美元計價且帳上美元現金部位龐大，匯率波動直接牽動單季業外匯兌損益</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- FX Sensitivity Simulator -->
+        <div class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-money-bill-transfer text-cyan-400"></i> USD/TWD 匯率對三雄單季 EPS 影響試算
+          </h3>
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between">
+              <label for="fx-rate-slider" class="text-slate-300 font-semibold">台幣兌美元匯率預期：</label>
+              <span id="fx-rate-val" class="font-mono font-bold text-cyan-400 text-sm">32.20 元</span>
+            </div>
+            <input type="range" id="fx-rate-slider" min="29.5" max="34.0" step="0.1" value="32.2" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+            <div class="flex justify-between text-[10px] text-slate-500">
+              <span>29.5 (台幣強升/匯損壓力)</span>
+              <span>32.0 (基準)</span>
+              <span>34.0 (台幣重貶/匯兌大賺)</span>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-xs bg-slate-950/90 p-3.5 rounded-lg border border-slate-800">
+            <div class="flex justify-between">
+              <span class="text-emerald-400 font-bold">長榮 (2603) 匯兌 EPS 貢獻</span>
+              <strong id="fx-2603-impact" class="font-mono text-rose-400">+0.18 元 / 季</strong>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-blue-400 font-bold">陽明 (2609) 匯兌 EPS 貢獻</span>
+              <strong id="fx-2609-impact" class="font-mono text-rose-400">+0.12 元 / 季</strong>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-purple-400 font-bold">萬海 (2615) 匯兌 EPS 貢獻</span>
+              <strong id="fx-2615-impact" class="font-mono text-rose-400">+0.10 元 / 季</strong>
+            </div>
+            <p id="fx-summary-note" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2 leading-relaxed">
+              台幣每貶值 1%，三雄美元資產與營收換算台幣約可額外貢獻單季稅前獲利 2%~4%。
+            </p>
+          </div>
+        </div>
+
+        <!-- Container vs Bulk Shipping Comparison -->
+        <div class="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-ship text-blue-400"></i> 投資人必懂：貨櫃航運 vs 散裝航運 (BDI) 關鍵差異
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-950/70 text-slate-400 border-b border-slate-800">
+                  <th class="py-2.5 px-3">比較項目</th>
+                  <th class="py-2.5 px-3 text-emerald-400">貨櫃航運 (定期船)</th>
+                  <th class="py-2.5 px-3 text-amber-400">散裝航運 (不定期船)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/80 text-[11px]">
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">台灣代表股</td>
+                  <td class="py-2.5 px-3 text-slate-200">長榮 (2603)、陽明 (2609)、萬海 (2615)</td>
+                  <td class="py-2.5 px-3 text-slate-200">裕民 (2606)、慧洋-KY (2637)、新興 (2605)</td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">主要載運貨物</td>
+                  <td class="py-2.5 px-3 text-slate-300">消費品、電子零組件、服飾家電、工業製品</td>
+                  <td class="py-2.5 px-3 text-slate-300">鐵礦砂、煤炭、穀物、鋼材等大宗原物料</td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">核心追蹤指數</td>
+                  <td class="py-2.5 px-3 text-emerald-400 font-mono">SCFI / CCFI / WCI</td>
+                  <td class="py-2.5 px-3 text-amber-400 font-mono">BDI / BCI (海岬型) / BPI</td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">市場結構與聯盟</td>
+                  <td class="py-2.5 px-3 text-slate-300">高度寡占，三大航運聯盟掌控 80%+ 運力</td>
+                  <td class="py-2.5 px-3 text-slate-300">完全競爭市場，無聯盟，極度受中國基建與烏俄/南美糧食影響</td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-3 font-bold text-white">旺季與週期特徵</td>
+                  <td class="py-2.5 px-3 text-slate-300">Q3 歐美開學/聖誕補庫存旺季、農曆年前拉貨</td>
+                  <td class="py-2.5 px-3 text-slate-300">Q2/Q4 南美與北美穀物收成季、冬季煤炭補庫</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 11: CHECKLIST & NOTES (進場檢核與筆記 - NEW) -->
+    <!-- ========================================== -->
+    <div id="tab-checklist" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-purple-950/35 via-slate-900 to-indigo-950/35 border border-slate-800 rounded-xl p-6">
+        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+          <i class="fa-solid fa-clipboard-check mr-1"></i> 紀律交易護航系統
+        </span>
+        <h2 class="text-xl font-black text-white mt-1.5">買進前 8 大紀律檢核清單 & 個人操盤筆記本</h2>
+        <p class="text-xs text-slate-400 mt-1">買進週期股最忌諱情緒追高！每次下單前請先逐項勾選檢核，所有筆記自動儲存於您的本機瀏覽器</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left: 8-Point Pre-Trade Checklist -->
+        <div class="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-list-check text-purple-400"></i> 進場把握度 8 大檢核表
+            </h3>
+            <span id="checklist-score-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">
+              當前把握度：50% (4/8 項)
+            </span>
+          </div>
+
+          <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div id="checklist-progress-bar" class="h-full bg-gradient-to-r from-blue-500 to-emerald-400 transition-all duration-300" style="width: 50%"></div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+            <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
+              <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500" checked>
+              <span><strong class="text-white block">1. SCFI 運價守穩 1,500 點以上</strong><span class="text-[10px] text-slate-400">確保航商本業維持穩定高毛利</span></span>
+            </label>
+            <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
+              <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500" checked>
+              <span><strong class="text-white block">2. 紅海危機仍維持好望角繞道</strong><span class="text-[10px] text-slate-400">220萬 TEU 運力持續鎖定中</span></span>
+            </label>
+            <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
+              <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500" checked>
+              <span><strong class="text-white block">3. 股價淨值比 PB 低於 1.1x</strong><span class="text-[10px] text-slate-400">具備資產清算保護傘，不追過熱區</span></span>
+            </label>
+            <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
+              <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500" checked>
+              <span><strong class="text-white block">4. RSI(14) 未超過 70 過熱區</strong><span class="text-[10px] text-slate-400">買黑不買紅，避免追在短線噴出尖端</span></span>
+            </label>
+            <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
+              <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500">
+              <span><strong class="text-white block">5. 外資與投信近期由賣轉買</strong><span class="text-[10px] text-slate-400">三大法人合計呈現淨買超方向</span></span>
+            </label>
+            <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
+              <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500">
+              <span><strong class="text-white block">6. 已預留 30% 以上分批加碼金</strong><span class="text-[10px] text-slate-400">不一次重押單點，分 2~3 批低接</span></span>
+            </label>
+            <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
+              <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500">
+              <span><strong class="text-white block">7. 確認目標停利價與移動停損點</strong><span class="text-[10px] text-slate-400">跌破季線或紅海復航立即執行紀律</span></span>
+            </label>
+            <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
+              <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500">
+              <span><strong class="text-white block">8. 預估現金殖利率大於 6%</strong><span class="text-[10px] text-slate-400">即使短期套牢也有高配息護城河</span></span>
+            </label>
+          </div>
+
+          <div id="checklist-verdict-box" class="text-xs p-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-300">
+            <strong>決策建議：</strong>目前符合半數條件，適合小額試單或等待回測強力買進區再行加碼。
+          </div>
+        </div>
+
+        <!-- Right: Personal Trading Journal (localStorage) -->
+        <div class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-xl p-5 flex flex-col justify-between space-y-3">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-pen-to-square text-sky-400"></i> 我的操盤觀察筆記（自動存檔）
+              </h3>
+              <span id="notes-save-status" class="text-[10px] text-emerald-400">已同步本機</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mb-3">記錄您看好的進場價、法說會重點、或每次交易檢討，重開網頁仍會保留</p>
+            <textarea id="trading-notes-area" rows="10" placeholder="例如：&#10;- 長榮 250 元以下分批接，目標看 310 元。&#10;- 陽明 PB 0.62x 超跌，盯緊每週五 SCFI 歐洲線運價。&#10;- 警訊：若紅海確認停火立即停利一半。" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 placeholder-slate-600 leading-relaxed focus:outline-none focus:border-sky-500"></textarea>
+          </div>
+          <div class="flex justify-between items-center pt-2 border-t border-slate-800 text-[11px]">
+            <span class="text-slate-500">資料僅儲存於您的個人瀏覽器中</span>
+            <button id="clear-notes-btn" class="text-slate-400 hover:text-rose-400 transition">清空筆記</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -2007,6 +2403,6 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261110e"></script>
+  <script src="app.js?v=20261110f"></script>
 </body>
 </html>
