@@ -42,17 +42,36 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ========================================================
    0. LOAD LIVE EXTERNAL DATA (FROM latest_data.json)
    ======================================================== */
-async function loadLiveExternalData() {
+function formatLocalTimestamp(date = new Date()) {
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+}
+
+function setUpdateTimestamp(timestampText, highlight = false) {
+  liveMarketData.lastUpdated = timestampText;
+  const timeElem = document.getElementById('last-update-time');
+  if (!timeElem) return;
+  timeElem.textContent = timestampText;
+  if (highlight) {
+    timeElem.classList.add('text-cyan-300', 'font-semibold');
+    setTimeout(() => {
+      timeElem.classList.remove('text-cyan-300', 'font-semibold');
+    }, 900);
+  }
+}
+
+async function loadLiveExternalData(options = {}) {
+  const { useCurrentTime = false } = options;
   try {
-    const res = await fetch(`latest_data.json?t=${new Date().getTime()}`);
+    const res = await fetch(`latest_data.json?t=${new Date().getTime()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const data = await res.json();
     
-    // Update live timestamp
-    if (data.last_updated) {
-      liveMarketData.lastUpdated = data.last_updated;
-      const timeElem = document.getElementById('last-update-time');
-      if (timeElem) timeElem.textContent = data.last_updated;
+    // Update live timestamp (keep manual click time when triggered via refresh button)
+    if (useCurrentTime) {
+      setUpdateTimestamp(formatLocalTimestamp(new Date()), true);
+    } else if (data.last_updated) {
+      setUpdateTimestamp(data.last_updated, false);
     }
 
     // Helper for stock ticker update
@@ -1267,10 +1286,12 @@ function initTickerUpdater() {
 
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
-      refreshBtn.querySelector('i').classList.add('fa-spin');
-      loadLiveExternalData().finally(() => {
+      const icon = refreshBtn.querySelector('i');
+      if (icon) icon.classList.add('fa-spin');
+      setUpdateTimestamp(formatLocalTimestamp(new Date()), true);
+      loadLiveExternalData({ useCurrentTime: true }).finally(() => {
         setTimeout(() => {
-          refreshBtn.querySelector('i').classList.remove('fa-spin');
+          if (icon) icon.classList.remove('fa-spin');
         }, 500);
       });
     });
