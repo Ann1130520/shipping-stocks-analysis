@@ -111,7 +111,7 @@
 
       <!-- Row 2: Taiwan Benchmark Stocks (2330 & 0050) + Update Timestamp -->
       <div class="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-800/70">
-        <div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-0.5">
+        <div id="benchmark-row-content" class="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-0.5 w-full md:w-auto">
           <span class="inline-flex items-center gap-1 font-bold text-amber-400 text-[11px] shrink-0">
             <i class="fa-solid fa-star text-[10px]"></i> 台股權值指標
           </span>
@@ -136,6 +136,9 @@
         </div>
       <div class="flex items-center gap-2 shrink-0">
         <span class="text-[11px] text-slate-400">更新: <span id="last-update-time">2026-11-10 21:57</span></span>
+        <button id="toggle-benchmark-bar" class="md:hidden px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white text-[10px] border border-slate-700 transition">
+          收合基準
+        </button>
         <button id="refresh-data-btn" class="p-1.5 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition" title="重新整理最新數據">
           <i class="fa-solid fa-arrows-rotate"></i>
         </button>
@@ -240,7 +243,7 @@
                 <span class="w-3.5 h-3.5 rounded-full bg-emerald-500"></span>
                 <h3 class="font-bold text-white text-base">長榮 (2603)</h3>
               </div>
-              <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              <span id="signals-2603-badge" class="px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
                 🟢 逢低買進 / 續抱
               </span>
             </div>
@@ -249,12 +252,19 @@
             <div class="py-3 flex items-baseline justify-between">
               <div>
                 <span class="text-xs text-slate-400">即時現價</span>
-                <div class="text-2xl font-black text-white font-mono">NT$ 266.5</div>
+                <div id="signals-2603-price" class="text-2xl font-black text-white font-mono">NT$ 255.5</div>
               </div>
               <div class="text-right">
-                <span class="text-xs text-slate-400">潛在殖利率</span>
-                <div class="text-lg font-bold text-amber-400 font-mono">約 8.5%</div>
+                <span class="text-xs text-slate-400">官方殖利率 / PB</span>
+                <div id="signals-2603-metric" class="text-sm font-bold text-amber-400 font-mono">6.26% / PB 0.99x</div>
               </div>
+            </div>
+
+            <!-- Technical & Institutional Mini Box -->
+            <div id="signals-2603-tech-inst" class="grid grid-cols-2 gap-2 text-[11px] bg-slate-950/70 p-2.5 rounded-lg border border-slate-800 mb-2">
+              <div><span class="text-slate-400">20MA月線:</span> <strong class="text-white font-mono">261.05</strong></div>
+              <div><span class="text-slate-400">RSI(14):</span> <strong class="text-amber-300 font-mono">50.5</strong></div>
+              <div class="col-span-2 text-slate-300 border-t border-slate-800/80 pt-1">三大法人: <strong class="text-rose-400 font-mono">+159張</strong></div>
             </div>
 
             <!-- Price Zones Ladder -->
@@ -298,7 +308,7 @@
                 <span class="w-3.5 h-3.5 rounded-full bg-blue-500"></span>
                 <h3 class="font-bold text-white text-base">陽明 (2609)</h3>
               </div>
-              <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40">
+              <span id="signals-2609-badge" class="px-2.5 py-0.5 rounded text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40">
                 🟢 深度折價 / 買進
               </span>
             </div>
@@ -307,12 +317,19 @@
             <div class="py-3 flex items-baseline justify-between">
               <div>
                 <span class="text-xs text-slate-400">即時現價</span>
-                <div class="text-2xl font-black text-white font-mono">NT$ 62.1</div>
+                <div id="signals-2609-price" class="text-2xl font-black text-white font-mono">NT$ 58.2</div>
               </div>
               <div class="text-right">
-                <span class="text-xs text-slate-400">淨值折價比 (PB)</span>
-                <div class="text-lg font-bold text-blue-400 font-mono">0.70x (極度偏低)</div>
+                <span class="text-xs text-slate-400">官方殖利率 / PB</span>
+                <div id="signals-2609-metric" class="text-sm font-bold text-blue-400 font-mono">3.44% / PB 0.62x</div>
               </div>
+            </div>
+
+            <!-- Technical & Institutional Mini Box -->
+            <div id="signals-2609-tech-inst" class="grid grid-cols-2 gap-2 text-[11px] bg-slate-950/70 p-2.5 rounded-lg border border-slate-800 mb-2">
+              <div><span class="text-slate-400">20MA月線:</span> <strong class="text-white font-mono">62.08</strong></div>
+              <div><span class="text-slate-400">RSI(14):</span> <strong class="text-amber-300 font-mono">40.4</strong></div>
+              <div class="col-span-2 text-slate-300 border-t border-slate-800/80 pt-1">三大法人: <strong class="text-rose-400 font-mono">+167張</strong></div>
             </div>
 
             <!-- Price Zones Ladder -->
@@ -356,7 +373,7 @@
                 <span class="w-3.5 h-3.5 rounded-full bg-purple-500"></span>
                 <h3 class="font-bold text-white text-base">萬海 (2615)</h3>
               </div>
-              <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              <span id="signals-2615-badge" class="px-2.5 py-0.5 rounded text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
                 🟡 區間操作 / 震盪觀察
               </span>
             </div>
@@ -365,12 +382,19 @@
             <div class="py-3 flex items-baseline justify-between">
               <div>
                 <span class="text-xs text-slate-400">即時現價</span>
-                <div class="text-2xl font-black text-white font-mono">NT$ 115.5</div>
+                <div id="signals-2615-price" class="text-2xl font-black text-white font-mono">NT$ 111.5</div>
               </div>
               <div class="text-right">
-                <span class="text-xs text-slate-400">股性特徵</span>
-                <div class="text-lg font-bold text-purple-400 font-mono">高Beta • 爆發力強</div>
+                <span class="text-xs text-slate-400">官方殖利率 / PB</span>
+                <div id="signals-2615-metric" class="text-sm font-bold text-purple-400 font-mono">2.69% / PB 1.08x</div>
               </div>
+            </div>
+
+            <!-- Technical & Institutional Mini Box -->
+            <div id="signals-2615-tech-inst" class="grid grid-cols-2 gap-2 text-[11px] bg-slate-950/70 p-2.5 rounded-lg border border-slate-800 mb-2">
+              <div><span class="text-slate-400">20MA月線:</span> <strong class="text-white font-mono">116.92</strong></div>
+              <div><span class="text-slate-400">RSI(14):</span> <strong class="text-amber-300 font-mono">45.4</strong></div>
+              <div class="col-span-2 text-slate-300 border-t border-slate-800/80 pt-1">三大法人: <strong class="text-rose-400 font-mono">+315張</strong></div>
             </div>
 
             <!-- Price Zones Ladder -->
@@ -406,6 +430,94 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- Personal Portfolio P&L Tracker (我的持股損益試算 - NEW) -->
+      <div class="bg-slate-900/90 border border-indigo-900/50 rounded-xl p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-wallet text-indigo-400"></i>
+              我的航運持股損益與出場距離試算（自動儲存於本機）
+            </h3>
+            <p class="text-[11px] text-slate-400 mt-0.5">輸入您的買進均價與持有張數，自動結合即時股價計算未實現損益、預估年領股息與目標距離</p>
+          </div>
+          <button id="reset-portfolio-btn" class="text-[11px] text-slate-400 hover:text-white px-2.5 py-1 rounded bg-slate-800 border border-slate-700 self-start sm:self-auto transition">
+            清空持股設定
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <!-- 2603 Portfolio Input -->
+          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-emerald-900/40 space-y-2.5">
+            <div class="font-bold text-emerald-400 flex justify-between">
+              <span>長榮 (2603)</span>
+              <span class="text-slate-400 font-mono" id="pf-2603-cur">現價 255.5</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">買進均價 (元)</label>
+                <input type="number" step="0.5" min="0" id="pf-2603-cost" placeholder="例如 220" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-emerald-500">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">持有張數 (張)</label>
+                <input type="number" step="0.1" min="0" id="pf-2603-lots" placeholder="例如 2" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-emerald-500">
+              </div>
+            </div>
+            <div id="pf-2603-result" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
+              輸入均價與張數後自動計算損益
+            </div>
+          </div>
+
+          <!-- 2609 Portfolio Input -->
+          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-blue-900/40 space-y-2.5">
+            <div class="font-bold text-blue-400 flex justify-between">
+              <span>陽明 (2609)</span>
+              <span class="text-slate-400 font-mono" id="pf-2609-cur">現價 58.2</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">買進均價 (元)</label>
+                <input type="number" step="0.1" min="0" id="pf-2609-cost" placeholder="例如 60" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-blue-500">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">持有張數 (張)</label>
+                <input type="number" step="0.1" min="0" id="pf-2609-lots" placeholder="例如 5" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+            <div id="pf-2609-result" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
+              輸入均價與張數後自動計算損益
+            </div>
+          </div>
+
+          <!-- 2615 Portfolio Input -->
+          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-purple-900/40 space-y-2.5">
+            <div class="font-bold text-purple-400 flex justify-between">
+              <span>萬海 (2615)</span>
+              <span class="text-slate-400 font-mono" id="pf-2615-cur">現價 111.5</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">買進均價 (元)</label>
+                <input type="number" step="0.5" min="0" id="pf-2615-cost" placeholder="例如 105" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-purple-500">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">持有張數 (張)</label>
+                <input type="number" step="0.1" min="0" id="pf-2615-lots" placeholder="例如 3" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-purple-500">
+              </div>
+            </div>
+            <div id="pf-2615-result" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
+              輸入均價與張數後自動計算損益
+            </div>
+          </div>
+        </div>
+
+        <!-- Portfolio Grand Total Summary -->
+        <div id="pf-total-summary" class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs">
+          <span class="text-slate-400">總投入成本: <strong id="pf-total-cost" class="text-white font-mono">NT$ 0</strong></span>
+          <span class="text-slate-400">目前總市值: <strong id="pf-total-value" class="text-white font-mono">NT$ 0</strong></span>
+          <span class="text-slate-400">合計未實現損益: <strong id="pf-total-pnl" class="text-slate-300 font-mono">NT$ 0 (0.0%)</strong></span>
+        </div>
       </div>
 
       <!-- Critical Selling / Stop-Loss Triggers (何時該賣出的關鍵警訊) -->
@@ -464,19 +576,20 @@
             <span class="text-[10px] bg-emerald-900/40 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-700/50">海洋聯盟 • 遠洋龍頭</span>
           </div>
           <div class="flex items-baseline justify-between">
-            <div>
-              <span class="text-2xl font-black text-white font-mono" id="overview-2603-price">266.5</span>
-              <span class="text-emerald-400 text-xs font-semibold ml-1">-2.91%</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-2xl font-black text-white font-mono" id="overview-2603-price">255.5</span>
+              <span id="overview-2603-change" class="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30">+4.07%</span>
             </div>
             <div class="text-right">
-              <span class="text-[11px] text-slate-400">預估2025 EPS</span>
-              <div class="text-sm font-bold text-emerald-400 font-mono">42 ~ 46 元</div>
+              <span class="text-[11px] text-slate-400">20MA 月線 / RSI</span>
+              <div id="overview-2603-tech" class="text-xs font-bold text-slate-200 font-mono">261.1 / 50.5</div>
             </div>
           </div>
           <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/80 pt-2">
-            <span>本益比: <strong class="text-white">5.8x</strong></span>
-            <span>淨值: <strong class="text-white">255元</strong></span>
-            <span>殖利率: <strong class="text-amber-400">8.5%</strong></span>
+            <span>PE: <strong id="overview-2603-pe" class="text-white">10.1x</strong></span>
+            <span>PB: <strong id="overview-2603-pb" class="text-white">0.99x</strong></span>
+            <span>殖利率: <strong id="overview-2603-yield" class="text-amber-400">6.26%</strong></span>
+            <span>法人: <strong id="overview-2603-inst" class="text-rose-400 font-mono">+159張</strong></span>
           </div>
         </div>
 
@@ -489,19 +602,20 @@
             <span class="text-[10px] bg-blue-900/40 text-blue-300 px-1.5 py-0.5 rounded border border-blue-700/50">Premier卓越 • 歐洲主力</span>
           </div>
           <div class="flex items-baseline justify-between">
-            <div>
-              <span class="text-2xl font-black text-white font-mono" id="overview-2609-price">62.1</span>
-              <span class="text-emerald-400 text-xs font-semibold ml-1">-2.97%</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-2xl font-black text-white font-mono" id="overview-2609-price">58.2</span>
+              <span id="overview-2609-change" class="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30">+1.22%</span>
             </div>
             <div class="text-right">
-              <span class="text-[11px] text-slate-400">預估2025 EPS</span>
-              <div class="text-sm font-bold text-blue-400 font-mono">13.5 ~ 15.5 元</div>
+              <span class="text-[11px] text-slate-400">20MA 月線 / RSI</span>
+              <div id="overview-2609-tech" class="text-xs font-bold text-slate-200 font-mono">62.1 / 40.4</div>
             </div>
           </div>
           <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/80 pt-2">
-            <span>本益比: <strong class="text-white">4.6x</strong></span>
-            <span>淨值: <strong class="text-white">88元 (PB 0.7x)</strong></span>
-            <span>殖利率: <strong class="text-amber-400">7.8%</strong></span>
+            <span>PE: <strong id="overview-2609-pe" class="text-white">13.1x</strong></span>
+            <span>PB: <strong id="overview-2609-pb" class="text-blue-300">0.62x</strong></span>
+            <span>殖利率: <strong id="overview-2609-yield" class="text-amber-400">3.44%</strong></span>
+            <span>法人: <strong id="overview-2609-inst" class="text-rose-400 font-mono">+167張</strong></span>
           </div>
         </div>
 
@@ -514,34 +628,41 @@
             <span class="text-[10px] bg-purple-900/40 text-purple-300 px-1.5 py-0.5 rounded border border-purple-700/50">近洋王者 • 美西現貨</span>
           </div>
           <div class="flex items-baseline justify-between">
-            <div>
-              <span class="text-2xl font-black text-white font-mono" id="overview-2615-price">115.5</span>
-              <span class="text-emerald-400 text-xs font-semibold ml-1">-3.35%</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-2xl font-black text-white font-mono" id="overview-2615-price">111.5</span>
+              <span id="overview-2615-change" class="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30">+4.21%</span>
             </div>
             <div class="text-right">
-              <span class="text-[11px] text-slate-400">預估2025 EPS</span>
-              <div class="text-sm font-bold text-purple-400 font-mono">18.5 ~ 22 元</div>
+              <span class="text-[11px] text-slate-400">20MA 月線 / RSI</span>
+              <div id="overview-2615-tech" class="text-xs font-bold text-slate-200 font-mono">116.9 / 45.4</div>
             </div>
           </div>
           <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/80 pt-2">
-            <span>本益比: <strong class="text-white">6.2x</strong></span>
-            <span>淨值: <strong class="text-white">102元</strong></span>
-            <span>殖利率: <strong class="text-amber-400">8.0%</strong></span>
+            <span>PE: <strong id="overview-2615-pe" class="text-white">7.7x</strong></span>
+            <span>PB: <strong id="overview-2615-pb" class="text-white">1.08x</strong></span>
+            <span>殖利率: <strong id="overview-2615-yield" class="text-amber-400">2.69%</strong></span>
+            <span>法人: <strong id="overview-2615-inst" class="text-rose-400 font-mono">+315張</strong></span>
           </div>
         </div>
 
-        <!-- Card 4: 運價與油價差綜合指標 -->
+        <!-- Card 4: 運價與布蘭特原油指標 -->
         <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 relative overflow-hidden group hover:border-slate-700 transition">
           <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
-            <span>SCFI 運價 / 高低硫油價差</span>
-            <span class="text-emerald-400 text-xs font-mono">三雄各展優勢</span>
+            <span>布蘭特原油 (即時) / SCFI 運價</span>
+            <span class="text-amber-400 text-xs font-mono">油價與成本連動</span>
           </div>
-          <div class="flex items-baseline gap-2">
-            <span class="text-2xl font-black text-amber-400 font-mono">2,235</span>
-            <span class="text-xs text-slate-400">點 (油價差: <strong class="text-white font-mono">$128</strong>/噸)</span>
+          <div class="flex items-baseline justify-between">
+            <div>
+              <span class="text-2xl font-black text-amber-400 font-mono" id="overview-brent-price">$89.56</span>
+              <span id="overview-brent-change" class="text-xs font-mono text-slate-300 ml-1">/桶</span>
+            </div>
+            <div class="text-right">
+              <span class="text-[11px] text-slate-400">SCFI 參考 / Hi-5</span>
+              <div class="text-xs font-bold text-white font-mono">2,235點 / $128</div>
+            </div>
           </div>
-          <div class="mt-3 text-xs text-slate-300 leading-relaxed">
-            長榮享脫硫超額利潤；陽明吃歐洲線溢價；萬海受惠亞洲區間貿易與美西強勁運量。
+          <div class="mt-3 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80 pt-2">
+            高油價推升高低硫油價差，配備高比例脫硫塔之航商成本優勢更顯著。
           </div>
         </div>
       </div>
@@ -595,25 +716,35 @@
           </button>
 
           <span class="text-slate-600">|</span>
+
+          <button data-dataset-index="3" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-cyan-500/50 bg-cyan-500/20 text-cyan-300 font-medium flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span> 台積電 (2330)
+          </button>
+
+          <button data-dataset-index="4" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-yellow-500/50 bg-yellow-500/20 text-yellow-300 font-medium flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-yellow-400"></span> 台灣50 (0050)
+          </button>
+
+          <span class="text-slate-600">|</span>
           
-          <button data-dataset-index="3" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-rose-500/50 bg-rose-500/20 text-rose-300 font-medium flex items-center gap-1.5">
+          <button data-dataset-index="5" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-rose-500/50 bg-rose-500/20 text-rose-300 font-medium flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-rose-400"></span> 🇹🇼 台股大盤
           </button>
           
-          <button data-dataset-index="4" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-amber-500/50 bg-amber-500/20 text-amber-300 font-medium flex items-center gap-1.5">
+          <button data-dataset-index="6" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-amber-500/50 bg-amber-500/20 text-amber-300 font-medium flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-amber-400"></span> 🇺🇸 美國S&P500
           </button>
           
-          <button data-dataset-index="5" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-pink-500/50 bg-pink-500/20 text-pink-300 font-medium flex items-center gap-1.5">
+          <button data-dataset-index="7" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-pink-500/50 bg-pink-500/20 text-pink-300 font-medium flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-pink-400"></span> 🇯🇵 日本日經225
           </button>
           
-          <button data-dataset-index="6" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-teal-500/50 bg-teal-500/20 text-teal-300 font-medium flex items-center gap-1.5">
+          <button data-dataset-index="8" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-teal-500/50 bg-teal-500/20 text-teal-300 font-medium flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-teal-400"></span> 🇪🇺 歐洲STOXX50
           </button>
 
-          <button data-dataset-index="7" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-orange-500/50 bg-orange-500/20 text-orange-300 font-medium flex items-center gap-1.5">
-            <span class="w-2 h-0.5 bg-orange-400"></span> SCFI運價指數
+          <button data-dataset-index="9" class="chart-toggle-chip active px-2.5 py-1 rounded-full border border-orange-500/50 bg-orange-500/20 text-orange-300 font-medium flex items-center gap-1.5">
+            <span class="w-2 h-0.5 bg-orange-400"></span> SCFI運價 (週期)
           </button>
         </div>
 
@@ -790,17 +921,17 @@
               <!-- Row 6: Valuation -->
               <tr class="hover:bg-slate-850/50 transition">
                 <td class="py-3 px-3 font-medium text-slate-300">
-                  <span class="font-bold">評價倍數與股利</span>
-                  <div class="text-[10px] text-slate-500">現價 / PE / 殖利率</div>
+                  <span class="font-bold">即時評價倍數與殖利率</span>
+                  <div class="text-[10px] text-slate-500">證交所官方 PE / PB / 殖利率</div>
                 </td>
-                <td class="py-3 px-3 font-mono text-slate-200 bg-emerald-950/5">
-                  股價 <strong class="text-white">266.5元</strong> | PE 5.8x | 殖利率 ~8.5%
+                <td id="comp-2603-val" class="py-3 px-3 font-mono text-slate-200 bg-emerald-950/5">
+                  現價 <strong class="text-white">255.5元</strong> | PE 10.1x | PB 0.99x | 殖利率 6.26%
                 </td>
-                <td class="py-3 px-3 font-mono text-slate-200 bg-blue-950/5">
-                  股價 <strong class="text-white">62.1元</strong> | PE 4.6x | 殖利率 ~7.8%
+                <td id="comp-2609-val" class="py-3 px-3 font-mono text-slate-200 bg-blue-950/5">
+                  現價 <strong class="text-white">58.2元</strong> | PE 13.1x | PB 0.62x | 殖利率 3.44%
                 </td>
-                <td class="py-3 px-3 font-mono text-slate-200 bg-purple-950/5">
-                  股價 <strong class="text-white">115.5元</strong> | PE 6.2x | 殖利率 ~8.0%
+                <td id="comp-2615-val" class="py-3 px-3 font-mono text-slate-200 bg-purple-950/5">
+                  現價 <strong class="text-white">111.5元</strong> | PE 7.7x | PB 1.08x | 殖利率 2.69%
                 </td>
               </tr>
             </tbody>
@@ -842,6 +973,78 @@
             <div><span class="font-bold text-blue-400">陽明:</span> 歐洲線比重高</div>
             <div><span class="font-bold text-purple-400">萬海:</span> 亞洲近洋之王</div>
           </div>
+        </div>
+      </div>
+
+      <!-- Institutional Flows & Dividend Fill History (三大法人籌碼 & 歷年填息紀錄) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Institutional Net Buy/Sell Card -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-building-columns text-amber-400"></i> 三大法人最新籌碼動向 (證交所 T86)
+            </h3>
+            <span id="inst-report-date" class="text-[11px] font-mono text-slate-400">最新交易日</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-950/70 text-slate-400 border-b border-slate-800">
+                  <th class="py-2 px-2">標的</th>
+                  <th class="py-2 px-2 text-right">外資 (張)</th>
+                  <th class="py-2 px-2 text-right">投信 (張)</th>
+                  <th class="py-2 px-2 text-right">自營商 (張)</th>
+                  <th class="py-2 px-2 text-right">三大法人合計</th>
+                </tr>
+              </thead>
+              <tbody id="inst-table-body" class="divide-y divide-slate-800/80 font-mono">
+                <tr><td colspan="5" class="py-4 text-center text-slate-500">載入三大法人數據中...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Dividend & Fill History Card -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-calendar-check text-emerald-400"></i> 貨櫃三雄近三年除息與填息天數對照
+            </h3>
+            <span class="text-[11px] text-slate-400">存股領息必看參考</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-950/70 text-slate-400 border-b border-slate-800">
+                  <th class="py-2 px-2">標的</th>
+                  <th class="py-2 px-2 text-right">2024 配息 / 填息</th>
+                  <th class="py-2 px-2 text-right">2025 配息 / 填息</th>
+                  <th class="py-2 px-2 text-right">2026 配息 / 填息</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/80 font-mono text-[11px]">
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-2 font-sans font-bold text-emerald-400">長榮 (2603)</td>
+                  <td class="py-2.5 px-2 text-right text-slate-200">10.0元 / <span class="text-emerald-400">2日速填</span></td>
+                  <td class="py-2.5 px-2 text-right text-slate-200">32.5元 / <span class="text-amber-300">28日填息</span></td>
+                  <td class="py-2.5 px-2 text-right text-slate-200">16.0元 / <span class="text-emerald-400">12日填息</span></td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-2 font-sans font-bold text-blue-400">陽明 (2609)</td>
+                  <td class="py-2.5 px-2 text-right text-slate-200">2.0元 / <span class="text-emerald-400">1日秒填</span></td>
+                  <td class="py-2.5 px-2 text-right text-slate-200">7.5元 / <span class="text-amber-300">45日填息</span></td>
+                  <td class="py-2.5 px-2 text-right text-slate-200">2.0元 / <span class="text-emerald-400">8日填息</span></td>
+                </tr>
+                <tr class="hover:bg-slate-800/40">
+                  <td class="py-2.5 px-2 font-sans font-bold text-purple-400">萬海 (2615)</td>
+                  <td class="py-2.5 px-2 text-right text-slate-200">1.5元 / <span class="text-emerald-400">1日秒填</span></td>
+                  <td class="py-2.5 px-2 text-right text-slate-200">3.5元 / <span class="text-amber-300">19日填息</span></td>
+                  <td class="py-2.5 px-2 text-right text-slate-200">3.0元 / <span class="text-emerald-400">14日填息</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-[10px] text-slate-500 mt-2">*註：歷史填息速度取決於除息當時運價動能與淨值折價幅度，不代表未來保證填息天數。</p>
         </div>
       </div>
 
@@ -1320,7 +1523,10 @@
             <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
               <p><strong>【核心理論精要】</strong></p>
               <ul class="list-disc list-inside text-slate-400 space-y-1">
-                <li><strong>航運四階段循環模型：</strong>谷底 (Trough) $ightarrow$ 復甦 (Recovery) $ightarrow$ 景氣繁榮 (Peak) $ightarrow$ 產能崩解 (Collapse)。</li>
+                <li><strong>航運四階段循環模型：</strong>谷底 (Trough) $
+ightarrow$ 復甦 (Recovery) $
+ightarrow$ 景氣繁榮 (Peak) $
+ightarrow$ 產能崩解 (Collapse)。</li>
                 <li><strong>造船供給滯後 (Time-Lag)：</strong>造船需耗時 2~3 年，導致需求高峰期訂造的新船往往在景氣反轉時才下水，形成典型「蛛網週期」。</li>
                 <li><strong>外生黑天鵝假說 (The "Joker" Events)：</strong>特別論證蘇伊士運河事件對噸海里（Ton-Mile）需求的爆炸性擴張，徹底顛覆常規供需均衡。</li>
               </ul>
