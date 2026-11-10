@@ -2123,27 +2123,23 @@ function initShipCursor() {
 
   function buildShipCursorUri(ship, isHover = false) {
     const strokeCol = isHover ? '#FACC15' : '#FFFFFF';
-    // 32x32 diagonal container ship SVG; bow points to (3,3) for crisp pointer precision
+    // 32x32 unmistakable side-profile Container Ship with stacked boxes, stern bridge, funnel & waves
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-      <g transform="rotate(-42 16 16)">
-        <!-- Bow wake -->
-        <path d="M16 1 L13 6 M16 1 L19 6" stroke="rgba(186,230,253,0.85)" stroke-width="1.2" stroke-linecap="round"/>
-        <!-- Ship Hull -->
-        <path d="M16 2 L22 10 L22 27 Q16 30 10 27 L10 10 Z" fill="${ship.hull}" stroke="${strokeCol}" stroke-width="1.5" stroke-linejoin="round"/>
-        <!-- Deck -->
-        <path d="M16 4.5 L20.2 10.5 L20.2 25.5 L11.8 25.5 L11.8 10.5 Z" fill="${ship.deck}"/>
-        <!-- Stacked Containers -->
-        <rect x="12.6" y="10" width="3.2" height="4" rx="0.5" fill="${ship.c1}"/>
-        <rect x="16.2" y="10" width="3.2" height="4" rx="0.5" fill="${ship.c2}"/>
-        <rect x="12.6" y="14.6" width="3.2" height="4" rx="0.5" fill="${ship.c3}"/>
-        <rect x="16.2" y="14.6" width="3.2" height="4" rx="0.5" fill="${ship.c1}"/>
-        <rect x="12.6" y="19.2" width="6.8" height="2.6" rx="0.5" fill="${ship.c2}"/>
-        <!-- Bridge -->
-        <rect x="12.2" y="22.4" width="7.6" height="2.6" rx="0.6" fill="#FFFFFF"/>
-        <rect x="13.5" y="23" width="5" height="0.9" fill="#0F172A"/>
-      </g>
+      <circle cx="25.5" cy="4.2" r="1.4" fill="rgba(226,232,240,0.75)"/>
+      <circle cx="28" cy="2.6" r="1.1" fill="rgba(226,232,240,0.5)"/>
+      <rect x="24" y="6" width="3.2" height="4.2" rx="0.5" fill="${ship.hull}" stroke="${strokeCol}" stroke-width="0.9"/>
+      <rect x="21" y="9.2" width="7.8" height="8.5" rx="1" fill="#FFFFFF" stroke="#0F172A" stroke-width="0.8"/>
+      <rect x="22" y="10.8" width="4.6" height="2" rx="0.4" fill="#0F172A"/>
+      <rect x="6.5" y="14.2" width="4.6" height="3.3" rx="0.4" fill="${ship.c1}" stroke="#0F172A" stroke-width="0.6"/>
+      <rect x="11.3" y="14.2" width="4.6" height="3.3" rx="0.4" fill="${ship.c2}" stroke="#0F172A" stroke-width="0.6"/>
+      <rect x="16.1" y="14.2" width="4.4" height="3.3" rx="0.4" fill="${ship.c3}" stroke="#0F172A" stroke-width="0.6"/>
+      <rect x="9" y="10.8" width="4.6" height="3.3" rx="0.4" fill="${ship.c3}" stroke="#0F172A" stroke-width="0.6"/>
+      <rect x="13.8" y="10.8" width="4.6" height="3.3" rx="0.4" fill="${ship.c1}" stroke="#0F172A" stroke-width="0.6"/>
+      <path d="M1.5 17.5 L30.5 17.5 L28.5 24.5 L5.5 24.5 Z" fill="${ship.hull}" stroke="${strokeCol}" stroke-width="1.3" stroke-linejoin="round"/>
+      <line x1="4.4" y1="22.6" x2="29" y2="22.6" stroke="#EF4444" stroke-width="1.3"/>
+      <path d="M2 26.8 Q6 24.8 10 26.8 T18 26.8 T26 26.8 T31 26.2" fill="none" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round"/>
     </svg>`;
-    return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}") 3 3, auto`;
+    return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}") 2 17, auto`;
   }
 
   function applyShipCursor(idx) {
