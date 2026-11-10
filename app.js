@@ -358,7 +358,21 @@ function initTabs() {
       tabContents.forEach(content => {
         if (content.id === `tab-${targetTab}`) {
           content.classList.remove('hidden');
-          window.dispatchEvent(new Event('resize'));
+          requestAnimationFrame(() => {
+            window.dispatchEvent(new Event('resize'));
+            if (targetTab === 'geopolitics') {
+              renderGeoSuezCapeChart();
+              renderGeoBunkerSpreadChart();
+            } else if (targetTab === 'overview') {
+              if (overviewChartInstance) overviewChartInstance.resize();
+            } else if (targetTab === 'comparison') {
+              if (radarChartInstance) radarChartInstance.resize();
+              if (routeChartInstance) routeChartInstance.resize();
+            } else if (targetTab === 'industry') {
+              if (subRouteChartInstance) subRouteChartInstance.resize();
+              if (supplyDemandChartInstance) supplyDemandChartInstance.resize();
+            }
+          });
         } else {
           content.classList.add('hidden');
         }

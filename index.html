@@ -43,7 +43,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261110d">
+  <link rel="stylesheet" href="style.css?v=20261110e">
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-blue-600 selection:text-white">
 
@@ -430,94 +430,6 @@
           </div>
         </div>
 
-      </div>
-
-      <!-- Personal Portfolio P&L Tracker (我的持股損益試算 - NEW) -->
-      <div class="bg-slate-900/90 border border-indigo-900/50 rounded-xl p-5 space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-wallet text-indigo-400"></i>
-              我的航運持股損益與出場距離試算（自動儲存於本機）
-            </h3>
-            <p class="text-[11px] text-slate-400 mt-0.5">輸入您的買進均價與持有張數，自動結合即時股價計算未實現損益、預估年領股息與目標距離</p>
-          </div>
-          <button id="reset-portfolio-btn" class="text-[11px] text-slate-400 hover:text-white px-2.5 py-1 rounded bg-slate-800 border border-slate-700 self-start sm:self-auto transition">
-            清空持股設定
-          </button>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          <!-- 2603 Portfolio Input -->
-          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-emerald-900/40 space-y-2.5">
-            <div class="font-bold text-emerald-400 flex justify-between">
-              <span>長榮 (2603)</span>
-              <span class="text-slate-400 font-mono" id="pf-2603-cur">現價 255.5</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="text-[10px] text-slate-400 block mb-1">買進均價 (元)</label>
-                <input type="number" step="0.5" min="0" id="pf-2603-cost" placeholder="例如 220" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-emerald-500">
-              </div>
-              <div>
-                <label class="text-[10px] text-slate-400 block mb-1">持有張數 (張)</label>
-                <input type="number" step="0.1" min="0" id="pf-2603-lots" placeholder="例如 2" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-emerald-500">
-              </div>
-            </div>
-            <div id="pf-2603-result" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
-              輸入均價與張數後自動計算損益
-            </div>
-          </div>
-
-          <!-- 2609 Portfolio Input -->
-          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-blue-900/40 space-y-2.5">
-            <div class="font-bold text-blue-400 flex justify-between">
-              <span>陽明 (2609)</span>
-              <span class="text-slate-400 font-mono" id="pf-2609-cur">現價 58.2</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="text-[10px] text-slate-400 block mb-1">買進均價 (元)</label>
-                <input type="number" step="0.1" min="0" id="pf-2609-cost" placeholder="例如 60" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-blue-500">
-              </div>
-              <div>
-                <label class="text-[10px] text-slate-400 block mb-1">持有張數 (張)</label>
-                <input type="number" step="0.1" min="0" id="pf-2609-lots" placeholder="例如 5" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-blue-500">
-              </div>
-            </div>
-            <div id="pf-2609-result" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
-              輸入均價與張數後自動計算損益
-            </div>
-          </div>
-
-          <!-- 2615 Portfolio Input -->
-          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-purple-900/40 space-y-2.5">
-            <div class="font-bold text-purple-400 flex justify-between">
-              <span>萬海 (2615)</span>
-              <span class="text-slate-400 font-mono" id="pf-2615-cur">現價 111.5</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="text-[10px] text-slate-400 block mb-1">買進均價 (元)</label>
-                <input type="number" step="0.5" min="0" id="pf-2615-cost" placeholder="例如 105" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-purple-500">
-              </div>
-              <div>
-                <label class="text-[10px] text-slate-400 block mb-1">持有張數 (張)</label>
-                <input type="number" step="0.1" min="0" id="pf-2615-lots" placeholder="例如 3" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-purple-500">
-              </div>
-            </div>
-            <div id="pf-2615-result" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
-              輸入均價與張數後自動計算損益
-            </div>
-          </div>
-        </div>
-
-        <!-- Portfolio Grand Total Summary -->
-        <div id="pf-total-summary" class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs">
-          <span class="text-slate-400">總投入成本: <strong id="pf-total-cost" class="text-white font-mono">NT$ 0</strong></span>
-          <span class="text-slate-400">目前總市值: <strong id="pf-total-value" class="text-white font-mono">NT$ 0</strong></span>
-          <span class="text-slate-400">合計未實現損益: <strong id="pf-total-pnl" class="text-slate-300 font-mono">NT$ 0 (0.0%)</strong></span>
-        </div>
       </div>
 
       <!-- Critical Selling / Stop-Loss Triggers (何時該賣出的關鍵警訊) -->
@@ -1717,9 +1629,96 @@
 
       </div>
 
+      <!-- Personal Portfolio P&L Tracker (我的持股損益試算 - NEW) -->
+      <div class="bg-slate-900/90 border border-indigo-900/50 rounded-xl p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-wallet text-indigo-400"></i>
+              我的航運持股損益與出場距離試算（自動儲存於本機）
+            </h3>
+            <p class="text-[11px] text-slate-400 mt-0.5">輸入您的買進均價與持有張數，自動結合即時股價計算未實現損益、預估年領股息與目標距離</p>
+          </div>
+          <button id="reset-portfolio-btn" class="text-[11px] text-slate-400 hover:text-white px-2.5 py-1 rounded bg-slate-800 border border-slate-700 self-start sm:self-auto transition">
+            清空持股設定
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <!-- 2603 Portfolio Input -->
+          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-emerald-900/40 space-y-2.5">
+            <div class="font-bold text-emerald-400 flex justify-between">
+              <span>長榮 (2603)</span>
+              <span class="text-slate-400 font-mono" id="pf-2603-cur">現價 255.5</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">買進均價 (元)</label>
+                <input type="number" step="0.5" min="0" id="pf-2603-cost" placeholder="例如 220" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-emerald-500">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">持有張數 (張)</label>
+                <input type="number" step="0.1" min="0" id="pf-2603-lots" placeholder="例如 2" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-emerald-500">
+              </div>
+            </div>
+            <div id="pf-2603-result" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
+              輸入均價與張數後自動計算損益
+            </div>
+          </div>
+
+          <!-- 2609 Portfolio Input -->
+          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-blue-900/40 space-y-2.5">
+            <div class="font-bold text-blue-400 flex justify-between">
+              <span>陽明 (2609)</span>
+              <span class="text-slate-400 font-mono" id="pf-2609-cur">現價 58.2</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">買進均價 (元)</label>
+                <input type="number" step="0.1" min="0" id="pf-2609-cost" placeholder="例如 60" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-blue-500">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">持有張數 (張)</label>
+                <input type="number" step="0.1" min="0" id="pf-2609-lots" placeholder="例如 5" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+            <div id="pf-2609-result" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
+              輸入均價與張數後自動計算損益
+            </div>
+          </div>
+
+          <!-- 2615 Portfolio Input -->
+          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-purple-900/40 space-y-2.5">
+            <div class="font-bold text-purple-400 flex justify-between">
+              <span>萬海 (2615)</span>
+              <span class="text-slate-400 font-mono" id="pf-2615-cur">現價 111.5</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">買進均價 (元)</label>
+                <input type="number" step="0.5" min="0" id="pf-2615-cost" placeholder="例如 105" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-purple-500">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-1">持有張數 (張)</label>
+                <input type="number" step="0.1" min="0" id="pf-2615-lots" placeholder="例如 3" class="pf-input w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:outline-none focus:border-purple-500">
+              </div>
+            </div>
+            <div id="pf-2615-result" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
+              輸入均價與張數後自動計算損益
+            </div>
+          </div>
+        </div>
+
+        <!-- Portfolio Grand Total Summary -->
+        <div id="pf-total-summary" class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs">
+          <span class="text-slate-400">總投入成本: <strong id="pf-total-cost" class="text-white font-mono">NT$ 0</strong></span>
+          <span class="text-slate-400">目前總市值: <strong id="pf-total-value" class="text-white font-mono">NT$ 0</strong></span>
+          <span class="text-slate-400">合計未實現損益: <strong id="pf-total-pnl" class="text-slate-300 font-mono">NT$ 0 (0.0%)</strong></span>
+        </div>
+      </div>
+
     </div>
 
-  
     <!-- ========================================== -->
     <!-- SECTION 7: LITERATURE TAB (權威文獻回顧 - NEW) -->
     <!-- ========================================== -->
@@ -2008,6 +2007,6 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261110d"></script>
+  <script src="app.js?v=20261110e"></script>
 </body>
 </html>
