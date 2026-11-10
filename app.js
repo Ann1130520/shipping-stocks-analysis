@@ -22,16 +22,17 @@ let currentChartMode = 'PCT'; // 'PCT' (Normalized %) or 'RAW' (Prices)
 let datasetVisibilityState = [true, true, true, true, true, true, true, true, true, false];
 
 document.addEventListener('DOMContentLoaded', () => {
-  initTabs();
-  initCharts();
-  initNewsCenter();
-  initSensitivityCalculator();
-  initTickerUpdater();
-  initMobileBenchmarkToggle();
-  initPortfolioTracker();
-  initGeopoliticsWarRoom();
+  const safeRun = (fn) => { try { fn(); } catch (e) { console.error('Init error:', e); } };
+  safeRun(initTabs);
+  safeRun(initGeopoliticsWarRoom);
+  safeRun(initCharts);
+  safeRun(initNewsCenter);
+  safeRun(initSensitivityCalculator);
+  safeRun(initTickerUpdater);
+  safeRun(initMobileBenchmarkToggle);
+  safeRun(initPortfolioTracker);
+  safeRun(initLiteratureSystem);
   loadLiveExternalData();
-  initLiteratureSystem();
 });
 
 /* ========================================================
@@ -1653,8 +1654,12 @@ function setupGeoHotspots() {
     if (t2615) t2615.textContent = d.txt2615;
   }
 
+  window.selectGeoHotspot = selectChokepoint;
+
   document.querySelectorAll('.geo-hotspot, .geo-hotspot-btn').forEach(el => {
-    el.addEventListener('click', () => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       selectChokepoint(el.getAttribute('data-chokepoint'));
     });
   });

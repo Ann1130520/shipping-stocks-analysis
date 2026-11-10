@@ -43,7 +43,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261110d">
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-blue-600 selection:text-white">
 
@@ -1240,40 +1240,46 @@
 
               <!-- Interactive Hotspot Markers -->
               <!-- 1. Red Sea / Bab el-Mandeb -->
-              <g class="geo-hotspot cursor-pointer" data-chokepoint="redsea">
-                <circle cx="458" cy="166" r="14" fill="rgba(239,68,68,0.22)" class="animate-ping"/>
-                <circle cx="458" cy="166" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.8"/>
-                <text x="468" y="170" fill="#fecaca" font-size="10" font-weight="bold">紅海</text>
+              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="redsea" onclick="window.selectGeoHotspot && window.selectGeoHotspot('redsea')">
+                <circle cx="458" cy="166" r="24" fill="transparent"/>
+                <circle cx="458" cy="166" r="13" fill="rgba(239,68,68,0.28)" class="animate-ping" style="transform-box: fill-box; transform-origin: center;"/>
+                <circle cx="458" cy="166" r="7.5" fill="#ef4444" stroke="#fff" stroke-width="2"/>
+                <text x="469" y="170" fill="#fecaca" font-size="11" font-weight="bold">紅海</text>
               </g>
 
               <!-- 2. Cape of Good Hope -->
-              <g class="geo-hotspot cursor-pointer" data-chokepoint="cape">
-                <circle cx="422" cy="322" r="7" fill="#f59e0b" stroke="#fff" stroke-width="1.8"/>
-                <text x="342" y="338" fill="#fde68a" font-size="10" font-weight="bold">好望角</text>
+              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="cape" onclick="window.selectGeoHotspot && window.selectGeoHotspot('cape')">
+                <circle cx="422" cy="322" r="24" fill="transparent"/>
+                <circle cx="422" cy="322" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
+                <text x="342" y="338" fill="#fde68a" font-size="11" font-weight="bold">好望角</text>
               </g>
 
               <!-- 3. Strait of Hormuz -->
-              <g class="geo-hotspot cursor-pointer" data-chokepoint="hormuz">
-                <circle cx="496" cy="144" r="7" fill="#f97316" stroke="#fff" stroke-width="1.8"/>
-                <text x="506" y="142" fill="#fed7aa" font-size="10" font-weight="bold">荷姆茲海峽</text>
+              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="hormuz" onclick="window.selectGeoHotspot && window.selectGeoHotspot('hormuz')">
+                <circle cx="496" cy="144" r="24" fill="transparent"/>
+                <circle cx="496" cy="144" r="7.5" fill="#f97316" stroke="#fff" stroke-width="2"/>
+                <text x="507" y="142" fill="#fed7aa" font-size="11" font-weight="bold">荷姆茲海峽</text>
               </g>
 
               <!-- 4. Malacca & Intra-Asia -->
-              <g class="geo-hotspot cursor-pointer" data-chokepoint="malacca">
-                <circle cx="605" cy="195" r="7" fill="#a855f7" stroke="#fff" stroke-width="1.8"/>
-                <text x="615" y="198" fill="#e9d5ff" font-size="10" font-weight="bold">麻六甲/亞洲近洋</text>
+              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="malacca" onclick="window.selectGeoHotspot && window.selectGeoHotspot('malacca')">
+                <circle cx="605" cy="195" r="24" fill="transparent"/>
+                <circle cx="605" cy="195" r="7.5" fill="#a855f7" stroke="#fff" stroke-width="2"/>
+                <text x="616" y="198" fill="#e9d5ff" font-size="11" font-weight="bold">麻六甲/亞洲近洋</text>
               </g>
 
               <!-- 5. Panama Canal -->
-              <g class="geo-hotspot cursor-pointer" data-chokepoint="panama">
-                <circle cx="176" cy="186" r="7" fill="#eab308" stroke="#fff" stroke-width="1.8"/>
-                <text x="118" y="203" fill="#fef08a" font-size="10" font-weight="bold">巴拿馬運河</text>
+              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="panama" onclick="window.selectGeoHotspot && window.selectGeoHotspot('panama')">
+                <circle cx="176" cy="186" r="24" fill="transparent"/>
+                <circle cx="176" cy="186" r="7.5" fill="#eab308" stroke="#fff" stroke-width="2"/>
+                <text x="114" y="204" fill="#fef08a" font-size="11" font-weight="bold">巴拿馬運河</text>
               </g>
 
               <!-- 6. US East Coast ILA -->
-              <g class="geo-hotspot cursor-pointer" data-chokepoint="usila">
-                <circle cx="204" cy="120" r="7" fill="#38bdf8" stroke="#fff" stroke-width="1.8"/>
-                <text x="215" y="122" fill="#bae6fd" font-size="10" font-weight="bold">美東ILA港口</text>
+              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="usila" onclick="window.selectGeoHotspot && window.selectGeoHotspot('usila')">
+                <circle cx="204" cy="120" r="24" fill="transparent"/>
+                <circle cx="204" cy="120" r="7.5" fill="#38bdf8" stroke="#fff" stroke-width="2"/>
+                <text x="216" y="122" fill="#bae6fd" font-size="11" font-weight="bold">美東ILA港口</text>
               </g>
             </svg>
           </div>
@@ -2002,6 +2008,6 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js"></script>
+  <script src="app.js?v=20261110d"></script>
 </body>
 </html>
