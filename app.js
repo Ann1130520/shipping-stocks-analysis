@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTickerUpdater();
   initMobileBenchmarkToggle();
   initPortfolioTracker();
+  initGeopoliticsWarRoom();
   loadLiveExternalData();
   initLiteratureSystem();
 });
@@ -190,6 +191,8 @@ async function loadLiveExternalData() {
       const bPrice = document.getElementById('overview-brent-price');
       const bChg = document.getElementById('overview-brent-change');
       if (bPrice) bPrice.textContent = `$${b.price.toFixed(2)}`;
+      const geoBrent = document.getElementById('geo-brent-price');
+      if (geoBrent) geoBrent.textContent = `$${b.price.toFixed(2)} / 桶`;
       if (bChg) {
         const sign = b.change_percent >= 0 ? '+' : '';
         bChg.textContent = `/桶 (${sign}${b.change_percent}%)`;
@@ -1449,4 +1452,302 @@ function initPortfolioTracker() {
   }
 
   calculatePortfolio();
+}
+
+
+/* ========================================================
+   9. GEOPOLITICS WAR ROOM (SCENARIOS, MAP & CHARTS)
+   ======================================================== */
+let geoSuezChartInstance = null;
+let geoBunkerChartInstance = null;
+
+function initGeopoliticsWarRoom() {
+  setupGeoScenarios();
+  setupGeoHotspots();
+  renderGeoSuezCapeChart();
+  renderGeoBunkerSpreadChart();
+}
+
+function setupGeoScenarios() {
+  const scenarios = {
+    base: {
+      absorb: '9.5% (約220萬TEU)',
+      absorbClass: 'text-lg font-black font-mono text-amber-400 mt-0.5',
+      scfi: '2,100 ~ 2,600 點',
+      scfiClass: 'text-lg font-black font-mono text-emerald-400 mt-0.5',
+      winner: '長榮 (護城河) • 陽明 (歐洲)',
+      action: '逢回分批承接，抱緊領高息',
+      actionClass: 'text-sm font-bold text-emerald-400 mt-1'
+    },
+    escalate: {
+      absorb: '12.5% (運力極度吃緊)',
+      absorbClass: 'text-lg font-black font-mono text-rose-400 mt-0.5',
+      scfi: '3,200 ~ 4,000+ 點',
+      scfiClass: 'text-lg font-black font-mono text-rose-400 mt-0.5',
+      winner: '長榮 (80%脫硫塔完勝油價飆漲)',
+      action: '順勢加碼多單，迎接主升段行情',
+      actionClass: 'text-sm font-bold text-rose-400 mt-1'
+    },
+    ceasefire: {
+      absorb: '1.5% (220萬TEU瞬間釋放)',
+      absorbClass: 'text-lg font-black font-mono text-sky-400 mt-0.5',
+      scfi: '1,100 ~ 1,450 點 (恐破線)',
+      scfiClass: 'text-lg font-black font-mono text-amber-400 mt-0.5',
+      winner: '長榮 (大船低油耗抗跌最佳)',
+      action: '⚠️ 觸發必賣警訊：果斷減碼停利',
+      actionClass: 'text-sm font-bold text-rose-500 mt-1'
+    }
+  };
+
+  const btns = document.querySelectorAll('.geo-scenario-btn');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => {
+        b.classList.remove('active', 'bg-blue-600', 'text-white');
+        b.classList.add('text-slate-400');
+      });
+      btn.classList.add('active', 'bg-blue-600', 'text-white');
+      btn.classList.remove('text-slate-400');
+
+      const key = btn.getAttribute('data-geo-scenario');
+      const s = scenarios[key];
+      if (!s) return;
+
+      const elAbsorb = document.getElementById('geo-kpi-absorb');
+      const elScfi = document.getElementById('geo-kpi-scfi');
+      const elWinner = document.getElementById('geo-kpi-winner');
+      const elAction = document.getElementById('geo-kpi-action');
+
+      if (elAbsorb) { elAbsorb.textContent = s.absorb; elAbsorb.className = s.absorbClass; }
+      if (elScfi) { elScfi.textContent = s.scfi; elScfi.className = s.scfiClass; }
+      if (elWinner) elWinner.textContent = s.winner;
+      if (elAction) { elAction.textContent = s.action; elAction.className = s.actionClass; }
+    });
+  });
+}
+
+function setupGeoHotspots() {
+  const chokepoints = {
+    redsea: {
+      badge: '高度阻礙 • 紅色警戒',
+      badgeClass: 'px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30',
+      title: '紅海與曼德海峽 (Bab el-Mandeb)',
+      icon: 'fa-solid fa-skull-crossbones text-2xl text-rose-500',
+      desc: '葉門胡塞武裝對商船攻擊風險持續，導致全球五大貨櫃航商超過 85% 歐亞航線船隻放棄蘇伊士運河，改道非洲好望角，實質拉長航程並吃緊全球運力。',
+      traffic: '-65% 蘇伊士通行',
+      cost: '+12~14天 / +$120萬',
+      p2603: 88, txt2603: '88% (大船與歐線強支撐)',
+      p2609: 95, txt2609: '95% (歐洲線佔比最高最受惠)',
+      p2615: 72, txt2615: '72% (全球船噸吃緊近洋外溢)',
+      takeaway: '<strong>投資結論：</strong>只要紅海繞道維持，歐洲線現貨運價就不容易跌破損益平衡點，陽明與長榮的下檔殖利率保護傘依然堅實。'
+    },
+    cape: {
+      badge: '運力吸收核心 • 繞道常態',
+      badgeClass: 'px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30',
+      title: '非洲好望角繞道走廊 (Cape of Good Hope)',
+      icon: 'fa-solid fa-compass text-2xl text-amber-400',
+      desc: '繞行非洲南端使遠東至西北歐單程增加約 3,500 海里，每條歐洲鐘擺航線需額外多投入 2~3 艘萬箱大船才能維持每週固定靠港班次。',
+      traffic: '+185% 貨櫃船繞行量',
+      cost: '吸收 220萬 TEU 運力',
+      p2603: 90, txt2603: '90% (節能巨輪長航程優勢放大)',
+      p2609: 92, txt2609: '92% (歐洲現貨價維持高毛利)',
+      p2615: 68, txt2615: '68% (大船抽調推升中小型船租金)',
+      takeaway: '<strong>投資結論：</strong>好望角繞行直接吞噬了 2024–2026 年新船交付高峰的過剩產能，是當前運價結構的定海神針。'
+    },
+    hormuz: {
+      badge: '能源油價引爆點 • 高度關注',
+      badgeClass: 'px-2 py-0.5 rounded text-[10px] font-bold bg-orange-500/20 text-orange-300 border border-orange-500/30',
+      title: '荷姆茲海峽與波斯灣 (Strait of Hormuz)',
+      icon: 'fa-solid fa-oil-well text-2xl text-orange-400',
+      desc: '全球約五分之一石油貿易必經之道。任何緊張升溫皆會推升布蘭特原油與船用燃料油價格，同時擴大高硫油與極低硫油的 Hi-5 價差。',
+      traffic: '能源保費上調警報',
+      cost: 'Hi-5 價差 $128+/噸',
+      p2603: 94, txt2603: '94% (80%+ 脫硫塔船隊大賺價差)',
+      p2609: 65, txt2609: '65% (脫硫率45%，仰賴BAF轉嫁)',
+      p2615: 60, txt2615: '60% (新造節能船油耗較低)',
+      takeaway: '<strong>投資結論：</strong>當國際油價走揚時，長榮因為具備業界最高的脫硫塔裝機率，獲利能力反而會相對於陽明、萬海更加突出。'
+    },
+    malacca: {
+      badge: '亞洲近洋心臟 • 萬海主場',
+      badgeClass: 'px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30',
+      title: '麻六甲海峽與亞洲區間走廊 (Malacca & Intra-Asia)',
+      icon: 'fa-solid fa-boxes-stacked text-2xl text-purple-400',
+      desc: '全球供應鏈「中國+1」加速廠房移往東南亞與印度，零組件跨國駁運推升亞洲區間貨櫃密度，加上新加坡等轉運樞紐偶發塞港，近洋運價韌性極強。',
+      traffic: '東南亞貨量 +11% YoY',
+      cost: '小型船日租金 +35%',
+      p2603: 70, txt2603: '70% (亞洲近洋佈局穩健)',
+      p2609: 62, txt2609: '62% (近洋與支線配合聯盟)',
+      p2615: 96, txt2615: '96% (62%營收來自近洋，龍頭稱霸)',
+      takeaway: '<strong>投資結論：</strong>在亞洲製造業補庫存與東南亞出口擴張期間，萬海在近洋航線的高密度航網與週轉率最具爆發力。'
+    },
+    panama: {
+      badge: '水位緩步復甦 • 動態調節',
+      badgeClass: 'px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30',
+      title: '巴拿馬運河 (Panama Canal)',
+      icon: 'fa-solid fa-water text-2xl text-amber-400',
+      desc: '加通湖水位擺脫極端聖嬰乾旱後，每日通航預約槽位回升至 35~36 艘水準，吃水深度逐步放寬至 48~50 呎，美東全水路運力恢復順暢。',
+      traffic: '35~36 艘 / 日 (接近常態)',
+      cost: '過閘競標溢價回落',
+      p2603: 82, txt2603: '82% (美東全水路調度成本下降)',
+      p2609: 75, txt2609: '75% (美東線維持穩定獲利)',
+      p2615: 55, txt2615: '55% (主力聚焦美西，影響較小)',
+      takeaway: '<strong>投資結論：</strong>巴拿馬通航正常化降低了美東航線的延誤成本，有利長榮與陽明在北美線進行精準艙位調配。'
+    },
+    usila: {
+      badge: '美西轉單受惠 • 關稅搶運',
+      badgeClass: 'px-2 py-0.5 rounded text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30',
+      title: '美東碼頭工會 (ILA) 與北美關稅搶運潮',
+      icon: 'fa-solid fa-person-digging text-2xl text-sky-400',
+      desc: '美東港口自動化談判及歐美關稅壁壘預期，促使北美大型零售商提前拉貨（Front-loading）並將約 15% 貨載分散轉往美西洛杉磯/長灘港。',
+      traffic: '美西港口吞吐量創高',
+      cost: '美西線裝載率 95%+',
+      p2603: 89, txt2603: '89% (擁有長灘專用碼頭直接受惠)',
+      p2609: 78, txt2609: '78% (美洲線長約換約價走高)',
+      p2615: 90, txt2615: '90% (美西線現貨高彈性暴賺)',
+      takeaway: '<strong>投資結論：</strong>每逢美東勞資談判或關稅時間表逼近，美西港口急單就會湧現，長榮與萬海是最直接受惠的北美線標的。'
+    }
+  };
+
+  function selectChokepoint(key) {
+    const d = chokepoints[key];
+    if (!d) return;
+
+    document.querySelectorAll('.geo-hotspot-btn').forEach(b => {
+      if (b.getAttribute('data-chokepoint') === key) {
+        b.classList.add('active', 'bg-rose-600', 'text-white');
+        b.classList.remove('bg-slate-800', 'text-slate-300');
+      } else {
+        b.classList.remove('active', 'bg-rose-600', 'text-white');
+        b.classList.add('bg-slate-800', 'text-slate-300');
+      }
+    });
+
+    const badgeEl = document.getElementById('geo-detail-badge');
+    const titleEl = document.getElementById('geo-detail-title');
+    const iconEl = document.getElementById('geo-detail-icon');
+    const descEl = document.getElementById('geo-detail-desc');
+    const trafficEl = document.getElementById('geo-detail-traffic');
+    const costEl = document.getElementById('geo-detail-cost');
+    const takeawayEl = document.getElementById('geo-detail-takeaway');
+
+    if (badgeEl) { badgeEl.textContent = d.badge; badgeEl.className = d.badgeClass; }
+    if (titleEl) titleEl.textContent = d.title;
+    if (iconEl) iconEl.className = d.icon;
+    if (descEl) descEl.textContent = d.desc;
+    if (trafficEl) trafficEl.textContent = d.traffic;
+    if (costEl) costEl.textContent = d.cost;
+    if (takeawayEl) takeawayEl.innerHTML = d.takeaway;
+
+    const b2603 = document.getElementById('geo-bar-2603');
+    const b2609 = document.getElementById('geo-bar-2609');
+    const b2615 = document.getElementById('geo-bar-2615');
+    if (b2603) b2603.style.width = `${d.p2603}%`;
+    if (b2609) b2609.style.width = `${d.p2609}%`;
+    if (b2615) b2615.style.width = `${d.p2615}%`;
+
+    const t2603 = document.getElementById('geo-bar-2603-txt');
+    const t2609 = document.getElementById('geo-bar-2609-txt');
+    const t2615 = document.getElementById('geo-bar-2615-txt');
+    if (t2603) t2603.textContent = d.txt2603;
+    if (t2609) t2609.textContent = d.txt2609;
+    if (t2615) t2615.textContent = d.txt2615;
+  }
+
+  document.querySelectorAll('.geo-hotspot, .geo-hotspot-btn').forEach(el => {
+    el.addEventListener('click', () => {
+      selectChokepoint(el.getAttribute('data-chokepoint'));
+    });
+  });
+}
+
+function renderGeoSuezCapeChart() {
+  const ctx = document.getElementById('geoSuezCapeChart');
+  if (!ctx) return;
+  if (geoSuezChartInstance) geoSuezChartInstance.destroy();
+
+  geoSuezChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['危機前基準', '2024 Q1', '2024 Q3', '2025 Q1', '2025 Q3', '2026 Q1', '2026 當前'],
+      datasets: [
+        {
+          label: '蘇伊士運河日通行噸位 (千噸)',
+          data: [1450, 520, 460, 480, 450, 470, 465],
+          borderColor: '#ef4444',
+          backgroundColor: 'rgba(239, 68, 68, 0.12)',
+          fill: true,
+          tension: 0.35,
+          borderWidth: 2.5
+        },
+        {
+          label: '非洲好望角繞行日噸位 (千噸)',
+          data: [280, 1280, 1390, 1410, 1450, 1420, 1440],
+          borderColor: '#f59e0b',
+          backgroundColor: 'rgba(245, 158, 11, 0.12)',
+          fill: true,
+          tension: 0.35,
+          borderWidth: 2.5
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#cbd5e1', font: { size: 11 } } }
+      },
+      scales: {
+        x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 10 } } },
+        y: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, callback: v => `${v}k` } }
+      }
+    }
+  });
+}
+
+function renderGeoBunkerSpreadChart() {
+  const ctx = document.getElementById('geoBunkerSpreadChart');
+  if (!ctx) return;
+  if (geoBunkerChartInstance) geoBunkerChartInstance.destroy();
+
+  geoBunkerChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['長榮 (2603)', '陽明 (2609)', '萬海 (2615)'],
+      datasets: [
+        {
+          label: '脫硫塔裝載率 (%)',
+          data: [82, 45, 36],
+          backgroundColor: ['#10b981', '#3b82f6', '#a855f7'],
+          borderRadius: 6,
+          yAxisID: 'yPct'
+        },
+        {
+          label: '單箱年度燃油節省潛力 (相對指數)',
+          data: [95, 52, 40],
+          type: 'line',
+          borderColor: '#f59e0b',
+          backgroundColor: '#f59e0b',
+          borderWidth: 2.5,
+          pointRadius: 5,
+          yAxisID: 'yPct'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#cbd5e1', font: { size: 11 } } }
+      },
+      scales: {
+        x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 11 } } },
+        yPct: {
+          min: 0,
+          max: 100,
+          grid: { color: chartColors.slateGrid },
+          ticks: { color: chartColors.slateText, callback: v => `${v}%` }
+        }
+      }
+    }
+  });
 }

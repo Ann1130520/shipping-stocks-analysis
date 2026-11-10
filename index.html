@@ -170,7 +170,7 @@
         </div>
 
         <!-- Tab Navigation -->
-        <nav class="flex items-center overflow-x-auto space-x-1 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800/80">
+        <nav class="flex flex-wrap items-center gap-1 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800/80">
           <button data-tab="signals" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-rose-300 bg-rose-950/40 border border-rose-700/60 hover:bg-rose-900/60">
             <i class="fa-solid fa-traffic-light text-rose-400"></i> 買賣建議專區
           </button>
@@ -1129,100 +1129,356 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- SECTION 4: GEOPOLITICS & CHOKE POINTS (世界動態) -->
+    <!-- SECTION 4: GEOPOLITICS & CHOKE POINTS (世界動態 - 豐富版) -->
     <!-- ========================================== -->
     <div id="tab-geopolitics" class="tab-content hidden space-y-6">
-      
-      <!-- Geopolitics Global Radar Card -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+
+      <!-- 1. Interactive Geopolitical Scenario Stress-Test Bar -->
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <h2 class="text-base font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-earth-americas text-blue-400"></i>
-              全球航運咽喉要道與地緣戰略即時狀態
-            </h2>
-            <p class="text-xs text-slate-400">監控紅海、蘇伊士、巴拿馬、美東工會與重要水道動態</p>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> 全球局勢壓力測試
+              </span>
+              <h2 class="text-lg font-black text-white">世界地緣動態與全球航運咽喉戰略地圖</h2>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">點擊下方局勢情境或地圖航道咽喉節點，即時檢視全球運力吸收變化與貨櫃三雄受惠/風險程度</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800 text-xs">
+            <button data-geo-scenario="base" class="geo-scenario-btn active px-3 py-1.5 rounded-lg bg-blue-600 text-white font-semibold transition">
+              A. 紅海持續繞道 (基準)
+            </button>
+            <button data-geo-scenario="escalate" class="geo-scenario-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 font-semibold transition">
+              B. 中東升級/油價破$110
+            </button>
+            <button data-geo-scenario="ceasefire" class="geo-scenario-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 font-semibold transition">
+              C. 蘇伊士全面復航 (風險)
+            </button>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- Hotspot 1 -->
-          <div class="bg-slate-950/90 border-2 border-rose-600/70 rounded-xl p-4">
-            <div class="flex items-center justify-between mb-2">
-              <span class="font-bold text-white flex items-center gap-1.5">
-                <i class="fa-solid fa-skull-crossbones text-rose-500"></i> 紅海與曼德海峽
-              </span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">
-                紅色警戒
-              </span>
-            </div>
-            <div class="text-xs text-slate-300 space-y-2 mb-3">
-              <div class="flex justify-between border-b border-slate-800 pb-1">
-                <span class="text-slate-400">商船通行狀態</span>
-                <span class="font-bold text-rose-400">貨櫃船 85%+ 繞行好望角</span>
-              </div>
-              <div class="flex justify-between border-b border-slate-800 pb-1">
-                <span class="text-slate-400">額外航行時間</span>
-                <span class="font-mono text-amber-400">+12 ~ 14 天 / 單程</span>
-              </div>
-            </div>
-            <div class="text-[11px] text-slate-400 leading-relaxed bg-slate-900/60 p-2.5 rounded border border-slate-800">
-              <strong>對三雄影響：</strong>強烈推升歐洲線長榮與陽明獲利，並間接吃緊全球船噸讓萬海近洋運價跟漲。
-            </div>
+        <!-- Scenario Live KPI Strip -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 pt-4 border-t border-slate-800/80 text-xs">
+          <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+            <span class="text-slate-400 text-[11px]">全球有效運力吸收率</span>
+            <div id="geo-kpi-absorb" class="text-lg font-black font-mono text-amber-400 mt-0.5">9.5% (約220萬TEU)</div>
           </div>
-
-          <!-- Hotspot 2 -->
-          <div class="bg-slate-950/90 border-2 border-amber-500/60 rounded-xl p-4">
-            <div class="flex items-center justify-between mb-2">
-              <span class="font-bold text-white flex items-center gap-1.5">
-                <i class="fa-solid fa-water text-amber-400"></i> 巴拿馬運河
-              </span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                乾季水位調節
-              </span>
-            </div>
-            <div class="text-xs text-slate-300 space-y-2 mb-3">
-              <div class="flex justify-between border-b border-slate-800 pb-1">
-                <span class="text-slate-400">每日預約通行槽位</span>
-                <span class="font-mono font-bold text-white">35 ~ 36 艘 (常態)</span>
-              </div>
-              <div class="flex justify-between border-b border-slate-800 pb-1">
-                <span class="text-slate-400">加通湖水深限制</span>
-                <span class="font-mono text-emerald-400">48 ~ 50 呎</span>
-              </div>
-            </div>
-            <div class="text-[11px] text-slate-400 leading-relaxed bg-slate-900/60 p-2.5 rounded border border-slate-800">
-              <strong>對美東線影響：</strong>長榮美東線全水路維持順暢，部分貨量持續因應工會動態轉向美西。
-            </div>
+          <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+            <span class="text-slate-400 text-[11px]">SCFI 運價預估區間</span>
+            <div id="geo-kpi-scfi" class="text-lg font-black font-mono text-emerald-400 mt-0.5">2,100 ~ 2,600 點</div>
           </div>
-
-          <!-- Hotspot 3 -->
-          <div class="bg-slate-950/90 border-2 border-blue-500/60 rounded-xl p-4">
-            <div class="flex items-center justify-between mb-2">
-              <span class="font-bold text-white flex items-center gap-1.5">
-                <i class="fa-solid fa-person-digging text-blue-400"></i> 美東碼頭工會 (ILA)
-              </span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                自動化談判中
-              </span>
-            </div>
-            <div class="text-xs text-slate-300 space-y-2 mb-3">
-              <div class="flex justify-between border-b border-slate-800 pb-1">
-                <span class="text-slate-400">工資協議</span>
-                <span class="font-bold text-emerald-400">已達成 61.5% 調薪共識</span>
-              </div>
-              <div class="flex justify-between border-b border-slate-800 pb-1">
-                <span class="text-slate-400">美西轉單效應</span>
-                <span class="text-slate-300">萬海、長榮美西航線裝載率達 95%</span>
-              </div>
-            </div>
-            <div class="text-[11px] text-slate-400 leading-relaxed bg-slate-900/60 p-2.5 rounded border border-slate-800">
-              <strong>受惠航商：</strong>萬海主力美西線與長榮長灘碼頭吞吐量大幅受惠。
-            </div>
+          <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+            <span class="text-slate-400 text-[11px]">三雄最受惠 / 防禦首選</span>
+            <div id="geo-kpi-winner" class="text-base font-bold text-white mt-1">長榮 (護城河) • 陽明 (歐洲)</div>
+          </div>
+          <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+            <span class="text-slate-400 text-[11px]">戰略操作指令</span>
+            <div id="geo-kpi-action" class="text-sm font-bold text-rose-400 mt-1">逢回分批承接，抱緊領息</div>
           </div>
         </div>
       </div>
 
+      <!-- 2. Interactive World Shipping Chokepoint Map + Dynamic Detail Inspector -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- SVG World Maritime Chokepoint Map (Left 7 cols) -->
+        <div class="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-map-location-dot text-sky-400"></i>
+              全球六大航運戰略咽喉互動地圖（點擊節點切換情資）
+            </h3>
+            <div class="flex items-center gap-3 text-[10px] text-slate-400">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> 受阻警戒</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span> 調節/搶運</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-purple-400"></span> 近洋/繞道</span>
+            </div>
+          </div>
+
+          <!-- Stylized Maritime Radar SVG Map -->
+          <div class="relative bg-slate-950 rounded-xl border border-slate-800/90 overflow-hidden p-2">
+            <svg viewBox="0 0 800 380" class="w-full h-auto select-none">
+              <defs>
+                <pattern id="seaGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(51,65,85,0.22)" stroke-width="1"/>
+                </pattern>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                  <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <rect width="800" height="380" fill="url(#seaGrid)" />
+
+              <!-- Simplified Continent Silhouettes -->
+              <!-- North & South America -->
+              <path d="M 95,55 L 185,45 L 220,95 L 175,155 L 185,180 L 210,195 L 245,235 L 225,315 L 195,345 L 175,275 L 155,215 L 145,175 L 110,145 L 85,100 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+              <!-- Europe -->
+              <path d="M 355,55 L 445,45 L 470,85 L 430,120 L 385,130 L 355,115 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+              <!-- Africa -->
+              <path d="M 360,145 L 440,140 L 475,185 L 460,260 L 420,315 L 395,280 L 375,220 L 345,185 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+              <!-- Middle East & Asia -->
+              <path d="M 455,115 L 540,95 L 665,75 L 705,120 L 660,185 L 615,215 L 560,190 L 520,210 L 480,165 L 455,145 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+              <!-- Australia / Maritime SE Asia -->
+              <path d="M 620,245 L 705,245 L 715,305 L 645,315 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+
+              <!-- Sea Routes -->
+              <!-- Asia -> Malacca -> Red Sea -> Suez -> Europe (BLOCKED / RESTRICTED) -->
+              <path d="M 655,165 Q 600,225 535,190 Q 475,175 450,140 Q 430,125 385,122" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5" opacity="0.85"/>
+              <!-- Asia -> Malacca -> Cape of Good Hope -> Europe (ACTIVE REROUTE) -->
+              <path d="M 655,165 Q 570,275 425,328 Q 315,250 355,122" fill="none" stroke="#f59e0b" stroke-width="2.5" filter="url(#glow)"/>
+              <!-- Asia -> Transpacific -> US West Coast -> IPI -> US East Coast -->
+              <path d="M 665,150 Q 750,120 795,125" fill="none" stroke="#a855f7" stroke-width="2" stroke-dasharray="4,3"/>
+              <path d="M 5,125 Q 65,135 110,140" fill="none" stroke="#a855f7" stroke-width="2" stroke-dasharray="4,3"/>
+              <!-- Asia -> Panama Canal -> US East Coast -->
+              <path d="M 110,140 Q 135,180 175,185 Q 205,165 200,125" fill="none" stroke="#38bdf8" stroke-width="2.2"/>
+
+              <!-- Route Labels -->
+              <text x="480" y="295" fill="#fbbf24" font-size="10" font-weight="bold">好望角繞道 (+12~14天)</text>
+              <text x="455" y="128" fill="#f87171" font-size="9">蘇伊士受阻</text>
+              <text x="580" y="208" fill="#c084fc" font-size="9">亞洲近洋幹線</text>
+              <text x="40" y="115" fill="#c084fc" font-size="9">美西轉單線</text>
+
+              <!-- Interactive Hotspot Markers -->
+              <!-- 1. Red Sea / Bab el-Mandeb -->
+              <g class="geo-hotspot cursor-pointer" data-chokepoint="redsea">
+                <circle cx="458" cy="166" r="14" fill="rgba(239,68,68,0.22)" class="animate-ping"/>
+                <circle cx="458" cy="166" r="7" fill="#ef4444" stroke="#fff" stroke-width="1.8"/>
+                <text x="468" y="170" fill="#fecaca" font-size="10" font-weight="bold">紅海</text>
+              </g>
+
+              <!-- 2. Cape of Good Hope -->
+              <g class="geo-hotspot cursor-pointer" data-chokepoint="cape">
+                <circle cx="422" cy="322" r="7" fill="#f59e0b" stroke="#fff" stroke-width="1.8"/>
+                <text x="342" y="338" fill="#fde68a" font-size="10" font-weight="bold">好望角</text>
+              </g>
+
+              <!-- 3. Strait of Hormuz -->
+              <g class="geo-hotspot cursor-pointer" data-chokepoint="hormuz">
+                <circle cx="496" cy="144" r="7" fill="#f97316" stroke="#fff" stroke-width="1.8"/>
+                <text x="506" y="142" fill="#fed7aa" font-size="10" font-weight="bold">荷姆茲海峽</text>
+              </g>
+
+              <!-- 4. Malacca & Intra-Asia -->
+              <g class="geo-hotspot cursor-pointer" data-chokepoint="malacca">
+                <circle cx="605" cy="195" r="7" fill="#a855f7" stroke="#fff" stroke-width="1.8"/>
+                <text x="615" y="198" fill="#e9d5ff" font-size="10" font-weight="bold">麻六甲/亞洲近洋</text>
+              </g>
+
+              <!-- 5. Panama Canal -->
+              <g class="geo-hotspot cursor-pointer" data-chokepoint="panama">
+                <circle cx="176" cy="186" r="7" fill="#eab308" stroke="#fff" stroke-width="1.8"/>
+                <text x="118" y="203" fill="#fef08a" font-size="10" font-weight="bold">巴拿馬運河</text>
+              </g>
+
+              <!-- 6. US East Coast ILA -->
+              <g class="geo-hotspot cursor-pointer" data-chokepoint="usila">
+                <circle cx="204" cy="120" r="7" fill="#38bdf8" stroke="#fff" stroke-width="1.8"/>
+                <text x="215" y="122" fill="#bae6fd" font-size="10" font-weight="bold">美東ILA港口</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Quick Hotspot Selector Pills -->
+          <div class="flex flex-wrap items-center gap-1.5 mt-3">
+            <button data-chokepoint="redsea" class="geo-hotspot-btn active px-2.5 py-1 rounded-full text-[11px] font-semibold bg-rose-600 text-white transition">紅海曼德海峽</button>
+            <button data-chokepoint="cape" class="geo-hotspot-btn px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-800 text-slate-300 hover:text-white transition">非洲好望角</button>
+            <button data-chokepoint="hormuz" class="geo-hotspot-btn px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-800 text-slate-300 hover:text-white transition">荷姆茲海峽(油價)</button>
+            <button data-chokepoint="malacca" class="geo-hotspot-btn px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-800 text-slate-300 hover:text-white transition">麻六甲/近洋</button>
+            <button data-chokepoint="panama" class="geo-hotspot-btn px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-800 text-slate-300 hover:text-white transition">巴拿馬運河</button>
+            <button data-chokepoint="usila" class="geo-hotspot-btn px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-800 text-slate-300 hover:text-white transition">美東ILA/關稅搶運</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Chokepoint Inspector Panel (Right 5 cols) -->
+        <div id="geo-detail-panel" class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-xl p-5 flex flex-col justify-between space-y-4">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div>
+                <span id="geo-detail-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">高度阻礙 • 紅色警戒</span>
+                <h3 id="geo-detail-title" class="text-base font-black text-white mt-1.5">紅海與曼德海峽 (Bab el-Mandeb)</h3>
+              </div>
+              <i id="geo-detail-icon" class="fa-solid fa-skull-crossbones text-2xl text-rose-500"></i>
+            </div>
+
+            <p id="geo-detail-desc" class="text-xs text-slate-300 leading-relaxed mt-3">
+              葉門胡塞武裝對商船攻擊風險持續，導致全球五大貨櫃航商超過 85% 歐亞航線船隻放棄蘇伊士運河，改道非洲好望角，實質拉長航程並吃緊全球運力。
+            </p>
+
+            <!-- Operational Metrics -->
+            <div class="grid grid-cols-2 gap-2.5 my-3 text-xs">
+              <div class="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-slate-400">通行量 / 狀態變化</span>
+                <div id="geo-detail-traffic" class="font-mono font-bold text-rose-400 mt-0.5">-65% 蘇伊士通行</div>
+              </div>
+              <div class="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-slate-400">航程與成本衝擊</span>
+                <div id="geo-detail-cost" class="font-mono font-bold text-amber-400 mt-0.5">+12~14天 / +$120萬</div>
+              </div>
+            </div>
+
+            <!-- Big 3 Impact Bars -->
+            <div class="bg-slate-950/80 p-3.5 rounded-lg border border-slate-800 space-y-2.5">
+              <div class="text-[11px] font-bold text-slate-300">對貨櫃三雄獲利驅動 / 影響程度評分：</div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <span class="text-emerald-400 font-bold">長榮 (2603)</span>
+                  <span id="geo-bar-2603-txt" class="font-mono text-slate-300">88% (大船與歐線強支撐)</span>
+                </div>
+                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="geo-bar-2603" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 88%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <span class="text-blue-400 font-bold">陽明 (2609)</span>
+                  <span id="geo-bar-2609-txt" class="font-mono text-slate-300">95% (歐洲線佔比最高最受惠)</span>
+                </div>
+                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="geo-bar-2609" class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: 95%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <span class="text-purple-400 font-bold">萬海 (2615)</span>
+                  <span id="geo-bar-2615-txt" class="font-mono text-slate-300">72% (全球船噸吃緊近洋外溢)</span>
+                </div>
+                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="geo-bar-2615" class="h-full bg-purple-500 rounded-full transition-all duration-300" style="width: 72%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="geo-detail-takeaway" class="text-[11px] text-slate-300 bg-blue-950/30 border border-blue-900/40 p-3 rounded-lg leading-relaxed">
+            <strong>投資結論：</strong>只要紅海繞道維持，歐洲線現貨運價就不容易跌破損益平衡點，陽明與長榮的下檔殖利率保護傘依然堅實。
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Six Global Maritime Hotspots Status Matrix -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-radar text-blue-400"></i> 全球六大關鍵地緣與貿易變數監控卡
+            </h3>
+            <p class="text-xs text-slate-400">完整涵蓋航道咽喉、能源油價、亞洲區間貿易與美歐關稅搶運潮</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Card 1: Red Sea -->
+          <div class="bg-slate-950/90 border border-rose-700/60 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-white text-sm flex items-center gap-1.5"><i class="fa-solid fa-skull-crossbones text-rose-500"></i> 紅海與曼德海峽</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">紅色警戒</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 mb-2.5">
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">繞行比例</span><span class="font-bold text-rose-400">貨櫃船 85%+ 繞好望角</span></div>
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">單程延誤</span><span class="font-mono text-amber-400">+12 ~ 14 天</span></div>
+            </div>
+            <p class="text-[11px] text-slate-400">推升陽明與長榮歐洲線運價，間接拉高萬海近洋船租金。</p>
+          </div>
+
+          <!-- Card 2: Panama -->
+          <div class="bg-slate-950/90 border border-amber-700/60 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-white text-sm flex items-center gap-1.5"><i class="fa-solid fa-water text-amber-400"></i> 巴拿馬運河</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">水位調節</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 mb-2.5">
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">每日通行槽位</span><span class="font-mono font-bold text-white">35 ~ 36 艘</span></div>
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">加通湖吃水</span><span class="font-mono text-emerald-400">48 ~ 50 呎</span></div>
+            </div>
+            <p class="text-[11px] text-slate-400">美東全水路恢復常態，長榮彈性調配美東與美西雙線艙位。</p>
+          </div>
+
+          <!-- Card 3: US ILA -->
+          <div class="bg-slate-950/90 border border-blue-700/60 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-white text-sm flex items-center gap-1.5"><i class="fa-solid fa-person-digging text-blue-400"></i> 美東工會 (ILA)</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">自動化協商</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 mb-2.5">
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">調薪共識</span><span class="font-bold text-emerald-400">6 年 +61.5%</span></div>
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">美西裝載率</span><span class="font-mono text-purple-300">維持 95% 高檔</span></div>
+            </div>
+            <p class="text-[11px] text-slate-400">貨主避險轉單至洛杉磯/長灘港，萬海美西線與長榮專用碼頭直接受惠。</p>
+          </div>
+
+          <!-- Card 4: Hormuz & Oil -->
+          <div class="bg-slate-950/90 border border-orange-700/60 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-white text-sm flex items-center gap-1.5"><i class="fa-solid fa-oil-well text-orange-400"></i> 荷姆茲海峽與油價</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-500/20 text-orange-300 border border-orange-500/30">能源敏感</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 mb-2.5">
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">布蘭特原油</span><span id="geo-brent-price" class="font-mono font-bold text-amber-400">$89.56 / 桶</span></div>
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">高低硫油價差</span><span class="font-mono text-emerald-400">約 $128 / 噸</span></div>
+            </div>
+            <p class="text-[11px] text-slate-400">油價走強同步拉大 Hi-5 價差，長榮逾 80% 脫硫塔船隊坐享超額成本優勢。</p>
+          </div>
+
+          <!-- Card 5: Malacca & Intra-Asia -->
+          <div class="bg-slate-950/90 border border-purple-700/60 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-white text-sm flex items-center gap-1.5"><i class="fa-solid fa-boxes-stacked text-purple-400"></i> 麻六甲與亞洲近洋</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">萬海主戰場</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 mb-2.5">
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">供應鏈中國+1</span><span class="font-bold text-purple-300">東南亞/印度貨量強勁</span></div>
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">中小型船租金</span><span class="font-mono text-rose-400">+35% 年增</span></div>
+            </div>
+            <p class="text-[11px] text-slate-400">半成品跨國組裝推升亞洲區間貨量，萬海憑藉 62% 近洋比重與高自有船率獲利最穩健。</p>
+          </div>
+
+          <!-- Card 6: US-China Tariffs & Front-loading -->
+          <div class="bg-slate-950/90 border border-teal-700/60 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-white text-sm flex items-center gap-1.5"><i class="fa-solid fa-file-invoice-dollar text-teal-400"></i> 關稅壁壘與搶運潮</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30">前置拉貨</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 mb-2.5">
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">零售商庫存策略</span><span class="font-bold text-teal-300">提前備貨 (Front-loading)</span></div>
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-400">急單空運轉海運</span><span class="font-mono text-amber-400">支撐美線現貨價格</span></div>
+            </div>
+            <p class="text-[11px] text-slate-400">歐美關稅政策變動前夕往往引發強烈搶運潮，淡季不淡拉高三雄季度營收。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Geopolitics Statistical Charts (Suez vs Cape & Hi-5 Bunker Spread) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-route text-rose-400"></i> 蘇伊士運河 vs 好望角：每日貨櫃船通行噸位變化
+              </h3>
+              <p class="text-xs text-slate-400">直觀見證紅海危機如何重塑全球亞歐海運航道流向（單位：千公噸/日）</p>
+            </div>
+          </div>
+          <div class="h-64 w-full relative">
+            <canvas id="geoSuezCapeChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-gas-pump text-amber-400"></i> 高低硫油價差 (Hi-5 Spread) 與三雄脫硫塔配備比
+              </h3>
+              <p class="text-xs text-slate-400">油價攀升放大高低硫燃料價差，拉開長榮與同業之單箱成本護城河</p>
+            </div>
+          </div>
+          <div class="h-64 w-full relative">
+            <canvas id="geoBunkerSpreadChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
     </div>
 
     <!-- ========================================== -->
