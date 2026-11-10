@@ -112,6 +112,39 @@ async function loadLiveExternalData() {
       updateIndexTicker('eu', 'ticker-idx-eu', 'ticker-idx-eu-change');
     }
 
+    // Taiwan Benchmarks (2330 & 0050) update
+    if (data.tw_benchmarks) {
+      const updateBenchmarkTicker = (code) => {
+        const b = data.tw_benchmarks[code];
+        if (!b || b.status !== 'success') return;
+
+        const priceElem = document.getElementById(`ticker-${code}-price`);
+        const changeElem = document.getElementById(`ticker-${code}-change`);
+        const rangeElem = document.getElementById(`ticker-${code}-range`);
+        const volElem = document.getElementById(`ticker-${code}-vol`);
+
+        if (priceElem) priceElem.textContent = `NT$ ${b.price.toLocaleString()}`;
+        if (changeElem) {
+          const isUp = b.change >= 0;
+          const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
+          const icon = isUp ? 'fa-caret-up' : 'fa-caret-down';
+          const sign = isUp ? '+' : '';
+          changeElem.className = `${colorClass} font-mono text-[10px] flex items-center`;
+          changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5"></i>${sign}${b.change} (${sign}${b.change_percent}%)`;
+        }
+        if (rangeElem && b.high && b.low) {
+          rangeElem.textContent = `高/低: ${b.high.toLocaleString()} / ${b.low.toLocaleString()}`;
+        }
+        if (volElem && b.volume) {
+          const lots = Math.round(b.volume / 1000).toLocaleString();
+          volElem.textContent = `量: ${lots}張`;
+        }
+      };
+
+      updateBenchmarkTicker('2330');
+      updateBenchmarkTicker('0050');
+    }
+
     // Merge live news if available
     if (data.live_news && Array.isArray(data.live_news) && data.live_news.length > 0) {
       const combined = [...data.live_news, ...newsDatabase];

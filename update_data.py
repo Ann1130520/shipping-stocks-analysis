@@ -102,6 +102,10 @@ def main():
     idx_us = fetch_quote("^GSPC")       # 美國 S&P 500
     idx_jp = fetch_quote("^N225")       # 日本日經225
     idx_eu = fetch_quote("^STOXX50E")   # 歐洲 Stoxx 50
+
+    print("2.5 Fetching Taiwan Benchmarks (2330, 0050)...")
+    bench_2330 = fetch_quote("2330.TW") # 台積電
+    bench_0050 = fetch_quote("0050.TW") # 元大台灣50
     
     print("3. Fetching live shipping news...")
     news = fetch_shipping_news()
@@ -119,6 +123,10 @@ def main():
             "jp": idx_jp,
             "eu": idx_eu
         },
+        "tw_benchmarks": {
+            "2330": bench_2330,
+            "0050": bench_0050
+        },
         "live_news": news
     }
     
@@ -134,6 +142,8 @@ def main():
     print(f"美股S&P500: {idx_us.get('price')} ({idx_us.get('change_percent')}%)")
     print(f"日經225: {idx_jp.get('price')} ({idx_jp.get('change_percent')}%)")
     print(f"歐股STOXX50: {idx_eu.get('price')} ({idx_eu.get('change_percent')}%)")
+    print(f"台積電 (2330): {bench_2330.get('price')} ({bench_2330.get('change_percent')}%)")
+    print(f"台灣50 (0050): {bench_0050.get('price')} ({bench_0050.get('change_percent')}%)")
 
 if __name__ == '__main__':
     main()

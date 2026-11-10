@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-10 18:17:19",
+  "last_updated": "2026-11-10 21:57:40",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
@@ -71,13 +71,37 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 6365.49,
+      "price": 6345.91,
       "prev_close": 6290.45,
-      "change": 75.04,
-      "change_percent": 1.19,
-      "high": 6366.74,
+      "change": 55.46,
+      "change_percent": 0.88,
+      "high": 6373.88,
       "low": 6319.81,
       "volume": 0,
+      "status": "success"
+    }
+  },
+  "tw_benchmarks": {
+    "2330": {
+      "symbol": "2330.TW",
+      "price": 2285.0,
+      "prev_close": 2235.0,
+      "change": 50.0,
+      "change_percent": 2.24,
+      "high": 2285.0,
+      "low": 2230.0,
+      "volume": 36333195,
+      "status": "success"
+    },
+    "0050": {
+      "symbol": "0050.TW",
+      "price": 99.7,
+      "prev_close": 97.45,
+      "change": 2.25,
+      "change_percent": 2.31,
+      "high": 100.5,
+      "low": 97.8,
+      "volume": 192040655,
       "status": "success"
     }
   },
@@ -134,9 +158,9 @@
     },
     {
       "id": "live-6",
-      "title": "運價喊漲201％！長榮、陽明、萬海...貨櫃3雄最新目標價1次看這檔別接刀？法人「2原因」不推：明年獲利反摔60％ - 上市櫃",
-      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBGWW1KSW9hb2tkNTE2N1hHTFc0TTRvQ1ZlNERfSXdtZjFjVDY1WGY1Xy1MQzBBVDlGczFveUt6LWt2NVlLMFRhZ3JhMkVXTHA3SGowckRkSEJqVHFIU2NjMTVyZjVlMXF3QWc?oc=5",
-      "pubDate": "Thu, 24 Sep 2026 07:00:00 GMT",
+      "title": "SCFI連5漲！衝近百點站上3500點長榮、陽明、萬海...貨櫃3雄8月營收有多補？法人最新預估1表看- 上市櫃",
+      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBuaEVhWDc2bHRWS01VakFtcFBCZEtGVlUwUURyR3lYb2ZfdmN4V2t1MXZMMmZ2ZXdRdzFZbjJWVVNNVkJscll4cjkxX1RkWXFGM0RhdVlGZ3gwMTFsbk9JdkNrbC1rME11YkE?oc=5",
+      "pubDate": "Fri, 28 Aug 2026 07:00:00 GMT",
       "source": "旺得富理財網",
       "sentiment": "bull",
       "category": "freight",
