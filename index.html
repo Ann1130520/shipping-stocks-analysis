@@ -43,12 +43,30 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261110j">
+  <link rel="stylesheet" href="style.css?v=20261110k">
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-blue-600 selection:text-white">
+<body class="ocean-body text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-white">
+
+  <!-- Fullscreen Ocean Backdrop -->
+  <div class="ocean-backdrop" aria-hidden="true">
+    <div class="ocean-grid"></div>
+    <div class="ocean-rays"></div>
+    <div class="ocean-particles"></div>
+    <div class="ocean-waves">
+      <svg class="ocean-wave-svg ocean-wave-back" viewBox="0 0 2880 220" preserveAspectRatio="none">
+        <path fill="rgba(14, 116, 144, 0.28)" d="M0,110 C240,60 480,160 720,110 C960,60 1200,160 1440,110 C1680,60 1920,160 2160,110 C2400,60 2640,160 2880,110 L2880,220 L0,220 Z"/>
+      </svg>
+      <svg class="ocean-wave-svg ocean-wave-mid" viewBox="0 0 2880 220" preserveAspectRatio="none">
+        <path fill="rgba(6, 78, 128, 0.36)" d="M0,140 C240,95 480,185 720,140 C960,95 1200,185 1440,140 C1680,95 1920,185 2160,140 C2400,95 2640,185 2880,140 L2880,220 L0,220 Z"/>
+      </svg>
+      <svg class="ocean-wave-svg ocean-wave-front" viewBox="0 0 2880 220" preserveAspectRatio="none">
+        <path fill="rgba(4, 34, 68, 0.55)" d="M0,168 C240,132 480,204 720,168 C960,132 1200,204 1440,168 C1680,132 1920,204 2160,168 C2400,132 2640,204 2880,168 L2880,220 L0,220 Z"/>
+      </svg>
+    </div>
+  </div>
 
   <!-- Top Global Market & Shipping Ticker Bar -->
-  <div class="bg-slate-900 border-b border-slate-800 text-xs py-1.5 px-4 sticky top-0 z-50 shadow-md backdrop-blur-md bg-opacity-95">
+  <div class="bg-ocean-900/85 border-b border-cyan-500/20 text-xs py-1.5 px-4 sticky top-0 z-50 shadow-md backdrop-blur-md">
     <div class="max-w-7xl mx-auto space-y-1.5">
       <!-- Live Indicators Marquee/Ticker -->
       <div class="flex items-center space-x-3 overflow-x-auto no-scrollbar py-0.5">
@@ -149,7 +167,7 @@
   </div>
 
   <!-- Main Navigation Header -->
-  <header class="bg-gradient-to-r from-slate-900 via-ocean-900 to-slate-900 border-b border-slate-800/80">
+  <header class="bg-gradient-to-r from-ocean-900/85 via-ocean-800/75 to-ocean-900/85 backdrop-blur-md border-b border-cyan-500/25">
     <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
       <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
         <div class="flex items-center space-x-3">
@@ -2391,7 +2409,7 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </main>
 
   <!-- Footer -->
-  <footer class="mt-16 border-t border-slate-800 bg-slate-950 py-8 text-slate-400 text-xs">
+  <footer class="mt-16 border-t border-cyan-500/20 bg-ocean-900/80 backdrop-blur-md py-8 text-slate-300 text-xs">
     <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
       <div class="flex items-center justify-center gap-2 text-slate-300 font-semibold">
         <i class="fa-solid fa-ship text-blue-500"></i> 貨櫃三雄智能研究戰情室 (長榮 • 陽明 • 萬海)
@@ -2406,6 +2424,6 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261110j"></script>
+  <script src="app.js?v=20261110k"></script>
 </body>
 </html>

@@ -3,12 +3,151 @@
 
 body {
   font-family: 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
-  background-color: #050d1a;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(13, 148, 136, 0.1) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(15, 23, 42, 0.8) 0px, transparent 50%);
+  background-color: #03162b;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -8%, rgba(56, 189, 248, 0.24) 0%, rgba(14, 116, 144, 0.14) 38%, transparent 72%),
+    radial-gradient(circle at 12% 18%, rgba(20, 184, 166, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 88% 24%, rgba(37, 99, 235, 0.20) 0%, transparent 48%),
+    linear-gradient(180deg, #072947 0%, #051f3b 28%, #03152a 65%, #020c1a 100%);
   background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Fullscreen Ocean Ambient Backdrop */
+.ocean-backdrop {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Nautical chart latitude/longitude grid */
+.ocean-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(56, 189, 248, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.35) 55%, rgba(0, 0, 0, 0.15) 100%);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.35) 55%, rgba(0, 0, 0, 0.15) 100%);
+}
+
+/* Underwater sunlight / caustic rays from surface */
+.ocean-rays {
+  position: absolute;
+  top: -15%;
+  left: -10%;
+  width: 120%;
+  height: 75%;
+  background:
+    conic-gradient(from 165deg at 25% 0%, transparent 0deg, rgba(103, 232, 249, 0.08) 10deg, transparent 22deg, rgba(56, 189, 248, 0.07) 34deg, transparent 48deg),
+    conic-gradient(from 175deg at 72% 0%, transparent 0deg, rgba(45, 212, 191, 0.07) 12deg, transparent 26deg, rgba(96, 165, 250, 0.07) 40deg, transparent 54deg);
+  filter: blur(18px);
+  animation: ocean-caustics 16s ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+
+/* Subtle shimmering ocean bubbles / plankton particles */
+.ocean-particles {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 14% 78%, rgba(125, 211, 252, 0.28) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 28% 42%, rgba(94, 234, 212, 0.22) 1px, transparent 2px),
+    radial-gradient(circle at 46% 86%, rgba(186, 230, 253, 0.25) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 64% 34%, rgba(56, 189, 248, 0.22) 1px, transparent 2px),
+    radial-gradient(circle at 79% 68%, rgba(125, 211, 252, 0.26) 1.8px, transparent 3px),
+    radial-gradient(circle at 91% 52%, rgba(45, 212, 191, 0.22) 1.2px, transparent 2.2px);
+  background-size: 460px 460px;
+  animation: ocean-drift 28s linear infinite;
+  opacity: 0.7;
+}
+
+/* Layered animated sea waves along bottom horizon */
+.ocean-waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 220px;
+  opacity: 0.85;
+}
+
+.ocean-wave-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+}
+
+.ocean-wave-back {
+  animation: wave-slide 26s linear infinite;
+  opacity: 0.38;
+}
+
+.ocean-wave-mid {
+  animation: wave-slide-reverse 18s linear infinite;
+  opacity: 0.52;
+}
+
+.ocean-wave-front {
+  animation: wave-slide 13s linear infinite;
+  opacity: 0.65;
+}
+
+@keyframes ocean-caustics {
+  0% { transform: translateX(-2%) skewX(-2deg) scaleY(1); opacity: 0.75; }
+  50% { transform: translateX(1.5%) skewX(1.5deg) scaleY(1.04); opacity: 0.95; }
+  100% { transform: translateX(3%) skewX(3deg) scaleY(0.98); opacity: 0.8; }
+}
+
+@keyframes ocean-drift {
+  0% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-40px) translateX(12px); }
+  100% { transform: translateY(-80px) translateX(0px); }
+}
+
+@keyframes wave-slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes wave-slide-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ocean-rays,
+  .ocean-particles,
+  .ocean-wave-back,
+  .ocean-wave-mid,
+  .ocean-wave-front {
+    animation: none !important;
+  }
+}
+
+/* Keep interactive layout layers above ocean backdrop */
+body > header,
+body > main,
+body > footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Translucent deep-sea glass tint on dashboard cards so ocean ambiance shines through */
+body.ocean-body main .bg-slate-900,
+body.ocean-body main .bg-slate-900\/90,
+body.ocean-body main .bg-slate-900\/80 {
+  background-color: rgba(7, 25, 48, 0.78) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: rgba(56, 189, 248, 0.18);
+  box-shadow: 0 8px 30px rgba(2, 12, 27, 0.35), inset 0 1px 0 rgba(125, 211, 252, 0.07);
 }
 
 /* Scrollbar tweaks */
