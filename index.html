@@ -43,7 +43,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261110f">
+  <link rel="stylesheet" href="style.css?v=20261110g">
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-blue-600 selection:text-white">
 
@@ -172,43 +172,46 @@
           </div>
         </div>
 
-        <!-- Tab Navigation (6x2 Aligned Grid: 12 Tabs) -->
+        <!-- Tab Navigation (6x2 Thematic Grid: Row 1 = 看盤與買賣決策 / Row 2 = 產業總經、存股與研究) -->
         <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800/80 w-full xl:w-auto">
-          <button data-tab="signals" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-rose-300 bg-rose-950/40 border border-rose-700/60 hover:bg-rose-900/60 whitespace-nowrap">
-            <i class="fa-solid fa-traffic-light text-rose-400"></i> 買賣建議專區
-          </button>
+          <!-- Row 1: 看盤與實戰買賣決策流 -->
           <button data-tab="overview" class="tab-btn active justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-white bg-blue-600 shadow-sm whitespace-nowrap">
             <i class="fa-solid fa-chart-pie"></i> 戰情總覽
           </button>
           <button data-tab="comparison" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-code-compare"></i> 三雄對決
           </button>
+          <button data-tab="technicals" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-chart-column text-emerald-400"></i> 技術與籌碼面
+          </button>
+          <button data-tab="signals" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-rose-300 bg-rose-950/40 border border-rose-700/60 hover:bg-rose-900/60 whitespace-nowrap">
+            <i class="fa-solid fa-traffic-light text-rose-400"></i> 買賣建議專區
+          </button>
+          <button data-tab="checklist" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-list-check text-purple-400"></i> 進場檢核與筆記
+          </button>
+          <button data-tab="calculator" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-calculator"></i> 獲利情境試算
+          </button>
+
+          <!-- Row 2: 產業總經、領息與研究情報流 -->
           <button data-tab="industry" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-anchor"></i> 產業與供需
           </button>
           <button data-tab="geopolitics" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-earth-americas"></i> 世界動態與咽喉
           </button>
-          <button data-tab="news" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
-            <i class="fa-solid fa-newspaper"></i> 航運新聞情報
-          </button>
-          <button data-tab="calculator" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
-            <i class="fa-solid fa-calculator"></i> 獲利情境試算
-          </button>
-          <button data-tab="literature" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
-            <i class="fa-solid fa-book-bookmark text-indigo-400"></i> 權威文獻回顧
+          <button data-tab="macro" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-dollar-sign text-cyan-400"></i> 匯率與散裝對比
           </button>
           <button data-tab="dividend" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
             <i class="fa-solid fa-sack-dollar text-amber-400"></i> 除權息與存股
           </button>
-          <button data-tab="technicals" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
-            <i class="fa-solid fa-chart-column text-emerald-400"></i> 技術與籌碼面
+          <button data-tab="news" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-newspaper"></i> 航運新聞情報
           </button>
-          <button data-tab="macro" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
-            <i class="fa-solid fa-dollar-sign text-cyan-400"></i> 匯率與散裝對比
-          </button>
-          <button data-tab="checklist" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
-            <i class="fa-solid fa-list-check text-purple-400"></i> 進場檢核與筆記
+          <button data-tab="literature" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
+            <i class="fa-solid fa-book-bookmark text-indigo-400"></i> 權威文獻回顧
           </button>
         </nav>
       </div>
@@ -2403,6 +2406,6 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261110f"></script>
+  <script src="app.js?v=20261110g"></script>
 </body>
 </html>
