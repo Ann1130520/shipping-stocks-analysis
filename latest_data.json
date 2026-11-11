@@ -112,12 +112,12 @@
   "global_indices": {
     "tw": {
       "symbol": "^TWII",
-      "price": 42711.92,
-      "prev_close": 39701.6,
-      "change": 3010.32,
-      "change_percent": 7.58,
-      "high": 43135.92,
-      "low": 41930.03,
+      "price": 42770.19,
+      "prev_close": 42711.92,
+      "change": 58.27,
+      "change_percent": 0.14,
+      "high": 43385.84,
+      "low": 42708.05,
       "volume": 0,
       "status": "success"
     },
@@ -134,12 +134,12 @@
     },
     "jp": {
       "symbol": "^N225",
-      "price": 60459.58,
-      "prev_close": 58775.5,
-      "change": 1684.08,
-      "change_percent": 2.87,
-      "high": 60743.97,
-      "low": 59268.43,
+      "price": 60921.13,
+      "prev_close": 60459.58,
+      "change": 461.55,
+      "change_percent": 0.76,
+      "high": 60963.03,
+      "low": 60318.08,
       "volume": 0,
       "status": "success"
     },
@@ -286,7 +286,7 @@
         "26/10/19",
         "26/10/26",
         "26/11/02",
-        "26/11/10"
+        "26/11/11"
       ],
       "raw": {
         "evergreen": [
@@ -342,7 +342,7 @@
           260.0,
           271.5,
           246.5,
-          255.5
+          257.0
         ],
         "yangming": [
           53.7,
@@ -397,7 +397,7 @@
           61.9,
           63.5,
           57.1,
-          58.2
+          60.4
         ],
         "wanhai": [
           82.5,
@@ -452,7 +452,7 @@
           119.5,
           120.0,
           107.5,
-          111.5
+          113.5
         ],
         "tsmc": [
           1430.0,
@@ -507,7 +507,7 @@
           2385.0,
           2370.0,
           2135.0,
-          2285.0
+          2305.0
         ],
         "etf0050": [
           61.7,
@@ -562,7 +562,7 @@
           106.9,
           104.95,
           92.5,
-          99.7
+          100.0
         ],
         "tw": [
           27397.5,
@@ -617,7 +617,7 @@
           46041.43,
           45211.83,
           39701.64,
-          42711.92
+          42777.33
         ],
         "us": [
           6734.11,
@@ -726,8 +726,8 @@
           62693.16,
           63290.11,
           57434.77,
-          58775.5,
-          60459.58
+          60459.58,
+          60928.72
         ],
         "eu": [
           5693.77,
@@ -892,7 +892,7 @@
         "26/10/19",
         "26/10/26",
         "26/11/02",
-        "26/11/10"
+        "26/11/11"
       ],
       "raw": {
         "evergreen": [
@@ -1000,7 +1000,7 @@
           260.0,
           271.5,
           246.5,
-          255.5
+          257.0
         ],
         "yangming": [
           72.2,
@@ -1107,7 +1107,7 @@
           61.9,
           63.5,
           57.1,
-          58.2
+          60.4
         ],
         "wanhai": [
           90.5,
@@ -1214,7 +1214,7 @@
           119.5,
           120.0,
           107.5,
-          111.5
+          113.5
         ],
         "tsmc": [
           1035.0,
@@ -1321,7 +1321,7 @@
           2385.0,
           2370.0,
           2135.0,
-          2285.0
+          2305.0
         ],
         "etf0050": [
           48.09,
@@ -1428,7 +1428,7 @@
           106.9,
           104.95,
           92.5,
-          99.7
+          100.05
         ],
         "tw": [
           22742.77,
@@ -1535,7 +1535,7 @@
           46041.43,
           45211.83,
           39701.64,
-          42711.92
+          42777.33
         ],
         "us": [
           5870.62,
@@ -1748,8 +1748,8 @@
           62693.16,
           63290.11,
           57434.77,
-          58775.5,
-          60459.58
+          60459.58,
+          60922.74
         ],
         "eu": [
           4794.85,
@@ -1886,28 +1886,17 @@
     },
     {
       "id": "live-3",
-      "title": "貨櫃三雄旺季順風10月績增逾八成第4季營運有撐| 財經焦點| 產經",
-      "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFByMVM2RmVCdGxGWFk2TlVWVjhhRzN2amxoMkFtWXJvSHY1T0tDMkpRR1pEMzFsSXpiSDB6LU4yOUJuRENWRUtqSTVSejVRcGJxdTdybGZCbDQxbVZVZWN3WjlDM21hVzU1enF4cGNFazRqZ28?oc=5",
-      "pubDate": "Mon, 09 Nov 2026 18:01:42 GMT",
-      "source": "UDN",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
-    },
-    {
-      "id": "live-4",
-      "title": "《航運股》貨櫃三雄10月營收年增均逾8成",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOU1hablNfZUtKdGxKNUR4ak9rM1FMU2xGV2VLTnpyZzRwQVY0OThadks4cG1sckg1czBSTTh1dVNpTUNxY254TktQZktibXhULThDdVNtYkFHcXh6RTlpVHo5MjZfX2RFUEFObWU5Y0RPUTNGMjdzWWFNaWh6aTk4S1lwRVUzWldz?oc=5",
-      "pubDate": "Mon, 09 Nov 2026 23:58:00 GMT",
-      "source": "富聯網",
+      "title": "全球鬧塞港 國際運價高檔有撐 貨櫃三雄吃補獲利向上",
+      "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1ka1lxTTUtNmZOV1ZpZkhwZWg0ZnNod0RzRDJGYUJTVVVkRElqQXpuZmh1Ty05emFUbWNJdFN5SWxYQmxBZ0Q3S3E0ekhKRWk0SnU4dC1LYmlaZUnSAWBBVV95cUxQTVJQMElyZmxXRkFKdk5uRzQ5TTNxeHlDeE9FWVNxNXlvd0tWdDZTWUZ3THpVdXoxempoWXpGZGZWU1oyQ1hRSUxISFFZNTNKdlczZElzYlkxcWxDUkFwYWQ?oc=5",
+      "pubDate": "Sun, 08 Nov 2026 08:00:00 GMT",
+      "source": "經濟日報",
       "sentiment": "neutral",
       "sentimentLabel": "中立觀察",
       "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
-      "id": "live-5",
+      "id": "live-4",
       "title": "地緣政治攪動全球航運，SCFI連3漲，貨櫃三雄長榮、萬海、陽明怎麼看？｜股市話題｜豐雲學堂2026 年 11 月",
       "link": "https://news.google.com/rss/articles/CBMi5wNBVV95cUxQRVptZmdtbmQyTERzME1ZMHc1RVRFZk1CcDdjVnFTOG9zb28ybmdIdnhqNGZjamRBc0ZkNFp4ZmNRcl9SRjZXSF9wYUowM296U29IY2F5WnowSlVHMFR3T0NHTEs1RmJPeHg3RmJaNjEwTk1MRkVBdUs3WnYyMmNfenBMNXBmMUQwSHY1NFlmUzhJV0RrY2VkbkR5a24tZ1ExNXlxanFkTGd0VmlDWkg1VjFGWU5tbFJZd2IzVzJ5V1lld0xidjlBQnBWbFlEYkhpdEE1aTBKTWYyUVFSRlNuMFhMZzZQWFVqdmxad2pfVTJPbXg2eTdraG9peF9OTDZXRzRaTjBWTnBXZXEwTktvenJHbThkaGNlYlRDZ05GOFd1a2k0VTQ3TnlfeUE5RFdEdFdvcEdJcEFXc1kyaDZFT2xCQk5ZUEdPNjkweVBUVkVOOWlScXV1cmZIT3VzSVhpN3BrQk1ReWdKZHBGdnJJQU1pUEtIQW9aazhRdDJoeXZyVmVSbHp2TFBjNTYzYlc3ZHU2WW4ySml4QmVjdEdwMW5IYXk4S1U5WnFPdzNKTzAtRUwzR2lMdmJQTzF4U196ejM5cTZvaXR5UXdvTHpENXVacU9fdlhNUFZnV0lPVXVCaS1PeHVv?oc=5",
       "pubDate": "Wed, 19 Aug 2026 08:14:30 GMT",
@@ -1918,7 +1907,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
-      "id": "live-6",
+      "id": "live-5",
       "title": "SCFI連5漲！衝近百點站上3500點長榮、陽明、萬海...貨櫃3雄8月營收有多補？法人最新預估1表看- 上市櫃",
       "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBuaEVhWDc2bHRWS01VakFtcFBCZEtGVlUwUURyR3lYb2ZfdmN4V2t1MXZMMmZ2ZXdRdzFZbjJWVVNNVkJscll4cjkxX1RkWXFGM0RhdVlGZ3gwMTFsbk9JdkNrbC1rME11YkE?oc=5",
       "pubDate": "Fri, 28 Aug 2026 07:00:00 GMT",
@@ -1929,7 +1918,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
-      "id": "live-7",
+      "id": "live-6",
       "title": "貨櫃三雄逆勢起航！長榮(2603)、萬海(2615)漲逾6%，9月營收與運價題材點火",
       "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9FaWV5Z1lmN2xEOF9qSUZaSnVLWHVUbWplRkdzZGtfeU9TTEpmT2FDSE1fc0dQd3RnUjdBdlVaOG9pUDBvZ0JkeEExNTlqOE0?oc=5",
       "pubDate": "Mon, 12 Oct 2026 07:00:00 GMT",
@@ -1940,11 +1929,22 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
-      "id": "live-8",
+      "id": "live-7",
       "title": "貨櫃航運股有哪些？長榮陽明萬海Q2獲利同步噴出，萬海年增近10倍",
       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE16aWlVdlNiVlJZTTdXWWNWYnlwLXdlSUJDLXV3Qmh5ODdraElvRzZabkwzbDdOZ0wtQTlweEdCYXV0dVY2QkZtcTFkclV6cW9BNE12LVV3?oc=5",
       "pubDate": "Mon, 17 Aug 2026 07:00:00 GMT",
       "source": "口袋證券",
+      "sentiment": "neutral",
+      "sentimentLabel": "中立觀察",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-8",
+      "title": "《航運股》貨櫃三雄10月營收年增均逾8成",
+      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOU1hablNfZUtKdGxKNUR4ak9rM1FMU2xGV2VLTnpyZzRwQVY0OThadks4cG1sckg1czBSTTh1dVNpTUNxY254TktQZktibXhULThDdVNtYkFHcXh6RTlpVHo5MjZfX2RFUEFObWU5Y0RPUTNGMjdzWWFNaWh6aTk4S1lwRVUzWldz?oc=5",
+      "pubDate": "Mon, 09 Nov 2026 23:58:00 GMT",
+      "source": "富聯網",
       "sentiment": "neutral",
       "sentimentLabel": "中立觀察",
       "category": "freight",

@@ -2,6 +2,8 @@ name: Daily Auto Update Shipping Stocks & News
 
 on:
   schedule:
+    # UTC 01:05 -> 台灣時間 09:05 (開盤初盤)
+    - cron: '5 1 * * 1-5'
     # UTC 02:30 -> 台灣時間 10:30 (盤中撮合)
     - cron: '30 2 * * 1-5'
     # UTC 06:00 -> 台灣時間 14:00 (收盤定價)

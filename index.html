@@ -43,7 +43,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261110l">
+  <link rel="stylesheet" href="style.css?v=20261111a">
 </head>
 <body class="ocean-body text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-white">
 
@@ -153,11 +153,15 @@
           </div>
         </div>
       <div class="flex items-center gap-2 shrink-0">
-        <span class="text-[11px] text-slate-400">更新: <span id="last-update-time">2026-11-10 21:57</span></span>
+        <button id="live-sync-toggle" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition" title="每15秒自動連線更新即時股價（點擊可暫停/恢復）">
+          <span id="live-sync-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="live-sync-label">即時連動 15s</span>
+        </button>
+        <span class="text-[11px] text-slate-400">更新: <span id="last-update-time">讀取中...</span></span>
         <button id="toggle-benchmark-bar" class="md:hidden px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white text-[10px] border border-slate-700 transition">
           收合基準
         </button>
-        <button id="refresh-data-btn" class="p-1.5 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition" title="重新整理最新數據">
+        <button id="refresh-data-btn" class="p-1.5 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition" title="立即連線更新即時股價">
           <i class="fa-solid fa-arrows-rotate"></i>
         </button>
       </div>
@@ -2424,6 +2428,6 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261110l"></script>
+  <script src="app.js?v=20261111a"></script>
 </body>
 </html>

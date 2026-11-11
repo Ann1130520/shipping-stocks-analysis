@@ -9,6 +9,7 @@ let liveMarketData = {
   price2609: 58.2,
   price2615: 111.5,
   lastUpdated: '2026-11-10 22:10:00',
+  usdTwd: 32.9,
   indices: {
     tw: { price: 42711.92, change: 7.58 },
     us: { price: 7549.94, change: 2.35 },
@@ -40,8 +41,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ========================================================
-   0. LOAD LIVE EXTERNAL DATA (FROM latest_data.json)
+   0. REAL-TIME LIVE QUOTES (CNYES CORS) & EXTERNAL DATA
    ======================================================== */
+const CNYES_REALTIME_SYMBOLS = [
+  'TWS:2603:STOCK',
+  'TWS:2609:STOCK',
+  'TWS:2615:STOCK',
+  'TWS:2330:STOCK',
+  'TWS:0050:STOCK',
+  'TWS:TSE01:INDEX',
+  'GI:INX:INDEX',
+  'GI:NKY:INDEX',
+  'GI:STOXX50E:INDEX',
+  'FX:USDTWD:FOREX'
+].join(',');
+
+let baseMarketPayload = null;
+let baseValuationSnapshot = {};
+let latestCnyesMap = null;
+let autoSyncEnabled = true;
+let autoSyncTimer = null;
+let userAdjustedFxSlider = false;
+
 function formatLocalTimestamp(date = new Date()) {
   const pad = (n) => String(n).padStart(2, '0');
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
@@ -60,308 +81,466 @@ function setUpdateTimestamp(timestampText, highlight = false) {
   }
 }
 
-async function loadLiveExternalData(options = {}) {
-  const { useCurrentTime = false } = options;
-  try {
-    const res = await fetch(`latest_data.json?t=${new Date().getTime()}`, { cache: 'no-store' });
-    if (!res.ok) return;
-    const data = await res.json();
-    
-    // Update live timestamp (keep manual click time when triggered via refresh button)
-    if (useCurrentTime) {
-      setUpdateTimestamp(formatLocalTimestamp(new Date()), true);
-    } else if (data.last_updated) {
-      setUpdateTimestamp(data.last_updated, false);
+function setSyncBadgeState(mode, customText) {
+  const btn = document.getElementById('live-sync-toggle');
+  const dot = document.getElementById('live-sync-dot');
+  const lbl = document.getElementById('live-sync-label');
+  if (!btn || !dot || !lbl) return;
+  if (mode === 'live') {
+    btn.className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition';
+    dot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse';
+    lbl.textContent = customText || '即時連動 15s';
+  } else if (mode === 'paused') {
+    btn.className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition';
+    dot.className = 'w-1.5 h-1.5 rounded-full bg-amber-400';
+    lbl.textContent = customText || '已暫停連動';
+  } else {
+    btn.className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-sky-500/15 text-sky-300 border border-sky-500/30 hover:bg-sky-500/25 transition';
+    dot.className = 'w-1.5 h-1.5 rounded-full bg-sky-400';
+    lbl.textContent = customText || '快取同步中';
+  }
+}
+
+function flashElementUpdate(el, isUp) {
+  if (!el) return;
+  const cls = isUp ? 'text-rose-300' : 'text-emerald-300';
+  el.classList.add(cls);
+  setTimeout(() => el.classList.remove(cls), 650);
+}
+
+function captureBaseValuationSnapshot(data) {
+  if (!data || !data.stocks || !data.fundamentals) return;
+  ['2603', '2609', '2615'].forEach(code => {
+    const s = data.stocks[code];
+    const f = data.fundamentals[code];
+    if (s && s.price > 0 && f) {
+      baseValuationSnapshot[code] = {
+        basePrice: Number(s.price),
+        pe: f.pe ?? null,
+        pb: f.pb ?? null,
+        yield: f.yield ?? null
+      };
+    }
+  });
+}
+
+function cloneSimple(obj) {
+  if (!obj) return {};
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function buildMergedPayload() {
+  const merged = baseMarketPayload ? cloneSimple(baseMarketPayload) : {
+    stocks: {},
+    tw_benchmarks: {},
+    global_indices: {},
+    fundamentals: {},
+    institutional: {},
+    commodities: {}
+  };
+  if (!latestCnyesMap) return merged;
+
+  const mapStock = (sym, container, targetKey) => {
+    const q = latestCnyesMap[sym];
+    if (!q || q.price === null || q.price === undefined) return;
+    if (!container[targetKey]) container[targetKey] = { symbol: sym, status: "success" };
+    const target = container[targetKey];
+    target.status = "success";
+    target.price = q.price;
+    if (q.change !== null && q.change !== undefined) target.change = q.change;
+    if (q.pct !== null && q.pct !== undefined) target.change_percent = q.pct;
+    if (q.high !== null && q.high !== undefined) target.high = q.high;
+    if (q.low !== null && q.low !== undefined) target.low = q.low;
+    if (q.prev_close !== null && q.prev_close !== undefined) target.prev_close = q.prev_close;
+    if (q.volume_lots !== null && q.volume_lots !== undefined) {
+      target.volume = Math.round(q.volume_lots * 1000);
+    }
+  };
+
+  mapStock('TWS:2603:STOCK', merged.stocks, '2603');
+  mapStock('TWS:2609:STOCK', merged.stocks, '2609');
+  mapStock('TWS:2615:STOCK', merged.stocks, '2615');
+  mapStock('TWS:2330:STOCK', merged.tw_benchmarks, '2330');
+  mapStock('TWS:0050:STOCK', merged.tw_benchmarks, '0050');
+  mapStock('TWS:TSE01:INDEX', merged.global_indices, 'tw');
+  mapStock('GI:INX:INDEX', merged.global_indices, 'us');
+  mapStock('GI:NKY:INDEX', merged.global_indices, 'jp');
+  mapStock('GI:STOXX50E:INDEX', merged.global_indices, 'eu');
+
+  ['2603', '2609', '2615'].forEach(code => {
+    const s = merged.stocks[code];
+    if (!s || !s.price) return;
+    const t = s.technicals;
+    if (t) {
+      if (t.ma20) t.bias_20 = Number((((s.price - t.ma20) / t.ma20) * 100).toFixed(2));
+      if (t.ma60) t.bias_60 = Number((((s.price - t.ma60) / t.ma60) * 100).toFixed(2));
+      if (t.ma20 && t.ma60) {
+        if (s.price > t.ma20 && t.ma20 > t.ma60) t.trend = "多頭排列 (站上月線與季線)";
+        else if (s.price > t.ma20) t.trend = "短期轉強 (站上20MA月線)";
+        else if (s.price < t.ma20 && s.price > t.ma60) t.trend = "回測季線震盪整理";
+        else t.trend = "均線下方弱勢整理";
+      }
+    }
+    const snap = baseValuationSnapshot[code];
+    if (snap && snap.basePrice > 0 && merged.fundamentals[code]) {
+      const ratio = s.price / snap.basePrice;
+      if (snap.pe !== null) merged.fundamentals[code].pe = Number((snap.pe * ratio).toFixed(2));
+      if (snap.pb !== null) merged.fundamentals[code].pb = Number((snap.pb * ratio).toFixed(2));
+      if (snap.yield !== null && ratio > 0) merged.fundamentals[code].yield = Number((snap.yield / ratio).toFixed(2));
+    }
+  });
+
+  const fxQ = latestCnyesMap['FX:USDTWD:FOREX'];
+  if (fxQ && fxQ.price > 0) {
+    liveMarketData.usdTwd = fxQ.price;
+    const fxSlider = document.getElementById("fx-rate-slider");
+    if (fxSlider && !userAdjustedFxSlider) {
+      const clamped = Math.min(35.0, Math.max(29.0, Number(fxQ.price.toFixed(2))));
+      fxSlider.value = clamped;
+      if (typeof window.triggerMacroFxUpdate === "function") {
+        window.triggerMacroFxUpdate();
+      }
+    }
+  }
+
+  return merged;
+}
+
+function applyMarketDataToUI(data, options = {}) {
+  const {
+    redrawOverviewChart = false,
+    redrawTechCharts = false,
+    redrawNews = false,
+    isLiveTick = false
+  } = options;
+  if (!data) return;
+
+  function updateStockTicker(code, keyPrice, elemPriceId, elemChangeId) {
+    if (data.stocks && data.stocks[code] && data.stocks[code].status === 'success') {
+      const s = data.stocks[code];
+      const prev = liveMarketData[keyPrice];
+      liveMarketData[keyPrice] = s.price;
+
+      const priceElem = document.getElementById(elemPriceId);
+      const changeElem = document.getElementById(elemChangeId);
+      const newPriceText = `NT$ ${s.price}`;
+      if (priceElem) {
+        const changed = isLiveTick && prev !== undefined && prev !== s.price;
+        priceElem.textContent = newPriceText;
+        if (changed) flashElementUpdate(priceElem, s.price > prev);
+      }
+      if (changeElem) {
+        const isUp = s.change >= 0;
+        const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
+        const icon = isUp ? 'fa-caret-up' : 'fa-caret-down';
+        const sign = isUp ? '+' : '';
+        changeElem.className = `${colorClass} font-mono text-[10px] flex items-center`;
+        changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5"></i>${sign}${s.change_percent}%`;
+      }
+    }
+  }
+
+  updateStockTicker('2603', 'price2603', 'ticker-2603-price', 'ticker-2603-change');
+  updateStockTicker('2609', 'price2609', 'ticker-2609-price', 'ticker-2609-change');
+  updateStockTicker('2615', 'price2615', 'ticker-2615-price', 'ticker-2615-change');
+
+  function setChangePill(elemId, pct) {
+    const el = document.getElementById(elemId);
+    if (!el || pct === undefined || pct === null) return;
+    const isUp = pct >= 0;
+    const sign = isUp ? '+' : '';
+    el.textContent = `${sign}${pct}%`;
+    el.className = isUp
+      ? 'px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30'
+      : 'px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+  }
+
+  const zoneRules = {
+    '2603': { buyMax: 255, nearBuy: 262, sellMin: 310, name: '長榮' },
+    '2609': { buyMax: 63,  nearBuy: 65,  sellMin: 82,  name: '陽明' },
+    '2615': { buyMax: 108, nearBuy: 113, sellMin: 135, name: '萬海' }
+  };
+
+  ['2603', '2609', '2615'].forEach(code => {
+    const s = data.stocks && data.stocks[code];
+    const f = data.fundamentals && data.fundamentals[code];
+    const inst = data.institutional && data.institutional[code];
+    if (!s || s.status !== 'success') return;
+
+    const ovPrice = document.getElementById(`overview-${code}-price`);
+    if (ovPrice) ovPrice.textContent = s.price;
+    setChangePill(`overview-${code}-change`, s.change_percent);
+
+    if (s.technicals) {
+      const ovTech = document.getElementById(`overview-${code}-tech`);
+      if (ovTech) ovTech.textContent = `${s.technicals.ma20 ?? '-'} / ${s.technicals.rsi14 ?? '-'}`;
     }
 
-    // Helper for stock ticker update
-    function updateStockTicker(code, keyPrice, keyChange, elemPriceId, elemChangeId) {
-      if (data.stocks && data.stocks[code] && data.stocks[code].status === 'success') {
-        const s = data.stocks[code];
-        liveMarketData[keyPrice] = s.price;
-        
-        const priceElem = document.getElementById(elemPriceId);
-        const changeElem = document.getElementById(elemChangeId);
-        
-        if (priceElem) priceElem.textContent = `NT$ ${s.price}`;
-        if (changeElem) {
-          const isUp = s.change >= 0;
-          const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
-          const icon = isUp ? 'fa-caret-up' : 'fa-caret-down';
-          const sign = isUp ? '+' : '';
-          changeElem.className = `${colorClass} font-mono text-[10px] flex items-center`;
-          changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5"></i>${sign}${s.change_percent}%`;
-        }
+    const peTxt = (f && f.pe !== null && f.pe !== undefined) ? `${f.pe.toFixed(1)}x` : '-';
+    const pbTxt = (f && f.pb !== null && f.pb !== undefined) ? `${f.pb.toFixed(2)}x` : '-';
+    const yldTxt = (f && f.yield !== null && f.yield !== undefined) ? `${f.yield.toFixed(2)}%` : '-';
+
+    const ovPe = document.getElementById(`overview-${code}-pe`);
+    const ovPb = document.getElementById(`overview-${code}-pb`);
+    const ovYld = document.getElementById(`overview-${code}-yield`);
+    if (ovPe) ovPe.textContent = peTxt;
+    if (ovPb) ovPb.textContent = pbTxt;
+    if (ovYld) ovYld.textContent = yldTxt;
+
+    const ovInst = document.getElementById(`overview-${code}-inst`);
+    if (ovInst && inst) {
+      const tot = Math.round(inst.total_lots);
+      ovInst.textContent = `${tot >= 0 ? '+' : ''}${tot.toLocaleString()}張`;
+      ovInst.className = tot >= 0 ? 'text-rose-400 font-mono' : 'text-emerald-400 font-mono';
+    }
+
+    const sigPrice = document.getElementById(`signals-${code}-price`);
+    if (sigPrice) sigPrice.textContent = `NT$ ${s.price}`;
+    const sigMetric = document.getElementById(`signals-${code}-metric`);
+    if (sigMetric) sigMetric.textContent = `${yldTxt} / PB ${pbTxt}`;
+
+    const sigBadge = document.getElementById(`signals-${code}-badge`);
+    if (sigBadge && zoneRules[code]) {
+      const rule = zoneRules[code];
+      if (s.price <= rule.buyMax) {
+        sigBadge.textContent = '🟢 已進入強力買進區';
+        sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+      } else if (s.price <= rule.nearBuy) {
+        sigBadge.textContent = '🟡 緊鄰買進區 / 分批承接';
+        sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40';
+      } else if (s.price >= rule.sellMin) {
+        sigBadge.textContent = '🔴 已達停利警戒賣出區';
+        sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40';
+      } else {
+        sigBadge.textContent = '🔵 合理區間 / 續抱觀察';
+        sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40';
       }
     }
 
-    updateStockTicker('2603', 'price2603', 'change2603', 'ticker-2603-price', 'ticker-2603-change');
-    updateStockTicker('2609', 'price2609', 'change2609', 'ticker-2609-price', 'ticker-2609-change');
-    updateStockTicker('2615', 'price2615', 'change2615', 'ticker-2615-price', 'ticker-2615-change');
-
-    // Helper: Format Taiwan stock pill badge (Red=Up, Green=Down)
-    function setChangePill(elemId, pct) {
-      const el = document.getElementById(elemId);
-      if (!el || pct === undefined || pct === null) return;
-      const isUp = pct >= 0;
-      const sign = isUp ? '+' : '';
-      el.textContent = `${sign}${pct}%`;
-      el.className = isUp
-        ? 'px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30'
-        : 'px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+    const sigTechBox = document.getElementById(`signals-${code}-tech-inst`);
+    if (sigTechBox) {
+      const ma20 = s.technicals?.ma20 ?? '-';
+      const rsi = s.technicals?.rsi14 ?? '-';
+      const trend = s.technicals?.trend ?? '資料同步中';
+      const totLots = inst ? Math.round(inst.total_lots) : 0;
+      const fLots = inst ? Math.round(inst.foreign_lots) : 0;
+      const tLots = inst ? Math.round(inst.trust_lots) : 0;
+      const totColor = totLots >= 0 ? 'text-rose-400' : 'text-emerald-400';
+      sigTechBox.innerHTML = `
+        <div><span class="text-slate-400">20MA月線:</span> <strong class="text-white font-mono">${ma20}</strong></div>
+        <div><span class="text-slate-400">RSI(14):</span> <strong class="text-amber-300 font-mono">${rsi}</strong></div>
+        <div class="col-span-2 text-slate-300 border-t border-slate-800/80 pt-1 flex justify-between">
+          <span>三大法人: <strong class="${totColor} font-mono">${totLots >= 0 ? '+' : ''}${totLots.toLocaleString()}張</strong></span>
+          <span class="text-[10px] text-slate-400">外:${fLots >= 0 ? '+' : ''}${fLots} / 投:${tLots >= 0 ? '+' : ''}${tLots}</span>
+        </div>
+        <div class="col-span-2 text-[10px] text-sky-300"><i class="fa-solid fa-chart-line mr-1"></i>${trend}</div>
+      `;
     }
 
-    // Overview, Signals, Comparison & Portfolio Sync for Big 3
-    const zoneRules = {
-      '2603': { buyMax: 255, nearBuy: 262, sellMin: 310, name: '長榮' },
-      '2609': { buyMax: 63,  nearBuy: 65,  sellMin: 82,  name: '陽明' },
-      '2615': { buyMax: 108, nearBuy: 113, sellMin: 135, name: '萬海' }
-    };
+    const compVal = document.getElementById(`comp-${code}-val`);
+    if (compVal) {
+      compVal.innerHTML = `現價 <strong class="text-white">${s.price}元</strong> | PE ${peTxt} | PB ${pbTxt} | 殖利率 ${yldTxt}`;
+    }
 
-    ['2603', '2609', '2615'].forEach(code => {
-      const s = data.stocks && data.stocks[code];
-      const f = data.fundamentals && data.fundamentals[code];
-      const inst = data.institutional && data.institutional[code];
-      if (!s || s.status !== 'success') return;
+    const pfCur = document.getElementById(`pf-${code}-cur`);
+    if (pfCur) pfCur.textContent = `現價 ${s.price}`;
+  });
 
-      // Overview card
-      const ovPrice = document.getElementById(`overview-${code}-price`);
-      if (ovPrice) ovPrice.textContent = s.price;
-      setChangePill(`overview-${code}-change`, s.change_percent);
+  if (data.commodities && data.commodities.brent && data.commodities.brent.status === 'success') {
+    const b = data.commodities.brent;
+    const bPrice = document.getElementById('overview-brent-price');
+    const bChg = document.getElementById('overview-brent-change');
+    if (bPrice) bPrice.textContent = `$${b.price.toFixed(2)}`;
+    const geoBrent = document.getElementById('geo-brent-price');
+    if (geoBrent) geoBrent.textContent = `$${b.price.toFixed(2)} / 桶`;
+    if (bChg) {
+      const sign = b.change_percent >= 0 ? '+' : '';
+      bChg.textContent = `/桶 (${sign}${b.change_percent}%)`;
+      bChg.className = b.change_percent >= 0 ? 'text-xs font-mono text-rose-400 ml-1' : 'text-xs font-mono text-emerald-400 ml-1';
+    }
+  }
 
-      if (s.technicals) {
-        const ovTech = document.getElementById(`overview-${code}-tech`);
-        if (ovTech) {
-          ovTech.textContent = `${s.technicals.ma20 ?? '-'} / ${s.technicals.rsi14 ?? '-'}`;
-        }
-      }
-
-      const peTxt = (f && f.pe !== null && f.pe !== undefined) ? `${f.pe.toFixed(1)}x` : '-';
-      const pbTxt = (f && f.pb !== null && f.pb !== undefined) ? `${f.pb.toFixed(2)}x` : '-';
-      const yldTxt = (f && f.yield !== null && f.yield !== undefined) ? `${f.yield.toFixed(2)}%` : '-';
-
-      const ovPe = document.getElementById(`overview-${code}-pe`);
-      const ovPb = document.getElementById(`overview-${code}-pb`);
-      const ovYld = document.getElementById(`overview-${code}-yield`);
-      if (ovPe) ovPe.textContent = peTxt;
-      if (ovPb) ovPb.textContent = pbTxt;
-      if (ovYld) ovYld.textContent = yldTxt;
-
-      const ovInst = document.getElementById(`overview-${code}-inst`);
-      if (ovInst && inst) {
-        const tot = Math.round(inst.total_lots);
-        ovInst.textContent = `${tot >= 0 ? '+' : ''}${tot.toLocaleString()}張`;
-        ovInst.className = tot >= 0 ? 'text-rose-400 font-mono' : 'text-emerald-400 font-mono';
-      }
-
-      // Signals Tab Sync + Dynamic Buy/Hold/Sell Badge
-      const sigPrice = document.getElementById(`signals-${code}-price`);
-      if (sigPrice) sigPrice.textContent = `NT$ ${s.price}`;
-      const sigMetric = document.getElementById(`signals-${code}-metric`);
-      if (sigMetric) sigMetric.textContent = `${yldTxt} / PB ${pbTxt}`;
-
-      const sigBadge = document.getElementById(`signals-${code}-badge`);
-      if (sigBadge && zoneRules[code]) {
-        const rule = zoneRules[code];
-        if (s.price <= rule.buyMax) {
-          sigBadge.textContent = '🟢 已進入強力買進區';
-          sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
-        } else if (s.price <= rule.nearBuy) {
-          sigBadge.textContent = '🟡 緊鄰買進區 / 分批承接';
-          sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40';
-        } else if (s.price >= rule.sellMin) {
-          sigBadge.textContent = '🔴 已達停利警戒賣出區';
-          sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40';
-        } else {
-          sigBadge.textContent = '🔵 合理區間 / 續抱觀察';
-          sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40';
-        }
-      }
-
-      const sigTechBox = document.getElementById(`signals-${code}-tech-inst`);
-      if (sigTechBox) {
-        const ma20 = s.technicals?.ma20 ?? '-';
-        const rsi = s.technicals?.rsi14 ?? '-';
-        const trend = s.technicals?.trend ?? '資料同步中';
-        const totLots = inst ? Math.round(inst.total_lots) : 0;
-        const fLots = inst ? Math.round(inst.foreign_lots) : 0;
-        const tLots = inst ? Math.round(inst.trust_lots) : 0;
-        const totColor = totLots >= 0 ? 'text-rose-400' : 'text-emerald-400';
-        sigTechBox.innerHTML = `
-          <div><span class="text-slate-400">20MA月線:</span> <strong class="text-white font-mono">${ma20}</strong></div>
-          <div><span class="text-slate-400">RSI(14):</span> <strong class="text-amber-300 font-mono">${rsi}</strong></div>
-          <div class="col-span-2 text-slate-300 border-t border-slate-800/80 pt-1 flex justify-between">
-            <span>三大法人: <strong class="${totColor} font-mono">${totLots >= 0 ? '+' : ''}${totLots.toLocaleString()}張</strong></span>
-            <span class="text-[10px] text-slate-400">外:${fLots >= 0 ? '+' : ''}${fLots} / 投:${tLots >= 0 ? '+' : ''}${tLots}</span>
-          </div>
-          <div class="col-span-2 text-[10px] text-sky-300"><i class="fa-solid fa-chart-line mr-1"></i>${trend}</div>
+  if (data.institutional) {
+    const tbody = document.getElementById('inst-table-body');
+    const dateEl = document.getElementById('inst-report-date');
+    const rowsOrder = [
+      { code: '2603', name: '長榮 (2603)', color: 'text-emerald-400' },
+      { code: '2609', name: '陽明 (2609)', color: 'text-blue-400' },
+      { code: '2615', name: '萬海 (2615)', color: 'text-purple-400' },
+      { code: '2330', name: '台積電 (2330)', color: 'text-cyan-300' },
+      { code: '0050', name: '台灣50 (0050)', color: 'text-amber-300' }
+    ];
+    if (tbody) {
+      let firstDate = '';
+      const htmlRows = rowsOrder.map(r => {
+        const item = data.institutional[r.code];
+        if (!item) return '';
+        if (!firstDate && item.date) firstDate = item.date;
+        const fmt = (val) => {
+          const num = Math.round(val);
+          const cls = num > 0 ? 'text-rose-400' : (num < 0 ? 'text-emerald-400' : 'text-slate-400');
+          return `<span class="${cls}">${num > 0 ? '+' : ''}${num.toLocaleString()}</span>`;
+        };
+        return `
+          <tr class="hover:bg-slate-800/40">
+            <td class="py-2 px-2 font-sans font-bold ${r.color}">${r.name}</td>
+            <td class="py-2 px-2 text-right">${fmt(item.foreign_lots)}</td>
+            <td class="py-2 px-2 text-right">${fmt(item.trust_lots)}</td>
+            <td class="py-2 px-2 text-right">${fmt(item.dealer_lots)}</td>
+            <td class="py-2 px-2 text-right font-bold">${fmt(item.total_lots)} 張</td>
+          </tr>
         `;
+      }).join('');
+      if (htmlRows) tbody.innerHTML = htmlRows;
+      if (dateEl && firstDate && firstDate.length === 8) {
+        dateEl.textContent = `資料日期：${firstDate.slice(0,4)}-${firstDate.slice(4,6)}-${firstDate.slice(6,8)}`;
       }
+    }
+  }
 
-      // Comparison table Valuation Row
-      const compVal = document.getElementById(`comp-${code}-val`);
-      if (compVal) {
-        compVal.innerHTML = `現價 <strong class="text-white">${s.price}元</strong> | PE ${peTxt} | PB ${pbTxt} | 殖利率 ${yldTxt}`;
+  if (redrawOverviewChart && data.history) {
+    if (data.history['1Y'] && data.history['1Y'].labels) globalHistoricalData['1Y'] = data.history['1Y'];
+    if (data.history['2Y'] && data.history['2Y'].labels) globalHistoricalData['2Y'] = data.history['2Y'];
+    renderOverviewCombinedChart();
+  }
+
+  if (typeof window.triggerPortfolioUpdate === 'function') window.triggerPortfolioUpdate();
+
+  window.latestPayloadCache = data;
+  renderTechnicalsPanel(data, redrawTechCharts);
+
+  const simBase2603 = document.getElementById('sim-2603-baseprice');
+  const simBase2609 = document.getElementById('sim-2609-baseprice');
+  const simBase2615 = document.getElementById('sim-2615-baseprice');
+  if (simBase2603) simBase2603.textContent = `${liveMarketData.price2603}元`;
+  if (simBase2609) simBase2609.textContent = `${liveMarketData.price2609}元`;
+  if (simBase2615) simBase2615.textContent = `${liveMarketData.price2615}元`;
+
+  if (data.global_indices) {
+    const g = data.global_indices;
+    const updateIndexTicker = (key, priceElemId, changeElemId) => {
+      if (g[key] && g[key].status === 'success') {
+        const item = g[key];
+        const priceElem = document.getElementById(priceElemId);
+        const changeElem = document.getElementById(changeElemId);
+        if (priceElem) priceElem.textContent = Math.round(item.price).toLocaleString();
+        if (changeElem) {
+          const isUp = item.change >= 0;
+          const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
+          const sign = isUp ? '+' : '';
+          changeElem.className = `${colorClass} font-mono text-[10px]`;
+          changeElem.textContent = `${sign}${item.change_percent}%`;
+        }
       }
+    };
+    updateIndexTicker('tw', 'ticker-idx-tw', 'ticker-idx-tw-change');
+    updateIndexTicker('us', 'ticker-idx-us', 'ticker-idx-us-change');
+    updateIndexTicker('jp', 'ticker-idx-jp', 'ticker-idx-jp-change');
+    updateIndexTicker('eu', 'ticker-idx-eu', 'ticker-idx-eu-change');
+  }
 
-      // Portfolio tracker current price display
-      const pfCur = document.getElementById(`pf-${code}-cur`);
-      if (pfCur) pfCur.textContent = `現價 ${s.price}`;
+  if (data.tw_benchmarks) {
+    const updateBenchmarkTicker = (code) => {
+      const b = data.tw_benchmarks[code];
+      if (!b || b.status !== 'success') return;
+      const priceElem = document.getElementById(`ticker-${code}-price`);
+      const changeElem = document.getElementById(`ticker-${code}-change`);
+      const rangeElem = document.getElementById(`ticker-${code}-range`);
+      const volElem = document.getElementById(`ticker-${code}-vol`);
+      if (priceElem) priceElem.textContent = `NT$ ${b.price.toLocaleString()}`;
+      if (changeElem) {
+        const isUp = b.change >= 0;
+        const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
+        const icon = isUp ? 'fa-caret-up' : 'fa-caret-down';
+        const sign = isUp ? '+' : '';
+        changeElem.className = `${colorClass} font-mono text-[10px] flex items-center`;
+        changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5"></i>${sign}${b.change} (${sign}${b.change_percent}%)`;
+      }
+      if (rangeElem && b.high && b.low) {
+        rangeElem.textContent = `高/低: ${b.high.toLocaleString()} / ${b.low.toLocaleString()}`;
+      }
+      if (volElem && b.volume) {
+        const lots = Math.round(b.volume / 1000).toLocaleString();
+        volElem.textContent = `量: ${lots}張`;
+      }
+    };
+    updateBenchmarkTicker('2330');
+    updateBenchmarkTicker('0050');
+  }
+
+  if (redrawNews && data.live_news && Array.isArray(data.live_news) && data.live_news.length > 0) {
+    const combined = [...data.live_news, ...newsDatabase];
+    renderNewsCards(combined);
+  }
+
+  if (typeof window.triggerCalculatorUpdate === 'function') window.triggerCalculatorUpdate();
+}
+
+async function fetchCnyesRealtimeQuotes(options = {}) {
+  const { redrawTechCharts = false, highlightTime = false } = options;
+  try {
+    const url = `https://ws.api.cnyes.com/ws/api/v1/quote/quotes/${CNYES_REALTIME_SYMBOLS}?_t=${Date.now()}`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (!json || !Array.isArray(json.data)) throw new Error("Invalid Cnyes payload");
+
+    const map = {};
+    json.data.forEach(item => {
+      if (!item || typeof item !== 'object') return;
+      const sym = item['0'];
+      if (!sym) return;
+      map[sym] = {
+        price: item['6'],
+        change: item['11'],
+        pct: item['56'],
+        high: item['12'],
+        low: item['13'],
+        open: item['19'],
+        prev_close: item['21'],
+        volume_lots: item['200013']
+      };
     });
 
-    // Brent Crude Oil Update
-    if (data.commodities && data.commodities.brent && data.commodities.brent.status === 'success') {
-      const b = data.commodities.brent;
-      const bPrice = document.getElementById('overview-brent-price');
-      const bChg = document.getElementById('overview-brent-change');
-      if (bPrice) bPrice.textContent = `$${b.price.toFixed(2)}`;
-      const geoBrent = document.getElementById('geo-brent-price');
-      if (geoBrent) geoBrent.textContent = `$${b.price.toFixed(2)} / 桶`;
-      if (bChg) {
-        const sign = b.change_percent >= 0 ? '+' : '';
-        bChg.textContent = `/桶 (${sign}${b.change_percent}%)`;
-        bChg.className = b.change_percent >= 0 ? 'text-xs font-mono text-rose-400 ml-1' : 'text-xs font-mono text-emerald-400 ml-1';
+    latestCnyesMap = map;
+    const merged = buildMergedPayload();
+    applyMarketDataToUI(merged, { redrawTechCharts, isLiveTick: true });
+    setUpdateTimestamp(formatLocalTimestamp(new Date()), highlightTime);
+    setSyncBadgeState(autoSyncEnabled ? 'live' : 'paused');
+    return true;
+  } catch (err) {
+    console.log("Realtime Cnyes quote fallback:", err);
+    if (!autoSyncEnabled) setSyncBadgeState('paused');
+    else setSyncBadgeState('cache', '重試連線中');
+    return false;
+  }
+}
+
+async function loadLiveExternalData(options = {}) {
+  const { useCurrentTime = false } = options;
+  const liveTask = fetchCnyesRealtimeQuotes({ redrawTechCharts: true, highlightTime: useCurrentTime });
+
+  try {
+    const res = await fetch(`latest_data.json?t=${Date.now()}`, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      baseMarketPayload = data;
+      captureBaseValuationSnapshot(data);
+      const merged = buildMergedPayload();
+      applyMarketDataToUI(merged, {
+        redrawOverviewChart: true,
+        redrawTechCharts: true,
+        redrawNews: true
+      });
+      if (!latestCnyesMap && !useCurrentTime && data.last_updated) {
+        setUpdateTimestamp(data.last_updated, false);
       }
-    }
-
-    // Institutional Table Update (三大法人籌碼表)
-    if (data.institutional) {
-      const tbody = document.getElementById('inst-table-body');
-      const dateEl = document.getElementById('inst-report-date');
-      const rowsOrder = [
-        { code: '2603', name: '長榮 (2603)', color: 'text-emerald-400' },
-        { code: '2609', name: '陽明 (2609)', color: 'text-blue-400' },
-        { code: '2615', name: '萬海 (2615)', color: 'text-purple-400' },
-        { code: '2330', name: '台積電 (2330)', color: 'text-cyan-300' },
-        { code: '0050', name: '台灣50 (0050)', color: 'text-amber-300' }
-      ];
-      if (tbody) {
-        let firstDate = '';
-        const htmlRows = rowsOrder.map(r => {
-          const item = data.institutional[r.code];
-          if (!item) return '';
-          if (!firstDate && item.date) firstDate = item.date;
-          const fmt = (val) => {
-            const num = Math.round(val);
-            const cls = num > 0 ? 'text-rose-400' : (num < 0 ? 'text-emerald-400' : 'text-slate-400');
-            return `<span class="${cls}">${num > 0 ? '+' : ''}${num.toLocaleString()}</span>`;
-          };
-          return `
-            <tr class="hover:bg-slate-800/40">
-              <td class="py-2 px-2 font-sans font-bold ${r.color}">${r.name}</td>
-              <td class="py-2 px-2 text-right">${fmt(item.foreign_lots)}</td>
-              <td class="py-2 px-2 text-right">${fmt(item.trust_lots)}</td>
-              <td class="py-2 px-2 text-right">${fmt(item.dealer_lots)}</td>
-              <td class="py-2 px-2 text-right font-bold">${fmt(item.total_lots)} 張</td>
-            </tr>
-          `;
-        }).join('');
-        if (htmlRows) tbody.innerHTML = htmlRows;
-        if (dateEl && firstDate && firstDate.length === 8) {
-          dateEl.textContent = `資料日期：${firstDate.slice(0,4)}-${firstDate.slice(4,6)}-${firstDate.slice(6,8)}`;
-        }
-      }
-    }
-
-    // Load Real Weekly Historical Series into Overview Chart
-    if (data.history) {
-      if (data.history['1Y'] && data.history['1Y'].labels) {
-        globalHistoricalData['1Y'] = data.history['1Y'];
-      }
-      if (data.history['2Y'] && data.history['2Y'].labels) {
-        globalHistoricalData['2Y'] = data.history['2Y'];
-      }
-      renderOverviewCombinedChart();
-    }
-
-    // Re-calculate personal portfolio P&L with latest live prices
-    if (typeof window.triggerPortfolioUpdate === 'function') {
-      window.triggerPortfolioUpdate();
-    }
-
-    // Store full live payload for Technicals tab & render
-    window.latestPayloadCache = data;
-    renderTechnicalsPanel(data);
-
-    // Calculator base price labels
-    const simBase2603 = document.getElementById('sim-2603-baseprice');
-    const simBase2609 = document.getElementById('sim-2609-baseprice');
-    const simBase2615 = document.getElementById('sim-2615-baseprice');
-    if (simBase2603) simBase2603.textContent = `${liveMarketData.price2603}元`;
-    if (simBase2609) simBase2609.textContent = `${liveMarketData.price2609}元`;
-    if (simBase2615) simBase2615.textContent = `${liveMarketData.price2615}元`;
-
-    // Global Indices update
-    if (data.global_indices) {
-      const g = data.global_indices;
-      const updateIndexTicker = (key, priceElemId, changeElemId) => {
-        if (g[key] && g[key].status === 'success') {
-          const item = g[key];
-          const priceElem = document.getElementById(priceElemId);
-          const changeElem = document.getElementById(changeElemId);
-          if (priceElem) priceElem.textContent = Math.round(item.price).toLocaleString();
-          if (changeElem) {
-            const isUp = item.change >= 0;
-            const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
-            const sign = isUp ? '+' : '';
-            changeElem.className = `${colorClass} font-mono text-[10px]`;
-            changeElem.textContent = `${sign}${item.change_percent}%`;
-          }
-        }
-      };
-
-      updateIndexTicker('tw', 'ticker-idx-tw', 'ticker-idx-tw-change');
-      updateIndexTicker('us', 'ticker-idx-us', 'ticker-idx-us-change');
-      updateIndexTicker('jp', 'ticker-idx-jp', 'ticker-idx-jp-change');
-      updateIndexTicker('eu', 'ticker-idx-eu', 'ticker-idx-eu-change');
-    }
-
-    // Taiwan Benchmarks (2330 & 0050) update
-    if (data.tw_benchmarks) {
-      const updateBenchmarkTicker = (code) => {
-        const b = data.tw_benchmarks[code];
-        if (!b || b.status !== 'success') return;
-
-        const priceElem = document.getElementById(`ticker-${code}-price`);
-        const changeElem = document.getElementById(`ticker-${code}-change`);
-        const rangeElem = document.getElementById(`ticker-${code}-range`);
-        const volElem = document.getElementById(`ticker-${code}-vol`);
-
-        if (priceElem) priceElem.textContent = `NT$ ${b.price.toLocaleString()}`;
-        if (changeElem) {
-          const isUp = b.change >= 0;
-          const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
-          const icon = isUp ? 'fa-caret-up' : 'fa-caret-down';
-          const sign = isUp ? '+' : '';
-          changeElem.className = `${colorClass} font-mono text-[10px] flex items-center`;
-          changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5"></i>${sign}${b.change} (${sign}${b.change_percent}%)`;
-        }
-        if (rangeElem && b.high && b.low) {
-          rangeElem.textContent = `高/低: ${b.high.toLocaleString()} / ${b.low.toLocaleString()}`;
-        }
-        if (volElem && b.volume) {
-          const lots = Math.round(b.volume / 1000).toLocaleString();
-          volElem.textContent = `量: ${lots}張`;
-        }
-      };
-
-      updateBenchmarkTicker('2330');
-      updateBenchmarkTicker('0050');
-    }
-
-    // Merge live news if available
-    if (data.live_news && Array.isArray(data.live_news) && data.live_news.length > 0) {
-      const combined = [...data.live_news, ...newsDatabase];
-      renderNewsCards(combined);
-    }
-
-    // Trigger calculator recalculation
-    if (typeof window.triggerCalculatorUpdate === 'function') {
-      window.triggerCalculatorUpdate();
     }
   } catch (err) {
     console.log("Using cached/default market figures:", err);
   }
+
+  await liveTask;
 }
 
 /* ========================================================
@@ -1283,19 +1462,45 @@ function initSensitivityCalculator() {
    ======================================================== */
 function initTickerUpdater() {
   const refreshBtn = document.getElementById('refresh-data-btn');
+  const syncToggleBtn = document.getElementById('live-sync-toggle');
 
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
       const icon = refreshBtn.querySelector('i');
       if (icon) icon.classList.add('fa-spin');
       setUpdateTimestamp(formatLocalTimestamp(new Date()), true);
-      loadLiveExternalData({ useCurrentTime: true }).finally(() => {
+      fetchCnyesRealtimeQuotes({ redrawTechCharts: true, highlightTime: true }).finally(() => {
         setTimeout(() => {
           if (icon) icon.classList.remove('fa-spin');
-        }, 500);
+        }, 450);
       });
     });
   }
+
+  if (syncToggleBtn) {
+    syncToggleBtn.addEventListener('click', () => {
+      autoSyncEnabled = !autoSyncEnabled;
+      if (autoSyncEnabled) {
+        setSyncBadgeState('live');
+        fetchCnyesRealtimeQuotes({ redrawTechCharts: false, highlightTime: true });
+      } else {
+        setSyncBadgeState('paused');
+      }
+    });
+  }
+
+  if (autoSyncTimer) clearInterval(autoSyncTimer);
+  autoSyncTimer = setInterval(() => {
+    if (autoSyncEnabled && document.visibilityState === 'visible') {
+      fetchCnyesRealtimeQuotes({ redrawTechCharts: false, highlightTime: false });
+    }
+  }, 15000);
+
+  document.addEventListener('visibilitychange', () => {
+    if (autoSyncEnabled && document.visibilityState === 'visible') {
+      fetchCnyesRealtimeQuotes({ redrawTechCharts: false, highlightTime: false });
+    }
+  });
 }
 
 
@@ -1862,7 +2067,7 @@ function initDividendCalculator() {
 let techMaChartInstance = null;
 let techInstChartInstance = null;
 
-function renderTechnicalsPanel(data) {
+function renderTechnicalsPanel(data, redrawCharts = true) {
   if (!data || !data.stocks) return;
   const metaMap = {
     '2603': { name: '長榮 (2603)', color: 'text-emerald-400' },
@@ -1908,7 +2113,7 @@ function renderTechnicalsPanel(data) {
     `;
   });
 
-  renderTechnicalsCharts();
+  if (redrawCharts) renderTechnicalsCharts();
 }
 
 function renderTechnicalsCharts() {
@@ -2026,7 +2231,11 @@ function initMacroFxSimulator() {
     fmt('fx-2615-impact', eps5);
   }
 
-  slider.addEventListener('input', calcFx);
+  window.triggerMacroFxUpdate = calcFx;
+  slider.addEventListener('input', () => {
+    userAdjustedFxSlider = true;
+    calcFx();
+  });
   calcFx();
 }
 
