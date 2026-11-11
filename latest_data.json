@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-11 17:47:24",
+  "last_updated": "2026-11-11 21:53:42",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
@@ -145,10 +145,10 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 6369.19,
+      "price": 6365.37,
       "prev_close": 6327.87,
-      "change": 41.32,
-      "change_percent": 0.65,
+      "change": 37.5,
+      "change_percent": 0.59,
       "high": 6398.89,
       "low": 6336.58,
       "volume": 0,
@@ -158,13 +158,13 @@
   "commodities": {
     "brent": {
       "symbol": "BZ=F",
-      "price": 92.64,
+      "price": 92.92,
       "prev_close": 91.49,
-      "change": 1.15,
-      "change_percent": 1.26,
-      "high": 92.9,
+      "change": 1.43,
+      "change_percent": 1.56,
+      "high": 93.6,
       "low": 91.48,
-      "volume": 6078,
+      "volume": 11484,
       "status": "success"
     }
   },
@@ -205,9 +205,9 @@
     "2330": {
       "date": "20261111",
       "foreign_lots": 6038.3,
-      "trust_lots": 1542.3,
+      "trust_lots": 2385.3,
       "dealer_lots": 148.9,
-      "total_lots": 7729.5
+      "total_lots": 8572.5
     },
     "2603": {
       "date": "20261111",
@@ -782,7 +782,7 @@
           6068.22,
           6131.31,
           6170.49,
-          6369.19
+          6365.37
         ]
       }
     },
@@ -1856,7 +1856,7 @@
           6068.22,
           6131.31,
           6170.49,
-          6369.19
+          6365.37
         ]
       }
     }
