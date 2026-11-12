@@ -213,41 +213,57 @@ body.sunny-ocean-theme .bg-slate-700 {
   background-color: rgba(186, 230, 253, 0.85) !important;
 }
 
-/* Light coastal gradient banners inside main */
-body.sunny-ocean-theme main .bg-gradient-to-r,
+/* Light coastal gradient banners inside main (override Tailwind via-slate-900 stops directly) */
+body.sunny-ocean-theme main .bg-gradient-to-r:not(#checklist-progress-bar),
 body.sunny-ocean-theme main .bg-gradient-to-br {
-  --tw-gradient-from: rgba(255, 255, 255, 0.90) var(--tw-gradient-from-position) !important;
-  --tw-gradient-via: rgba(240, 249, 255, 0.88) var(--tw-gradient-via-position) !important;
-  --tw-gradient-to: rgba(224, 242, 254, 0.88) var(--tw-gradient-to-position) !important;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(240, 249, 255, 0.90) 52%, rgba(224, 242, 254, 0.88) 100%) !important;
+  background-color: rgba(255, 255, 255, 0.90) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 26px rgba(14, 116, 144, 0.08);
 }
 
-/* Subtle colored tint panels */
+/* Subtle colored tint panels & pill badges (all 900/950 dark utilities -> airy pastels) */
 body.sunny-ocean-theme .bg-emerald-950\/5,
+body.sunny-ocean-theme .bg-emerald-950\/10,
 body.sunny-ocean-theme .bg-emerald-950\/20,
-body.sunny-ocean-theme .bg-emerald-950\/30 {
-  background-color: rgba(236, 253, 245, 0.86) !important;
+body.sunny-ocean-theme .bg-emerald-950\/30,
+body.sunny-ocean-theme .bg-emerald-900\/30,
+body.sunny-ocean-theme .bg-emerald-900\/40 {
+  background-color: rgba(209, 250, 229, 0.78) !important;
 }
 body.sunny-ocean-theme .bg-blue-950\/5,
+body.sunny-ocean-theme .bg-blue-950\/10,
 body.sunny-ocean-theme .bg-blue-950\/20,
 body.sunny-ocean-theme .bg-blue-950\/30,
+body.sunny-ocean-theme .bg-blue-900\/30,
+body.sunny-ocean-theme .bg-blue-900\/40,
 body.sunny-ocean-theme .bg-sky-950\/20,
-body.sunny-ocean-theme .bg-cyan-950\/20,
-body.sunny-ocean-theme .bg-indigo-950\/20 {
-  background-color: rgba(239, 246, 255, 0.86) !important;
+body.sunny-ocean-theme .bg-sky-950\/30,
+body.sunny-ocean-theme .bg-cyan-950\/20 {
+  background-color: rgba(219, 234, 254, 0.82) !important;
+}
+body.sunny-ocean-theme .bg-indigo-950\/20,
+body.sunny-ocean-theme .bg-indigo-950\/30,
+body.sunny-ocean-theme .bg-indigo-900\/30 {
+  background-color: rgba(224, 231, 255, 0.85) !important;
 }
 body.sunny-ocean-theme .bg-purple-950\/5,
+body.sunny-ocean-theme .bg-purple-950\/10,
 body.sunny-ocean-theme .bg-purple-950\/20,
-body.sunny-ocean-theme .bg-purple-950\/30 {
-  background-color: rgba(250, 245, 255, 0.86) !important;
+body.sunny-ocean-theme .bg-purple-950\/30,
+body.sunny-ocean-theme .bg-purple-900\/30,
+body.sunny-ocean-theme .bg-purple-900\/40 {
+  background-color: rgba(243, 232, 255, 0.82) !important;
 }
 body.sunny-ocean-theme .bg-rose-950\/40,
 body.sunny-ocean-theme .bg-rose-950\/20,
 body.sunny-ocean-theme .bg-rose-950\/30 {
-  background-color: rgba(255, 241, 242, 0.86) !important;
+  background-color: rgba(255, 228, 230, 0.84) !important;
 }
 body.sunny-ocean-theme .bg-amber-950\/20,
 body.sunny-ocean-theme .bg-amber-950\/30 {
-  background-color: rgba(255, 251, 235, 0.88) !important;
+  background-color: rgba(254, 243, 199, 0.86) !important;
 }
 
 /* Crisp coastal borders & dividers */
@@ -258,6 +274,31 @@ body.sunny-ocean-theme .border-slate-800\/70,
 body.sunny-ocean-theme .border-slate-700,
 body.sunny-ocean-theme .border-slate-700\/60 {
   border-color: rgba(125, 211, 252, 0.52) !important;
+}
+body.sunny-ocean-theme .border-emerald-900\/40,
+body.sunny-ocean-theme .border-emerald-900\/50,
+body.sunny-ocean-theme .border-emerald-800\/70,
+body.sunny-ocean-theme .border-emerald-800\/60,
+body.sunny-ocean-theme .border-emerald-700\/50 {
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+body.sunny-ocean-theme .border-blue-900\/40,
+body.sunny-ocean-theme .border-blue-900\/50,
+body.sunny-ocean-theme .border-blue-800\/70,
+body.sunny-ocean-theme .border-blue-800\/60,
+body.sunny-ocean-theme .border-blue-700\/50 {
+  border-color: rgba(59, 130, 246, 0.35) !important;
+}
+body.sunny-ocean-theme .border-purple-900\/40,
+body.sunny-ocean-theme .border-purple-900\/50,
+body.sunny-ocean-theme .border-purple-800\/70,
+body.sunny-ocean-theme .border-purple-800\/60,
+body.sunny-ocean-theme .border-purple-700\/50 {
+  border-color: rgba(168, 85, 247, 0.35) !important;
+}
+body.sunny-ocean-theme .border-indigo-700\/50,
+body.sunny-ocean-theme .border-rose-900\/40 {
+  border-color: rgba(99, 102, 241, 0.35) !important;
 }
 body.sunny-ocean-theme .divide-slate-800 > :not([hidden]) ~ :not([hidden]) {
   border-color: rgba(125, 211, 252, 0.45) !important;
