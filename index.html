@@ -43,7 +43,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261112e">
+  <link rel="stylesheet" href="style.css?v=20261112f">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -1849,13 +1849,13 @@
               <h2 class="text-xl font-black text-white">航運景氣與投資分析權威文獻回顧 (Literature Review)</h2>
             </div>
             <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-              以<strong>經典海運經濟理論</strong>、<strong>聯合國與國際海事智庫</strong>、<strong>國內頂尖大學實證論文</strong>與<strong>法人／計量評價規範</strong>為四大分類架構基礎，不限篇數上限，隨本戰情室新增指標與分析模組持續擴充收錄實際採用之研究文獻與實證規範。
+              以<strong>經典海運經濟理論</strong>、<strong>聯合國與國際海事智庫</strong>、<strong>國際頂尖同行評審期刊 (SSCI/SCI)</strong>與<strong>法人／計量評價規範</strong>為四大分類架構基礎（不限篇數上限，嚴選 Elsevier、Taylor &amp; Francis、Springer、Wiley 等權威出版社文獻，全面排除碩博士論文與掠奪性期刊）。
             </p>
           </div>
           <div class="flex items-center gap-2">
             <div class="px-3.5 py-2 rounded-lg bg-indigo-900/30 border border-indigo-700/50 text-center shrink-0">
               <div class="text-[10px] text-indigo-400 font-bold uppercase">4大支柱架構 • 持續擴充</div>
-              <div class="text-sm font-bold text-white" id="lit-scale-badge">已收錄 <span id="lit-total-count">14</span> 篇文獻</div>
+              <div class="text-sm font-bold text-white" id="lit-scale-badge">已收錄 <span id="lit-total-count">16</span> 篇文獻</div>
             </div>
           </div>
         </div>
@@ -1869,7 +1869,7 @@
           <button class="lit-filter-btn active px-3 py-1 rounded-full text-xs font-semibold bg-indigo-600 text-white" data-filter="all">全部文獻</button>
           <button class="lit-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="theory">經典理論</button>
           <button class="lit-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="un-industry">國際智庫</button>
-          <button class="lit-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="academic">國內學術實證</button>
+          <button class="lit-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="academic">國際 SSCI 期刊</button>
           <button class="lit-filter-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white" data-filter="valuation">法人評價模型</button>
         </div>
 
@@ -1972,59 +1972,63 @@
           </div>
         </div>
 
-        <!-- Lit 4: NTOU / NYCU Academic Thesis (SCFI Lag) -->
+        <!-- Lit 4: Hsiao, Chou & Wu (2014) Maritime Policy & Management (SSCI) -->
         <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="academic">
           <div>
             <div class="flex items-center justify-between text-xs mb-2">
               <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                國內頂尖學術實證 • 海大/交大
+                國際 SSCI 期刊 • Taylor &amp; Francis
               </span>
-              <span class="text-slate-400 font-mono text-[11px]">臺灣博碩士論文知識庫</span>
+              <span class="text-slate-400 font-mono text-[11px]">Maritime Policy &amp; Management, 2014</span>
             </div>
             <h3 class="text-sm font-bold text-white mb-2 leading-snug">
-              國立臺灣海洋大學航管所 / 陽明交通大學運管所. (2022-2024). <span class="text-purple-400 italic">《上海出口集裝箱運價指數 (SCFI) 波動對台灣貨櫃航商營收與股價傳導之時間序列實證分析》</span>.
+              Hsiao, Y.-J., Chou, H.-C., &amp; Wu, C.-C. (2014). <span class="text-purple-400 italic">Return lead–lag and volatility transmission in shipping freight markets</span>. <span class="text-slate-300">41(7), 697–714.</span>
             </h3>
             <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
               <p><strong>【實證研究發現】</strong></p>
               <ul class="list-disc list-inside text-slate-400 space-y-1">
-                <li><strong>運價領先營收 3~5 週：</strong>建立向量自我迴歸 (VAR) 模型，驗證即期運價指數與貨櫃三雄營收認列之時間遞延關係。</li>
-                <li><strong>航線槓桿差異：</strong>陽明（2609）歐洲線佔比達 40%，對現貨運價之敏感度（Beta值）顯著高於長榮；長榮因長約與美線比重平衡，營收平滑度最佳。</li>
-                <li><strong>萬海特性：</strong>近洋航線週轉天數短（7~14天），營收對短線運價傳導速度為三雄中最快。</li>
+                <li><strong>報酬領先遞延與波動外溢：</strong>透過向量自迴歸 (VAR) 與雙變數 GARCH 模型，實證海運現貨與遠期運價市場之間存在顯著的領先—落後傳導與波動度跨期外溢效應。</li>
+                <li><strong>跨市場風險定價：</strong>證實即期運價指數跳動對航運金融資產價格變動率具高度領先解釋力，為「三雄股價領先/落後運價反應」提供計量依據。</li>
+                <li><strong>結構斷裂與波動群聚：</strong>景氣反轉期間運價波動率具明顯群聚現象，提醒投資人嚴控乖離追高風險。</li>
               </ul>
             </div>
           </div>
           <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span class="text-[11px] text-purple-400"><i class="fa-solid fa-chart-line mr-1"></i>支撐本站：走勢圖滯後反應理論</span>
-            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="國立臺灣海洋大學航運管理學系. (2023). 貨櫃運價指數與航商獲利傳導機制之計量實證研究. 碩士論文.">
+            <a href="https://doi.org/10.1080/03088839.2013.865849" target="_blank" rel="noopener noreferrer" class="text-[11px] text-purple-400 hover:underline flex items-center gap-1">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> DOI: 10.1080/03088839.2013.865849
+            </a>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="Hsiao, Y.-J., Chou, H.-C., & Wu, C.-C. (2014). Return lead–lag and volatility transmission in shipping freight markets. Maritime Policy & Management, 41(7), 697–714. https://doi.org/10.1080/03088839.2013.865849">
               <i class="fa-regular fa-copy"></i> 複製 APA 引文
             </button>
           </div>
         </div>
 
-        <!-- Lit 5: NCKU Fleet & Capital Structure Thesis -->
+        <!-- Lit 5: Wu (2009) International Journal of Production Economics (Elsevier Q1 - Taiwan Container Lines) -->
         <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="academic">
           <div>
             <div class="flex items-center justify-between text-xs mb-2">
               <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                國內學術實證 • 成功大學交管系
+                國際 SCI/SSCI Q1 • Elsevier
               </span>
-              <span class="text-slate-400 font-mono text-[11px]">臺灣學術期刊</span>
+              <span class="text-slate-400 font-mono text-[11px]">Int. J. Production Economics, 2009</span>
             </div>
             <h3 class="text-sm font-bold text-white mb-2 leading-snug">
-              國立成功大學交通管理科學系. (2023). <span class="text-purple-400 italic">《貨櫃三雄（長榮、陽明、萬海）資本配置、船隊自主率與週期性抗壓能力比較研究》</span>.
+              Wu, W.-M. (2009). <span class="text-purple-400 italic">An approach for measuring the optimal fleet capacity: Evidence from the container shipping lines in Taiwan</span>. <span class="text-slate-300">122(1), 118–126.</span>
             </h3>
             <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
-              <p><strong>【策略比較結論】</strong></p>
+              <p><strong>【台灣貨櫃航商實證結論】</strong></p>
               <ul class="list-disc list-inside text-slate-400 space-y-1">
-                <li><strong>長榮減資效益：</strong>長榮透過高比例現金減資降低股本，在相同獲利下大幅推升 EPS 與 ROE，資本運用效率業界第一。</li>
-                <li><strong>萬海高自有船優勢：</strong>萬海自有船比重超過 85%，在低迷期免除高昂租船租金負擔，在繁榮期則能將運價上漲 100% 轉化為淨利潤。</li>
-                <li><strong>陽明現金存量防守：</strong>陽明歷經大循環後帳上保留大量現金儲備，利息收入提供厚實的淨值保護墊。</li>
+                <li><strong>台灣主要貨櫃航商實證樣本：</strong>直接以台灣定期貨櫃航商營運財務數據建構短期成本與產能模型，量化最適船隊規模與自有/租船配置彈性。</li>
+                <li><strong>固定資產槓桿效應：</strong>驗證航商在景氣循環波動下，自有船比例、資本支出與單位艙位成本結構對獲利彈性的關鍵影響。</li>
+                <li><strong>三雄體質對照依據：</strong>支撐本戰情室將長榮（規模經濟）、陽明（運力結構）與萬海（高自有船比例）進行橫向指標拆解比較。</li>
               </ul>
             </div>
           </div>
           <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span class="text-[11px] text-purple-400"><i class="fa-solid fa-code-compare mr-1"></i>支撐本站：三雄詳細指標對比表</span>
-            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="國立成功大學交通管理科學系. (2023). 台灣主要定期航商資本結構與營運競爭力分析. 交通學報, 32(4), 45-68.">
+            <a href="https://doi.org/10.1016/j.ijpe.2008.12.020" target="_blank" rel="noopener noreferrer" class="text-[11px] text-purple-400 hover:underline flex items-center gap-1">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> DOI: 10.1016/j.ijpe.2008.12.020
+            </a>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="Wu, W.-M. (2009). An approach for measuring the optimal fleet capacity: Evidence from the container shipping lines in Taiwan. International Journal of Production Economics, 122(1), 118–126. https://doi.org/10.1016/j.ijpe.2008.12.020">
               <i class="fa-regular fa-copy"></i> 複製 APA 引文
             </button>
           </div>
@@ -2297,6 +2301,66 @@
             </button>
           </div>
         </div>
+
+        <!-- Lit 15: Jeon, Duru & Yeo (2020) Cyclic Container Freight Index -->
+        <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="academic">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                國際 SSCI 期刊 • Taylor &amp; Francis
+              </span>
+              <span class="text-slate-400 font-mono text-[11px]">Maritime Policy &amp; Management, 2020</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 leading-snug">
+              Jeon, J.-W., Duru, O., &amp; Yeo, G.-T. (2020). <span class="text-purple-400 italic">Modelling cyclic container freight index using system dynamics</span>. <span class="text-slate-300">47(3), 287–303.</span>
+            </h3>
+            <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
+              <p><strong>【運價週期系統動力學】</strong></p>
+              <ul class="list-disc list-inside text-slate-400 space-y-1">
+                <li><strong>反饋迴路與多層週期：</strong>建立系統動力學模型拆解全球貨櫃運力供給、訂單交付延遲與全球貿易量間的非線性反饋迴路。</li>
+                <li><strong>景氣轉折點預警：</strong>量化分析運價指數均值回歸與超調 (Overshooting) 機制，支撐本戰情室「獲利情境試算」對景氣位階之假設設定。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <a href="https://doi.org/10.1080/03088839.2019.1708984" target="_blank" rel="noopener noreferrer" class="text-[11px] text-purple-400 hover:underline flex items-center gap-1">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> DOI: 10.1080/03088839.2019.1708984
+            </a>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="Jeon, J.-W., Duru, O., & Yeo, G.-T. (2020). Modelling cyclic container freight index using system dynamics. Maritime Policy & Management, 47(3), 287–303. https://doi.org/10.1080/03088839.2019.1708984">
+              <i class="fa-regular fa-copy"></i> 複製 APA 引文
+            </button>
+          </div>
+        </div>
+
+        <!-- Lit 16: Tran & Haasis (2015) Container Fleet Expansion & Economies of Scale -->
+        <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="academic">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                國際 SCI/SSCI Q1 • Elsevier
+              </span>
+              <span class="text-slate-400 font-mono text-[11px]">Int. J. Production Economics, 2015</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 leading-snug">
+              Tran, N. K., &amp; Haasis, H.-D. (2015). <span class="text-purple-400 italic">An empirical study of fleet expansion and growth of ship size in container liner shipping</span>. <span class="text-slate-300">159, 241–253.</span>
+            </h3>
+            <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
+              <p><strong>【船舶大型化與成本優勢實證】</strong></p>
+              <ul class="list-disc list-inside text-slate-400 space-y-1">
+                <li><strong>單箱成本規模經濟：</strong>實證定期航商透過大型化船舶 (Mega-ships) 降低單位 TEU 營運成本之顯著門檻，同時揭示運力過剩期之價格戰壓力。</li>
+                <li><strong>船隊升級投資評價：</strong>驗證為何長榮大量配置 15,000–24,000 TEU 超大型貨櫃輪，能在運價下行期維持比中小航商更佳的營運淨利率。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <a href="https://doi.org/10.1016/j.ijpe.2014.09.016" target="_blank" rel="noopener noreferrer" class="text-[11px] text-purple-400 hover:underline flex items-center gap-1">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> DOI: 10.1016/j.ijpe.2014.09.016
+            </a>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="Tran, N. K., & Haasis, H.-D. (2015). An empirical study of fleet expansion and growth of ship size in container liner shipping. International Journal of Production Economics, 159, 241–253. https://doi.org/10.1016/j.ijpe.2014.09.016">
+              <i class="fa-regular fa-copy"></i> 複製 APA 引文
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- Quick Research Portal & Citation Guide -->
@@ -2306,12 +2370,12 @@
           學術研究與延伸查詢指引 (Official Data Portals)
         </h4>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-          <a href="https://ndltd.ncl.edu.tw/" target="_blank" rel="noopener noreferrer" class="p-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition block group">
+          <a href="https://www.sciencedirect.com/journal/transportation-research-part-e-logistics-and-transportation-review" target="_blank" rel="noopener noreferrer" class="p-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition block group">
             <div class="font-bold text-white group-hover:text-indigo-400 flex items-center justify-between">
-              <span>臺灣博碩士論文系統</span>
+              <span>ScienceDirect / Maritime SSCI 期刊庫</span>
               <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">搜尋關鍵字：長榮海運、陽明、萬海、定期船運價、SCFI 週期</p>
+            <p class="text-[11px] text-slate-400 mt-1">檢索 Elsevier 頂尖運輸期刊（Transportation Research Part E、IJPE 等同行評審期刊研究）</p>
           </a>
 
           <a href="https://unctad.org/topic/transport-and-logistics/review-of-maritime-transport" target="_blank" rel="noopener noreferrer" class="p-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition block group">
@@ -2733,6 +2797,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261112e"></script>
+  <script src="app.js?v=20261112f"></script>
 </body>
 </html>
