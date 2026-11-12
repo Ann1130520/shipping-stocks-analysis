@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-12 16:11:24",
+  "last_updated": "2026-11-12 18:09:53",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
@@ -90,21 +90,21 @@
     "0050": {
       "symbol": "0050.TW",
       "price": 100.95,
-      "prev_close": 99.7,
-      "change": 1.25,
-      "change_percent": 1.25,
+      "prev_close": 103.2,
+      "change": -2.25,
+      "change_percent": -2.18,
       "high": 104.2,
       "low": 100.8,
       "volume": 137651148,
       "status": "success",
       "technicals": {
-        "ma5": 97.55,
-        "ma20": 104.4,
-        "ma60": 107.53,
-        "ma240": 90.15,
-        "bias_20": -3.3,
-        "bias_60": -6.12,
-        "rsi14": 42.4,
+        "ma5": 98.76,
+        "ma20": 103.91,
+        "ma60": 107.48,
+        "ma240": 90.32,
+        "bias_20": -2.85,
+        "bias_60": -6.08,
+        "rsi14": 43.3,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -112,10 +112,10 @@
   "global_indices": {
     "tw": {
       "symbol": "^TWII",
-      "price": 44257.1,
+      "price": 43091.87,
       "prev_close": 42711.9,
-      "change": 1545.2,
-      "change_percent": 3.62,
+      "change": 379.97,
+      "change_percent": 0.89,
       "high": 44525.24,
       "low": 42943.5,
       "volume": 0,
@@ -145,12 +145,12 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 6393.39,
-      "prev_close": 6327.87,
-      "change": 65.52,
-      "change_percent": 1.04,
-      "high": 0.0,
-      "low": 0.0,
+      "price": 6424.02,
+      "prev_close": 6393.39,
+      "change": 30.63,
+      "change_percent": 0.48,
+      "high": 6430.62,
+      "low": 6393.27,
       "volume": 0,
       "status": "success"
     }
@@ -158,40 +158,40 @@
   "commodities": {
     "brent": {
       "symbol": "BZ=F",
-      "price": 93.27,
+      "price": 92.46,
       "prev_close": 92.76,
-      "change": 0.51,
-      "change_percent": 0.55,
-      "high": 93.39,
+      "change": -0.3,
+      "change_percent": -0.32,
+      "high": 93.89,
       "low": 91.19,
-      "volume": 3080,
+      "volume": 6438,
       "status": "success"
     }
   },
   "fundamentals": {
     "2330": {
-      "date": "1151111",
-      "pe": 27.76,
-      "yield": 0.92,
-      "pb": 9.66
+      "date": "1151112",
+      "pe": 27.12,
+      "yield": 0.94,
+      "pb": 9.43
     },
     "2603": {
-      "date": "1151111",
-      "pe": 10.21,
-      "yield": 6.21,
-      "pb": 0.99
+      "date": "1151112",
+      "pe": 9.97,
+      "yield": 6.36,
+      "pb": 0.97
     },
     "2609": {
-      "date": "1151111",
-      "pe": 7.37,
-      "yield": 3.38,
-      "pb": 0.6
+      "date": "1151112",
+      "pe": 7.26,
+      "yield": 3.44,
+      "pb": 0.59
     },
     "2615": {
-      "date": "1151111",
-      "pe": 7.62,
-      "yield": 2.7,
-      "pb": 1.08
+      "date": "1151112",
+      "pe": 7.35,
+      "yield": 2.8,
+      "pb": 1.04
     }
   },
   "institutional": {
@@ -617,7 +617,7 @@
           46041.43,
           45211.83,
           39701.64,
-          44257.1
+          43091.87
         ],
         "us": [
           6734.11,
@@ -782,7 +782,7 @@
           6068.22,
           6131.31,
           6170.49,
-          6393.39
+          6423.58
         ]
       }
     },
@@ -1535,7 +1535,7 @@
           46041.43,
           45211.83,
           39701.64,
-          44257.1
+          43091.87
         ],
         "us": [
           5870.62,
@@ -1856,7 +1856,7 @@
           6068.22,
           6131.31,
           6170.49,
-          6393.39
+          6423.58
         ]
       }
     }
@@ -1952,23 +1952,23 @@
     },
     {
       "id": "live-9",
-      "title": "旺季貨載、高檔運價挹注 長榮、萬海7月營收齊衝高！後市緊盯2變數",
-      "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5mY1RXUDAtZ2l5aG0xdG50N3RZUUs3Z0ExWXQzZzc4MTI5RVdwamp0blRhTG1ZV2JCTlQxWXg4OWtfRkF4YWc2X1JxWFl5ZUdPZDFBTHAyTkZiMUVlZzF3?oc=5",
-      "pubDate": "Sat, 08 Aug 2026 07:00:00 GMT",
-      "source": "工商時報",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
-    },
-    {
-      "id": "live-10",
       "title": "貨櫃運價連七漲、搶艙再現，三雄股價竟都跌！這隱憂未解",
       "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5oaVNFa3MzWnE4dU5LY1V0SzA1R3FNX25fNTdhNEp5ZC13VlRoRm1aanF5Y0hNeVlzR1FtakE1UmJSMENiaGFvblVCNVVVQQ?oc=5",
       "pubDate": "Mon, 15 Jun 2026 07:00:00 GMT",
       "source": "遠見雜誌",
       "sentiment": "bear",
       "sentimentLabel": "偏空警訊",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-10",
+      "title": "旺季貨載、高檔運價挹注 長榮、萬海7月營收齊衝高！後市緊盯2變數",
+      "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5mY1RXUDAtZ2l5aG0xdG50N3RZUUs3Z0ExWXQzZzc4MTI5RVdwamp0blRhTG1ZV2JCTlQxWXg4OWtfRkF4YWc2X1JxWFl5ZUdPZDFBTHAyTkZiMUVlZzF3?oc=5",
+      "pubDate": "Sat, 08 Aug 2026 07:00:00 GMT",
+      "source": "工商時報",
+      "sentiment": "bull",
+      "sentimentLabel": "偏多利多",
       "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     }
