@@ -1925,9 +1925,14 @@ function initMobileBenchmarkToggle() {
    ======================================================== */
 function initPortfolioTracker() {
   const STORAGE_KEY = 'shipping_portfolio_v1';
+  const FEE_RATE = 0.001425;
   const codes = ['2603', '2609', '2615'];
   const sellTargets = { '2603': 310, '2609': 82, '2615': 135 };
   const buyTargets = { '2603': 255, '2609': 63, '2615': 108 };
+
+  const discountEl = document.getElementById('pf-fee-discount');
+  const minFeeEl = document.getElementById('pf-min-fee');
+  const taxRateEl = document.getElementById('pf-tax-rate');
 
   // Load saved values
   let saved = {};
@@ -1937,6 +1942,10 @@ function initPortfolioTracker() {
     saved = {};
   }
 
+  if (discountEl && saved._settings?.feeDiscount !== undefined) discountEl.value = saved._settings.feeDiscount;
+  if (minFeeEl && saved._settings?.minFee !== undefined) minFeeEl.value = saved._settings.minFee;
+  if (taxRateEl && saved._settings?.taxRate !== undefined) taxRateEl.value = saved._settings.taxRate;
+
   codes.forEach(code => {
     const costEl = document.getElementById(`pf-${code}-cost`);
     const lotsEl = document.getElementById(`pf-${code}-lots`);
@@ -1944,10 +1953,26 @@ function initPortfolioTracker() {
     if (lotsEl && saved[code]?.lots !== undefined) lotsEl.value = saved[code].lots;
   });
 
+  function calcFee(amount, discount, minFee) {
+    if (amount <= 0) return 0;
+    return Math.max(minFee, Math.floor(amount * FEE_RATE * discount));
+  }
+
   function calculatePortfolio() {
+    const feeDiscount = discountEl ? (parseFloat(discountEl.value) || 0.6) : 0.6;
+    const minFee = minFeeEl ? (parseInt(minFeeEl.value, 10) || 20) : 20;
+    const taxRate = taxRateEl ? (parseFloat(taxRateEl.value) || 0.003) : 0.003;
+
     let totalCost = 0;
-    let totalValue = 0;
-    const newSaved = {};
+    let totalNetValue = 0;
+    let totalFeesAndTax = 0;
+    const newSaved = {
+      _settings: {
+        feeDiscount: String(feeDiscount),
+        minFee: String(minFee),
+        taxRate: String(taxRate)
+      }
+    };
 
     const prices = {
       '2603': liveMarketData.price2603 || 255.5,
@@ -1970,12 +1995,26 @@ function initPortfolioTracker() {
 
       if (!isNaN(cost) && cost > 0 && !isNaN(lots) && lots > 0) {
         const cur = prices[code];
-        const invested = cost * lots * 1000;
-        const mktVal = cur * lots * 1000;
-        const pnl = mktVal - invested;
-        const roi = ((cur - cost) / cost) * 100;
-        totalCost += invested;
-        totalValue += mktVal;
+        const shares = Math.round(lots * 1000);
+        const buyAmt = cost * shares;
+        const buyFee = calcFee(buyAmt, feeDiscount, minFee);
+        const investedWithFee = buyAmt + buyFee;
+
+        const sellAmt = cur * shares;
+        const sellFee = calcFee(sellAmt, feeDiscount, minFee);
+        const sellTax = Math.floor(sellAmt * taxRate);
+        const feesAndTax = buyFee + sellFee + sellTax;
+        const netProceeds = sellAmt - sellFee - sellTax;
+        const pnl = netProceeds - investedWithFee;
+        const roi = investedWithFee > 0 ? (pnl / investedWithFee) * 100 : 0;
+
+        const breakevenNormal = investedWithFee / (shares * (1 - FEE_RATE * feeDiscount - taxRate));
+        const breakevenMinFee = (investedWithFee + minFee) / (shares * (1 - taxRate));
+        const breakevenPrice = Math.max(breakevenNormal, breakevenMinFee);
+
+        totalCost += investedWithFee;
+        totalNetValue += netProceeds;
+        totalFeesAndTax += feesAndTax;
 
         const isProfit = pnl >= 0;
         const pnlClass = isProfit ? 'text-rose-400' : 'text-emerald-400';
@@ -1987,16 +2026,20 @@ function initPortfolioTracker() {
 
         resEl.innerHTML = `
           <div class="flex justify-between">
-            <span>損益: <strong class="${pnlClass} font-mono">${sign}${Math.round(pnl).toLocaleString()}元</strong></span>
-            <span class="${pnlClass} font-mono font-bold">${sign}${roi.toFixed(1)}%</span>
+            <span>淨損益(扣費稅): <strong class="${pnlClass} font-mono">${sign}${Math.round(pnl).toLocaleString()}元</strong></span>
+            <span class="${pnlClass} font-mono font-bold">${sign}${roi.toFixed(2)}%</span>
+          </div>
+          <div class="text-[10px] text-slate-400 mt-1 flex justify-between">
+            <span>手續費+稅: <strong class="text-amber-400 font-mono">-${feesAndTax.toLocaleString()}元</strong></span>
+            <span>兩平價: <strong class="text-white font-mono">${breakevenPrice.toFixed(2)}元</strong></span>
           </div>
           <div class="text-[10px] text-slate-400 mt-0.5 flex justify-between">
-            <span>市值: ${Math.round(mktVal).toLocaleString()}元</span>
+            <span>預估淨入帳: ${Math.round(netProceeds).toLocaleString()}元</span>
             <span>${sellHint}</span>
           </div>
         `;
       } else {
-        resEl.innerHTML = '<span class="text-slate-500">輸入均價與張數後自動計算損益</span>';
+        resEl.innerHTML = '<span class="text-slate-500">輸入均價與張數後自動計算含費稅淨損益</span>';
       }
     });
 
@@ -2005,15 +2048,17 @@ function initPortfolioTracker() {
     } catch (e) {}
 
     const totCostEl = document.getElementById('pf-total-cost');
+    const totFeesTaxEl = document.getElementById('pf-total-fees-tax');
     const totValEl = document.getElementById('pf-total-value');
     const totPnlEl = document.getElementById('pf-total-pnl');
     if (totCostEl) totCostEl.textContent = `NT$ ${Math.round(totalCost).toLocaleString()}`;
-    if (totValEl) totValEl.textContent = `NT$ ${Math.round(totalValue).toLocaleString()}`;
+    if (totFeesTaxEl) totFeesTaxEl.textContent = totalFeesAndTax > 0 ? `-NT$ ${Math.round(totalFeesAndTax).toLocaleString()}` : 'NT$ 0';
+    if (totValEl) totValEl.textContent = `NT$ ${Math.round(totalNetValue).toLocaleString()}`;
     if (totPnlEl) {
-      const totalPnl = totalValue - totalCost;
+      const totalPnl = totalNetValue - totalCost;
       const totalRoi = totalCost > 0 ? (totalPnl / totalCost) * 100 : 0;
       const sign = totalPnl >= 0 ? '+' : '';
-      totPnlEl.textContent = `NT$ ${sign}${Math.round(totalPnl).toLocaleString()} (${sign}${totalRoi.toFixed(1)}%)`;
+      totPnlEl.textContent = `NT$ ${sign}${Math.round(totalPnl).toLocaleString()} (${sign}${totalRoi.toFixed(2)}%)`;
       totPnlEl.className = totalCost === 0
         ? 'text-slate-300 font-mono'
         : (totalPnl >= 0 ? 'text-rose-400 font-mono font-bold' : 'text-emerald-400 font-mono font-bold');
@@ -2025,6 +2070,9 @@ function initPortfolioTracker() {
   document.querySelectorAll('.pf-input').forEach(el => {
     el.addEventListener('input', calculatePortfolio);
   });
+  document.querySelectorAll('.pf-setting').forEach(el => {
+    el.addEventListener('change', calculatePortfolio);
+  });
 
   const resetBtn = document.getElementById('reset-portfolio-btn');
   if (resetBtn) {
@@ -2035,14 +2083,12 @@ function initPortfolioTracker() {
         if (c) c.value = '';
         if (l) l.value = '';
       });
-      localStorage.removeItem(STORAGE_KEY);
       calculatePortfolio();
     });
   }
 
   calculatePortfolio();
 }
-
 
 /* ========================================================
    9. GEOPOLITICS WAR ROOM (SCENARIOS, MAP & CHARTS)

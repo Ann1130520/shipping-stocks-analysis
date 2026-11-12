@@ -43,7 +43,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261112f">
+  <link rel="stylesheet" href="style.css?v=20261112g">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -1751,11 +1751,41 @@
               <i class="fa-solid fa-wallet text-indigo-400"></i>
               我的航運持股損益與出場距離試算（自動儲存於本機）
             </h3>
-            <p class="text-[11px] text-slate-400 mt-0.5">輸入您的買進均價與持有張數，自動結合即時股價計算未實現損益、預估年領股息與目標距離</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">輸入買進均價與持有張數，自動計入台股券商手續費 (0.1425% × 折數) 與證交稅 (0.3% / 當沖 0.15%)，計算真實淨損益與損益兩平價</p>
           </div>
-          <button id="reset-portfolio-btn" class="text-[11px] text-slate-400 hover:text-white px-2.5 py-1 rounded bg-slate-800 border border-slate-700 self-start sm:self-auto transition">
+          <button id="reset-portfolio-btn" class="text-[11px] text-slate-400 hover:text-white px-2.5 py-1 rounded bg-slate-800 border border-slate-700 self-start sm:self-auto transition shrink-0">
             清空持股設定
           </button>
+        </div>
+
+        <!-- Taiwan Stock Fee & Transaction Tax Settings Bar -->
+        <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div>
+            <label for="pf-fee-discount" class="text-[10px] text-slate-400 font-semibold block mb-1">券商手續費折數 (公定 0.1425% 買賣皆收)</label>
+            <select id="pf-fee-discount" class="pf-setting w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-white text-xs font-mono focus:outline-none focus:border-indigo-500">
+              <option value="1">無折讓 (10 折 / 0.1425%)</option>
+              <option value="0.6" selected>6 折 (電子下單常用 0.0855%)</option>
+              <option value="0.5">5 折 (0.07125%)</option>
+              <option value="0.38">3.8 折 (0.05415%)</option>
+              <option value="0.28">2.8 折 (優惠電子 0.0399%)</option>
+              <option value="0.2">2 折 (0.0285%)</option>
+              <option value="0.15">1.5 折 (VIP 0.02138%)</option>
+            </select>
+          </div>
+          <div>
+            <label for="pf-min-fee" class="text-[10px] text-slate-400 font-semibold block mb-1">單筆最低手續費門檻</label>
+            <select id="pf-min-fee" class="pf-setting w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-white text-xs font-mono focus:outline-none focus:border-indigo-500">
+              <option value="20" selected>一般低消 NT$ 20 / 筆</option>
+              <option value="1">零股/電子優惠 NT$ 1 / 筆</option>
+            </select>
+          </div>
+          <div>
+            <label for="pf-tax-rate" class="text-[10px] text-slate-400 font-semibold block mb-1">證券交易稅率 (僅賣出課徵)</label>
+            <select id="pf-tax-rate" class="pf-setting w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-white text-xs font-mono focus:outline-none focus:border-indigo-500">
+              <option value="0.003" selected>一般現股賣出 0.3% (千分之 3)</option>
+              <option value="0.0015">現股當沖賣出 0.15% (千分之 1.5)</option>
+            </select>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
@@ -1825,9 +1855,10 @@
 
         <!-- Portfolio Grand Total Summary -->
         <div id="pf-total-summary" class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs">
-          <span class="text-slate-400">總投入成本: <strong id="pf-total-cost" class="text-white font-mono">NT$ 0</strong></span>
-          <span class="text-slate-400">目前總市值: <strong id="pf-total-value" class="text-white font-mono">NT$ 0</strong></span>
-          <span class="text-slate-400">合計未實現損益: <strong id="pf-total-pnl" class="text-slate-300 font-mono">NT$ 0 (0.0%)</strong></span>
+          <span class="text-slate-400">總投入成本(含買費): <strong id="pf-total-cost" class="text-white font-mono">NT$ 0</strong></span>
+          <span class="text-slate-400">預估總稅費(買賣費+稅): <strong id="pf-total-fees-tax" class="text-amber-400 font-mono">NT$ 0</strong></span>
+          <span class="text-slate-400">賣出淨入帳(扣稅費): <strong id="pf-total-value" class="text-white font-mono">NT$ 0</strong></span>
+          <span class="text-slate-400">真實合計淨損益: <strong id="pf-total-pnl" class="text-slate-300 font-mono">NT$ 0 (0.0%)</strong></span>
         </div>
       </div>
 
@@ -1855,7 +1886,7 @@
           <div class="flex items-center gap-2">
             <div class="px-3.5 py-2 rounded-lg bg-indigo-900/30 border border-indigo-700/50 text-center shrink-0">
               <div class="text-[10px] text-indigo-400 font-bold uppercase">4大支柱架構 • 持續擴充</div>
-              <div class="text-sm font-bold text-white" id="lit-scale-badge">已收錄 <span id="lit-total-count">16</span> 篇文獻</div>
+              <div class="text-sm font-bold text-white" id="lit-scale-badge">已收錄 <span id="lit-total-count">17</span> 篇文獻</div>
             </div>
           </div>
         </div>
@@ -2361,6 +2392,35 @@
             </button>
           </div>
         </div>
+
+        <!-- Lit 17: Taiwan Securities Transaction Tax Act & TWSE Brokerage Fee Ceiling -->
+        <div class="lit-card bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-indigo-500/50 transition flex flex-col justify-between" data-category="valuation">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                台股交易稅費與損益兩平規範
+              </span>
+              <span class="text-slate-400 font-mono text-[11px]">《證券交易稅條例》/ TWSE</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 leading-snug">
+              中華民國《證券交易稅條例》及 <span class="text-amber-400 italic">臺灣證券交易所經紀商受託買賣手續費率</span> 交易成本精算基準.
+            </h3>
+            <div class="text-xs text-slate-300 space-y-2 mb-4 leading-relaxed">
+              <p><strong>【台股真實交易成本核心】</strong></p>
+              <ul class="list-disc list-inside text-slate-400 space-y-1">
+                <li><strong>雙邊券商手續費：</strong>買進與賣出皆依成交金額 × <strong class="text-white">0.1425% × 券商折數</strong>（無條件捨去至整數元，並適用單筆低消門檻 NT$20 或電子優惠 NT$1）。</li>
+                <li><strong>單邊賣出證交稅：</strong>一般現股賣出課徵 <strong class="text-white">0.3%</strong>，現股當沖賣出適用減半稅率 <strong class="text-white">0.15%</strong>。</li>
+                <li><strong>損益兩平賣出價反推：</strong>將買進手續費納入投入成本，並反推扣除賣出費稅後可打平總成本之精確賣出價，避免帳面假獲利誤判。</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-[11px] text-amber-400"><i class="fa-solid fa-calculator mr-1"></i>支撐本站：持股淨損益與兩平價試算器</span>
+            <button class="copy-citation-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1" data-citation="中華民國財政部與臺灣證券交易所. (2024). 證券交易稅條例暨證券經紀商受託買賣有價證券手續費費率規範.">
+              <i class="fa-regular fa-copy"></i> 複製 APA 引文
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- Quick Research Portal & Citation Guide -->
@@ -2797,6 +2857,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261112f"></script>
+  <script src="app.js?v=20261112g"></script>
 </body>
 </html>
