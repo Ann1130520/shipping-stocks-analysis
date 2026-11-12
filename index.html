@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW" class="dark">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,30 +43,32 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261111a">
+  <link rel="stylesheet" href="style.css?v=20261112a">
 </head>
-<body class="ocean-body text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-white">
+<body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
-  <!-- Fullscreen Ocean Backdrop -->
+  <!-- Fullscreen Sunny Coastal Seascape Backdrop -->
   <div class="ocean-backdrop" aria-hidden="true">
+    <div class="ocean-sun"></div>
+    <div class="ocean-clouds"></div>
     <div class="ocean-grid"></div>
     <div class="ocean-rays"></div>
     <div class="ocean-particles"></div>
     <div class="ocean-waves">
       <svg class="ocean-wave-svg ocean-wave-back" viewBox="0 0 2880 220" preserveAspectRatio="none">
-        <path fill="rgba(14, 116, 144, 0.28)" d="M0,110 C240,60 480,160 720,110 C960,60 1200,160 1440,110 C1680,60 1920,160 2160,110 C2400,60 2640,160 2880,110 L2880,220 L0,220 Z"/>
+        <path fill="rgba(14, 165, 233, 0.25)" d="M0,110 C240,60 480,160 720,110 C960,60 1200,160 1440,110 C1680,60 1920,160 2160,110 C2400,60 2640,160 2880,110 L2880,220 L0,220 Z"/>
       </svg>
       <svg class="ocean-wave-svg ocean-wave-mid" viewBox="0 0 2880 220" preserveAspectRatio="none">
-        <path fill="rgba(6, 78, 128, 0.36)" d="M0,140 C240,95 480,185 720,140 C960,95 1200,185 1440,140 C1680,95 1920,185 2160,140 C2400,95 2640,185 2880,140 L2880,220 L0,220 Z"/>
+        <path fill="rgba(56, 189, 248, 0.34)" d="M0,140 C240,95 480,185 720,140 C960,95 1200,185 1440,140 C1680,95 1920,185 2160,140 C2400,95 2640,185 2880,140 L2880,220 L0,220 Z"/>
       </svg>
       <svg class="ocean-wave-svg ocean-wave-front" viewBox="0 0 2880 220" preserveAspectRatio="none">
-        <path fill="rgba(4, 34, 68, 0.55)" d="M0,168 C240,132 480,204 720,168 C960,132 1200,204 1440,168 C1680,132 1920,204 2160,168 C2400,132 2640,204 2880,168 L2880,220 L0,220 Z"/>
+        <path fill="rgba(255, 255, 255, 0.62)" d="M0,168 C240,132 480,204 720,168 C960,132 1200,204 1440,168 C1680,132 1920,204 2160,168 C2400,132 2640,204 2880,168 L2880,220 L0,220 Z"/>
       </svg>
     </div>
   </div>
 
   <!-- Top Global Market & Shipping Ticker Bar -->
-  <div class="bg-ocean-900/85 border-b border-cyan-500/20 text-xs py-1.5 px-4 sticky top-0 z-50 shadow-md backdrop-blur-md">
+  <div class="bg-white/85 border-b border-sky-200/90 text-xs py-1.5 px-4 sticky top-0 z-50 shadow-sm backdrop-blur-md">
     <div class="max-w-7xl mx-auto space-y-1.5">
       <!-- Live Indicators Marquee/Ticker -->
       <div class="flex items-center space-x-3 overflow-x-auto no-scrollbar py-0.5">
@@ -171,7 +173,7 @@
   </div>
 
   <!-- Main Navigation Header -->
-  <header class="bg-gradient-to-r from-ocean-900/85 via-ocean-800/75 to-ocean-900/85 backdrop-blur-md border-b border-cyan-500/25">
+  <header class="bg-gradient-to-r from-white/85 via-sky-50/85 to-cyan-50/85 backdrop-blur-md border-b border-sky-200/90">
     <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
       <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
         <div class="flex items-center space-x-3">
@@ -195,7 +197,7 @@
         </div>
 
         <!-- Tab Navigation (6x2 Exact Custom Order) -->
-        <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800/80 w-full xl:w-auto">
+        <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5 bg-sky-100/75 p-1.5 rounded-xl border border-sky-200/90 w-full xl:w-auto">
           <!-- Row 1 -->
           <button data-tab="overview" class="tab-btn active justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-white bg-blue-600 shadow-sm whitespace-nowrap">
             <i class="fa-solid fa-chart-pie"></i> 戰情總覽
@@ -217,7 +219,7 @@
           </button>
 
           <!-- Row 2 -->
-          <button data-tab="signals" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-rose-300 bg-rose-950/40 border border-rose-700/60 hover:bg-rose-900/60 whitespace-nowrap">
+          <button data-tab="signals" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-rose-700 bg-rose-100/90 border border-rose-300 hover:bg-rose-200/90 whitespace-nowrap">
             <i class="fa-solid fa-traffic-light text-rose-400"></i> 買賣建議專區
           </button>
           <button data-tab="technicals" class="tab-btn justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800 whitespace-nowrap">
@@ -1148,11 +1150,11 @@
           </div>
 
           <!-- Stylized Maritime Radar SVG Map -->
-          <div class="relative bg-slate-950 rounded-xl border border-slate-800/90 overflow-hidden p-2">
+          <div class="geo-map-frame relative rounded-xl border border-sky-300/70 overflow-hidden p-2">
             <svg viewBox="0 0 800 380" class="w-full h-auto select-none">
               <defs>
                 <pattern id="seaGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(51,65,85,0.22)" stroke-width="1"/>
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(2,132,199,0.12)" stroke-width="1"/>
                 </pattern>
                 <filter id="glow">
                   <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
@@ -1163,15 +1165,15 @@
 
               <!-- Simplified Continent Silhouettes -->
               <!-- North & South America -->
-              <path d="M 95,55 L 185,45 L 220,95 L 175,155 L 185,180 L 210,195 L 245,235 L 225,315 L 195,345 L 175,275 L 155,215 L 145,175 L 110,145 L 85,100 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+              <path d="M 95,55 L 185,45 L 220,95 L 175,155 L 185,180 L 210,195 L 245,235 L 225,315 L 195,345 L 175,275 L 155,215 L 145,175 L 110,145 L 85,100 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
               <!-- Europe -->
-              <path d="M 355,55 L 445,45 L 470,85 L 430,120 L 385,130 L 355,115 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+              <path d="M 355,55 L 445,45 L 470,85 L 430,120 L 385,130 L 355,115 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
               <!-- Africa -->
-              <path d="M 360,145 L 440,140 L 475,185 L 460,260 L 420,315 L 395,280 L 375,220 L 345,185 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+              <path d="M 360,145 L 440,140 L 475,185 L 460,260 L 420,315 L 395,280 L 375,220 L 345,185 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
               <!-- Middle East & Asia -->
-              <path d="M 455,115 L 540,95 L 665,75 L 705,120 L 660,185 L 615,215 L 560,190 L 520,210 L 480,165 L 455,145 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+              <path d="M 455,115 L 540,95 L 665,75 L 705,120 L 660,185 L 615,215 L 560,190 L 520,210 L 480,165 L 455,145 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
               <!-- Australia / Maritime SE Asia -->
-              <path d="M 620,245 L 705,245 L 715,305 L 645,315 Z" fill="#132238" stroke="#243b5c" stroke-width="1.2"/>
+              <path d="M 620,245 L 705,245 L 715,305 L 645,315 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
 
               <!-- Sea Routes -->
               <!-- Asia -> Malacca -> Red Sea -> Suez -> Europe (BLOCKED / RESTRICTED) -->
@@ -1185,10 +1187,10 @@
               <path d="M 110,140 Q 135,180 175,185 Q 205,165 200,125" fill="none" stroke="#38bdf8" stroke-width="2.2"/>
 
               <!-- Route Labels -->
-              <text x="480" y="295" fill="#fbbf24" font-size="10" font-weight="bold">好望角繞道 (+12~14天)</text>
-              <text x="455" y="128" fill="#f87171" font-size="9">蘇伊士受阻</text>
-              <text x="580" y="208" fill="#c084fc" font-size="9">亞洲近洋幹線</text>
-              <text x="40" y="115" fill="#c084fc" font-size="9">美西轉單線</text>
+              <text x="480" y="295" fill="#b45309" font-size="10" font-weight="bold">好望角繞道 (+12~14天)</text>
+              <text x="455" y="128" fill="#dc2626" font-size="9">蘇伊士受阻</text>
+              <text x="580" y="208" fill="#7e22ce" font-size="9">亞洲近洋幹線</text>
+              <text x="40" y="115" fill="#7e22ce" font-size="9">美西轉單線</text>
 
               <!-- Interactive Hotspot Markers -->
               <!-- 1. Red Sea / Bab el-Mandeb -->
@@ -1196,42 +1198,42 @@
                 <circle cx="458" cy="166" r="24" fill="transparent"/>
                 <circle cx="458" cy="166" r="13" fill="rgba(239,68,68,0.28)" class="animate-ping" style="transform-box: fill-box; transform-origin: center;"/>
                 <circle cx="458" cy="166" r="7.5" fill="#ef4444" stroke="#fff" stroke-width="2"/>
-                <text x="469" y="170" fill="#fecaca" font-size="11" font-weight="bold">紅海</text>
+                <text x="469" y="170" fill="#b91c1c" font-size="11" font-weight="bold">紅海</text>
               </g>
 
               <!-- 2. Cape of Good Hope -->
               <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="cape" onclick="window.selectGeoHotspot && window.selectGeoHotspot('cape')">
                 <circle cx="422" cy="322" r="24" fill="transparent"/>
                 <circle cx="422" cy="322" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="342" y="338" fill="#fde68a" font-size="11" font-weight="bold">好望角</text>
+                <text x="342" y="338" fill="#b45309" font-size="11" font-weight="bold">好望角</text>
               </g>
 
               <!-- 3. Strait of Hormuz -->
               <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="hormuz" onclick="window.selectGeoHotspot && window.selectGeoHotspot('hormuz')">
                 <circle cx="496" cy="144" r="24" fill="transparent"/>
                 <circle cx="496" cy="144" r="7.5" fill="#f97316" stroke="#fff" stroke-width="2"/>
-                <text x="507" y="142" fill="#fed7aa" font-size="11" font-weight="bold">荷姆茲海峽</text>
+                <text x="507" y="142" fill="#c2410c" font-size="11" font-weight="bold">荷姆茲海峽</text>
               </g>
 
               <!-- 4. Malacca & Intra-Asia -->
               <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="malacca" onclick="window.selectGeoHotspot && window.selectGeoHotspot('malacca')">
                 <circle cx="605" cy="195" r="24" fill="transparent"/>
                 <circle cx="605" cy="195" r="7.5" fill="#a855f7" stroke="#fff" stroke-width="2"/>
-                <text x="616" y="198" fill="#e9d5ff" font-size="11" font-weight="bold">麻六甲/亞洲近洋</text>
+                <text x="616" y="198" fill="#6d28d9" font-size="11" font-weight="bold">麻六甲/亞洲近洋</text>
               </g>
 
               <!-- 5. Panama Canal -->
               <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="panama" onclick="window.selectGeoHotspot && window.selectGeoHotspot('panama')">
                 <circle cx="176" cy="186" r="24" fill="transparent"/>
                 <circle cx="176" cy="186" r="7.5" fill="#eab308" stroke="#fff" stroke-width="2"/>
-                <text x="114" y="204" fill="#fef08a" font-size="11" font-weight="bold">巴拿馬運河</text>
+                <text x="114" y="204" fill="#a16207" font-size="11" font-weight="bold">巴拿馬運河</text>
               </g>
 
               <!-- 6. US East Coast ILA -->
               <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="usila" onclick="window.selectGeoHotspot && window.selectGeoHotspot('usila')">
                 <circle cx="204" cy="120" r="24" fill="transparent"/>
                 <circle cx="204" cy="120" r="7.5" fill="#38bdf8" stroke="#fff" stroke-width="2"/>
-                <text x="216" y="122" fill="#bae6fd" font-size="11" font-weight="bold">美東ILA港口</text>
+                <text x="216" y="122" fill="#0369a1" font-size="11" font-weight="bold">美東ILA港口</text>
               </g>
             </svg>
           </div>
@@ -2413,7 +2415,7 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </main>
 
   <!-- Footer -->
-  <footer class="mt-16 border-t border-cyan-500/20 bg-ocean-900/80 backdrop-blur-md py-8 text-slate-300 text-xs">
+  <footer class="mt-16 border-t border-sky-200 bg-white/80 backdrop-blur-md py-8 text-slate-600 text-xs">
     <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
       <div class="flex items-center justify-center gap-2 text-slate-300 font-semibold">
         <i class="fa-solid fa-ship text-blue-500"></i> 貨櫃三雄智能研究戰情室 (長榮 • 陽明 • 萬海)
@@ -2428,6 +2430,6 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261111a"></script>
+  <script src="app.js?v=20261112a"></script>
 </body>
 </html>

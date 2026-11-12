@@ -74,9 +74,9 @@ function setUpdateTimestamp(timestampText, highlight = false) {
   if (!timeElem) return;
   timeElem.textContent = timestampText;
   if (highlight) {
-    timeElem.classList.add('text-cyan-300', 'font-semibold');
+    timeElem.classList.add('text-sky-600', 'font-semibold');
     setTimeout(() => {
-      timeElem.classList.remove('text-cyan-300', 'font-semibold');
+      timeElem.classList.remove('text-sky-600', 'font-semibold');
     }, 900);
   }
 }
@@ -609,8 +609,8 @@ const chartColors = {
   jp: '#ec4899',        // pink for Japan Nikkei
   eu: '#14b8a6',        // teal for Euro Stoxx
   scfi: '#f97316',      // orange
-  slateGrid: 'rgba(51, 65, 85, 0.35)',
-  slateText: '#94a3b8'
+  slateGrid: 'rgba(14, 116, 144, 0.14)',
+  slateText: '#1e4e6e'
 };
 
 function initCharts() {
@@ -872,10 +872,10 @@ function renderOverviewCombinedChart() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#0f172a',
-          titleColor: '#f8fafc',
-          bodyColor: '#cbd5e1',
-          borderColor: '#334155',
+          backgroundColor: 'rgba(255, 255, 255, 0.96)',
+          titleColor: '#0c2942',
+          bodyColor: '#1e4e6e',
+          borderColor: 'rgba(14, 165, 233, 0.4)',
           borderWidth: 1,
           padding: 10,
           callbacks: {
@@ -1020,7 +1020,7 @@ function renderComparisonRadarChart() {
       plugins: {
         legend: {
           position: 'top',
-          labels: { color: '#e2e8f0', font: { size: 11, weight: 'bold' } }
+          labels: { color: '#0c2942', font: { size: 11, weight: 'bold' } }
         }
       },
       scales: {
@@ -1030,7 +1030,7 @@ function renderComparisonRadarChart() {
           ticks: { display: false, stepSize: 20 },
           grid: { color: chartColors.slateGrid },
           angleLines: { color: chartColors.slateGrid },
-          pointLabels: { color: '#cbd5e1', font: { size: 11, weight: '500' } }
+          pointLabels: { color: '#1e4e6e', font: { size: 11, weight: '500' } }
         }
       }
     }
@@ -1071,7 +1071,7 @@ function renderRouteAllocationChart() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'top', labels: { color: '#e2e8f0', font: { size: 11 } } },
+        legend: { position: 'top', labels: { color: '#0c2942', font: { size: 11 } } },
         tooltip: {
           callbacks: {
             label: context => `${context.dataset.label}: ${context.parsed.y}%`
@@ -1133,7 +1133,7 @@ function renderSubRouteFreightChart() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#cbd5e1', font: { size: 11 } } }
+        legend: { labels: { color: '#1e4e6e', font: { size: 11 } } }
       },
       scales: {
         x: {
@@ -1183,7 +1183,7 @@ function renderSupplyDemandBalanceChart() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'top', labels: { color: '#cbd5e1', font: { size: 11 } } }
+        legend: { position: 'top', labels: { color: '#1e4e6e', font: { size: 11 } } }
       },
       scales: {
         x: {
@@ -1949,7 +1949,7 @@ function renderGeoSuezCapeChart() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#cbd5e1', font: { size: 11 } } }
+        legend: { labels: { color: '#1e4e6e', font: { size: 11 } } }
       },
       scales: {
         x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 10 } } },
@@ -1992,7 +1992,7 @@ function renderGeoBunkerSpreadChart() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#cbd5e1', font: { size: 11 } } }
+        legend: { labels: { color: '#1e4e6e', font: { size: 11 } } }
       },
       scales: {
         x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 11 } } },
@@ -2159,7 +2159,7 @@ function renderTechnicalsCharts() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 11 } } } },
+        plugins: { legend: { labels: { color: '#1e4e6e', font: { size: 11 } } } },
         scales: {
           x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 10 } } },
           y: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, callback: v => `${v}%` } }
@@ -2191,7 +2191,7 @@ function renderTechnicalsCharts() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 11 } } } },
+        plugins: { legend: { labels: { color: '#1e4e6e', font: { size: 11 } } } },
         scales: {
           x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 11 } } },
           y: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, callback: v => `${v}張` } }

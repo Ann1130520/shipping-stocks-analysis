@@ -1,20 +1,21 @@
-/* Custom Nautical & Dashboard Styles */
+/* Custom Sunny Coastal Seascape & Dashboard Styles */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@450;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
 body {
   font-family: 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
-  background-color: #03162b;
+  background-color: #d8f1ff;
   background-image:
-    radial-gradient(ellipse 90% 55% at 50% -8%, rgba(56, 189, 248, 0.24) 0%, rgba(14, 116, 144, 0.14) 38%, transparent 72%),
-    radial-gradient(circle at 12% 18%, rgba(20, 184, 166, 0.16) 0%, transparent 45%),
-    radial-gradient(circle at 88% 24%, rgba(37, 99, 235, 0.20) 0%, transparent 48%),
-    linear-gradient(180deg, #072947 0%, #051f3b 28%, #03152a 65%, #020c1a 100%);
+    radial-gradient(circle at 86% 6%, rgba(254, 243, 199, 0.92) 0%, rgba(253, 224, 71, 0.28) 18%, transparent 45%),
+    radial-gradient(ellipse 95% 55% at 22% 10%, rgba(255, 255, 255, 0.78) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 45% at 75% 78%, rgba(34, 211, 238, 0.34) 0%, transparent 65%),
+    linear-gradient(180deg, #eff9ff 0%, #c8ecff 26%, #8ed8fb 58%, #38bdf8 86%, #0ea5e9 100%);
   background-attachment: fixed;
+  color: #0c2942;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Fullscreen Ocean Ambient Backdrop */
+/* Fullscreen Sunny Seascape Backdrop */
 .ocean-backdrop {
   position: fixed;
   inset: 0;
@@ -23,57 +24,85 @@ body {
   overflow: hidden;
 }
 
-/* Nautical chart latitude/longitude grid */
+/* Warm Golden Sun Halo */
+.ocean-sun {
+  position: absolute;
+  top: -70px;
+  right: 7%;
+  width: 360px;
+  height: 360px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 251, 235, 0.92) 0%, rgba(254, 240, 138, 0.52) 32%, rgba(253, 224, 71, 0.14) 62%, transparent 78%);
+  filter: blur(8px);
+}
+
+/* Soft Coastal Clouds in Upper Sky */
+.ocean-clouds {
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 120%;
+  height: 38%;
+  background:
+    radial-gradient(ellipse 220px 62px at 16% 24%, rgba(255, 255, 255, 0.75) 0%, transparent 72%),
+    radial-gradient(ellipse 170px 48px at 26% 30%, rgba(255, 255, 255, 0.65) 0%, transparent 72%),
+    radial-gradient(ellipse 260px 66px at 56% 18%, rgba(255, 255, 255, 0.68) 0%, transparent 72%),
+    radial-gradient(ellipse 190px 52px at 66% 24%, rgba(255, 255, 255, 0.56) 0%, transparent 72%),
+    radial-gradient(ellipse 200px 54px at 88% 36%, rgba(255, 255, 255, 0.52) 0%, transparent 72%);
+  animation: cloud-drift 36s ease-in-out infinite alternate;
+}
+
+/* Subtle Nautical Chart Grid */
 .ocean-grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(to right, rgba(56, 189, 248, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56, 189, 248, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, rgba(2, 132, 199, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(2, 132, 199, 0.055) 1px, transparent 1px);
   background-size: 72px 72px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.35) 55%, rgba(0, 0, 0, 0.15) 100%);
-  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.35) 55%, rgba(0, 0, 0, 0.15) 100%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.25) 65%, rgba(0, 0, 0, 0.10) 100%);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.25) 65%, rgba(0, 0, 0, 0.10) 100%);
 }
 
-/* Underwater sunlight / caustic rays from surface */
+/* Bright Sunbeams Shimmering Across the Sea */
 .ocean-rays {
   position: absolute;
-  top: -15%;
-  left: -10%;
-  width: 120%;
+  top: -12%;
+  right: -5%;
+  width: 115%;
   height: 75%;
   background:
-    conic-gradient(from 165deg at 25% 0%, transparent 0deg, rgba(103, 232, 249, 0.08) 10deg, transparent 22deg, rgba(56, 189, 248, 0.07) 34deg, transparent 48deg),
-    conic-gradient(from 175deg at 72% 0%, transparent 0deg, rgba(45, 212, 191, 0.07) 12deg, transparent 26deg, rgba(96, 165, 250, 0.07) 40deg, transparent 54deg);
+    conic-gradient(from 195deg at 82% 0%, transparent 0deg, rgba(255, 255, 255, 0.34) 10deg, transparent 22deg, rgba(254, 249, 195, 0.28) 34deg, transparent 48deg),
+    conic-gradient(from 168deg at 36% 0%, transparent 0deg, rgba(255, 255, 255, 0.24) 12deg, transparent 26deg, rgba(186, 230, 253, 0.22) 40deg, transparent 54deg);
   filter: blur(18px);
   animation: ocean-caustics 16s ease-in-out infinite alternate;
   transform-origin: top center;
 }
 
-/* Subtle shimmering ocean bubbles / plankton particles */
+/* Sparkling Sunlit Sea Glints */
 .ocean-particles {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle at 14% 78%, rgba(125, 211, 252, 0.28) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 28% 42%, rgba(94, 234, 212, 0.22) 1px, transparent 2px),
-    radial-gradient(circle at 46% 86%, rgba(186, 230, 253, 0.25) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 64% 34%, rgba(56, 189, 248, 0.22) 1px, transparent 2px),
-    radial-gradient(circle at 79% 68%, rgba(125, 211, 252, 0.26) 1.8px, transparent 3px),
-    radial-gradient(circle at 91% 52%, rgba(45, 212, 191, 0.22) 1.2px, transparent 2.2px);
+    radial-gradient(circle at 14% 78%, rgba(255, 255, 255, 0.85) 1.5px, transparent 3px),
+    radial-gradient(circle at 28% 58%, rgba(255, 255, 255, 0.72) 1.2px, transparent 2.8px),
+    radial-gradient(circle at 46% 86%, rgba(254, 249, 195, 0.85) 1.6px, transparent 3.2px),
+    radial-gradient(circle at 64% 64%, rgba(255, 255, 255, 0.78) 1.2px, transparent 2.8px),
+    radial-gradient(circle at 79% 72%, rgba(255, 255, 255, 0.90) 1.8px, transparent 3.5px),
+    radial-gradient(circle at 91% 52%, rgba(224, 242, 254, 0.80) 1.4px, transparent 3px);
   background-size: 460px 460px;
   animation: ocean-drift 28s linear infinite;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
-/* Layered animated sea waves along bottom horizon */
+/* Layered Animated Turquoise & Seafoam Waves */
 .ocean-waves {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 220px;
-  opacity: 0.85;
+  height: 230px;
+  opacity: 0.92;
 }
 
 .ocean-wave-svg {
@@ -86,17 +115,22 @@ body {
 
 .ocean-wave-back {
   animation: wave-slide 26s linear infinite;
-  opacity: 0.38;
+  opacity: 0.65;
 }
 
 .ocean-wave-mid {
   animation: wave-slide-reverse 18s linear infinite;
-  opacity: 0.52;
+  opacity: 0.75;
 }
 
 .ocean-wave-front {
   animation: wave-slide 13s linear infinite;
-  opacity: 0.65;
+  opacity: 0.92;
+}
+
+@keyframes cloud-drift {
+  0% { transform: translateX(-1.5%); }
+  100% { transform: translateX(2.5%); }
 }
 
 @keyframes ocean-caustics {
@@ -107,8 +141,8 @@ body {
 
 @keyframes ocean-drift {
   0% { transform: translateY(0px) translateX(0px); }
-  50% { transform: translateY(-40px) translateX(12px); }
-  100% { transform: translateY(-80px) translateX(0px); }
+  50% { transform: translateY(-28px) translateX(14px); }
+  100% { transform: translateY(-56px) translateX(0px); }
 }
 
 @keyframes wave-slide {
@@ -122,6 +156,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ocean-clouds,
   .ocean-rays,
   .ocean-particles,
   .ocean-wave-back,
@@ -139,34 +174,245 @@ body > footer {
   z-index: 1;
 }
 
-/* Translucent deep-sea glass tint on dashboard cards so ocean ambiance shines through */
-body.ocean-body main .bg-slate-900,
-body.ocean-body main .bg-slate-900\/90,
-body.ocean-body main .bg-slate-900\/80 {
-  background-color: rgba(7, 25, 48, 0.78) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-color: rgba(56, 189, 248, 0.18);
-  box-shadow: 0 8px 30px rgba(2, 12, 27, 0.35), inset 0 1px 0 rgba(125, 211, 252, 0.07);
+/* ========================================================
+   SUNNY COASTAL SEA-GLASS THEME OVERRIDES
+   ======================================================== */
+body.sunny-ocean-theme {
+  color: #0c2942;
+}
+
+/* Cards & Panels */
+body.sunny-ocean-theme main .bg-slate-900,
+body.sunny-ocean-theme main .bg-slate-900\/90,
+body.sunny-ocean-theme main .bg-slate-900\/80 {
+  background-color: rgba(255, 255, 255, 0.84) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: rgba(56, 189, 248, 0.38) !important;
+  box-shadow: 0 10px 30px rgba(14, 116, 144, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+body.sunny-ocean-theme .bg-slate-950,
+body.sunny-ocean-theme .bg-slate-950\/90,
+body.sunny-ocean-theme .bg-slate-950\/80,
+body.sunny-ocean-theme .bg-slate-950\/70,
+body.sunny-ocean-theme .bg-slate-950\/60 {
+  background-color: rgba(240, 249, 255, 0.88) !important;
+  border-color: rgba(125, 211, 252, 0.55) !important;
+}
+
+body.sunny-ocean-theme .bg-slate-800,
+body.sunny-ocean-theme .bg-slate-800\/90,
+body.sunny-ocean-theme .bg-slate-800\/60,
+body.sunny-ocean-theme .bg-slate-800\/40,
+body.sunny-ocean-theme .bg-slate-850\/50 {
+  background-color: rgba(224, 242, 254, 0.78) !important;
+}
+
+body.sunny-ocean-theme .bg-slate-700 {
+  background-color: rgba(186, 230, 253, 0.85) !important;
+}
+
+/* Light coastal gradient banners inside main */
+body.sunny-ocean-theme main .bg-gradient-to-r,
+body.sunny-ocean-theme main .bg-gradient-to-br {
+  --tw-gradient-from: rgba(255, 255, 255, 0.90) var(--tw-gradient-from-position) !important;
+  --tw-gradient-via: rgba(240, 249, 255, 0.88) var(--tw-gradient-via-position) !important;
+  --tw-gradient-to: rgba(224, 242, 254, 0.88) var(--tw-gradient-to-position) !important;
+}
+
+/* Subtle colored tint panels */
+body.sunny-ocean-theme .bg-emerald-950\/5,
+body.sunny-ocean-theme .bg-emerald-950\/20,
+body.sunny-ocean-theme .bg-emerald-950\/30 {
+  background-color: rgba(236, 253, 245, 0.86) !important;
+}
+body.sunny-ocean-theme .bg-blue-950\/5,
+body.sunny-ocean-theme .bg-blue-950\/20,
+body.sunny-ocean-theme .bg-blue-950\/30,
+body.sunny-ocean-theme .bg-sky-950\/20,
+body.sunny-ocean-theme .bg-cyan-950\/20,
+body.sunny-ocean-theme .bg-indigo-950\/20 {
+  background-color: rgba(239, 246, 255, 0.86) !important;
+}
+body.sunny-ocean-theme .bg-purple-950\/5,
+body.sunny-ocean-theme .bg-purple-950\/20,
+body.sunny-ocean-theme .bg-purple-950\/30 {
+  background-color: rgba(250, 245, 255, 0.86) !important;
+}
+body.sunny-ocean-theme .bg-rose-950\/40,
+body.sunny-ocean-theme .bg-rose-950\/20,
+body.sunny-ocean-theme .bg-rose-950\/30 {
+  background-color: rgba(255, 241, 242, 0.86) !important;
+}
+body.sunny-ocean-theme .bg-amber-950\/20,
+body.sunny-ocean-theme .bg-amber-950\/30 {
+  background-color: rgba(255, 251, 235, 0.88) !important;
+}
+
+/* Crisp coastal borders & dividers */
+body.sunny-ocean-theme .border-slate-800,
+body.sunny-ocean-theme .border-slate-800\/90,
+body.sunny-ocean-theme .border-slate-800\/80,
+body.sunny-ocean-theme .border-slate-800\/70,
+body.sunny-ocean-theme .border-slate-700,
+body.sunny-ocean-theme .border-slate-700\/60 {
+  border-color: rgba(125, 211, 252, 0.52) !important;
+}
+body.sunny-ocean-theme .divide-slate-800 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(125, 211, 252, 0.45) !important;
+}
+
+/* Deep marine ink typography */
+body.sunny-ocean-theme .text-white {
+  color: #0c2942 !important;
+}
+body.sunny-ocean-theme .text-slate-100 {
+  color: #0c2942 !important;
+}
+body.sunny-ocean-theme .text-slate-200 {
+  color: #153e5c !important;
+}
+body.sunny-ocean-theme .text-slate-300 {
+  color: #1e4e6e !important;
+}
+body.sunny-ocean-theme .text-slate-400 {
+  color: #366280 !important;
+}
+body.sunny-ocean-theme .text-slate-500 {
+  color: #4f7794 !important;
+}
+body.sunny-ocean-theme .text-slate-600 {
+  color: #6288a3 !important;
+}
+
+/* Preserve bright white text on solid saturated buttons & logo badge */
+body.sunny-ocean-theme .bg-blue-600,
+body.sunny-ocean-theme .bg-blue-600 .text-white,
+body.sunny-ocean-theme .bg-rose-600,
+body.sunny-ocean-theme .bg-rose-600 .text-white,
+body.sunny-ocean-theme .bg-indigo-600,
+body.sunny-ocean-theme .bg-indigo-600 .text-white,
+body.sunny-ocean-theme .bg-emerald-600,
+body.sunny-ocean-theme .bg-emerald-600 .text-white,
+body.sunny-ocean-theme .tab-btn.active,
+body.sunny-ocean-theme .lit-filter-btn.active,
+body.sunny-ocean-theme .geo-hotspot-btn.active,
+body.sunny-ocean-theme .bg-gradient-to-tr.from-blue-600 {
+  color: #ffffff !important;
+}
+body.sunny-ocean-theme .tab-btn.active i,
+body.sunny-ocean-theme .lit-filter-btn.active i {
+  color: #ffffff !important;
+}
+
+/* High-contrast jewel tones for light coastal background */
+body.sunny-ocean-theme .text-emerald-300,
+body.sunny-ocean-theme .text-emerald-400 {
+  color: #047857 !important;
+}
+body.sunny-ocean-theme .text-rose-300,
+body.sunny-ocean-theme .text-rose-400 {
+  color: #be123c !important;
+}
+body.sunny-ocean-theme .text-amber-300,
+body.sunny-ocean-theme .text-amber-400 {
+  color: #b45309 !important;
+}
+body.sunny-ocean-theme .text-sky-300,
+body.sunny-ocean-theme .text-sky-400 {
+  color: #0284c7 !important;
+}
+body.sunny-ocean-theme .text-cyan-300,
+body.sunny-ocean-theme .text-cyan-400 {
+  color: #0e7490 !important;
+}
+body.sunny-ocean-theme .text-blue-300,
+body.sunny-ocean-theme .text-blue-400 {
+  color: #1d4ed8 !important;
+}
+body.sunny-ocean-theme .text-purple-300,
+body.sunny-ocean-theme .text-purple-400 {
+  color: #7c3aed !important;
+}
+body.sunny-ocean-theme .text-indigo-300,
+body.sunny-ocean-theme .text-indigo-400 {
+  color: #4338ca !important;
+}
+body.sunny-ocean-theme .text-yellow-300,
+body.sunny-ocean-theme .text-yellow-400 {
+  color: #a16207 !important;
+}
+body.sunny-ocean-theme .text-pink-300,
+body.sunny-ocean-theme .text-pink-400 {
+  color: #be185d !important;
+}
+body.sunny-ocean-theme .text-orange-300,
+body.sunny-ocean-theme .text-orange-400 {
+  color: #c2410c !important;
+}
+body.sunny-ocean-theme .text-teal-300,
+body.sunny-ocean-theme .text-teal-400 {
+  color: #0f766e !important;
+}
+
+/* Hover states on light ocean theme */
+body.sunny-ocean-theme .hover\:bg-slate-800:hover,
+body.sunny-ocean-theme .hover\:bg-slate-800\/40:hover,
+body.sunny-ocean-theme .hover\:bg-slate-700:hover {
+  background-color: rgba(186, 230, 253, 0.72) !important;
+}
+body.sunny-ocean-theme .hover\:text-white:hover {
+  color: #0c2942 !important;
+}
+body.sunny-ocean-theme .bg-blue-600.hover\:text-white:hover,
+body.sunny-ocean-theme .tab-btn.active:hover {
+  color: #ffffff !important;
+}
+
+/* Form inputs & textareas */
+body.sunny-ocean-theme input[type="text"],
+body.sunny-ocean-theme input[type="number"],
+body.sunny-ocean-theme select,
+body.sunny-ocean-theme textarea {
+  background-color: rgba(255, 255, 255, 0.94) !important;
+  color: #0c2942 !important;
+  border-color: rgba(56, 189, 248, 0.55) !important;
+}
+body.sunny-ocean-theme input::placeholder,
+body.sunny-ocean-theme textarea::placeholder {
+  color: #6488a3 !important;
+}
+
+/* Geo Map SVG Scenic Maritime Chart Restyle */
+body.sunny-ocean-theme .geo-map-frame {
+  background: linear-gradient(180deg, #e0f7ff 0%, #bae6fd 55%, #7dd3fc 100%) !important;
+  border-color: rgba(14, 165, 233, 0.45) !important;
+}
+body.sunny-ocean-theme .geo-map-frame svg text {
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 3.2px;
+  stroke-linejoin: round;
 }
 
 /* Scrollbar tweaks */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #091322;
+  background: #e0f2fe;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e3a5f;
+  background: #38bdf8;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: #0284c7;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -184,23 +430,23 @@ body.ocean-body main .bg-slate-900\/80 {
 }
 
 .tab-btn.active {
-  background-color: #2563eb !important;
+  background-color: #0284c7 !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
 }
 
 /* Card hover glow */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.6);
+  border: 1px solid rgba(56, 189, 248, 0.38);
 }
 
 /* Range input thumb customization */
 input[type=range] {
   -webkit-appearance: none;
-  background: #1e293b;
+  background: #bae6fd;
   border-radius: 9999px;
 }
 
@@ -209,16 +455,16 @@ input[type=range]::-webkit-slider-thumb {
   height: 18px;
   width: 18px;
   border-radius: 50%;
-  background: #38bdf8;
+  background: #0284c7;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
-  border: 2px solid #0f172a;
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.45);
+  border: 2px solid #ffffff;
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
 input[type=range]::-webkit-slider-thumb:hover {
   transform: scale(1.18);
-  background: #60a5fa;
+  background: #0ea5e9;
 }
 
 /* Animation utilities */
