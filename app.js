@@ -1833,11 +1833,23 @@ function initLiteratureSystem() {
   const searchInput = document.getElementById('lit-search-input');
   const litCards = document.querySelectorAll('.lit-card');
   const copyBtns = document.querySelectorAll('.copy-citation-btn');
+  const scaleBadgeEl = document.getElementById('lit-scale-badge');
+  const totalCount = litCards.length;
+
+  function updateScaleBadge(visibleCount) {
+    if (!scaleBadgeEl) return;
+    if (visibleCount === totalCount) {
+      scaleBadgeEl.innerHTML = `已收錄 <span id="lit-total-count">${totalCount}</span> 篇文獻`;
+    } else {
+      scaleBadgeEl.innerHTML = `顯示 <span id="lit-total-count">${visibleCount}</span> / 共 ${totalCount} 篇`;
+    }
+  }
 
   function filterLiterature() {
     const activeBtn = document.querySelector('.lit-filter-btn.active');
     const category = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
     const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    let visibleCount = 0;
 
     litCards.forEach(card => {
       const cardCat = card.getAttribute('data-category');
@@ -1848,11 +1860,16 @@ function initLiteratureSystem() {
 
       if (matchCat && matchQuery) {
         card.classList.remove('hidden');
+        visibleCount++;
       } else {
         card.classList.add('hidden');
       }
     });
+
+    updateScaleBadge(visibleCount);
   }
+
+  updateScaleBadge(totalCount);
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
