@@ -407,6 +407,7 @@ function applyMarketDataToUI(data, options = {}) {
   if (typeof window.triggerPortfolioUpdate === 'function') window.triggerPortfolioUpdate();
 
   window.latestPayloadCache = data;
+  renderOverviewMomentumReason(data);
   renderTechnicalsPanel(data, redrawTechCharts);
 
   const simBase2603 = document.getElementById('sim-2603-baseprice');
@@ -476,6 +477,154 @@ function applyMarketDataToUI(data, options = {}) {
   if (typeof window.triggerCalculatorUpdate === 'function') window.triggerCalculatorUpdate();
 }
 
+function renderOverviewMomentumReason(data) {
+  const card = document.getElementById('overview-momentum-reason-card');
+  if (!card || !data || !data.stocks) return;
+
+  const codes = ['2603', '2609', '2615'];
+  const names = { '2603': '長榮', '2609': '陽明', '2615': '萬海' };
+  const items = codes.map(c => ({ code: c, name: names[c], s: data.stocks[c], inst: data.institutional?.[c] })).filter(x => x.s && x.s.status === 'success');
+  if (items.length === 0) return;
+
+  const pcts = items.map(x => Number(x.s.change_percent || 0));
+  const avgPct = pcts.reduce((a, b) => a + b, 0) / pcts.length;
+  const upCount = pcts.filter(p => p > 0).length;
+  const downCount = pcts.filter(p => p < 0).length;
+
+  const sortedByAbs = [...items].sort((a, b) => Number(b.s.change_percent || 0) - Number(a.s.change_percent || 0));
+  const leader = sortedByAbs[0];
+  const laggard = sortedByAbs[sortedByAbs.length - 1];
+
+  const titleEl = document.getElementById('momentum-reason-title');
+  const badgeEl = document.getElementById('momentum-verdict-badge');
+  const pillsEl = document.getElementById('momentum-stock-pills');
+  const summaryEl = document.getElementById('momentum-summary-line');
+  const marketBox = document.getElementById('reason-market-box');
+  const chipBox = document.getElementById('reason-chip-tech-box');
+  const macroBox = document.getElementById('reason-macro-box');
+  const newsBox = document.getElementById('reason-news-box');
+
+  let directionWord = '震盪整理';
+  if (avgPct >= 0.4 || upCount === 3) directionWord = '同步走強上漲';
+  else if (avgPct <= -0.4 || downCount === 3) directionWord = '同步承壓回檔';
+  else if (upCount > 0 && downCount > 0) directionWord = '三雄走勢分歧';
+
+  if (titleEl) {
+    if (avgPct > 0.15) titleEl.textContent = `為何現在漲？貨櫃三雄盤中${directionWord}解析`;
+    else if (avgPct < -0.15) titleEl.textContent = `為何現在跌？貨櫃三雄盤中${directionWord}解析`;
+    else titleEl.textContent = '為何現在盤整？貨櫃三雄即時漲跌原因解析';
+  }
+
+  if (badgeEl) {
+    const sign = avgPct >= 0 ? '+' : '';
+    if (avgPct > 0.15) {
+      badgeEl.textContent = `📈 族群偏多 (${sign}${avgPct.toFixed(2)}%)`;
+      badgeEl.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30';
+    } else if (avgPct < -0.15) {
+      badgeEl.textContent = `📉 族群偏弱 (${sign}${avgPct.toFixed(2)}%)`;
+      badgeEl.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+    } else {
+      badgeEl.textContent = `⚖️ 狹幅整理 (${sign}${avgPct.toFixed(2)}%)`;
+      badgeEl.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30';
+    }
+  }
+
+  if (pillsEl) {
+    pillsEl.innerHTML = items.map(({ code, name, s }) => {
+      const pct = Number(s.change_percent || 0);
+      const isUp = pct >= 0;
+      const sign = isUp ? '+' : '';
+      const cls = isUp ? 'bg-rose-500/15 text-rose-300 border-rose-500/30' : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+      return `<span class="px-2 py-0.5 rounded border ${cls}">${name}(${code}) ${sign}${pct}%</span>`;
+    }).join('');
+  }
+
+  // Gather institutional & technical signals
+  const totalInstLots = items.reduce((sum, x) => sum + Math.round(x.inst?.total_lots || 0), 0);
+  const totalForeignLots = items.reduce((sum, x) => sum + Math.round(x.inst?.foreign_lots || 0), 0);
+  const belowMa20Count = items.filter(x => x.s.technicals?.bias_20 !== undefined && x.s.technicals.bias_20 < 0).length;
+  const aboveMa20Count = items.filter(x => x.s.technicals?.bias_20 !== undefined && x.s.technicals.bias_20 >= 0).length;
+  const avgRsi = items.reduce((sum, x) => sum + Number(x.s.technicals?.rsi14 || 50), 0) / items.length;
+
+  const twIdx = data.global_indices?.tw;
+  const usIdx = data.global_indices?.us;
+  const twPct = twIdx && twIdx.status === 'success' ? Number(twIdx.change_percent || 0) : null;
+  const usPct = usIdx && usIdx.status === 'success' ? Number(usIdx.change_percent || 0) : null;
+  const brent = data.commodities?.brent;
+  const brentPrice = brent?.price ? Number(brent.price) : null;
+  const brentPct = brent?.change_percent !== undefined ? Number(brent.change_percent) : null;
+
+  // Build concise plain-language root-cause summary
+  const reasons = [];
+  if (avgPct < -0.15) {
+    if (totalInstLots < -500) reasons.push(`三大法人近期合計調節賣超 ${Math.abs(totalInstLots).toLocaleString()} 張（外資 ${totalForeignLots.toLocaleString()} 張）形成上檔賣壓`);
+    if (belowMa20Count >= 2) reasons.push(`${belowMa20Count} 檔股價位處 20 日月線下方反壓區`);
+    if (twPct !== null && twPct > 0.2) reasons.push(`資金輪動轉往權值電子，使大盤漲 ${twPct}% 時航運呈現逆勢整理`);
+    else if (twPct !== null && twPct < -0.2) reasons.push(`台股大盤同步走弱 (${twPct}%) 拖累市場風險偏好`);
+    if (brentPct !== null && brentPct < -0.5) reasons.push(`布蘭特油價回檔 (${brentPct}%) 削弱高低硫油價差保護傘題材`);
+    if (reasons.length === 0) reasons.push('短線漲多後逢高獲利了結，成交量縮並回測均線支撐');
+  } else if (avgPct > 0.15) {
+    if (totalInstLots > 500) reasons.push(`三大法人合計買超 +${totalInstLots.toLocaleString()} 張提供低接買盤動能`);
+    if (aboveMa20Count >= 2) reasons.push(`${aboveMa20Count} 檔站回 20 日月線之上帶動技術面轉強`);
+    if (avgRsi <= 45) reasons.push(`RSI 跌深修正後湧現低估值反彈買盤（平均 RSI ${avgRsi.toFixed(1)}）`);
+    if (brentPct !== null && brentPct > 0.5) reasons.push(`國際油價走揚 (+${brentPct}%) 放大脫硫塔航商單箱成本優勢`);
+    if (twPct !== null && twPct > 0.3) reasons.push(`台股大盤偏多 (+${twPct}%) 帶動權值與傳產低基期補漲`);
+    if (reasons.length === 0) reasons.push('紅海繞道支撐 SCFI 運價結構，市場逢低回補高殖利率與低 PB 航運股');
+  } else {
+    reasons.push(`${leader.name} (${Number(leader.s.change_percent) >= 0 ? '+' : ''}${leader.s.change_percent}%) 與 ${laggard.name} (${Number(laggard.s.change_percent) >= 0 ? '+' : ''}${laggard.s.change_percent}%) 強弱互見`);
+    if (totalInstLots < 0) reasons.push(`法人籌碼略偏調節 (${totalInstLots.toLocaleString()} 張)，市場觀望週五 SCFI 運價報價方向`);
+    else reasons.push('多空於月線附近拉鋸，市場靜待最新 SCFI 運價與外資動向表態');
+  }
+
+  if (summaryEl) {
+    const leadTag = avgPct >= 0 ? '🔥 本波上漲主因：' : '⚠️ 本波下跌主因：';
+    summaryEl.innerHTML = `<strong class="text-white">${leadTag}</strong>${reasons.join('；')}。`;
+  }
+
+  if (marketBox) {
+    const twTxt = twPct !== null ? `台股大盤 ${twPct >= 0 ? '+' : ''}${twPct}%` : '台股大盤同步觀察';
+    const usTxt = usPct !== null ? `美股 S&P500 ${usPct >= 0 ? '+' : ''}${usPct}%` : '';
+    let relation = '個股區間震盪';
+    if (twPct !== null && avgPct < -0.15 && twPct > 0.2) relation = '資金偏向電子權值，航運呈現「大盤漲、航運休」翹翹板效應';
+    else if (twPct !== null && avgPct > 0.15 && twPct < -0.2) relation = '具高殖利率與防禦題材，「大盤跌、航運逆勢抗跌」';
+    else if (twPct !== null && Math.sign(avgPct) === Math.sign(twPct)) relation = '與台股大盤風險情緒同向連動';
+    marketBox.textContent = `${twTxt}${usTxt ? '、' + usTxt : ''}。目前三雄以 ${leader.name}(${Number(leader.s.change_percent) >= 0 ? '+' : ''}${leader.s.change_percent}%) 最強、${laggard.name}(${Number(laggard.s.change_percent) >= 0 ? '+' : ''}${laggard.s.change_percent}%) 最弱，呈現「${relation}」。`;
+  }
+
+  if (chipBox) {
+    const instDir = totalInstLots >= 0 ? `買超 +${totalInstLots.toLocaleString()} 張` : `賣超 ${totalInstLots.toLocaleString()} 張`;
+    const fDir = totalForeignLots >= 0 ? `外資 +${totalForeignLots.toLocaleString()} 張` : `外資 ${totalForeignLots.toLocaleString()} 張`;
+    const techState = belowMa20Count >= 2 ? `多數受壓於 20MA 月線下（平均 RSI ${avgRsi.toFixed(1)}），短線須量能放大突破才易轉強` : `站穩月線支撐（平均 RSI ${avgRsi.toFixed(1)}），均線結構偏穩`;
+    chipBox.textContent = `最新三大法人合計對三雄${instDir}（其中${fDir}）；技術面上目前${techState}。`;
+  }
+
+  if (macroBox) {
+    const brentTxt = brentPrice ? `布蘭特原油 $${brentPrice.toFixed(2)} (${brentPct >= 0 ? '+' : ''}${brentPct}%)` : '布蘭特油價維持高檔區間';
+    const fxRate = liveMarketData.usdTwd ? `USD/TWD ${Number(liveMarketData.usdTwd).toFixed(2)}` : '台幣匯率維持弱勢區間';
+    const oilEffect = (brentPct !== null && brentPct < -0.5) ? '油價回落壓抑燃料附加費與低硫油價差想像' : '紅海繞道好望角持續吸收全球約 10~12% 運力，提供運價與獲利下檔支撐';
+    macroBox.textContent = `${brentTxt}、${fxRate}；${oilEffect}，長榮脫硫塔與陽明低 PB 成為資金主要衡量依據。`;
+  }
+
+  if (newsBox) {
+    const newsList = Array.isArray(data.live_news) ? data.live_news : [];
+    const preferredSent = avgPct < -0.15 ? 'bear' : (avgPct > 0.15 ? 'bull' : null);
+    const picked = [];
+    if (preferredSent) {
+      newsList.filter(n => n.sentiment === preferredSent).slice(0, 2).forEach(n => picked.push(n));
+    }
+    newsList.forEach(n => {
+      if (picked.length < 2 && !picked.includes(n)) picked.push(n);
+    });
+    if (picked.length > 0) {
+      newsBox.innerHTML = picked.map(n => {
+        const tagCls = n.sentiment === 'bull' ? 'text-rose-400' : (n.sentiment === 'bear' ? 'text-emerald-400' : 'text-sky-400');
+        return `<a href="${n.link || '#'}" target="_blank" rel="noopener noreferrer" class="block hover:underline leading-snug"><span class="${tagCls} font-bold mr-1">[${n.sentimentLabel || '新聞'}]</span>${n.title}</a>`;
+      }).join('');
+    } else {
+      newsBox.textContent = '持續追蹤每週五 SCFI 報價、紅海通航動態與美東港口貨量變化。';
+    }
+  }
+}
 async function fetchCnyesRealtimeQuotes(options = {}) {
   const { redrawTechCharts = false, highlightTime = false } = options;
   try {

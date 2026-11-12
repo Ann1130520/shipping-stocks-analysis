@@ -43,7 +43,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261112a">
+  <link rel="stylesheet" href="style.css?v=20261112b">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -617,6 +617,53 @@
           </div>
           <div class="mt-3 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80 pt-2">
             高油價推升高低硫油價差，配備高比例脫硫塔之航商成本優勢更顯著。
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Rise/Fall Attribution Panel (為什麼現在漲/跌即時說明) -->
+      <div id="overview-momentum-reason-card" class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-3.5 pb-3 border-b border-slate-800/80">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-magnifying-glass-chart text-sky-400"></i>
+              <span id="momentum-reason-title">即時漲跌原因解析：為什麼現在漲 / 為什麼現在跌？</span>
+            </h2>
+            <span id="momentum-verdict-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">盤面因素分析中...</span>
+          </div>
+          <div id="momentum-stock-pills" class="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
+            <span class="text-slate-400">即時同步盤價・籌碼・均線・新聞歸因</span>
+          </div>
+        </div>
+
+        <p id="momentum-summary-line" class="text-xs sm:text-sm text-slate-200 leading-relaxed mb-3.5 bg-slate-950/70 px-3.5 py-2.5 rounded-lg border border-slate-800/80">
+          正在比對貨櫃三雄即時價格變化、台股大盤強弱、三大法人進出與航運新聞動能...
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 text-xs">
+          <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 space-y-1.5">
+            <div class="font-bold text-sky-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-compass"></i> 1. 族群與大盤連動
+            </div>
+            <p id="reason-market-box" class="text-slate-300 leading-relaxed text-[11px]">載入即時報價與加權指數對照中...</p>
+          </div>
+          <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 space-y-1.5">
+            <div class="font-bold text-emerald-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-users-viewfinder"></i> 2. 法人籌碼與技術面
+            </div>
+            <p id="reason-chip-tech-box" class="text-slate-300 leading-relaxed text-[11px]">載入三大法人買賣超與 20MA/RSI 中...</p>
+          </div>
+          <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 space-y-1.5">
+            <div class="font-bold text-amber-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-oil-well"></i> 3. 運價・油價・地緣因素
+            </div>
+            <p id="reason-macro-box" class="text-slate-300 leading-relaxed text-[11px]">載入布蘭特原油、SCFI 與匯率影響中...</p>
+          </div>
+          <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 space-y-1.5">
+            <div class="font-bold text-purple-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-newspaper"></i> 4. 即時消息面催化
+            </div>
+            <div id="reason-news-box" class="text-slate-300 leading-relaxed text-[11px] space-y-1">載入最新航運新聞標題中...</div>
           </div>
         </div>
       </div>
@@ -2430,6 +2477,6 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261112a"></script>
+  <script src="app.js?v=20261112b"></script>
 </body>
 </html>
