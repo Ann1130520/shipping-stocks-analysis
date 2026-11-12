@@ -43,7 +43,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261112b">
+  <link rel="stylesheet" href="style.css?v=20261112c">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -664,6 +664,31 @@
               <i class="fa-solid fa-newspaper"></i> 4. 即時消息面催化
             </div>
             <div id="reason-news-box" class="text-slate-300 leading-relaxed text-[11px] space-y-1">載入最新航運新聞標題中...</div>
+          </div>
+        </div>
+
+        <!-- Actionable Buy / Sell / Wait Guidance -->
+        <div id="overview-action-advisor" class="mt-4 pt-4 border-t border-slate-800/80 space-y-3">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+                <i class="fa-solid fa-chess-knight text-blue-400"></i> 現在該怎麼操作？（買 / 賣 / 等 / 續抱即時建議）
+              </h3>
+              <span id="action-overall-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">策略計算中...</span>
+            </div>
+            <button type="button" onclick="document.querySelector('.tab-btn[data-tab=\'signals\']')?.click()" class="self-start md:self-auto px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-blue-600 text-white hover:opacity-90 transition flex items-center gap-1">
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> 查看完整買賣目標價區間
+            </button>
+          </div>
+
+          <p id="action-overall-summary" class="text-xs text-slate-200 leading-relaxed bg-blue-950/20 border border-sky-400/40 rounded-lg px-3.5 py-2.5">
+            正在結合即時股價區間、法人動向與均線位置，為您整理「現在該買、該賣、還是先等」的具體做法...
+          </p>
+
+          <div id="action-advice-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 text-slate-400">讀取長榮 (2603) 操作建議中...</div>
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 text-slate-400">讀取陽明 (2609) 操作建議中...</div>
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-3 text-slate-400">讀取萬海 (2615) 操作建議中...</div>
           </div>
         </div>
       </div>
@@ -2477,6 +2502,6 @@ ightarrow$ 產能崩解 (Collapse)。</li>
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261112b"></script>
+  <script src="app.js?v=20261112c"></script>
 </body>
 </html>

@@ -59,6 +59,11 @@ const CNYES_REALTIME_SYMBOLS = [
 let baseMarketPayload = null;
 let baseValuationSnapshot = {};
 let latestCnyesMap = null;
+const SHIPPING_ZONE_RULES = {
+  '2603': { buyMax: 255, nearBuy: 262, sellMin: 310, name: '長榮', badgeColor: 'text-emerald-400' },
+  '2609': { buyMax: 63,  nearBuy: 65,  sellMin: 82,  name: '陽明', badgeColor: 'text-blue-400' },
+  '2615': { buyMax: 108, nearBuy: 113, sellMin: 135, name: '萬海', badgeColor: 'text-purple-400' }
+};
 let autoSyncEnabled = true;
 let autoSyncTimer = null;
 let userAdjustedFxSlider = false;
@@ -255,11 +260,7 @@ function applyMarketDataToUI(data, options = {}) {
       : 'px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
   }
 
-  const zoneRules = {
-    '2603': { buyMax: 255, nearBuy: 262, sellMin: 310, name: '長榮' },
-    '2609': { buyMax: 63,  nearBuy: 65,  sellMin: 82,  name: '陽明' },
-    '2615': { buyMax: 108, nearBuy: 113, sellMin: 135, name: '萬海' }
-  };
+  const zoneRules = SHIPPING_ZONE_RULES;
 
   ['2603', '2609', '2615'].forEach(code => {
     const s = data.stocks && data.stocks[code];
@@ -624,6 +625,177 @@ function renderOverviewMomentumReason(data) {
       newsBox.textContent = '持續追蹤每週五 SCFI 報價、紅海通航動態與美東港口貨量變化。';
     }
   }
+
+  // Live Actionable Guidance: Buy / Sell / Wait / Hold
+  renderOverviewActionAdvisor(items, totalInstLots, avgPct, avgRsi);
+}
+
+function getStockActionDecision(code, s, inst) {
+  const rule = SHIPPING_ZONE_RULES[code];
+  const price = Number(s.price || 0);
+  const pct = Number(s.change_percent || 0);
+  const ma20 = s.technicals?.ma20 ? Number(s.technicals.ma20) : null;
+  const rsi = s.technicals?.rsi14 ? Number(s.technicals.rsi14) : 50;
+  const totLots = inst ? Math.round(inst.total_lots || 0) : 0;
+  const aboveMa20 = ma20 ? price >= ma20 : false;
+
+  if (!rule || price <= 0) {
+    return { action: 'wait', label: '觀察等待', badgeCls: 'bg-blue-500/20 text-blue-300 border-blue-500/30', borderCls: 'border-slate-800', summary: '資料同步中，暫以觀望為主。', rule };
+  }
+
+  // 1. Take-profit / Sell zone
+  if (price >= rule.sellMin || rsi >= 72) {
+    const reasonTxt = price >= rule.sellMin
+      ? `已觸及停利賣區 (≥${rule.sellMin}元)，獲利空間收斂`
+      : `RSI 達 ${rsi} 進入短線過熱區，乖離過大`;
+    return {
+      action: 'sell',
+      label: '🔴 逢高分批賣 / 停利',
+      badgeCls: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+      borderCls: 'border-rose-500/40 bg-rose-950/20',
+      summary: `${reasonTxt}。有持股者可先賣 1/3~1/2 鎖定獲利，空手者切忌追高，等回檔再接。`,
+      rule
+    };
+  }
+
+  // 2. Deep in Buy Zone
+  if (price <= rule.buyMax) {
+    if (pct <= -1.8 && totLots < -1500) {
+      return {
+        action: 'wait_dip',
+        label: '🟡 等止跌・預掛低接',
+        badgeCls: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+        borderCls: 'border-amber-500/40 bg-amber-950/20',
+        summary: `已進入買區 (≤${rule.buyMax})，但今日急跌 ${pct}% 且法人賣超 ${totLots.toLocaleString()} 張。不急著接飛刀，先等尾盤止穩或分 3 批往下掛買。`,
+        rule
+      };
+    }
+    if (totLots >= 0 || aboveMa20 || rsi <= 42) {
+      return {
+        action: 'buy',
+        label: '🟢 可分批買進 / 低接',
+        badgeCls: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+        borderCls: 'border-emerald-500/40 bg-emerald-950/20',
+        summary: `位處高勝率買區 (≤${rule.buyMax})，估值具備下檔保護。空手建議分 2~3 批進場承接；已持股者可安心續抱領息。`,
+        rule
+      };
+    }
+    return {
+      action: 'buy_batch',
+      label: '🟡 買區內分批掛接',
+      badgeCls: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+      borderCls: 'border-amber-500/40 bg-amber-950/20',
+      summary: `已入買區 (≤${rule.buyMax})，但法人尚在調節 (${totLots.toLocaleString()} 張)。先小量試單 2~3 成，留現金等站回月線 (${ma20 || "-"}) 再加碼。`,
+      rule
+    };
+  }
+
+  // 3. Near Buy Zone
+  if (price <= rule.nearBuy) {
+    if (aboveMa20 && totLots > 0) {
+      return {
+        action: 'buy_breakout',
+        label: '🟢 轉強可小量承接',
+        badgeCls: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+        borderCls: 'border-emerald-500/40 bg-emerald-950/20',
+        summary: `緊鄰買區上緣 (${rule.nearBuy}) 且站上月線、法人偏多 (+${totLots.toLocaleString()} 張)，可逢拉回支撐時分批布局。`,
+        rule
+      };
+    }
+    return {
+      action: 'wait_buy',
+      label: '🔵 先等回測買區再買',
+      badgeCls: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
+      borderCls: 'border-blue-500/30 bg-blue-950/20',
+      summary: `距離理想買區 (${rule.buyMax} 元) 僅差一步，目前建議多看少動、掛好限價單等待回測，不急著追價。`,
+      rule
+    };
+  }
+
+  // 4. Mid / Fair-Value Range
+  if (aboveMa20 && totLots > 0) {
+    return {
+      action: 'hold',
+      label: '🔵 持股續抱・等買點',
+      badgeCls: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
+      borderCls: 'border-blue-500/30 bg-blue-950/20',
+      summary: `介於買賣區間中段 (${rule.buyMax}~${rule.sellMin})，趨勢站穩月線 (${ma20 || "-"})。有部位續抱上看停利區，空手等回測月線再買。`,
+      rule
+    };
+  }
+  return {
+    action: 'wait',
+    label: '⏸️ 觀望等待・不追高',
+    badgeCls: 'bg-slate-800 text-slate-300 border-slate-700',
+    borderCls: 'border-slate-800',
+    summary: `目前在區間中段 (${rule.buyMax}~${rule.sellMin}) 且上方有均線反壓。暫時按兵不動，等回落至 ${rule.buyMax} 元附近或帶量站上月線再出手。`,
+    rule
+  };
+}
+
+function renderOverviewActionAdvisor(items, totalInstLots, avgPct, avgRsi) {
+  const overallBadge = document.getElementById('action-overall-badge');
+  const overallSummary = document.getElementById('action-overall-summary');
+  const grid = document.getElementById('action-advice-grid');
+  if (!grid) return;
+
+  let savedPortfolio = {};
+  try {
+    savedPortfolio = JSON.parse(localStorage.getItem('shipping_portfolio_v1') || '{}');
+  } catch (e) {}
+
+  const decisions = items.map(x => ({ ...x, dec: getStockActionDecision(x.code, x.s, x.inst) }));
+  const buyReadyCount = decisions.filter(d => ['buy', 'buy_batch', 'buy_breakout'].includes(d.dec.action)).length;
+  const sellReadyCount = decisions.filter(d => d.dec.action === 'sell').length;
+  const waitDipCount = decisions.filter(d => d.dec.action === 'wait_dip').length;
+
+  if (overallBadge && overallSummary) {
+    if (sellReadyCount > 0) {
+      overallBadge.textContent = '🔴 建議：逢高分批賣出停利';
+      overallBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40';
+      overallSummary.innerHTML = `<strong class="text-white">📌 當下總操盤策略（賣出 / 減碼優先）：</strong>已有 ${sellReadyCount} 檔進入過熱或目標停利區，建議分批獲利了結，切勿在週期高檔追價。`;
+    } else if (buyReadyCount >= 2 && totalInstLots >= 0) {
+      overallBadge.textContent = '🟢 建議：分批買進承接';
+      overallBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+      overallSummary.innerHTML = `<strong class="text-white">📌 當下總操盤策略（分批進場買進）：</strong>多檔已落在安全買區且法人籌碼翻多 (+${totalInstLots.toLocaleString()} 張)，可啟動分批佈局（先買 3 成、留資金逢低攤平）。`;
+    } else if (buyReadyCount + waitDipCount >= 2 && totalInstLots < 0) {
+      overallBadge.textContent = '🟡 建議：等止跌・分批掛低買';
+      overallBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40';
+      overallSummary.innerHTML = `<strong class="text-white">📌 當下總操盤策略（勿單筆重壓，等止跌分批接）：</strong>價格已回落到高勝率買區，但三大法人仍賣超 (${totalInstLots.toLocaleString()} 張)。<strong class="text-amber-300">空手者先看 1~2 根止跌紅 K 再分批接，持股者套牢不用殺低</strong>（估值低檔有殖利率與淨值保護）。`;
+    } else {
+      overallBadge.textContent = '🔵 建議：觀望等待・設價掛單';
+      overallBadge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40';
+      overallSummary.innerHTML = `<strong class="text-white">📌 當下總操盤策略（等待明確訊號）：</strong>目前整體動能 ${avgPct >= 0 ? "+" : ""}${avgPct.toFixed(2)}%（平均 RSI ${avgRsi.toFixed(1)}），建議依照各股目標買賣區「先設限價單等待」，不隨盤中波動追漲殺跌。`;
+    }
+  }
+
+  grid.innerHTML = decisions.map(({ code, name, s, dec }) => {
+    const lots = parseFloat(savedPortfolio[code]?.lots || 0);
+    const cost = parseFloat(savedPortfolio[code]?.cost || 0);
+    let personalNote = '';
+    if (lots > 0 && cost > 0) {
+      const roi = (((s.price - cost) / cost) * 100).toFixed(1);
+      const roiSign = Number(roi) >= 0 ? "+" : "";
+      const roiCls = Number(roi) >= 0 ? "text-rose-400" : "text-emerald-400";
+      personalNote = `<div class="mt-2 pt-1.5 border-t border-slate-800/70 text-[10px] text-slate-400 flex justify-between"><span>您的持股 (${lots}張 / 均價${cost})</span><strong class="${roiCls} font-mono">${roiSign}${roi}%</strong></div>`;
+    }
+    return `
+      <div class="bg-slate-950/70 border ${dec.borderCls} rounded-lg p-3 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-1.5">
+            <div class="flex items-center gap-1.5">
+              <strong class="${dec.rule.badgeColor}">${name} (${code})</strong>
+              <span class="font-mono font-bold text-white">${s.price}元</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${dec.badgeCls}">${dec.label}</span>
+          </div>
+          <div class="text-[10px] text-slate-400 font-mono mb-1.5">買區 ≤ ${dec.rule.buyMax}元 ｜ 賣區 ≥ ${dec.rule.sellMin}元</div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">${dec.summary}</p>
+        </div>
+        ${personalNote}
+      </div>
+    `;
+  }).join('');
 }
 async function fetchCnyesRealtimeQuotes(options = {}) {
   const { redrawTechCharts = false, highlightTime = false } = options;
