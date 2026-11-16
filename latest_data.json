@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-16 15:52:13",
+  "last_updated": "2026-11-16 18:05:37",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
@@ -145,12 +145,12 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 6386.86,
-      "prev_close": 6398.98,
-      "change": -12.12,
-      "change_percent": -0.19,
-      "high": 0.0,
-      "low": 0.0,
+      "price": 6382.48,
+      "prev_close": 6386.86,
+      "change": -4.38,
+      "change_percent": -0.07,
+      "high": 6391.15,
+      "low": 6376.21,
       "volume": 0,
       "status": "success"
     }
@@ -158,77 +158,77 @@
   "commodities": {
     "brent": {
       "symbol": "BZ=F",
-      "price": 95.86,
-      "prev_close": 95.84,
-      "change": 0.02,
-      "change_percent": 0.02,
+      "price": 92.79,
+      "prev_close": 93.03,
+      "change": -0.24,
+      "change_percent": -0.26,
       "high": 96.76,
       "low": 94.46,
-      "volume": 2359,
+      "volume": 4832,
       "status": "success"
     }
   },
   "fundamentals": {
     "2330": {
-      "date": "1151113",
-      "pe": 23.92,
-      "yield": 0.94,
-      "pb": 8.71
+      "date": "1151116",
+      "pe": 22.54,
+      "yield": 0.99,
+      "pb": 8.21
     },
     "2603": {
-      "date": "1151113",
-      "pe": 7.01,
-      "yield": 6.21,
-      "pb": 0.92
+      "date": "1151116",
+      "pe": 7.0,
+      "yield": 6.23,
+      "pb": 0.91
     },
     "2609": {
-      "date": "1151113",
-      "pe": 7.52,
-      "yield": 3.32,
+      "date": "1151116",
+      "pe": 7.48,
+      "yield": 3.33,
       "pb": 0.61
     },
     "2615": {
-      "date": "1151113",
-      "pe": 7.38,
-      "yield": 2.79,
-      "pb": 1.05
+      "date": "1151116",
+      "pe": 6.02,
+      "yield": 2.74,
+      "pb": 0.99
     }
   },
   "institutional": {
-    "0050": {
-      "date": "20261113",
-      "foreign_lots": 14476.4,
-      "trust_lots": 5585.0,
-      "dealer_lots": 16968.9,
-      "total_lots": 37030.3
-    },
     "2609": {
-      "date": "20261113",
-      "foreign_lots": 5789.6,
-      "trust_lots": 269.0,
-      "dealer_lots": 292.2,
-      "total_lots": 6350.8
-    },
-    "2330": {
-      "date": "20261113",
-      "foreign_lots": -2618.1,
-      "trust_lots": 2946.1,
-      "dealer_lots": 415.6,
-      "total_lots": 743.6
-    },
-    "2603": {
-      "date": "20261113",
-      "foreign_lots": -3175.8,
-      "trust_lots": 3030.9,
-      "dealer_lots": -214.8,
-      "total_lots": -359.7
+      "date": "20261116",
+      "foreign_lots": 6621.7,
+      "trust_lots": -1465.0,
+      "dealer_lots": 125.8,
+      "total_lots": 5282.5
     },
     "2615": {
-      "date": "20261113",
-      "foreign_lots": -930.3,
-      "trust_lots": 0.0,
-      "dealer_lots": 184.3,
-      "total_lots": -746.0
+      "date": "20261116",
+      "foreign_lots": 3672.4,
+      "trust_lots": 294.0,
+      "dealer_lots": 194.0,
+      "total_lots": 4160.5
+    },
+    "2603": {
+      "date": "20261116",
+      "foreign_lots": 254.7,
+      "trust_lots": 1666.3,
+      "dealer_lots": 503.3,
+      "total_lots": 2424.3
+    },
+    "2330": {
+      "date": "20261116",
+      "foreign_lots": -8466.5,
+      "trust_lots": -2291.3,
+      "dealer_lots": 3085.9,
+      "total_lots": -7672.0
+    },
+    "0050": {
+      "date": "20261116",
+      "foreign_lots": -111815.5,
+      "trust_lots": 2213.0,
+      "dealer_lots": -102440.6,
+      "total_lots": -212043.1
     }
   },
   "history": {
@@ -782,7 +782,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6386.86
+          6382.19
         ]
       }
     },
@@ -1856,7 +1856,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6386.86
+          6382.19
         ]
       }
     }
