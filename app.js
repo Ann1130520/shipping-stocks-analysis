@@ -1556,6 +1556,7 @@ const newsDatabase = [
     category: 'geopolitics',
     date: '2026-11-02',
     source: 'TradeWinds / 勞氏日報',
+    link: 'https://news.google.com/search?q=%E7%B4%85%E6%B5%B7%20%E8%88%AA%E9%81%8B%20%E5%A5%BD%E6%9C%9B%E8%A7%92%20%E8%88%AA%E5%95%86&hl=zh-TW&gl=TW&ceid=TW%3Azh-Hant',
     sentiment: 'bull',
     sentimentLabel: '偏多利多',
     summary: '地中海航運 (MSC)、達飛、馬士基及長榮海運最新客戶通告顯示，因曼德海峽商船安全評級未見實質改善，2026 上半年歐地線船隊仍 100% 採取繞行南非好望角航線，有效吸收全球約 9.5% 貨櫃運力。',
@@ -1567,6 +1568,7 @@ const newsDatabase = [
     category: 'freight',
     date: '2026-10-31',
     source: '上海航運交易所 (SSE)',
+    link: 'https://www.sse.net.cn/index/singleIndex?indexType=scfi',
     sentiment: 'bull',
     sentimentLabel: '運價走揚',
     summary: '上海出口集裝箱運價指數 (SCFI) 報 2,235.4 點，週漲幅 4.2%。受歐美年終補庫存訂單支撐，美西線每大櫃站穩 4,200 美元關卡，歐洲線回升至 3,950 美元，裝載率維持在 92% 高檔。',
@@ -1577,7 +1579,8 @@ const newsDatabase = [
     title: '萬海航運：亞洲近洋貨量旺季發威，美西航線滿載率衝破 95%',
     category: 'corporate',
     date: '2026-10-29',
-    source: '工商時報',
+    source: '工商時報 / 鉅亨網',
+    link: 'https://news.cnyes.com/news/cat/twstock?q=%E8%90%AC%E6%B5%B7',
     sentiment: 'bull',
     sentimentLabel: '業績噴發',
     summary: '萬海受惠東南亞供應鏈遷移，近洋區間貨載量創同期新高；同時美西 AP1 航線因應美東工會轉單潮，運價維持每櫃 4,500 美元以上，毛利率大幅躍升。',
@@ -1588,7 +1591,8 @@ const newsDatabase = [
     title: '長榮海運法說會：新造節能大船陸續入列，脫硫塔普及率居全球同業第一',
     category: 'corporate',
     date: '2026-10-27',
-    source: '臺灣證券交易所 法說會摘要',
+    source: '臺灣證券交易所 / 公開資訊觀測站',
+    link: 'https://mops.twse.com.tw/mops/web/t100sb07_1?co_id=2603',
     sentiment: 'bull',
     sentimentLabel: '基本面強勁',
     summary: '長榮總經理指出，受惠於早年佈局的 24,000 TEU A型巨輪與脫硫塔改裝計畫，當前每噸油料成本比競爭者低 120 美元以上；海洋聯盟合約已鎖定至 2032 年，營運護城河極度寬廣。',
@@ -1599,7 +1603,8 @@ const newsDatabase = [
     title: 'Premier Alliance (卓越聯盟) 攜手 MSC 正式啟航，陽明深化歐洲線聯營佈局',
     category: 'alliances',
     date: '2026-10-18',
-    source: 'Alphaliner 產業動態觀察',
+    source: 'Alphaliner / 經濟日報',
+    link: 'https://news.cnyes.com/news/cat/twstock?q=%E9%99%BD%E6%98%8E',
     sentiment: 'bull',
     sentimentLabel: '聯盟利多',
     summary: '陽明、ONE 與 HMM 組成的 Premier Alliance，在亞洲-歐洲航線正式啟動與 MSC 的 5 年艙位共享合作。陽明藉此取得全球最大貨櫃航商的多條主力航線艙位，彌補赫伯羅德出走之運力缺口。',
@@ -1666,37 +1671,51 @@ function renderNewsCards(items) {
   }
 
   container.innerHTML = items.map(news => {
+    // Generate fallback direct link if not provided
+    const targetUrl = news.link || `https://news.google.com/search?q=${encodeURIComponent(news.title)}&hl=zh-TW&gl=TW&ceid=TW%3Azh-Hant`;
+
     const sentimentBadge = news.sentiment === 'bull'
       ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up"></i> ${news.sentimentLabel || '偏多利多'}</span>`
       : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center gap-1"><i class="fa-solid fa-shield"></i> ${news.sentimentLabel || '即時市場'}</span>`;
 
-    const titleHtml = news.link 
-      ? `<a href="${news.link}" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center justify-between gap-2"><span>${news.title}</span><i class="fa-solid fa-arrow-up-right-from-square text-[11px] text-blue-400 shrink-0"></i></a>`
-      : news.title;
-
     return `
-      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition flex flex-col justify-between group">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-sky-500/60 transition flex flex-col justify-between group shadow-sm hover:shadow-md">
         <div>
           <div class="flex items-center justify-between text-xs mb-2">
             <span class="text-slate-400 flex items-center gap-1.5 font-mono text-[11px]">
               <i class="fa-regular fa-calendar text-[11px]"></i> ${news.date || news.pubDate || '即時'}
               <span class="mx-1">•</span>
-              <span class="text-slate-300 font-medium">${news.source}</span>
+              <span class="text-sky-400 font-semibold">${news.source || '財經新聞'}</span>
             </span>
             ${sentimentBadge}
           </div>
-          <h3 class="text-sm font-bold text-white group-hover:text-blue-400 transition leading-snug mb-2">
-            ${titleHtml}
+          <h3 class="text-sm font-bold text-white group-hover:text-sky-400 transition leading-snug mb-2">
+            <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-start justify-between gap-2" title="點擊前往該新聞網站">
+              <span>${news.title}</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[11px] text-sky-400 shrink-0 mt-1"></i>
+            </a>
           </h3>
-          <p class="text-xs text-slate-300 leading-relaxed mb-4">
-            ${news.summary || '點擊標題可檢視新聞原始出處與完整報導內文。'}
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            ${news.summary || '點擊下方連結可前往該報導網站閱讀完整新聞全文。'}
           </p>
         </div>
-        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800/80 text-[11px] text-slate-300">
-          <strong class="text-amber-400 flex items-center gap-1 mb-0.5">
-            <i class="fa-solid fa-lightbulb"></i> 核心標的衝擊解讀：
-          </strong>
-          <span class="text-slate-400">${news.impact}</span>
+
+        <div class="space-y-2 mt-2">
+          ${news.impact ? `
+          <div class="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80 text-[11px] text-slate-300">
+            <strong class="text-amber-400 flex items-center gap-1 mb-0.5">
+              <i class="fa-solid fa-lightbulb"></i> 核心標的衝擊解讀：
+            </strong>
+            <span class="text-slate-400">${news.impact}</span>
+          </div>` : ''}
+
+          <!-- Direct Article Action Link Button -->
+          <div class="flex items-center justify-end pt-1">
+            <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-sky-600/20 text-sky-300 border border-sky-500/40 hover:bg-sky-600 hover:text-white transition">
+              <span>前往新聞原始網站</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+          </div>
         </div>
       </div>
     `;
@@ -3270,6 +3289,44 @@ function create3DRouteTube(pointsArray, colorHex, radius = 0.8) {
   });
   const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
   return { mesh: tubeMesh, curve: curve };
+}
+
+
+function navigate3DToChokepoint(key, chokepointName) {
+  if (!routes3DCamera || !routes3DControls) return;
+
+  const statusText = document.getElementById('map3d-status-text');
+  if (statusText && chokepointName) {
+    statusText.textContent = `3D 航線即時運航模式：${chokepointName}`;
+  }
+
+  if (key === 'redsea') {
+    // Red Sea / Bab el-Mandeb
+    routes3DCamera.position.set(-10, 50, 25);
+    routes3DControls.target.set(-8, 2, -6);
+  } else if (key === 'cape') {
+    // Cape of Good Hope loop
+    routes3DCamera.position.set(-20, 75, 120);
+    routes3DControls.target.set(-18, 2, 65);
+  } else if (key === 'hormuz') {
+    // Strait of Hormuz
+    routes3DCamera.position.set(2, 45, 15);
+    routes3DControls.target.set(8, 2, -5);
+  } else if (key === 'malacca') {
+    // Malacca / Intra-Asia
+    routes3DCamera.position.set(55, 60, 45);
+    routes3DControls.target.set(50, 2, 5);
+  } else if (key === 'panama') {
+    // Panama Canal
+    routes3DCamera.position.set(110, 60, 50);
+    routes3DControls.target.set(108, 2, 22);
+  } else if (key === 'usila') {
+    // US East Coast
+    routes3DCamera.position.set(125, 75, -5);
+    routes3DControls.target.set(135, 2, -26);
+  }
+
+  routes3DControls.update();
 }
 
 function init3DMaritimeRoutesSandbox() {

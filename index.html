@@ -47,7 +47,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261118_grid_stretch">
+  <link rel="stylesheet" href="style.css?v=20261118_news_links">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -1395,83 +1395,6 @@
         </div>
       </div>
 
-      <!-- 3D Interactive Shipping Routes Sandbox (3D 全球立體海運航線戰略沙盤) -->
-      <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-700/60 rounded-xl p-5 shadow-2xl relative overflow-hidden">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-sky-600 flex items-center justify-center text-white text-lg shadow-lg shadow-sky-500/20">
-              <i class="fa-solid fa-route"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Three.js 3D Sea-Lane Sandbox</span>
-                <h3 class="text-base font-black text-white">3D 全球海運立體航線戰略沙盤（實時船舶航行光跡）</h3>
-              </div>
-              <p class="text-xs text-slate-400 mt-0.5">平視 3D 立體海域沙盤，動態光粒子貨櫃輪沿「好望角大繞道」與「歐美主力航線」航行，清晰對比航程天數與咽喉節點</p>
-            </div>
-          </div>
-
-          <!-- Route Focus Buttons -->
-          <div class="flex flex-wrap items-center gap-1.5 text-xs">
-            <button id="btn-route-all" class="route-focus-btn active px-3 py-1 rounded bg-indigo-600 text-white font-semibold transition" onclick="focus3DRouteView('all')">
-              全域立體視角
-            </button>
-            <button id="btn-route-cape" class="route-focus-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DRouteView('cape')">
-              好望角大繞道 (紅)
-            </button>
-            <button id="btn-route-suez" class="route-focus-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DRouteView('suez')">
-              蘇伊士/紅海 (藍)
-            </button>
-            <button id="btn-route-pacific" class="route-focus-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DRouteView('pacific')">
-              泛太平洋美西 (金)
-            </button>
-            <button id="btn-route-rot" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-slate-700 font-semibold transition ml-1" onclick="toggleRouteAutoRotate()">
-              <i class="fa-solid fa-arrows-rotate"></i> 巡弋旋轉
-            </button>
-          </div>
-        </div>
-
-        <!-- 3D Sea-Lane Canvas Container -->
-        <div class="relative w-full h-[430px] md:h-[480px] rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
-          <div id="routes3dContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
-
-          <!-- Route Info HUD Card -->
-          <div class="absolute top-3 left-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-lg p-3 text-xs pointer-events-none max-w-sm">
-            <div class="text-[11px] font-bold text-white mb-2 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 3D 立體動態航線情資
-            </div>
-            <div class="space-y-2 text-[11px]">
-              <div class="flex items-start gap-2 text-rose-400">
-                <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0 mt-0.5 animate-pulse"></span>
-                <div>
-                  <span class="font-bold">🔴 非洲好望角繞道航線 (+3,500海浬 / +12~14天)</span>
-                  <p class="text-[10px] text-slate-300 mt-0.5">吸收全球約9.5%運力，支撐歐線長約運價高檔震盪。</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-2 text-sky-400">
-                <span class="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0 mt-0.5"></span>
-                <div>
-                  <span class="font-bold">🔵 蘇伊士運河傳統航線 (高軍事風險/極限警戒)</span>
-                  <p class="text-[10px] text-slate-300 mt-0.5">通行量較正常值下降 85%，僅極少數非美歐關聯散船冒險通行。</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-2 text-amber-300">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0 mt-0.5"></span>
-                <div>
-                  <span class="font-bold">🟡 泛太平洋直航線 (美西 11~14天 / 美東 24~28天)</span>
-                  <p class="text-[10px] text-slate-300 mt-0.5">美西長榮、萬海快航直達，受紅海繞行外溢影響艙位偏緊。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur border border-slate-700/80 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 hidden sm:flex items-center gap-2 pointer-events-none">
-            <i class="fa-solid fa-arrows-to-eye text-sky-400"></i>
-            <span>滑鼠左鍵 360° 俯仰旋轉 • 滾輪縮放視角 • 右鍵拖曳平移</span>
-          </div>
-        </div>
-      </div>
-
       <!-- 2. Interactive World Shipping Chokepoint Map + Dynamic Detail Inspector -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <!-- SVG World Maritime Chokepoint Map (Left 7 cols) -->
@@ -1488,93 +1411,23 @@
             </div>
           </div>
 
-          <!-- Stylized Maritime Radar SVG Map -->
-          <div class="geo-map-frame relative rounded-xl border border-sky-300/70 overflow-hidden p-2">
-            <svg viewBox="0 0 800 380" class="w-full h-auto select-none">
-              <defs>
-                <pattern id="seaGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(2,132,199,0.12)" stroke-width="1"/>
-                </pattern>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-                  <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-              </defs>
-              <rect width="800" height="380" fill="url(#seaGrid)" />
+                    <!-- Real 3D Interactive Maritime Sea-Lanes Sandbox (取代舊版2D圖) -->
+          <div class="relative w-full h-[380px] md:h-[430px] rounded-xl bg-slate-950 border border-slate-800 overflow-hidden shadow-inner">
+            <div id="routes3dContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
 
-              <!-- Simplified Continent Silhouettes -->
-              <!-- North & South America -->
-              <path d="M 95,55 L 185,45 L 220,95 L 175,155 L 185,180 L 210,195 L 245,235 L 225,315 L 195,345 L 175,275 L 155,215 L 145,175 L 110,145 L 85,100 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
-              <!-- Europe -->
-              <path d="M 355,55 L 445,45 L 470,85 L 430,120 L 385,130 L 355,115 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
-              <!-- Africa -->
-              <path d="M 360,145 L 440,140 L 475,185 L 460,260 L 420,315 L 395,280 L 375,220 L 345,185 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
-              <!-- Middle East & Asia -->
-              <path d="M 455,115 L 540,95 L 665,75 L 705,120 L 660,185 L 615,215 L 560,190 L 520,210 L 480,165 L 455,145 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
-              <!-- Australia / Maritime SE Asia -->
-              <path d="M 620,245 L 705,245 L 715,305 L 645,315 Z" fill="#fefce8" stroke="#38bdf8" stroke-width="1.4"/>
+            <!-- Dynamic 3D Maritime HUD Indicator (Active Chokepoint Tag) -->
+            <div class="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-lg px-2.5 py-1.5 text-[11px] pointer-events-none shadow-lg">
+              <div class="flex items-center gap-2">
+                <span id="map3d-status-dot" class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                <span id="map3d-status-text" class="font-bold text-white">3D 航線即時運航模式：紅海曼德海峽</span>
+              </div>
+            </div>
 
-              <!-- Sea Routes -->
-              <!-- Asia -> Malacca -> Red Sea -> Suez -> Europe (BLOCKED / RESTRICTED) -->
-              <path d="M 655,165 Q 600,225 535,190 Q 475,175 450,140 Q 430,125 385,122" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5" opacity="0.85"/>
-              <!-- Asia -> Malacca -> Cape of Good Hope -> Europe (ACTIVE REROUTE) -->
-              <path d="M 655,165 Q 570,275 425,328 Q 315,250 355,122" fill="none" stroke="#f59e0b" stroke-width="2.5" filter="url(#glow)"/>
-              <!-- Asia -> Transpacific -> US West Coast -> IPI -> US East Coast -->
-              <path d="M 665,150 Q 750,120 795,125" fill="none" stroke="#a855f7" stroke-width="2" stroke-dasharray="4,3"/>
-              <path d="M 5,125 Q 65,135 110,140" fill="none" stroke="#a855f7" stroke-width="2" stroke-dasharray="4,3"/>
-              <!-- Asia -> Panama Canal -> US East Coast -->
-              <path d="M 110,140 Q 135,180 175,185 Q 205,165 200,125" fill="none" stroke="#38bdf8" stroke-width="2.2"/>
-
-              <!-- Route Labels -->
-              <text x="480" y="295" fill="#b45309" font-size="10" font-weight="bold">好望角繞道 (+12~14天)</text>
-              <text x="455" y="128" fill="#dc2626" font-size="9">蘇伊士受阻</text>
-              <text x="580" y="208" fill="#7e22ce" font-size="9">亞洲近洋幹線</text>
-              <text x="40" y="115" fill="#7e22ce" font-size="9">美西轉單線</text>
-
-              <!-- Interactive Hotspot Markers -->
-              <!-- 1. Red Sea / Bab el-Mandeb -->
-              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="redsea" onclick="window.selectGeoHotspot && window.selectGeoHotspot('redsea')">
-                <circle cx="458" cy="166" r="24" fill="transparent"/>
-                <circle cx="458" cy="166" r="13" fill="rgba(239,68,68,0.28)" class="animate-ping" style="transform-box: fill-box; transform-origin: center;"/>
-                <circle cx="458" cy="166" r="7.5" fill="#ef4444" stroke="#fff" stroke-width="2"/>
-                <text x="469" y="170" fill="#b91c1c" font-size="11" font-weight="bold">紅海</text>
-              </g>
-
-              <!-- 2. Cape of Good Hope -->
-              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="cape" onclick="window.selectGeoHotspot && window.selectGeoHotspot('cape')">
-                <circle cx="422" cy="322" r="24" fill="transparent"/>
-                <circle cx="422" cy="322" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="342" y="338" fill="#b45309" font-size="11" font-weight="bold">好望角</text>
-              </g>
-
-              <!-- 3. Strait of Hormuz -->
-              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="hormuz" onclick="window.selectGeoHotspot && window.selectGeoHotspot('hormuz')">
-                <circle cx="496" cy="144" r="24" fill="transparent"/>
-                <circle cx="496" cy="144" r="7.5" fill="#f97316" stroke="#fff" stroke-width="2"/>
-                <text x="507" y="142" fill="#c2410c" font-size="11" font-weight="bold">荷姆茲海峽</text>
-              </g>
-
-              <!-- 4. Malacca & Intra-Asia -->
-              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="malacca" onclick="window.selectGeoHotspot && window.selectGeoHotspot('malacca')">
-                <circle cx="605" cy="195" r="24" fill="transparent"/>
-                <circle cx="605" cy="195" r="7.5" fill="#a855f7" stroke="#fff" stroke-width="2"/>
-                <text x="616" y="198" fill="#6d28d9" font-size="11" font-weight="bold">麻六甲/亞洲近洋</text>
-              </g>
-
-              <!-- 5. Panama Canal -->
-              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="panama" onclick="window.selectGeoHotspot && window.selectGeoHotspot('panama')">
-                <circle cx="176" cy="186" r="24" fill="transparent"/>
-                <circle cx="176" cy="186" r="7.5" fill="#eab308" stroke="#fff" stroke-width="2"/>
-                <text x="114" y="204" fill="#a16207" font-size="11" font-weight="bold">巴拿馬運河</text>
-              </g>
-
-              <!-- 6. US East Coast ILA -->
-              <g class="geo-hotspot" style="cursor: pointer;" data-chokepoint="usila" onclick="window.selectGeoHotspot && window.selectGeoHotspot('usila')">
-                <circle cx="204" cy="120" r="24" fill="transparent"/>
-                <circle cx="204" cy="120" r="7.5" fill="#38bdf8" stroke="#fff" stroke-width="2"/>
-                <text x="216" y="122" fill="#0369a1" font-size="11" font-weight="bold">美東ILA港口</text>
-              </g>
-            </svg>
+            <!-- Controls reminder -->
+            <div class="absolute bottom-2.5 right-2.5 bg-slate-900/80 backdrop-blur border border-slate-700/80 rounded px-2 py-1 text-[10px] text-slate-300 hidden sm:flex items-center gap-1.5 pointer-events-none">
+              <i class="fa-solid fa-arrows-up-down-left-right text-sky-400"></i>
+              <span>左鍵 360° 旋轉 • 滾輪縮放 • 點擊下方按鈕切換咽喉視角</span>
+            </div>
           </div>
 
           <!-- Quick Hotspot Selector Pills -->
@@ -3124,6 +2977,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261118_grid_stretch"></script>
+  <script src="app.js?v=20261118_news_links"></script>
 </body>
 </html>
