@@ -47,7 +47,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261118_3d2">
+  <link rel="stylesheet" href="style.css?v=20261118_chips_fin">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -156,6 +156,24 @@
             <span class="text-rose-400 font-mono text-[10px] flex items-center" id="ticker-0050-change"><i class="fa-solid fa-caret-up mr-0.5"></i>+2.25 (+2.31%)</span>
             <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-2 hidden md:inline" id="ticker-0050-range">高/低: 100.5 / 97.8</span>
             <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-2 hidden lg:inline" id="ticker-0050-vol">量: 192,041張</span>
+          </div>
+
+          <!-- 2454 聯發科 (半導體指標) -->
+          <div class="flex items-center gap-2 shrink-0 bg-slate-800/90 px-2.5 py-0.5 rounded border border-sky-800/60">
+            <span class="font-bold text-sky-300"><i class="fa-solid fa-microchip text-[10px] mr-1"></i>聯發科(2454)</span>
+            <span class="font-mono font-bold text-white" id="ticker-2454-price">NT$ 1,320.0</span>
+            <span class="text-rose-400 font-mono text-[10px] flex items-center" id="ticker-2454-change"><i class="fa-solid fa-caret-up mr-0.5"></i>+15.0 (+1.15%)</span>
+            <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-2 hidden md:inline" id="ticker-2454-range">高/低: 1,335 / 1,310</span>
+            <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-2 hidden lg:inline" id="ticker-2454-vol">量: 8,420張</span>
+          </div>
+
+          <!-- 2881 富邦金 (金融權值指標) -->
+          <div class="flex items-center gap-2 shrink-0 bg-slate-800/90 px-2.5 py-0.5 rounded border border-emerald-800/60">
+            <span class="font-bold text-emerald-300"><i class="fa-solid fa-building-columns text-[10px] mr-1"></i>富邦金(2881)</span>
+            <span class="font-mono font-bold text-white" id="ticker-2881-price">NT$ 92.5</span>
+            <span class="text-rose-400 font-mono text-[10px] flex items-center" id="ticker-2881-change"><i class="fa-solid fa-caret-up mr-0.5"></i>+0.8 (+0.87%)</span>
+            <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-2 hidden md:inline" id="ticker-2881-range">高/低: 93.0 / 91.8</span>
+            <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-2 hidden lg:inline" id="ticker-2881-vol">量: 25,610張</span>
           </div>
         </div>
       <div class="flex items-center gap-2 shrink-0">
@@ -1331,70 +1349,79 @@
         </div>
       </div>
 
-      <!-- 3D Global Shipping Chokepoint & Route Globe (3D 全球航運咽喉地球儀) -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-2xl relative overflow-hidden">
+      <!-- 3D Interactive Shipping Routes Sandbox (3D 全球立體海運航線戰略沙盤) -->
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-700/60 rounded-xl p-5 shadow-2xl relative overflow-hidden">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-lg shadow-lg shadow-purple-500/20">
-              <i class="fa-solid fa-earth-americas"></i>
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-sky-600 flex items-center justify-center text-white text-lg shadow-lg shadow-sky-500/20">
+              <i class="fa-solid fa-route"></i>
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">3D Interactive Globe</span>
-                <h3 class="text-base font-black text-white">3D 全球海運咽喉動態立體地球儀（好望角繞道 vs 蘇伊士運河）</h3>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Three.js 3D Sea-Lane Sandbox</span>
+                <h3 class="text-base font-black text-white">3D 全球海運立體航線戰略沙盤（實時船舶航行光跡）</h3>
               </div>
-              <p class="text-xs text-slate-400 mt-0.5">點擊下方咽喉要道快速聚焦旋轉地球，立體弧線航跡實時展示繞道好望角增加 3,500 海浬與吸收 9.5% 運力效應</p>
+              <p class="text-xs text-slate-400 mt-0.5">平視 3D 立體海域沙盤，動態光粒子貨櫃輪沿「好望角大繞道」與「歐美主力航線」航行，清晰對比航程天數與咽喉節點</p>
             </div>
           </div>
 
-          <!-- Chokepoint Focus Buttons -->
+          <!-- Route Focus Buttons -->
           <div class="flex flex-wrap items-center gap-1.5 text-xs">
-            <button class="globe-choke-btn active px-2.5 py-1 rounded bg-indigo-600 text-white font-semibold transition" onclick="focus3DGlobe('suez')">
-              蘇伊士 / 紅海
+            <button id="btn-route-all" class="route-focus-btn active px-3 py-1 rounded bg-indigo-600 text-white font-semibold transition" onclick="focus3DRouteView('all')">
+              全域立體視角
             </button>
-            <button class="globe-choke-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DGlobe('cape')">
-              好望角繞道
+            <button id="btn-route-cape" class="route-focus-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DRouteView('cape')">
+              好望角大繞道 (紅)
             </button>
-            <button class="globe-choke-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DGlobe('panama')">
-              巴拿馬運河
+            <button id="btn-route-suez" class="route-focus-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DRouteView('suez')">
+              蘇伊士/紅海 (藍)
             </button>
-            <button class="globe-choke-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DGlobe('malacca')">
-              馬六甲海峽
+            <button id="btn-route-pacific" class="route-focus-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DRouteView('pacific')">
+              泛太平洋美西 (金)
             </button>
-            <button class="globe-choke-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition" onclick="focus3DGlobe('taiwan')">
-              台灣海峽
-            </button>
-            <button id="btn-globe-rot" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-slate-700 font-semibold transition ml-1" onclick="toggleGlobeAutoRotate()">
-              <i class="fa-solid fa-arrows-rotate"></i> 自轉
+            <button id="btn-route-rot" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-slate-700 font-semibold transition ml-1" onclick="toggleRouteAutoRotate()">
+              <i class="fa-solid fa-arrows-rotate"></i> 巡弋旋轉
             </button>
           </div>
         </div>
 
-        <!-- 3D Globe Canvas Container -->
-        <div class="relative w-full h-[420px] md:h-[460px] rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
-          <div id="globe3dContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+        <!-- 3D Sea-Lane Canvas Container -->
+        <div class="relative w-full h-[430px] md:h-[480px] rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
+          <div id="routes3dContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
 
-          <!-- Legend Overlay -->
-          <div class="absolute top-3 left-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-lg p-3 text-xs pointer-events-none">
+          <!-- Route Info HUD Card -->
+          <div class="absolute top-3 left-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-lg p-3 text-xs pointer-events-none max-w-sm">
             <div class="text-[11px] font-bold text-white mb-2 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 3D 立體航線圖例
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 3D 立體動態航線情資
             </div>
-            <div class="space-y-1.5 text-[11px]">
-              <div class="flex items-center gap-2 text-rose-400">
-                <span class="w-3 h-1 bg-rose-500 rounded"></span> 🔴 繞道好望角航線 (+12~14天航程)
+            <div class="space-y-2 text-[11px]">
+              <div class="flex items-start gap-2 text-rose-400">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0 mt-0.5 animate-pulse"></span>
+                <div>
+                  <span class="font-bold">🔴 非洲好望角繞道航線 (+3,500海浬 / +12~14天)</span>
+                  <p class="text-[10px] text-slate-300 mt-0.5">吸收全球約9.5%運力，支撐歐線長約運價高檔震盪。</p>
+                </div>
               </div>
-              <div class="flex items-center gap-2 text-sky-400">
-                <span class="w-3 h-1 bg-sky-400 rounded"></span> 🔵 蘇伊士運河傳統航線 (高警戒/遇阻)
+              <div class="flex items-start gap-2 text-sky-400">
+                <span class="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0 mt-0.5"></span>
+                <div>
+                  <span class="font-bold">🔵 蘇伊士運河傳統航線 (高軍事風險/極限警戒)</span>
+                  <p class="text-[10px] text-slate-300 mt-0.5">通行量較正常值下降 85%，僅極少數非美歐關聯散船冒險通行。</p>
+                </div>
               </div>
-              <div class="flex items-center gap-2 text-amber-300">
-                <span class="w-3 h-1 bg-amber-400 rounded"></span> 🟡 泛太平洋美西/美東巴拿馬航線
+              <div class="flex items-start gap-2 text-amber-300">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0 mt-0.5"></span>
+                <div>
+                  <span class="font-bold">🟡 泛太平洋直航線 (美西 11~14天 / 美東 24~28天)</span>
+                  <p class="text-[10px] text-slate-300 mt-0.5">美西長榮、萬海快航直達，受紅海繞行外溢影響艙位偏緊。</p>
+                </div>
               </div>
             </div>
           </div>
 
           <div class="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur border border-slate-700/80 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 hidden sm:flex items-center gap-2 pointer-events-none">
-            <i class="fa-solid fa-hand-pointer text-indigo-400"></i>
-            <span>滑鼠拖曳旋轉地球 • 滾輪縮放視角</span>
+            <i class="fa-solid fa-arrows-to-eye text-sky-400"></i>
+            <span>滑鼠左鍵 360° 俯仰旋轉 • 滾輪縮放視角 • 右鍵拖曳平移</span>
           </div>
         </div>
       </div>
@@ -3051,6 +3078,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261118_3d2"></script>
+  <script src="app.js?v=20261118_chips_fin"></script>
 </body>
 </html>

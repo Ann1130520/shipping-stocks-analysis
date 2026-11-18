@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   safeRun(initChecklistAndNotes);
   safeRun(initShipCursor);
   safeRun(init3DDigitalTwinShip);
-  safeRun(init3DGlobalGlobe);
+  safeRun(init3DMaritimeRoutesSandbox);
   safeRun(init3DSurfaceWarRoom);
   loadLiveExternalData();
 });
@@ -52,6 +52,8 @@ const CNYES_REALTIME_SYMBOLS = [
   'TWS:2615:STOCK',
   'TWS:2330:STOCK',
   'TWS:0050:STOCK',
+  'TWS:2454:STOCK',
+  'TWS:2881:STOCK',
   'TWS:TSE01:INDEX',
   'GI:INX:INDEX',
   'GI:NKY:INDEX',
@@ -170,6 +172,8 @@ function buildMergedPayload() {
   mapStock('TWS:2615:STOCK', merged.stocks, '2615');
   mapStock('TWS:2330:STOCK', merged.tw_benchmarks, '2330');
   mapStock('TWS:0050:STOCK', merged.tw_benchmarks, '0050');
+  mapStock('TWS:2454:STOCK', merged.tw_benchmarks, '2454');
+  mapStock('TWS:2881:STOCK', merged.tw_benchmarks, '2881');
   mapStock('TWS:TSE01:INDEX', merged.global_indices, 'tw');
   mapStock('GI:INX:INDEX', merged.global_indices, 'us');
   mapStock('GI:NKY:INDEX', merged.global_indices, 'jp');
@@ -471,6 +475,8 @@ function applyMarketDataToUI(data, options = {}) {
     };
     updateBenchmarkTicker('2330');
     updateBenchmarkTicker('0050');
+    updateBenchmarkTicker('2454');
+    updateBenchmarkTicker('2881');
   }
 
   if (redrawNews && data.live_news && Array.isArray(data.live_news) && data.live_news.length > 0) {
@@ -902,7 +908,11 @@ function initTabs() {
             } else if (targetTab === 'industry') {
               if (subRouteChartInstance) subRouteChartInstance.resize();
               if (supplyDemandChartInstance) supplyDemandChartInstance.resize();
-              if (window.resize3DSurface) window.resize3DSurface();
+              setTimeout(() => {
+                if (typeof render3DSurfacePlot === 'function') {
+                  render3DSurfacePlot(current3DSurfaceStockKey);
+                }
+              }, 60);
             } else if (targetTab === 'technicals') {
               renderTechnicalsCharts();
             }
@@ -3180,257 +3190,335 @@ function resetShip3DView() {
 
 
 /* ========================================================
-   14. THREE.JS 3D GLOBAL CHOKEPOINT & SHIPPING ROUTE GLOBE
+   14. THREE.JS 3D MARITIME SEA-LANES & ROUTE SANDBOX
    ======================================================== */
-let globe3DScene, globe3DCamera, globe3DRenderer, globe3DControls;
-let globeEarthMesh, globeAtmosphere, globeRoutesGroup;
-let globeAutoRotate = true;
+let routes3DScene, routes3DCamera, routes3DRenderer, routes3DControls;
+let routePlanesGroup, routeParticles = [];
+let routeAutoRotate = false;
 
-const GLOBE_CHOKEPOINTS = {
-  suez: { name: '蘇伊士運河 / 紅海曼德海峽', lat: 27.8, lon: 34.2, status: 'red', desc: '紅海胡塞武裝襲擊，全球 85% 遠洋貨櫃輪繞道好望角' },
-  cape: { name: '非洲好望角繞道節點', lat: -34.5, lon: 18.5, status: 'yellow', desc: '遠洋雙向航程增加 12~14 天，有效吸收全球約 9.5% 運力' },
-  panama: { name: '巴拿馬運河 (中美洲)', lat: 9.1, lon: -79.7, status: 'amber', desc: '氣候乾旱水位與吃水限制調節，長榮新巴拿馬型船舶享通行優勢' },
-  malacca: { name: '馬六甲海峽 (東南亞)', lat: 4.2, lon: 100.5, status: 'green', desc: '亞歐與中東航線咽喉，萬海東南亞中繼基地與轉運樞紐' },
-  taiwan: { name: '台灣海峽 / 高雄港', lat: 23.5, lon: 120.2, status: 'blue', desc: '全球半導體與遠東貨櫃中繼樞紐，長榮/陽明/萬海母港總部' }
+// 3D Spatial coordinates on a planar maritime stage (-150 to +150 in X, -100 to +100 in Z)
+// Mapping realistic global sea coordinates:
+// Far East (Taiwan / Shanghai): X: 75, Z: -15
+// Malacca / Singapore: X: 50, Z: 5
+// Indian Ocean: X: 15, Z: 25
+// Suez Canal / Bab el-Mandeb: X: -10, Z: -8
+// Cape of Good Hope: X: -18, Z: 65
+// Gibraltar / Med: X: -55, Z: -22
+// Rotterdam (Europe): X: -60, Z: -45
+// US West (LA): X: 145, Z: -28 (Transpacific)
+// Panama Canal: X: 110, Z: 20
+// US East (NY): X: -95, Z: -35
+
+const ROUTE_PORTS = {
+  taiwan: { name: '台灣高雄港 (總部)', x: 75, z: -15, hub: true, color: 0x10b981 },
+  shanghai: { name: '上海港', x: 72, z: -28, hub: false, color: 0x38bdf8 },
+  singapore: { name: '新加坡港 (馬六甲)', x: 48, z: 8, hub: true, color: 0x38bdf8 },
+  suez: { name: '蘇伊士運河 / 紅海', x: -12, z: -10, hub: true, color: 0x38bdf8, choke: true, status: 'warning' },
+  cape: { name: '非洲好望角繞道點', x: -18, z: 68, hub: true, color: 0xf43f5e, choke: true, status: 'divert' },
+  rotterdam: { name: '荷蘭鹿特丹港 (歐洲門戶)', x: -62, z: -48, hub: true, color: 0x38bdf8 },
+  losangeles: { name: '美國洛杉磯/長灘港 (美西)', x: 142, z: -26, hub: true, color: 0xf59e0b },
+  panama: { name: '巴拿馬運河 (美東咽喉)', x: 108, z: 22, hub: true, color: 0xf59e0b, choke: true },
+  newyork: { name: '美國紐約港 (美東)', x: -95, z: -35, hub: true, color: 0xf59e0b }
 };
 
-function latLonToVector3(lat, lon, radius) {
-  const phi = (90 - lat) * (Math.PI / 180);
-  const theta = (lon + 180) * (Math.PI / 180);
-  const x = -(radius * Math.sin(phi) * Math.cos(theta));
-  const z = radius * Math.sin(phi) * Math.sin(theta);
-  const y = radius * Math.cos(phi);
-  return new THREE.Vector3(x, y, z);
-}
-
-function createRouteArc(startVec, endVec, radius, colorHex) {
-  const mid = startVec.clone().lerp(endVec, 0.5);
-  const dist = startVec.distanceTo(endVec);
-  const altitude = radius + dist * 0.22;
-  mid.normalize().multiplyScalar(altitude);
-
-  const curve = new THREE.QuadraticBezierCurve3(startVec, mid, endVec);
-  const points = curve.getPoints(40);
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({
+function create3DRouteTube(pointsArray, colorHex, radius = 0.8) {
+  const vectors = pointsArray.map(p => new THREE.Vector3(p.x, p.y || 1.2, p.z));
+  const curve = new THREE.CatmullRomCurve3(vectors);
+  const tubeGeo = new THREE.TubeGeometry(curve, 64, radius, 8, false);
+  const tubeMat = new THREE.MeshStandardMaterial({
     color: colorHex,
-    linewidth: 2,
+    roughness: 0.3,
+    metalness: 0.2,
+    emissive: colorHex,
+    emissiveIntensity: 0.35,
     transparent: true,
-    opacity: 0.85
+    opacity: 0.9
   });
-  return new THREE.Line(geometry, material);
+  const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
+  return { mesh: tubeMesh, curve: curve };
 }
 
-function init3DGlobalGlobe() {
-  const container = document.getElementById('globe3dContainer');
+function init3DMaritimeRoutesSandbox() {
+  const container = document.getElementById('routes3dContainer');
   if (!container || typeof THREE === 'undefined') return;
 
   const width = container.clientWidth || 800;
-  const height = container.clientHeight || 420;
+  const height = container.clientHeight || 450;
 
   // Scene
-  globe3DScene = new THREE.Scene();
-  globe3DScene.background = new THREE.Color(0x030b17);
+  routes3DScene = new THREE.Scene();
+  routes3DScene.background = new THREE.Color(0x061122);
+  routes3DScene.fog = new THREE.FogExp2(0x061122, 0.0035);
 
-  // Camera
-  globe3DCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-  globe3DCamera.position.set(0, 15, 62);
+  // Camera: Elevated Isometric/Bird's-Eye View
+  routes3DCamera = new THREE.PerspectiveCamera(40, width / height, 1, 2000);
+  routes3DCamera.position.set(0, 160, 190);
 
   // Renderer
-  globe3DRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  globe3DRenderer.setSize(width, height);
-  globe3DRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  routes3DRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  routes3DRenderer.setSize(width, height);
+  routes3DRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.innerHTML = '';
-  container.appendChild(globe3DRenderer.domElement);
+  container.appendChild(routes3DRenderer.domElement);
 
   // Controls
   if (typeof THREE.OrbitControls !== 'undefined') {
-    globe3DControls = new THREE.OrbitControls(globe3DCamera, globe3DRenderer.domElement);
-    globe3DControls.enableDamping = true;
-    globe3DControls.dampingFactor = 0.05;
-    globe3DControls.minDistance = 28;
-    globe3DControls.maxDistance = 110;
+    routes3DControls = new THREE.OrbitControls(routes3DCamera, routes3DRenderer.domElement);
+    routes3DControls.enableDamping = true;
+    routes3DControls.dampingFactor = 0.05;
+    routes3DControls.maxDistance = 500;
+    routes3DControls.minDistance = 40;
+    routes3DControls.maxPolarAngle = Math.PI / 2 - 0.05;
+    routes3DControls.target.set(0, 0, 5);
   }
 
   // Lights
-  const ambient = new THREE.AmbientLight(0xffffff, 0.7);
-  globe3DScene.add(ambient);
+  const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+  routes3DScene.add(ambient);
 
-  const dirLight = new THREE.DirectionalLight(0x60a5fa, 1.4);
-  dirLight.position.set(60, 40, 50);
-  globe3DScene.add(dirLight);
+  const keyLight = new THREE.DirectionalLight(0x93c5fd, 1.4);
+  keyLight.position.set(60, 140, 80);
+  routes3DScene.add(keyLight);
 
-  const backLight = new THREE.DirectionalLight(0x38bdf8, 0.4);
-  backLight.position.set(-50, -30, -50);
-  globe3DScene.add(backLight);
+  const fillLight = new THREE.DirectionalLight(0x0284c7, 0.6);
+  fillLight.position.set(-80, 70, -60);
+  routes3DScene.add(fillLight);
 
-  // Earth Globe Sphere (Deep Blue Oceanic Surface with Latitude/Longitude Ring Grids)
-  const radius = 20;
-  const sphereGeo = new THREE.SphereGeometry(radius, 64, 64);
-  const sphereMat = new THREE.MeshStandardMaterial({
-    color: 0x071e3d,
+  // 1. Stylized 3D Ocean Bed Stage
+  const bedGeo = new THREE.PlaneGeometry(360, 240, 48, 48);
+  const bedMat = new THREE.MeshStandardMaterial({
+    color: 0x071b34,
     roughness: 0.35,
-    metalness: 0.4
+    metalness: 0.5
   });
-  globeEarthMesh = new THREE.Mesh(sphereGeo, sphereMat);
-  globe3DScene.add(globeEarthMesh);
+  const bedMesh = new THREE.Mesh(bedGeo, bedMat);
+  bedMesh.rotation.x = -Math.PI / 2;
+  bedMesh.position.y = -0.5;
+  routes3DScene.add(bedMesh);
 
-  // Wireframe Latitude / Longitude lines
-  const wireGeo = new THREE.SphereGeometry(radius * 1.002, 36, 18);
-  const wireMat = new THREE.MeshBasicMaterial({
-    color: 0x0284c7,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.22
-  });
-  const wireGlobe = new THREE.Mesh(wireGeo, wireMat);
-  globe3DScene.add(wireGlobe);
+  // Navigational Tactical Grid lines
+  const gridHelper = new THREE.GridHelper(360, 36, 0x0284c7, 0x0c4a6e);
+  gridHelper.position.y = -0.3;
+  routes3DScene.add(gridHelper);
 
-  // Outer Atmosphere Glow Ring
-  const atmosGeo = new THREE.SphereGeometry(radius * 1.03, 32, 32);
-  const atmosMat = new THREE.MeshBasicMaterial({
-    color: 0x38bdf8,
-    transparent: true,
-    opacity: 0.08,
-    side: THREE.BackSide
-  });
-  globeAtmosphere = new THREE.Mesh(atmosGeo, atmosMat);
-  globe3DScene.add(globeAtmosphere);
+  // 2. Continents Contour Blocks (Stylized 3D landmass pedestals)
+  const landMat = new THREE.MeshStandardMaterial({ color: 0x0f2744, roughness: 0.8 });
 
-  // Routes & Chokepoints Group
-  globeRoutesGroup = new THREE.Group();
-  globe3DScene.add(globeRoutesGroup);
+  // Asia Landmass
+  const asiaGeo = new THREE.BoxGeometry(75, 2, 70);
+  const asia = new THREE.Mesh(asiaGeo, landMat);
+  asia.position.set(65, 0.5, -45);
+  routes3DScene.add(asia);
 
-  // Major Global Ports
-  const PORTS = {
-    shanghai: { lat: 31.2, lon: 121.5 },
-    taiwan: { lat: 23.5, lon: 120.2 },
-    singapore: { lat: 1.3, lon: 103.8 },
-    rotterdam: { lat: 51.9, lon: 4.4 },
-    losangeles: { lat: 33.7, lon: -118.2 },
-    newyork: { lat: 40.7, lon: -74.0 },
-    cape_town: { lat: -34.5, lon: 18.5 },
-    suez_point: { lat: 28.0, lon: 33.5 },
-    panama_point: { lat: 9.1, lon: -79.7 }
-  };
+  // Europe Landmass
+  const eurGeo = new THREE.BoxGeometry(45, 2, 40);
+  const eur = new THREE.Mesh(eurGeo, landMat);
+  eur.position.set(-60, 0.5, -60);
+  routes3DScene.add(eur);
 
-  // Convert to Vectors
-  const vShanghai = latLonToVector3(PORTS.shanghai.lat, PORTS.shanghai.lon, radius);
-  const vTaiwan = latLonToVector3(PORTS.taiwan.lat, PORTS.taiwan.lon, radius);
-  const vSingapore = latLonToVector3(PORTS.singapore.lat, PORTS.singapore.lon, radius);
-  const vRotterdam = latLonToVector3(PORTS.rotterdam.lat, PORTS.rotterdam.lon, radius);
-  const vLA = latLonToVector3(PORTS.losangeles.lat, PORTS.losangeles.lon, radius);
-  const vNY = latLonToVector3(PORTS.newyork.lat, PORTS.newyork.lon, radius);
-  const vCape = latLonToVector3(PORTS.cape_town.lat, PORTS.cape_town.lon, radius);
-  const vSuez = latLonToVector3(PORTS.suez_point.lat, PORTS.suez_point.lon, radius);
-  const vPanama = latLonToVector3(PORTS.panama_point.lat, PORTS.panama_point.lon, radius);
+  // Africa Landmass
+  const afrGeo = new THREE.BoxGeometry(48, 2, 75);
+  const afr = new THREE.Mesh(afrGeo, landMat);
+  afr.position.set(-20, 0.5, 25);
+  routes3DScene.add(afr);
 
-  // Route 1: 繞道好望角 (Cape of Good Hope Diverted Route) -> RED ARCS
-  const arcCape1 = createRouteArc(vTaiwan, vSingapore, radius, 0xf43f5e);
-  const arcCape2 = createRouteArc(vSingapore, vCape, radius, 0xf43f5e);
-  const arcCape3 = createRouteArc(vCape, vRotterdam, radius, 0xf43f5e);
-  globeRoutesGroup.add(arcCape1);
-  globeRoutesGroup.add(arcCape2);
-  globeRoutesGroup.add(arcCape3);
+  // Americas Landmass
+  const amerGeo = new THREE.BoxGeometry(50, 2, 100);
+  const amer = new THREE.Mesh(amerGeo, landMat);
+  amer.position.set(135, 0.5, -10);
+  routes3DScene.add(amer);
 
-  // Route 2: 傳統蘇伊士運河航線 (Traditional Suez Canal Route) -> SKY BLUE ARCS
-  const arcSuez1 = createRouteArc(vSingapore, vSuez, radius, 0x38bdf8);
-  const arcSuez2 = createRouteArc(vSuez, vRotterdam, radius, 0x38bdf8);
-  globeRoutesGroup.add(arcSuez1);
-  globeRoutesGroup.add(arcSuez2);
+  // Group for Routes and Port Markers
+  routePlanesGroup = new THREE.Group();
+  routes3DScene.add(routePlanesGroup);
 
-  // Route 3: 泛太平洋航線 (Transpacific to US West & Panama to US East) -> AMBER ARCS
-  const arcPac1 = createRouteArc(vTaiwan, vLA, radius, 0xfbbf24);
-  const arcPac2 = createRouteArc(vTaiwan, vPanama, radius, 0xf59e0b);
-  const arcPac3 = createRouteArc(vPanama, vNY, radius, 0xf59e0b);
-  globeRoutesGroup.add(arcPac1);
-  globeRoutesGroup.add(arcPac2);
-  globeRoutesGroup.add(arcPac3);
-
-  // Pin Markers for Chokepoints
-  Object.keys(GLOBE_CHOKEPOINTS).forEach(key => {
-    const cp = GLOBE_CHOKEPOINTS[key];
-    const pos = latLonToVector3(cp.lat, cp.lon, radius * 1.015);
-
-    // Glowing Dot Mesh
-    const dotGeo = new THREE.SphereGeometry(0.7, 16, 16);
-    let dotColor = 0x3b82f6;
-    if (cp.status === 'red') dotColor = 0xef4444;
-    if (cp.status === 'yellow') dotColor = 0xf59e0b;
-    if (cp.status === 'amber') dotColor = 0xf97316;
-    if (cp.status === 'green') dotColor = 0x10b981;
-
-    const dotMat = new THREE.MeshBasicMaterial({ color: dotColor });
-    const dotMesh = new THREE.Mesh(dotGeo, dotMat);
-    dotMesh.position.copy(pos);
-    globeRoutesGroup.add(dotMesh);
-
-    // Pulsing Ring
-    const ringGeo = new THREE.RingGeometry(0.9, 1.4, 16);
-    const ringMat = new THREE.MeshBasicMaterial({
-      color: dotColor,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.6
+  // 3. Port & Chokepoint Markers (3D Cylinders + Rings)
+  Object.keys(ROUTE_PORTS).forEach(key => {
+    const pt = ROUTE_PORTS[key];
+    const pinGeo = new THREE.CylinderGeometry(1.6, 1.6, 2.5, 16);
+    const pinMat = new THREE.MeshStandardMaterial({
+      color: pt.color,
+      emissive: pt.color,
+      emissiveIntensity: 0.5
     });
-    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-    ringMesh.position.copy(pos);
-    ringMesh.lookAt(new THREE.Vector3(0, 0, 0));
-    globeRoutesGroup.add(ringMesh);
+    const pin = new THREE.Mesh(pinGeo, pinMat);
+    pin.position.set(pt.x, 2, pt.z);
+    routePlanesGroup.add(pin);
+
+    // Pulse Ring around chokepoints
+    if (pt.choke) {
+      const ringGeo = new THREE.RingGeometry(2.5, 4.2, 24);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: pt.status === 'divert' ? 0xf43f5e : pt.status === 'warning' ? 0x38bdf8 : 0xf59e0b,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.8
+      });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.rotation.x = -Math.PI / 2;
+      ring.position.set(pt.x, 0.8, pt.z);
+      routePlanesGroup.add(ring);
+    }
   });
+
+  // 4. Construct 3D Routes Curves & Tubes
+
+  // ROUTE A: 🔴 非洲好望角大繞道 (Taiwan -> Singapore -> Indian Ocean -> Cape Town -> Europe)
+  const capePoints = [
+    { x: 75, y: 1.5, z: -15 },  // Taiwan
+    { x: 62, y: 2.0, z: -4 },
+    { x: 48, y: 2.0, z: 8 },    // Singapore / Malacca
+    { x: 25, y: 3.0, z: 24 },   // Southern Indian Ocean
+    { x: 5, y: 3.5, z: 48 },    // Deep South Indian Ocean
+    { x: -18, y: 3.0, z: 68 },  // Cape of Good Hope
+    { x: -45, y: 2.5, z: 40 },  // West Africa South Atlantic
+    { x: -55, y: 2.0, z: 5 },   // Mid Atlantic Equator
+    { x: -62, y: 1.5, z: -48 }  // Rotterdam
+  ];
+  const routeCape = create3DRouteTube(capePoints, 0xf43f5e, 1.1);
+  routePlanesGroup.add(routeCape.mesh);
+
+  // ROUTE B: 🔵 傳統蘇伊士運河航線 (Taiwan -> Singapore -> Red Sea / Suez -> Europe)
+  const suezPoints = [
+    { x: 48, y: 2.0, z: 8 },    // Singapore
+    { x: 22, y: 2.0, z: 2 },    // North Indian Ocean
+    { x: -2, y: 2.2, z: -4 },   // Gulf of Aden / Bab el-Mandeb
+    { x: -12, y: 2.0, z: -10 }, // Suez Canal
+    { x: -35, y: 2.0, z: -25 }, // Mediterranean Sea
+    { x: -52, y: 1.8, z: -38 }, // English Channel Approach
+    { x: -62, y: 1.5, z: -48 }  // Rotterdam
+  ];
+  const routeSuez = create3DRouteTube(suezPoints, 0x38bdf8, 0.75);
+  routePlanesGroup.add(routeSuez.mesh);
+
+  // ROUTE C: 🟡 泛太平洋美西快航線 (Taiwan -> Transpacific -> LA)
+  const pacificPoints = [
+    { x: 75, y: 1.5, z: -15 },  // Taiwan
+    { x: 98, y: 2.5, z: -20 },
+    { x: 122, y: 2.5, z: -24 },
+    { x: 142, y: 1.5, z: -26 }  // LA / Long Beach
+  ];
+  const routePacific = create3DRouteTube(pacificPoints, 0xf59e0b, 0.95);
+  routePlanesGroup.add(routePacific.mesh);
+
+  // 5. Active Container Ships (Moving Glow Particles along curves)
+  routeParticles = [];
+
+  function addRouteShipParticle(curve, colorHex, speed, initialOffset = 0, name = '貨櫃輪') {
+    const shipGeo = new THREE.BoxGeometry(2.5, 1.2, 1.4);
+    const shipMat = new THREE.MeshStandardMaterial({
+      color: colorHex,
+      emissive: colorHex,
+      emissiveIntensity: 0.8
+    });
+    const shipMesh = new THREE.Mesh(shipGeo, shipMat);
+    routes3DScene.add(shipMesh);
+
+    routeParticles.push({
+      mesh: shipMesh,
+      curve: curve,
+      speed: speed,
+      progress: initialOffset,
+      name: name
+    });
+  }
+
+  // Add 3 ships on Cape Route (Long distance convoy)
+  addRouteShipParticle(routeCape.curve, 0xff2a55, 0.0016, 0.1, '長榮 24000 TEU (好望角)');
+  addRouteShipParticle(routeCape.curve, 0xff2a55, 0.0016, 0.45, '陽明 14000 TEU (好望角)');
+  addRouteShipParticle(routeCape.curve, 0xff2a55, 0.0016, 0.8, '歐洲線返程輪 (好望角)');
+
+  // Add 1 cautious ship on Suez Route
+  addRouteShipParticle(routeSuez.curve, 0x38bdf8, 0.0022, 0.3, '蘇伊士非美歐特約船');
+
+  // Add 2 ships on Transpacific Route
+  addRouteShipParticle(routePacific.curve, 0xfbbf24, 0.0028, 0.2, '長榮美西快航');
+  addRouteShipParticle(routePacific.curve, 0xfbbf24, 0.0028, 0.7, '萬海美西直航');
 
   // Resize handler
-  window.resize3DGlobe = function() {
-    if (!container || !globe3DRenderer || !globe3DCamera) return;
+  window.resize3DRoutes = function() {
+    if (!container || !routes3DRenderer || !routes3DCamera) return;
     const w = container.clientWidth;
     const h = container.clientHeight;
     if (w > 0 && h > 0) {
-      globe3DCamera.aspect = w / h;
-      globe3DCamera.updateProjectionMatrix();
-      globe3DRenderer.setSize(w, h);
+      routes3DCamera.aspect = w / h;
+      routes3DCamera.updateProjectionMatrix();
+      routes3DRenderer.setSize(w, h);
     }
   };
-  window.addEventListener('resize', window.resize3DGlobe);
+  window.addEventListener('resize', window.resize3DRoutes);
 
   // Animation Loop
-  function animateGlobe() {
-    requestAnimationFrame(animateGlobe);
+  function animateRoutes() {
+    requestAnimationFrame(animateRoutes);
 
-    if (globeAutoRotate && globeRoutesGroup && globeEarthMesh) {
-      globeEarthMesh.rotation.y += 0.002;
-      wireGlobe.rotation.y += 0.002;
-      globeRoutesGroup.rotation.y += 0.002;
+    // Update moving ship particles
+    routeParticles.forEach(p => {
+      p.progress += p.speed;
+      if (p.progress > 1) p.progress = 0;
+
+      const pos = p.curve.getPointAt(p.progress);
+      p.mesh.position.copy(pos);
+
+      // Rotate ship along route tangent
+      const tangent = p.curve.getTangentAt(p.progress).normalize();
+      p.mesh.lookAt(pos.clone().add(tangent));
+    });
+
+    if (routeAutoRotate && routes3DControls) {
+      routes3DControls.autoRotate = true;
+      routes3DControls.autoRotateSpeed = 0.5;
+    } else if (routes3DControls) {
+      routes3DControls.autoRotate = false;
     }
 
-    if (globe3DControls) globe3DControls.update();
-    globe3DRenderer.render(globe3DScene, globe3DCamera);
+    if (routes3DControls) routes3DControls.update();
+    routes3DRenderer.render(routes3DScene, routes3DCamera);
   }
-  animateGlobe();
+  animateRoutes();
 }
 
-function focus3DGlobe(chokeKey) {
-  const cp = GLOBE_CHOKEPOINTS[chokeKey];
-  if (!cp || !globe3DCamera || !globe3DControls) return;
+function focus3DRouteView(routeKey) {
+  if (!routes3DCamera || !routes3DControls) return;
 
-  globeAutoRotate = false;
-  const btn = document.getElementById('btn-globe-rot');
-  if (btn) {
-    btn.classList.remove('text-indigo-300');
-    btn.classList.add('text-slate-400');
+  ['all', 'cape', 'suez', 'pacific'].forEach(k => {
+    const btn = document.getElementById(`btn-route-${k}`);
+    if (btn) {
+      if (k === routeKey) {
+        btn.classList.add('active', 'bg-indigo-600', 'text-white');
+        btn.classList.remove('text-slate-300');
+      } else {
+        btn.classList.remove('active', 'bg-indigo-600', 'text-white');
+        btn.classList.add('text-slate-300');
+      }
+    }
+  });
+
+  if (routeKey === 'all') {
+    routes3DCamera.position.set(0, 160, 190);
+    routes3DControls.target.set(0, 0, 5);
+  } else if (routeKey === 'cape') {
+    // Focus on Cape of Good Hope loop
+    routes3DCamera.position.set(-20, 80, 130);
+    routes3DControls.target.set(-15, 2, 55);
+  } else if (routeKey === 'suez') {
+    // Focus on Suez & Red Sea bottleneck
+    routes3DCamera.position.set(-10, 65, 45);
+    routes3DControls.target.set(-12, 2, -10);
+  } else if (routeKey === 'pacific') {
+    // Focus on Transpacific route
+    routes3DCamera.position.set(110, 85, 45);
+    routes3DControls.target.set(110, 2, -20);
   }
 
-  // Calculate target camera position
-  const targetPos = latLonToVector3(cp.lat, cp.lon, 52);
-  globe3DCamera.position.set(targetPos.x, targetPos.y, targetPos.z);
-  globe3DControls.target.set(0, 0, 0);
-  globe3DControls.update();
+  routes3DControls.update();
 }
 
-function toggleGlobeAutoRotate() {
-  globeAutoRotate = !globeAutoRotate;
-  const btn = document.getElementById('btn-globe-rot');
+function toggleRouteAutoRotate() {
+  routeAutoRotate = !routeAutoRotate;
+  const btn = document.getElementById('btn-route-rot');
   if (btn) {
-    if (globeAutoRotate) {
+    if (routeAutoRotate) {
       btn.classList.add('text-indigo-300');
       btn.classList.remove('text-slate-400');
     } else {
@@ -3439,7 +3527,6 @@ function toggleGlobeAutoRotate() {
     }
   }
 }
-
 
 
 /* ========================================================
@@ -3575,11 +3662,16 @@ function render3DSurfacePlot(stockKey) {
     textfont: { color: '#ffffff', size: 11 }
   };
 
+  const contWidth = container.clientWidth || 800;
+  const contHeight = container.clientHeight || 450;
+
   const layout = {
     autosize: true,
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(0,0,0,0)',
-    margin: { l: 10, r: 10, b: 10, t: 10 },
+    width: contWidth,
+    height: contHeight,
+    paper_bgcolor: '#030b17',
+    plot_bgcolor: '#030b17',
+    margin: { l: 15, r: 15, b: 15, t: 15 },
     scene: {
       xaxis: {
         title: { text: 'SCFI 運價指數 (點)', font: { color: '#38bdf8', size: 11 } },
