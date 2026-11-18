@@ -164,6 +164,10 @@ function buildMergedPayload() {
     if (q.prev_close !== null && q.prev_close !== undefined) target.prev_close = q.prev_close;
     if (q.volume_lots !== null && q.volume_lots !== undefined) {
       target.volume = Math.round(q.volume_lots * 1000);
+      target.volume_lots = q.volume_lots;
+    }
+    if (q.amount_ntd !== null && q.amount_ntd !== undefined) {
+      target.amount_ntd = q.amount_ntd;
     }
   };
 
@@ -468,15 +472,21 @@ function applyMarketDataToUI(data, options = {}) {
       if (rangeElem && b.high && b.low) {
         rangeElem.textContent = `高/低: ${b.high.toLocaleString()} / ${b.low.toLocaleString()}`;
       }
-      if (volElem && b.volume) {
-        const lots = Math.round(b.volume / 1000).toLocaleString();
-        volElem.textContent = `量: ${lots}張`;
+      if (volElem) {
+        const lots = b.volume_lots || (b.volume ? Math.round(b.volume / 1000) : null);
+        if (lots !== null && lots !== undefined) {
+          if (lots >= 10000) {
+            volElem.textContent = `量: ${(lots / 10000).toFixed(1)}萬張`;
+          } else {
+            volElem.textContent = `量: ${Math.round(lots).toLocaleString()}張`;
+          }
+        }
       }
     };
     updateBenchmarkTicker('2330');
     updateBenchmarkTicker('0050');
-    updateIndexTicker('elec', 'ticker-idx-elec', 'ticker-idx-elec-change', 'ticker-idx-elec-range');
-    updateIndexTicker('fin', 'ticker-idx-fin', 'ticker-idx-fin-change', 'ticker-idx-fin-range');
+    updateIndexTicker('elec', 'ticker-idx-elec', 'ticker-idx-elec-change', 'ticker-idx-elec-range', 'ticker-idx-elec-vol');
+    updateIndexTicker('fin', 'ticker-idx-fin', 'ticker-idx-fin-change', 'ticker-idx-fin-range', 'ticker-idx-fin-vol');
   }
 
   if (redrawNews && data.live_news && Array.isArray(data.live_news) && data.live_news.length > 0) {
@@ -828,7 +838,8 @@ async function fetchCnyesRealtimeQuotes(options = {}) {
         low: item['13'],
         open: item['19'],
         prev_close: item['21'],
-        volume_lots: item['200013']
+        volume_lots: item['200013'],
+        amount_ntd: item['200067']
       };
     });
 
