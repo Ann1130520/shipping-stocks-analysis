@@ -466,8 +466,8 @@ function applyMarketDataToUI(data, options = {}) {
         const colorClass = isUp ? 'text-rose-400' : 'text-emerald-400';
         const icon = isUp ? 'fa-caret-up' : 'fa-caret-down';
         const sign = isUp ? '+' : '';
-        changeElem.className = `${colorClass} font-mono text-[10px] flex items-center`;
-        changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5"></i>${sign}${b.change} (${sign}${b.change_percent}%)`;
+        changeElem.className = `${colorClass} font-mono text-[10px] font-bold flex items-center shrink-0`;
+        changeElem.innerHTML = `<i class="fa-solid ${icon} mr-0.5 text-[9px]"></i>${sign}${b.change_percent}%`;
       }
       if (rangeElem && b.high && b.low) {
         rangeElem.textContent = `高/低: ${b.high.toLocaleString()} / ${b.low.toLocaleString()}`;

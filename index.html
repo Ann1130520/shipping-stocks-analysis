@@ -47,7 +47,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261118_news_links">
+  <link rel="stylesheet" href="style.css?v=20261118_no_wrap_fix">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -147,57 +147,57 @@
         </div>
       </div>
 
-      <!-- Row 2: Taiwan Benchmark Stocks & Sector Indices (Evenly Stretched 4-Column Grid) -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1 border-t border-slate-800/70 text-xs">
-        <span class="inline-flex items-center gap-1 font-bold text-amber-500 text-[11px] shrink-0">
-          <i class="fa-solid fa-star text-[10px]"></i> 權值/類股
+      <!-- Row 2: Taiwan Benchmark Stocks & Sector Indices (Non-Wrapping Perfectly Aligned Grid) -->
+      <div class="flex items-center gap-2 pt-1 border-t border-slate-800/70 text-[11px] overflow-x-auto no-scrollbar">
+        <span class="inline-flex items-center gap-1 font-bold text-amber-500 text-[10px] shrink-0">
+          <i class="fa-solid fa-star text-[9px]"></i> 權值/指數
         </span>
 
-        <div id="benchmark-row-content" class="grid grid-cols-2 md:grid-cols-4 gap-2 flex-1">
+        <div id="benchmark-row-content" class="grid grid-cols-2 lg:grid-cols-4 gap-2 flex-1 min-w-[700px]">
           <!-- 2330 台積電 -->
-          <div class="flex items-center justify-between bg-slate-800/90 px-3 py-1 rounded-lg border border-cyan-800/60 shadow-sm">
-            <div class="flex items-center gap-1.5">
-              <span class="font-bold text-cyan-300">台積電(2330)</span>
+          <div class="flex items-center justify-between bg-slate-800/90 px-2.5 py-1 rounded-lg border border-cyan-800/60 shadow-sm whitespace-nowrap">
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="font-bold text-cyan-300">台積電</span>
               <span class="font-mono font-bold text-white text-xs" id="ticker-2330-price">NT$ 2,175</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span class="text-rose-400 font-mono text-[10px]" id="ticker-2330-change">+0.23%</span>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="text-rose-400 font-mono text-[10px] font-bold" id="ticker-2330-change">+0.23%</span>
               <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-1.5 font-mono" id="ticker-2330-vol">量: 4.5萬張</span>
             </div>
           </div>
 
           <!-- 0050 元大台灣50 -->
-          <div class="flex items-center justify-between bg-slate-800/90 px-3 py-1 rounded-lg border border-amber-800/60 shadow-sm">
-            <div class="flex items-center gap-1.5">
-              <span class="font-bold text-amber-300">台灣50(0050)</span>
+          <div class="flex items-center justify-between bg-slate-800/90 px-2.5 py-1 rounded-lg border border-amber-800/60 shadow-sm whitespace-nowrap">
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="font-bold text-amber-300">台灣50</span>
               <span class="font-mono font-bold text-white text-xs" id="ticker-0050-price">NT$ 94.1</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span class="text-rose-400 font-mono text-[10px]" id="ticker-0050-change">+0.11%</span>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="text-rose-400 font-mono text-[10px] font-bold" id="ticker-0050-change">+0.11%</span>
               <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-1.5 font-mono" id="ticker-0050-vol">量: 30.3萬張</span>
             </div>
           </div>
 
           <!-- 電子類指數 (TSE27) -->
-          <div class="flex items-center justify-between bg-slate-800/90 px-3 py-1 rounded-lg border border-sky-800/60 shadow-sm">
-            <div class="flex items-center gap-1.5">
-              <span class="font-bold text-sky-300"><i class="fa-solid fa-microchip text-[10px] mr-1"></i>電子指數</span>
-              <span class="font-mono font-bold text-white text-xs" id="ticker-idx-elec-price">2,465.47</span>
+          <div class="flex items-center justify-between bg-slate-800/90 px-2.5 py-1 rounded-lg border border-sky-800/60 shadow-sm whitespace-nowrap">
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="font-bold text-sky-300"><i class="fa-solid fa-microchip text-[9px] mr-0.5"></i>電子指數</span>
+              <span class="font-mono font-bold text-white text-xs" id="ticker-idx-elec-price">2,465</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span class="text-rose-400 font-mono text-[10px]" id="ticker-idx-elec-change">+0.88%</span>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="text-rose-400 font-mono text-[10px] font-bold" id="ticker-idx-elec-change">+0.88%</span>
               <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-1.5 font-mono" id="ticker-idx-elec-vol">額: 7,905億</span>
             </div>
           </div>
 
           <!-- 金融保險指數 (TSE31) -->
-          <div class="flex items-center justify-between bg-slate-800/90 px-3 py-1 rounded-lg border border-emerald-800/60 shadow-sm">
-            <div class="flex items-center gap-1.5">
-              <span class="font-bold text-emerald-300"><i class="fa-solid fa-building-columns text-[10px] mr-1"></i>金融指數</span>
-              <span class="font-mono font-bold text-white text-xs" id="ticker-idx-fin-price">3,488.90</span>
+          <div class="flex items-center justify-between bg-slate-800/90 px-2.5 py-1 rounded-lg border border-emerald-800/60 shadow-sm whitespace-nowrap">
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="font-bold text-emerald-300"><i class="fa-solid fa-building-columns text-[9px] mr-0.5"></i>金融指數</span>
+              <span class="font-mono font-bold text-white text-xs" id="ticker-idx-fin-price">3,488</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span class="text-emerald-400 font-mono text-[10px]" id="ticker-idx-fin-change">-3.22%</span>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="text-emerald-400 font-mono text-[10px] font-bold" id="ticker-idx-fin-change">-3.22%</span>
               <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-1.5 font-mono" id="ticker-idx-fin-vol">額: 338億</span>
             </div>
           </div>
@@ -2977,6 +2977,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261118_news_links"></script>
+  <script src="app.js?v=20261118_no_wrap_fix"></script>
 </body>
 </html>
