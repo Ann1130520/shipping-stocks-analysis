@@ -52,8 +52,8 @@ const CNYES_REALTIME_SYMBOLS = [
   'TWS:2615:STOCK',
   'TWS:2330:STOCK',
   'TWS:0050:STOCK',
-  'TWS:2454:STOCK',
-  'TWS:2881:STOCK',
+  'TWS:TSE27:INDEX',
+  'TWS:TSE31:INDEX',
   'TWS:TSE01:INDEX',
   'GI:INX:INDEX',
   'GI:NKY:INDEX',
@@ -172,8 +172,8 @@ function buildMergedPayload() {
   mapStock('TWS:2615:STOCK', merged.stocks, '2615');
   mapStock('TWS:2330:STOCK', merged.tw_benchmarks, '2330');
   mapStock('TWS:0050:STOCK', merged.tw_benchmarks, '0050');
-  mapStock('TWS:2454:STOCK', merged.tw_benchmarks, '2454');
-  mapStock('TWS:2881:STOCK', merged.tw_benchmarks, '2881');
+  mapStock('TWS:TSE27:INDEX', merged.global_indices, 'elec');
+  mapStock('TWS:TSE31:INDEX', merged.global_indices, 'fin');
   mapStock('TWS:TSE01:INDEX', merged.global_indices, 'tw');
   mapStock('GI:INX:INDEX', merged.global_indices, 'us');
   mapStock('GI:NKY:INDEX', merged.global_indices, 'jp');
@@ -475,8 +475,8 @@ function applyMarketDataToUI(data, options = {}) {
     };
     updateBenchmarkTicker('2330');
     updateBenchmarkTicker('0050');
-    updateBenchmarkTicker('2454');
-    updateBenchmarkTicker('2881');
+    updateIndexTicker('elec', 'ticker-idx-elec', 'ticker-idx-elec-change', 'ticker-idx-elec-range');
+    updateIndexTicker('fin', 'ticker-idx-fin', 'ticker-idx-fin-change', 'ticker-idx-fin-range');
   }
 
   if (redrawNews && data.live_news && Array.isArray(data.live_news) && data.live_news.length > 0) {
