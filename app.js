@@ -2856,7 +2856,7 @@ const SHIP_MODELS_DATA = {
     load: '96.8%',
     loadSub: '(遠洋長約鎖定，近乎滿載)',
     scrubber: '配備開放式脫硫塔洗滌器 (Scrubber) + 甲醇雙燃料預留 (高低硫油價差擴大受惠最多)',
-    colorHull: 0x064e3b,   // Evergreen Dark Emerald
+    colorHull: 0x047857,   // Evergreen Vibrant Emerald
     colorDeck: 0x1f2937,
     colorBridge: 0xf8fafc,
     boxColors: [0x059669, 0x10b981, 0x34d399, 0xd97706, 0x2563eb, 0xdc2626],
@@ -2871,7 +2871,7 @@ const SHIP_MODELS_DATA = {
     load: '92.4%',
     loadSub: '(歐洲線繞道好望角滿載航行)',
     scrubber: '配備高效低硫洗滌塔 + 液化天然氣(LNG)雙燃料設計',
-    colorHull: 0x1e3a8a,   // Yang Ming Deep Blue
+    colorHull: 0x1d4ed8,   // Yang Ming Vibrant Marine Blue
     colorDeck: 0x1f2937,
     colorBridge: 0xf8fafc,
     boxColors: [0x2563eb, 0x3b82f6, 0x60a5fa, 0xef4444, 0x059669, 0xf59e0b],
@@ -2886,7 +2886,7 @@ const SHIP_MODELS_DATA = {
     load: '88.5%',
     loadSub: '(亞洲區間高頻航線週轉)',
     scrubber: '新世代全節能低碳主機 + AMP岸電系統 (近洋碼頭週轉率冠三雄)',
-    colorHull: 0x581c87,   // Wan Hai Deep Purple
+    colorHull: 0x7e22ce,   // Wan Hai Vibrant Purple
     colorDeck: 0x1f2937,
     colorBridge: 0xf8fafc,
     boxColors: [0x7c3aed, 0x9333ea, 0xa855f7, 0x10b981, 0x3b82f6, 0xf97316],
@@ -2908,8 +2908,9 @@ function init3DDigitalTwinShip() {
 
   // Scene
   ship3DScene = new THREE.Scene();
-  ship3DScene.background = new THREE.Color(0x061121);
-  ship3DScene.fog = new THREE.FogExp2(0x061121, 0.015);
+  // Bright oceanic daylight sky
+  ship3DScene.background = new THREE.Color(0x0f2b48);
+  ship3DScene.fog = new THREE.FogExp2(0x0f2b48, 0.007);
 
   // Camera
   ship3DCamera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000);
@@ -2935,27 +2936,31 @@ function init3DDigitalTwinShip() {
     ship3DControls.target.set(0, 4, 0);
   }
 
-  // Lights
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+  // Lights - Crisp High-Key Daylight & Multi-Angle Studio Illuminations
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
   ship3DScene.add(ambientLight);
 
-  const sunLight = new THREE.DirectionalLight(0xe0f2fe, 1.2);
-  sunLight.position.set(50, 70, 40);
+  const sunLight = new THREE.DirectionalLight(0xffffff, 2.0);
+  sunLight.position.set(60, 90, 50);
   sunLight.castShadow = true;
-  sunLight.shadow.mapSize.width = 1024;
-  sunLight.shadow.mapSize.height = 1024;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
   ship3DScene.add(sunLight);
 
-  const fillLight = new THREE.DirectionalLight(0x38bdf8, 0.5);
-  fillLight.position.set(-40, 30, -30);
+  const fillLight = new THREE.DirectionalLight(0x7dd3fc, 1.0);
+  fillLight.position.set(-50, 40, -40);
   ship3DScene.add(fillLight);
+
+  const topRimLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  topRimLight.position.set(0, 80, -20);
+  ship3DScene.add(topRimLight);
 
   // Stylized Ocean Plane
   const oceanGeo = new THREE.PlaneGeometry(350, 350, 48, 48);
   const oceanMat = new THREE.MeshStandardMaterial({
-    color: 0x0369a1,
-    roughness: 0.15,
-    metalness: 0.65,
+    color: 0x0284c7,
+    roughness: 0.12,
+    metalness: 0.35,
     wireframe: false
   });
   oceanMesh = new THREE.Mesh(oceanGeo, oceanMat);
@@ -2965,7 +2970,7 @@ function init3DDigitalTwinShip() {
   ship3DScene.add(oceanMesh);
 
   // Sea Grid Line visual
-  const gridHelper = new THREE.GridHelper(260, 26, 0x0284c7, 0x075985);
+  const gridHelper = new THREE.GridHelper(260, 26, 0x38bdf8, 0x0284c7);
   gridHelper.position.y = -0.4;
   ship3DScene.add(gridHelper);
 
@@ -3019,11 +3024,11 @@ function build3DShip(shipKey) {
 
   const hullMat = new THREE.MeshStandardMaterial({
     color: cfg.colorHull,
-    roughness: 0.35,
-    metalness: 0.3
+    roughness: 0.2,
+    metalness: 0.15
   });
   const redBottomMat = new THREE.MeshStandardMaterial({
-    color: 0x991b1b, // Anti-fouling red bottom
+    color: 0xef4444, // Bright Anti-fouling red bottom
     roughness: 0.5
   });
   const deckMat = new THREE.MeshStandardMaterial({
@@ -3115,12 +3120,12 @@ function build3DShip(shipKey) {
   // - 民生 / 成衣消費品 (Red / #dc2626) -> 15%
   // - 空櫃 / 空箱調度 (Slate Grey / #64748b) -> 5%
   const CARGO_PALETTE = [
-    { color: 0x18181b, ratio: 15 }, // 石油/化學黑櫃
-    { color: 0xeab308, ratio: 20 }, // 食物/冷鏈黃櫃
-    { color: 0x06b6d4, ratio: 25 }, // 高科技晶片青藍櫃
-    { color: 0x2563eb, ratio: 20 }, // 汽車機械深藍櫃
-    { color: 0xdc2626, ratio: 15 }, // 民生成衣紅櫃
-    { color: 0x64748b, ratio: 5 }   // 空箱調度灰櫃
+    { color: 0x27272a, ratio: 15 }, // 石油/化學黑櫃 (亮曜石黑)
+    { color: 0xfacc15, ratio: 20 }, // 食物/冷鏈黃櫃 (高明度亮鮮黃)
+    { color: 0x22d3ee, ratio: 25 }, // 高科技晶片青藍櫃 (高亮霓虹青)
+    { color: 0x3b82f6, ratio: 20 }, // 汽車機械深藍櫃 (躍動湛藍)
+    { color: 0xf43f5e, ratio: 15 }, // 民生成衣紅櫃 (高飽和亮紅)
+    { color: 0x94a3b8, ratio: 5 }   // 空箱調度灰櫃 (銀白冷灰)
   ];
 
   // Build weighted pool for sampling
@@ -3338,8 +3343,8 @@ function init3DMaritimeRoutesSandbox() {
 
   // Scene
   routes3DScene = new THREE.Scene();
-  routes3DScene.background = new THREE.Color(0x061122);
-  routes3DScene.fog = new THREE.FogExp2(0x061122, 0.0035);
+  routes3DScene.background = new THREE.Color(0x0f2742);
+  routes3DScene.fog = new THREE.FogExp2(0x0f2742, 0.002);
 
   // Camera: Elevated Isometric/Bird's-Eye View
   routes3DCamera = new THREE.PerspectiveCamera(40, width / height, 1, 2000);
@@ -3364,15 +3369,15 @@ function init3DMaritimeRoutesSandbox() {
   }
 
   // Lights
-  const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+  const ambient = new THREE.AmbientLight(0xffffff, 1.25);
   routes3DScene.add(ambient);
 
-  const keyLight = new THREE.DirectionalLight(0x93c5fd, 1.4);
-  keyLight.position.set(60, 140, 80);
+  const keyLight = new THREE.DirectionalLight(0xffffff, 1.85);
+  keyLight.position.set(70, 160, 90);
   routes3DScene.add(keyLight);
 
-  const fillLight = new THREE.DirectionalLight(0x0284c7, 0.6);
-  fillLight.position.set(-80, 70, -60);
+  const fillLight = new THREE.DirectionalLight(0x38bdf8, 0.9);
+  fillLight.position.set(-90, 80, -70);
   routes3DScene.add(fillLight);
 
   // 1. Stylized 3D Ocean Bed Stage
