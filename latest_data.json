@@ -1,66 +1,66 @@
 {
-  "last_updated": "2026-11-18 23:25:45",
+  "last_updated": "2026-11-19 03:51:37",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
       "price": 257.5,
-      "prev_close": 256.5,
-      "change": 1.0,
-      "change_percent": 0.39,
+      "prev_close": 257.0,
+      "change": 0.5,
+      "change_percent": 0.19,
       "high": 261.0,
       "low": 255.0,
       "volume": 9267428,
       "status": "success",
       "technicals": {
         "ma5": 256.0,
-        "ma20": 259.38,
-        "ma60": 247.52,
-        "ma240": 212.23,
-        "bias_20": -0.72,
-        "bias_60": 4.03,
-        "rsi14": 52.0,
+        "ma20": 259.48,
+        "ma60": 247.32,
+        "ma240": 211.92,
+        "bias_20": -0.76,
+        "bias_60": 4.12,
+        "rsi14": 51.2,
         "trend": "回測季線震盪整理"
       }
     },
     "2609": {
       "symbol": "2609.TW",
       "price": 60.5,
-      "prev_close": 59.9,
-      "change": 0.6,
-      "change_percent": 1.0,
+      "prev_close": 60.0,
+      "change": 0.5,
+      "change_percent": 0.83,
       "high": 60.9,
       "low": 59.2,
       "volume": 17772833,
       "status": "success",
       "technicals": {
-        "ma5": 59.78,
-        "ma20": 60.83,
+        "ma5": 59.5,
+        "ma20": 60.91,
         "ma60": 60.41,
-        "ma240": 54.77,
-        "bias_20": -0.54,
+        "ma240": 54.73,
+        "bias_20": -0.67,
         "bias_60": 0.15,
-        "rsi14": 50.2,
+        "rsi14": 47.9,
         "trend": "回測季線震盪整理"
       }
     },
     "2615": {
       "symbol": "2615.TW",
       "price": 111.0,
-      "prev_close": 106.5,
-      "change": 4.5,
-      "change_percent": 4.23,
+      "prev_close": 109.5,
+      "change": 1.5,
+      "change_percent": 1.37,
       "high": 111.5,
       "low": 107.0,
       "volume": 14729267,
       "status": "success",
       "technicals": {
         "ma5": 108.3,
-        "ma20": 113.38,
-        "ma60": 115.04,
-        "ma240": 88.69,
-        "bias_20": -2.1,
-        "bias_60": -3.51,
-        "rsi14": 47.7,
+        "ma20": 113.67,
+        "ma60": 115.08,
+        "ma240": 88.57,
+        "bias_20": -2.35,
+        "bias_60": -3.55,
+        "rsi14": 40.4,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -69,42 +69,42 @@
     "2330": {
       "symbol": "2330.TW",
       "price": 2175.0,
-      "prev_close": 2170.0,
-      "change": 5.0,
-      "change_percent": 0.23,
+      "prev_close": 2215.0,
+      "change": -40.0,
+      "change_percent": -1.81,
       "high": 2210.0,
       "low": 2150.0,
       "volume": 45159352,
       "status": "success",
       "technicals": {
-        "ma5": 2250.0,
-        "ma20": 2311.25,
-        "ma60": 2405.83,
-        "ma240": 2110.92,
-        "bias_20": -5.9,
-        "bias_60": -9.59,
-        "rsi14": 36.7,
+        "ma5": 2294.0,
+        "ma20": 2322.75,
+        "ma60": 2409.17,
+        "ma240": 2107.92,
+        "bias_20": -6.36,
+        "bias_60": -9.72,
+        "rsi14": 36.1,
         "trend": "均線下方弱勢整理"
       }
     },
     "0050": {
       "symbol": "0050.TW",
       "price": 94.1,
-      "prev_close": 94.0,
-      "change": 0.1,
-      "change_percent": 0.11,
+      "prev_close": 96.45,
+      "change": -2.35,
+      "change_percent": -2.44,
       "high": 95.95,
       "low": 92.35,
       "volume": 303186275,
       "status": "success",
       "technicals": {
-        "ma5": 97.6,
-        "ma20": 101.6,
-        "ma60": 106.96,
-        "ma240": 90.92,
-        "bias_20": -7.38,
-        "bias_60": -12.02,
-        "rsi14": 35.0,
+        "ma5": 99.42,
+        "ma20": 102.25,
+        "ma60": 107.12,
+        "ma240": 90.78,
+        "bias_20": -7.97,
+        "bias_60": -12.15,
+        "rsi14": 34.7,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -123,13 +123,13 @@
     },
     "us": {
       "symbol": "^GSPC",
-      "price": 7330.41,
+      "price": 7315.07,
       "prev_close": 7340.53,
-      "change": -10.12,
-      "change_percent": -0.14,
+      "change": -25.46,
+      "change_percent": -0.35,
       "high": 7367.68,
-      "low": 7303.22,
-      "volume": 631388831,
+      "low": 7285.76,
+      "volume": 1831654000,
       "status": "success"
     },
     "jp": {
@@ -145,12 +145,12 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 6179.08,
+      "price": 6154.39,
       "prev_close": 6212.11,
-      "change": -33.03,
-      "change_percent": -0.53,
+      "change": -57.72,
+      "change_percent": -0.93,
       "high": 6232.94,
-      "low": 6176.64,
+      "low": 6146.77,
       "volume": 0,
       "status": "success"
     }
@@ -158,13 +158,13 @@
   "commodities": {
     "brent": {
       "symbol": "BZ=F",
-      "price": 89.58,
+      "price": 89.14,
       "prev_close": 90.37,
-      "change": -0.79,
-      "change_percent": -0.87,
+      "change": -1.23,
+      "change_percent": -1.36,
       "high": 90.75,
-      "low": 88.38,
-      "volume": 12153,
+      "low": 87.6,
+      "volume": 23954,
       "status": "success"
     }
   },
@@ -672,7 +672,7 @@
           7580.07,
           7376.86,
           7561.67,
-          7330.18
+          7315.62
         ],
         "jp": [
           50253.91,
@@ -782,7 +782,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6179.08
+          6154.39
         ]
       }
     },
@@ -1642,7 +1642,7 @@
           7580.07,
           7376.86,
           7561.67,
-          7330.1
+          7315.65
         ],
         "jp": [
           38208.03,
@@ -1856,7 +1856,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6179.08
+          6154.39
         ]
       }
     }
@@ -1952,23 +1952,23 @@
     },
     {
       "id": "live-9",
-      "title": "「貨櫃3雄」EPS、毛利率大比拚！最強不是長榮？法人目標價一次揭曉",
-      "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1LRGlYbWUzSE5zSkJaSHBmZWpmRW1EU3lKRGowakh5Q2N5NUFxbHpvRGNpVUZienNub1N3NXAtendfNlBtZnJtU0R2VQ?oc=5",
-      "pubDate": "Sun, 15 Nov 2026 00:40:00 GMT",
-      "source": "FTNN",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
-    },
-    {
-      "id": "live-10",
       "title": "貨櫃運價連七漲、搶艙再現，三雄股價竟都跌！這隱憂未解",
       "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5oaVNFa3MzWnE4dU5LY1V0SzA1R3FNX25fNTdhNEp5ZC13VlRoRm1aanF5Y0hNeVlzR1FtakE1UmJSMENiaGFvblVCNVVVQQ?oc=5",
       "pubDate": "Mon, 15 Jun 2026 07:00:00 GMT",
       "source": "遠見雜誌",
       "sentiment": "bear",
       "sentimentLabel": "偏空警訊",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-10",
+      "title": "「貨櫃3雄」EPS、毛利率大比拚！最強不是長榮？法人目標價一次揭曉",
+      "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1LRGlYbWUzSE5zSkJaSHBmZWpmRW1EU3lKRGowakh5Q2N5NUFxbHpvRGNpVUZienNub1N3NXAtendfNlBtZnJtU0R2VQ?oc=5",
+      "pubDate": "Sun, 15 Nov 2026 00:40:00 GMT",
+      "source": "FTNN",
+      "sentiment": "bull",
+      "sentimentLabel": "偏多利多",
       "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     }
