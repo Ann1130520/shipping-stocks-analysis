@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
   safeRun(initMacroFxSimulator);
   safeRun(initChecklistAndNotes);
   safeRun(initShipCursor);
+  safeRun(init3DDigitalTwinShip);
+  safeRun(init3DGlobalGlobe);
   loadLiveExternalData();
 });
 
@@ -892,6 +894,7 @@ function initTabs() {
               renderGeoBunkerSpreadChart();
             } else if (targetTab === 'overview') {
               if (overviewChartInstance) overviewChartInstance.resize();
+              if (window.resize3DShip) window.resize3DShip();
             } else if (targetTab === 'comparison') {
               if (radarChartInstance) radarChartInstance.resize();
               if (routeChartInstance) routeChartInstance.resize();
@@ -2795,3 +2798,643 @@ function initShipCursor() {
     });
   }
 }
+
+
+/* ========================================================
+   13. THREE.JS 3D DIGITAL TWIN CONTAINER SHIP SHOWCASE
+   ======================================================== */
+let ship3DScene, ship3DCamera, ship3DRenderer, ship3DControls;
+let shipGroup, oceanMesh, shipAnimationId;
+let shipAutoRotate = true;
+
+const SHIP_MODELS_DATA = {
+  '2603': {
+    name: '長榮 長範輪 (EVER ACE)',
+    type: '24,000 TEU A級超大型貨櫃旗艦輪 (ULCV)',
+    load: '96.8%',
+    loadSub: '(遠洋長約鎖定，近乎滿載)',
+    scrubber: '配備開放式脫硫塔洗滌器 (Scrubber) + 甲醇雙燃料預留 (高低硫油價差擴大受惠最多)',
+    colorHull: 0x064e3b,   // Evergreen Dark Emerald
+    colorDeck: 0x1f2937,
+    colorBridge: 0xf8fafc,
+    boxColors: [0x059669, 0x10b981, 0x34d399, 0xd97706, 0x2563eb, 0xdc2626],
+    scale: { x: 1.2, y: 1.1, z: 1.25 },
+    stackRows: 6,
+    stackCols: 14,
+    stackHeight: 4
+  },
+  '2609': {
+    name: '陽明 碩明輪 (YM WELLHEAD)',
+    type: '14,000 TEU 歐洲航線旗艦主力輪',
+    load: '92.4%',
+    loadSub: '(歐洲線繞道好望角滿載航行)',
+    scrubber: '配備高效低硫洗滌塔 + 液化天然氣(LNG)雙燃料設計',
+    colorHull: 0x1e3a8a,   // Yang Ming Deep Blue
+    colorDeck: 0x1f2937,
+    colorBridge: 0xf8fafc,
+    boxColors: [0x2563eb, 0x3b82f6, 0x60a5fa, 0xef4444, 0x059669, 0xf59e0b],
+    scale: { x: 1.0, y: 1.0, z: 1.0 },
+    stackRows: 5,
+    stackCols: 11,
+    stackHeight: 3
+  },
+  '2615': {
+    name: '萬海 亮春輪 (WAN HAI 305)',
+    type: '3,055 TEU 亞洲近洋與美西快航主力輪',
+    load: '88.5%',
+    loadSub: '(亞洲區間高頻航線週轉)',
+    scrubber: '新世代全節能低碳主機 + AMP岸電系統 (近洋碼頭週轉率冠三雄)',
+    colorHull: 0x581c87,   // Wan Hai Deep Purple
+    colorDeck: 0x1f2937,
+    colorBridge: 0xf8fafc,
+    boxColors: [0x7c3aed, 0x9333ea, 0xa855f7, 0x10b981, 0x3b82f6, 0xf97316],
+    scale: { x: 0.85, y: 0.9, z: 0.75 },
+    stackRows: 4,
+    stackCols: 7,
+    stackHeight: 3
+  }
+};
+
+let current3DShipKey = '2603';
+
+function init3DDigitalTwinShip() {
+  const container = document.getElementById('ship3dContainer');
+  if (!container || typeof THREE === 'undefined') return;
+
+  const width = container.clientWidth || 800;
+  const height = container.clientHeight || 360;
+
+  // Scene
+  ship3DScene = new THREE.Scene();
+  ship3DScene.background = new THREE.Color(0x061121);
+  ship3DScene.fog = new THREE.FogExp2(0x061121, 0.015);
+
+  // Camera
+  ship3DCamera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000);
+  ship3DCamera.position.set(45, 26, 52);
+
+  // Renderer
+  ship3DRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  ship3DRenderer.setSize(width, height);
+  ship3DRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  ship3DRenderer.shadowMap.enabled = true;
+  ship3DRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  container.innerHTML = '';
+  container.appendChild(ship3DRenderer.domElement);
+
+  // OrbitControls
+  if (typeof THREE.OrbitControls !== 'undefined') {
+    ship3DControls = new THREE.OrbitControls(ship3DCamera, ship3DRenderer.domElement);
+    ship3DControls.enableDamping = true;
+    ship3DControls.dampingFactor = 0.05;
+    ship3DControls.maxDistance = 140;
+    ship3DControls.minDistance = 15;
+    ship3DControls.maxPolarAngle = Math.PI / 2 - 0.02; // Don't go below water
+    ship3DControls.target.set(0, 4, 0);
+  }
+
+  // Lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+  ship3DScene.add(ambientLight);
+
+  const sunLight = new THREE.DirectionalLight(0xe0f2fe, 1.2);
+  sunLight.position.set(50, 70, 40);
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.width = 1024;
+  sunLight.shadow.mapSize.height = 1024;
+  ship3DScene.add(sunLight);
+
+  const fillLight = new THREE.DirectionalLight(0x38bdf8, 0.5);
+  fillLight.position.set(-40, 30, -30);
+  ship3DScene.add(fillLight);
+
+  // Stylized Ocean Plane
+  const oceanGeo = new THREE.PlaneGeometry(350, 350, 48, 48);
+  const oceanMat = new THREE.MeshStandardMaterial({
+    color: 0x0369a1,
+    roughness: 0.15,
+    metalness: 0.65,
+    wireframe: false
+  });
+  oceanMesh = new THREE.Mesh(oceanGeo, oceanMat);
+  oceanMesh.rotation.x = -Math.PI / 2;
+  oceanMesh.position.y = -0.5;
+  oceanMesh.receiveShadow = true;
+  ship3DScene.add(oceanMesh);
+
+  // Sea Grid Line visual
+  const gridHelper = new THREE.GridHelper(260, 26, 0x0284c7, 0x075985);
+  gridHelper.position.y = -0.4;
+  ship3DScene.add(gridHelper);
+
+  // Build Ship
+  build3DShip(current3DShipKey);
+
+  // Resize handler
+  window.resize3DShip = function() {
+    if (!container || !ship3DRenderer || !ship3DCamera) return;
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    if (w > 0 && h > 0) {
+      ship3DCamera.aspect = w / h;
+      ship3DCamera.updateProjectionMatrix();
+      ship3DRenderer.setSize(w, h);
+    }
+  };
+  window.addEventListener('resize', window.resize3DShip);
+
+  // Animation Loop
+  let clock = new THREE.Clock();
+  function animate() {
+    shipAnimationId = requestAnimationFrame(animate);
+    const time = clock.getElapsedTime();
+
+    // Gentle wave movement on ship
+    if (shipGroup) {
+      shipGroup.position.y = Math.sin(time * 1.5) * 0.45;
+      shipGroup.rotation.z = Math.sin(time * 1.2) * 0.018; // Roll
+      shipGroup.rotation.x = Math.cos(time * 0.9) * 0.012; // Pitch
+
+      if (shipAutoRotate && ship3DControls) {
+        ship3DControls.autoRotate = true;
+        ship3DControls.autoRotateSpeed = 0.8;
+      } else if (ship3DControls) {
+        ship3DControls.autoRotate = false;
+      }
+    }
+
+    if (ship3DControls) ship3DControls.update();
+    ship3DRenderer.render(ship3DScene, ship3DCamera);
+  }
+  animate();
+}
+
+function build3DShip(shipKey) {
+  if (shipGroup) ship3DScene.remove(shipGroup);
+
+  const cfg = SHIP_MODELS_DATA[shipKey] || SHIP_MODELS_DATA['2603'];
+  shipGroup = new THREE.Group();
+
+  const hullMat = new THREE.MeshStandardMaterial({
+    color: cfg.colorHull,
+    roughness: 0.35,
+    metalness: 0.3
+  });
+  const redBottomMat = new THREE.MeshStandardMaterial({
+    color: 0x991b1b, // Anti-fouling red bottom
+    roughness: 0.5
+  });
+  const deckMat = new THREE.MeshStandardMaterial({
+    color: cfg.colorDeck,
+    roughness: 0.7
+  });
+  const bridgeMat = new THREE.MeshStandardMaterial({
+    color: cfg.colorBridge,
+    roughness: 0.2
+  });
+
+  // 1. Lower Hull (Red anti-fouling keel)
+  const keelGeo = new THREE.BoxGeometry(10 * cfg.scale.x, 2, 42 * cfg.scale.z);
+  const keel = new THREE.Mesh(keelGeo, redBottomMat);
+  keel.position.y = 0.5;
+  keel.castShadow = true;
+  keel.receiveShadow = true;
+  shipGroup.add(keel);
+
+  // 2. Main Hull (Container Ship Body)
+  const hullGeo = new THREE.BoxGeometry(10.5 * cfg.scale.x, 4.2 * cfg.scale.y, 44 * cfg.scale.z);
+  const hull = new THREE.Mesh(hullGeo, hullMat);
+  hull.position.y = 3.2;
+  hull.castShadow = true;
+  hull.receiveShadow = true;
+  shipGroup.add(hull);
+
+  // 3. Bulbous Bow & Bow Flare (Ship Nose)
+  const bowGeo = new THREE.ConeGeometry(5.2 * cfg.scale.x, 8 * cfg.scale.z, 4);
+  const bow = new THREE.Mesh(bowGeo, hullMat);
+  bow.rotation.x = Math.PI / 2;
+  bow.rotation.y = Math.PI / 4;
+  bow.position.set(0, 3.2, 24 * cfg.scale.z);
+  bow.castShadow = true;
+  shipGroup.add(bow);
+
+  // 4. Stern (Ship Rear)
+  const sternGeo = new THREE.BoxGeometry(9 * cfg.scale.x, 4.2 * cfg.scale.y, 4 * cfg.scale.z);
+  const stern = new THREE.Mesh(sternGeo, hullMat);
+  stern.position.set(0, 3.2, -23 * cfg.scale.z);
+  shipGroup.add(stern);
+
+  // 5. Deck Cover
+  const deckGeo = new THREE.BoxGeometry(9.8 * cfg.scale.x, 0.4, 42 * cfg.scale.z);
+  const deck = new THREE.Mesh(deckGeo, deckMat);
+  deck.position.y = 5.4;
+  shipGroup.add(deck);
+
+  // 6. Navigation Bridge Tower (Castle)
+  const bridgeGeo = new THREE.BoxGeometry(8 * cfg.scale.x, 6, 4.5);
+  const bridge = new THREE.Mesh(bridgeGeo, bridgeMat);
+  bridge.position.set(0, 8.4, -9 * cfg.scale.z);
+  bridge.castShadow = true;
+  shipGroup.add(bridge);
+
+  // Navigation Wing Bridges
+  const wingGeo = new THREE.BoxGeometry(12 * cfg.scale.x, 0.8, 2);
+  const wing = new THREE.Mesh(wingGeo, bridgeMat);
+  wing.position.set(0, 10.6, -9 * cfg.scale.z);
+  shipGroup.add(wing);
+
+  // Radar Mast
+  const mastGeo = new THREE.CylinderGeometry(0.15, 0.25, 4, 8);
+  const mastMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  const mast = new THREE.Mesh(mastGeo, mastMat);
+  mast.position.set(0, 13.4, -9 * cfg.scale.z);
+  shipGroup.add(mast);
+
+  // 7. Chimney Funnel & Scrubber Tower
+  const funnelGeo = new THREE.BoxGeometry(3 * cfg.scale.x, 5.5, 3.5);
+  const funnelMat = new THREE.MeshStandardMaterial({ color: cfg.colorHull });
+  const funnel = new THREE.Mesh(funnelGeo, funnelMat);
+  funnel.position.set(0, 8.8, -17 * cfg.scale.z);
+  shipGroup.add(funnel);
+
+  // Scrubber wash pipe on funnel
+  const scrubberPipeGeo = new THREE.CylinderGeometry(0.5, 0.5, 6, 12);
+  const scrubberPipeMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.6 });
+  const scrubberPipe = new THREE.Mesh(scrubberPipeGeo, scrubberPipeMat);
+  scrubberPipe.position.set(1.2 * cfg.scale.x, 9.2, -17 * cfg.scale.z);
+  shipGroup.add(scrubberPipe);
+
+  // 8. Loaded TEU Container Stacks
+  const boxLength = 2.4;
+  const boxWidth = 1.1;
+  const boxHeight = 1.1;
+  const boxGeo = new THREE.BoxGeometry(boxWidth, boxHeight, boxLength);
+
+  const startZ = -4 * cfg.scale.z;
+  const endZ = 19 * cfg.scale.z;
+  const zStep = 2.8;
+
+  let colorIdx = 0;
+  for (let z = startZ; z < endZ; z += zStep) {
+    for (let row = -cfg.stackRows / 2; row < cfg.stackRows / 2; row++) {
+      const currentStackH = Math.floor(Math.random() * 2) + (cfg.stackHeight - 1);
+      for (let h = 0; h < currentStackH; h++) {
+        const cHex = cfg.boxColors[colorIdx % cfg.boxColors.length];
+        colorIdx++;
+        const boxMat = new THREE.MeshStandardMaterial({
+          color: cHex,
+          roughness: 0.45,
+          metalness: 0.2
+        });
+        const containerBox = new THREE.Mesh(boxGeo, boxMat);
+        const xPos = row * (boxWidth + 0.15) + (boxWidth / 2);
+        const yPos = 5.8 + h * (boxHeight + 0.05);
+        containerBox.position.set(xPos, yPos, z);
+        containerBox.castShadow = true;
+        containerBox.receiveShadow = true;
+        shipGroup.add(containerBox);
+      }
+    }
+  }
+
+  // Aft Container Stacks (behind bridge)
+  for (let z = -20 * cfg.scale.z; z < -12 * cfg.scale.z; z += zStep) {
+    for (let row = -3; row < 3; row++) {
+      const cHex = cfg.boxColors[colorIdx % cfg.boxColors.length];
+      colorIdx++;
+      const boxMat = new THREE.MeshStandardMaterial({ color: cHex, roughness: 0.45 });
+      const containerBox = new THREE.Mesh(boxGeo, boxMat);
+      containerBox.position.set(row * 1.25 + 0.6, 5.8, z);
+      containerBox.castShadow = true;
+      shipGroup.add(containerBox);
+    }
+  }
+
+  ship3DScene.add(shipGroup);
+}
+
+function select3DShip(shipKey) {
+  current3DShipKey = shipKey;
+  const cfg = SHIP_MODELS_DATA[shipKey];
+  if (!cfg) return;
+
+  // Update Buttons
+  ['2603', '2609', '2615'].forEach(key => {
+    const btn = document.getElementById(`btn-ship-${key}`);
+    if (btn) {
+      if (key === shipKey) {
+        btn.classList.add('active', 'bg-emerald-600', 'text-white');
+        btn.classList.remove('text-slate-400');
+        if (key === '2609') btn.classList.replace('bg-emerald-600', 'bg-blue-600');
+        if (key === '2615') btn.classList.replace('bg-emerald-600', 'bg-purple-600');
+      } else {
+        btn.classList.remove('active', 'bg-emerald-600', 'bg-blue-600', 'bg-purple-600', 'text-white');
+        btn.classList.add('text-slate-400');
+      }
+    }
+  });
+
+  // Update HUD
+  const nameEl = document.getElementById('ship3d-name');
+  const loadEl = document.getElementById('ship3d-load');
+  const scrubberEl = document.getElementById('ship3d-scrubber');
+
+  if (nameEl) {
+    nameEl.textContent = cfg.name;
+    nameEl.className = 'font-bold text-sm ' + (shipKey === '2603' ? 'text-emerald-400' : shipKey === '2609' ? 'text-blue-400' : 'text-purple-400');
+  }
+  if (loadEl) {
+    loadEl.innerHTML = `${cfg.load} <span class="text-xs text-slate-300 font-sans">${cfg.loadSub}</span>`;
+  }
+  if (scrubberEl) {
+    scrubberEl.textContent = cfg.scrubber;
+  }
+
+  // Rebuild
+  build3DShip(shipKey);
+}
+
+function toggleShipAutoRotate() {
+  shipAutoRotate = !shipAutoRotate;
+  const btn = document.getElementById('btn-ship-rot');
+  if (btn) {
+    if (shipAutoRotate) {
+      btn.classList.add('text-sky-300');
+      btn.classList.remove('text-slate-400');
+    } else {
+      btn.classList.remove('text-sky-300');
+      btn.classList.add('text-slate-400');
+    }
+  }
+}
+
+function resetShip3DView() {
+  if (ship3DCamera && ship3DControls) {
+    ship3DCamera.position.set(45, 26, 52);
+    ship3DControls.target.set(0, 4, 0);
+    ship3DControls.update();
+  }
+}
+
+
+/* ========================================================
+   14. THREE.JS 3D GLOBAL CHOKEPOINT & SHIPPING ROUTE GLOBE
+   ======================================================== */
+let globe3DScene, globe3DCamera, globe3DRenderer, globe3DControls;
+let globeEarthMesh, globeAtmosphere, globeRoutesGroup;
+let globeAutoRotate = true;
+
+const GLOBE_CHOKEPOINTS = {
+  suez: { name: '蘇伊士運河 / 紅海曼德海峽', lat: 27.8, lon: 34.2, status: 'red', desc: '紅海胡塞武裝襲擊，全球 85% 遠洋貨櫃輪繞道好望角' },
+  cape: { name: '非洲好望角繞道節點', lat: -34.5, lon: 18.5, status: 'yellow', desc: '遠洋雙向航程增加 12~14 天，有效吸收全球約 9.5% 運力' },
+  panama: { name: '巴拿馬運河 (中美洲)', lat: 9.1, lon: -79.7, status: 'amber', desc: '氣候乾旱水位與吃水限制調節，長榮新巴拿馬型船舶享通行優勢' },
+  malacca: { name: '馬六甲海峽 (東南亞)', lat: 4.2, lon: 100.5, status: 'green', desc: '亞歐與中東航線咽喉，萬海東南亞中繼基地與轉運樞紐' },
+  taiwan: { name: '台灣海峽 / 高雄港', lat: 23.5, lon: 120.2, status: 'blue', desc: '全球半導體與遠東貨櫃中繼樞紐，長榮/陽明/萬海母港總部' }
+};
+
+function latLonToVector3(lat, lon, radius) {
+  const phi = (90 - lat) * (Math.PI / 180);
+  const theta = (lon + 180) * (Math.PI / 180);
+  const x = -(radius * Math.sin(phi) * Math.cos(theta));
+  const z = radius * Math.sin(phi) * Math.sin(theta);
+  const y = radius * Math.cos(phi);
+  return new THREE.Vector3(x, y, z);
+}
+
+function createRouteArc(startVec, endVec, radius, colorHex) {
+  const mid = startVec.clone().lerp(endVec, 0.5);
+  const dist = startVec.distanceTo(endVec);
+  const altitude = radius + dist * 0.22;
+  mid.normalize().multiplyScalar(altitude);
+
+  const curve = new THREE.QuadraticBezierCurve3(startVec, mid, endVec);
+  const points = curve.getPoints(40);
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({
+    color: colorHex,
+    linewidth: 2,
+    transparent: true,
+    opacity: 0.85
+  });
+  return new THREE.Line(geometry, material);
+}
+
+function init3DGlobalGlobe() {
+  const container = document.getElementById('globe3dContainer');
+  if (!container || typeof THREE === 'undefined') return;
+
+  const width = container.clientWidth || 800;
+  const height = container.clientHeight || 420;
+
+  // Scene
+  globe3DScene = new THREE.Scene();
+  globe3DScene.background = new THREE.Color(0x030b17);
+
+  // Camera
+  globe3DCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+  globe3DCamera.position.set(0, 15, 62);
+
+  // Renderer
+  globe3DRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  globe3DRenderer.setSize(width, height);
+  globe3DRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.innerHTML = '';
+  container.appendChild(globe3DRenderer.domElement);
+
+  // Controls
+  if (typeof THREE.OrbitControls !== 'undefined') {
+    globe3DControls = new THREE.OrbitControls(globe3DCamera, globe3DRenderer.domElement);
+    globe3DControls.enableDamping = true;
+    globe3DControls.dampingFactor = 0.05;
+    globe3DControls.minDistance = 28;
+    globe3DControls.maxDistance = 110;
+  }
+
+  // Lights
+  const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+  globe3DScene.add(ambient);
+
+  const dirLight = new THREE.DirectionalLight(0x60a5fa, 1.4);
+  dirLight.position.set(60, 40, 50);
+  globe3DScene.add(dirLight);
+
+  const backLight = new THREE.DirectionalLight(0x38bdf8, 0.4);
+  backLight.position.set(-50, -30, -50);
+  globe3DScene.add(backLight);
+
+  // Earth Globe Sphere (Deep Blue Oceanic Surface with Latitude/Longitude Ring Grids)
+  const radius = 20;
+  const sphereGeo = new THREE.SphereGeometry(radius, 64, 64);
+  const sphereMat = new THREE.MeshStandardMaterial({
+    color: 0x071e3d,
+    roughness: 0.35,
+    metalness: 0.4
+  });
+  globeEarthMesh = new THREE.Mesh(sphereGeo, sphereMat);
+  globe3DScene.add(globeEarthMesh);
+
+  // Wireframe Latitude / Longitude lines
+  const wireGeo = new THREE.SphereGeometry(radius * 1.002, 36, 18);
+  const wireMat = new THREE.MeshBasicMaterial({
+    color: 0x0284c7,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.22
+  });
+  const wireGlobe = new THREE.Mesh(wireGeo, wireMat);
+  globe3DScene.add(wireGlobe);
+
+  // Outer Atmosphere Glow Ring
+  const atmosGeo = new THREE.SphereGeometry(radius * 1.03, 32, 32);
+  const atmosMat = new THREE.MeshBasicMaterial({
+    color: 0x38bdf8,
+    transparent: true,
+    opacity: 0.08,
+    side: THREE.BackSide
+  });
+  globeAtmosphere = new THREE.Mesh(atmosGeo, atmosMat);
+  globe3DScene.add(globeAtmosphere);
+
+  // Routes & Chokepoints Group
+  globeRoutesGroup = new THREE.Group();
+  globe3DScene.add(globeRoutesGroup);
+
+  // Major Global Ports
+  const PORTS = {
+    shanghai: { lat: 31.2, lon: 121.5 },
+    taiwan: { lat: 23.5, lon: 120.2 },
+    singapore: { lat: 1.3, lon: 103.8 },
+    rotterdam: { lat: 51.9, lon: 4.4 },
+    losangeles: { lat: 33.7, lon: -118.2 },
+    newyork: { lat: 40.7, lon: -74.0 },
+    cape_town: { lat: -34.5, lon: 18.5 },
+    suez_point: { lat: 28.0, lon: 33.5 },
+    panama_point: { lat: 9.1, lon: -79.7 }
+  };
+
+  // Convert to Vectors
+  const vShanghai = latLonToVector3(PORTS.shanghai.lat, PORTS.shanghai.lon, radius);
+  const vTaiwan = latLonToVector3(PORTS.taiwan.lat, PORTS.taiwan.lon, radius);
+  const vSingapore = latLonToVector3(PORTS.singapore.lat, PORTS.singapore.lon, radius);
+  const vRotterdam = latLonToVector3(PORTS.rotterdam.lat, PORTS.rotterdam.lon, radius);
+  const vLA = latLonToVector3(PORTS.losangeles.lat, PORTS.losangeles.lon, radius);
+  const vNY = latLonToVector3(PORTS.newyork.lat, PORTS.newyork.lon, radius);
+  const vCape = latLonToVector3(PORTS.cape_town.lat, PORTS.cape_town.lon, radius);
+  const vSuez = latLonToVector3(PORTS.suez_point.lat, PORTS.suez_point.lon, radius);
+  const vPanama = latLonToVector3(PORTS.panama_point.lat, PORTS.panama_point.lon, radius);
+
+  // Route 1: 繞道好望角 (Cape of Good Hope Diverted Route) -> RED ARCS
+  const arcCape1 = createRouteArc(vTaiwan, vSingapore, radius, 0xf43f5e);
+  const arcCape2 = createRouteArc(vSingapore, vCape, radius, 0xf43f5e);
+  const arcCape3 = createRouteArc(vCape, vRotterdam, radius, 0xf43f5e);
+  globeRoutesGroup.add(arcCape1);
+  globeRoutesGroup.add(arcCape2);
+  globeRoutesGroup.add(arcCape3);
+
+  // Route 2: 傳統蘇伊士運河航線 (Traditional Suez Canal Route) -> SKY BLUE ARCS
+  const arcSuez1 = createRouteArc(vSingapore, vSuez, radius, 0x38bdf8);
+  const arcSuez2 = createRouteArc(vSuez, vRotterdam, radius, 0x38bdf8);
+  globeRoutesGroup.add(arcSuez1);
+  globeRoutesGroup.add(arcSuez2);
+
+  // Route 3: 泛太平洋航線 (Transpacific to US West & Panama to US East) -> AMBER ARCS
+  const arcPac1 = createRouteArc(vTaiwan, vLA, radius, 0xfbbf24);
+  const arcPac2 = createRouteArc(vTaiwan, vPanama, radius, 0xf59e0b);
+  const arcPac3 = createRouteArc(vPanama, vNY, radius, 0xf59e0b);
+  globeRoutesGroup.add(arcPac1);
+  globeRoutesGroup.add(arcPac2);
+  globeRoutesGroup.add(arcPac3);
+
+  // Pin Markers for Chokepoints
+  Object.keys(GLOBE_CHOKEPOINTS).forEach(key => {
+    const cp = GLOBE_CHOKEPOINTS[key];
+    const pos = latLonToVector3(cp.lat, cp.lon, radius * 1.015);
+
+    // Glowing Dot Mesh
+    const dotGeo = new THREE.SphereGeometry(0.7, 16, 16);
+    let dotColor = 0x3b82f6;
+    if (cp.status === 'red') dotColor = 0xef4444;
+    if (cp.status === 'yellow') dotColor = 0xf59e0b;
+    if (cp.status === 'amber') dotColor = 0xf97316;
+    if (cp.status === 'green') dotColor = 0x10b981;
+
+    const dotMat = new THREE.MeshBasicMaterial({ color: dotColor });
+    const dotMesh = new THREE.Mesh(dotGeo, dotMat);
+    dotMesh.position.copy(pos);
+    globeRoutesGroup.add(dotMesh);
+
+    // Pulsing Ring
+    const ringGeo = new THREE.RingGeometry(0.9, 1.4, 16);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: dotColor,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.6
+    });
+    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+    ringMesh.position.copy(pos);
+    ringMesh.lookAt(new THREE.Vector3(0, 0, 0));
+    globeRoutesGroup.add(ringMesh);
+  });
+
+  // Resize handler
+  window.resize3DGlobe = function() {
+    if (!container || !globe3DRenderer || !globe3DCamera) return;
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    if (w > 0 && h > 0) {
+      globe3DCamera.aspect = w / h;
+      globe3DCamera.updateProjectionMatrix();
+      globe3DRenderer.setSize(w, h);
+    }
+  };
+  window.addEventListener('resize', window.resize3DGlobe);
+
+  // Animation Loop
+  function animateGlobe() {
+    requestAnimationFrame(animateGlobe);
+
+    if (globeAutoRotate && globeRoutesGroup && globeEarthMesh) {
+      globeEarthMesh.rotation.y += 0.002;
+      wireGlobe.rotation.y += 0.002;
+      globeRoutesGroup.rotation.y += 0.002;
+    }
+
+    if (globe3DControls) globe3DControls.update();
+    globe3DRenderer.render(globe3DScene, globe3DCamera);
+  }
+  animateGlobe();
+}
+
+function focus3DGlobe(chokeKey) {
+  const cp = GLOBE_CHOKEPOINTS[chokeKey];
+  if (!cp || !globe3DCamera || !globe3DControls) return;
+
+  globeAutoRotate = false;
+  const btn = document.getElementById('btn-globe-rot');
+  if (btn) {
+    btn.classList.remove('text-indigo-300');
+    btn.classList.add('text-slate-400');
+  }
+
+  // Calculate target camera position
+  const targetPos = latLonToVector3(cp.lat, cp.lon, 52);
+  globe3DCamera.position.set(targetPos.x, targetPos.y, targetPos.z);
+  globe3DControls.target.set(0, 0, 0);
+  globe3DControls.update();
+}
+
+function toggleGlobeAutoRotate() {
+  globeAutoRotate = !globeAutoRotate;
+  const btn = document.getElementById('btn-globe-rot');
+  if (btn) {
+    if (globeAutoRotate) {
+      btn.classList.add('text-indigo-300');
+      btn.classList.remove('text-slate-400');
+    } else {
+      btn.classList.remove('text-indigo-300');
+      btn.classList.add('text-slate-400');
+    }
+  }
+}
+
