@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   safeRun(initShipCursor);
   safeRun(init3DDigitalTwinShip);
   safeRun(init3DGlobalGlobe);
+  safeRun(init3DSurfaceWarRoom);
   loadLiveExternalData();
 });
 
@@ -901,6 +902,7 @@ function initTabs() {
             } else if (targetTab === 'industry') {
               if (subRouteChartInstance) subRouteChartInstance.resize();
               if (supplyDemandChartInstance) supplyDemandChartInstance.resize();
+              if (window.resize3DSurface) window.resize3DSurface();
             } else if (targetTab === 'technicals') {
               renderTechnicalsCharts();
             }
@@ -3435,6 +3437,218 @@ function toggleGlobeAutoRotate() {
       btn.classList.remove('text-indigo-300');
       btn.classList.add('text-slate-400');
     }
+  }
+}
+
+
+
+/* ========================================================
+   15. PLOTLY 3D SURFACE & SCATTER WAR ROOM (運價 x 運力 x EPS)
+   ======================================================== */
+let current3DSurfaceStockKey = '2603';
+
+const SURFACE_STOCK_CONFIGS = {
+  '2603': {
+    name: '長榮 (2603)',
+    title: '長榮 (2603) 敏感度三維獲利曲面',
+    baseEpsText: 'NT$ 62.5 元 (運價2,400點/繞道基準)',
+    fixedCost: 28.0,
+    leverageFactor: 0.038,
+    capacityImpact: 2.2,
+    basePrice: 255.5
+  },
+  '2609': {
+    name: '陽明 (2609)',
+    title: '陽明 (2609) 敏感度三維獲利曲面',
+    baseEpsText: 'NT$ 15.8 元 (歐洲線高曝險/高彈性)',
+    fixedCost: 12.0,
+    leverageFactor: 0.0125,
+    capacityImpact: 1.1,
+    basePrice: 58.2
+  },
+  '2615': {
+    name: '萬海 (2615)',
+    title: '萬海 (2615) 敏感度三維獲利曲面',
+    baseEpsText: 'NT$ 22.0 元 (亞洲區間高週轉彈升)',
+    fixedCost: 14.0,
+    leverageFactor: 0.016,
+    capacityImpact: 1.3,
+    basePrice: 111.5
+  }
+};
+
+function init3DSurfaceWarRoom() {
+  const container = document.getElementById('plotly3dSurfaceContainer');
+  if (!container || typeof Plotly === 'undefined') return;
+
+  render3DSurfacePlot(current3DSurfaceStockKey);
+
+  window.resize3DSurface = function() {
+    if (document.getElementById('plotly3dSurfaceContainer') && typeof Plotly !== 'undefined') {
+      Plotly.Plots.resize('plotly3dSurfaceContainer');
+    }
+  };
+  window.addEventListener('resize', window.resize3DSurface);
+}
+
+function render3DSurfacePlot(stockKey) {
+  const container = document.getElementById('plotly3dSurfaceContainer');
+  if (!container || typeof Plotly === 'undefined') return;
+
+  const cfg = SURFACE_STOCK_CONFIGS[stockKey] || SURFACE_STOCK_CONFIGS['2603'];
+
+  // Grid steps:
+  // X: SCFI 運價指數 (800 ~ 4500)
+  // Y: 全球供給淨增加率 % (-2% ~ +12%)
+  // Z: 預估年化 EPS (NT$)
+  const scfiValues = [];
+  for (let s = 800; s <= 4500; s += 200) scfiValues.push(s);
+
+  const supplyValues = [];
+  for (let sup = -2.0; sup <= 12.0; sup += 1.0) supplyValues.push(sup);
+
+  const zMatrix = [];
+  for (let i = 0; i < supplyValues.length; i++) {
+    const row = [];
+    const sup = supplyValues[i];
+    for (let j = 0; j < scfiValues.length; j++) {
+      const scfi = scfiValues[j];
+      // Profit formula: EPS = (SCFI - BreakEven) * leverage - (Supply% * impact)
+      let eps = (scfi - 950) * cfg.leverageFactor - (sup * cfg.capacityImpact);
+      eps = Math.round(eps * 10) / 10;
+      row.push(eps);
+    }
+    zMatrix.push(row);
+  }
+
+  // Current Benchmark Spot Dot (SCFI = 2250, Supply = 3.5%)
+  const currentScfi = 2250;
+  const currentSupply = 3.5;
+  const currentEps = Math.round(((currentScfi - 950) * cfg.leverageFactor - (currentSupply * cfg.capacityImpact)) * 10) / 10;
+
+  const surfaceTrace = {
+    z: zMatrix,
+    x: scfiValues,
+    y: supplyValues,
+    type: 'surface',
+    colorscale: [
+      [0, '#1e293b'],
+      [0.2, '#0284c7'],
+      [0.4, '#10b981'],
+      [0.7, '#f59e0b'],
+      [1.0, '#ef4444']
+    ],
+    contours: {
+      z: {
+        show: true,
+        usecolormap: true,
+        highlightcolor: '#ffffff',
+        project: { z: true }
+      }
+    },
+    colorbar: {
+      title: '預估 EPS (元)',
+      titleside: 'top',
+      tickfont: { color: '#94a3b8', size: 10 },
+      titlefont: { color: '#ffffff', size: 11 },
+      len: 0.75,
+      thickness: 14
+    },
+    hoverinfo: 'x+y+z',
+    hovertemplate: 'SCFI 運價: %{x} 點<br>運力供給增長: %{y}%<br>預估 EPS: NT$ %{z} 元<extra></extra>'
+  };
+
+  const markerTrace = {
+    x: [currentScfi],
+    y: [currentSupply],
+    z: [currentEps],
+    mode: 'markers+text',
+    type: 'scatter3d',
+    marker: {
+      size: 9,
+      color: '#ffffff',
+      symbol: 'circle',
+      line: { color: '#ef4444', width: 3 }
+    },
+    text: [`目前點位: SCFI ${currentScfi} / 供給 +${currentSupply}% / EPS $${currentEps}`],
+    textposition: 'top center',
+    textfont: { color: '#ffffff', size: 11 }
+  };
+
+  const layout = {
+    autosize: true,
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    margin: { l: 10, r: 10, b: 10, t: 10 },
+    scene: {
+      xaxis: {
+        title: { text: 'SCFI 運價指數 (點)', font: { color: '#38bdf8', size: 11 } },
+        tickfont: { color: '#94a3b8', size: 9 },
+        gridcolor: 'rgba(56, 189, 248, 0.15)',
+        zerolinecolor: 'rgba(56, 189, 248, 0.3)'
+      },
+      yaxis: {
+        title: { text: '全球運力淨增長率 (%)', font: { color: '#f59e0b', size: 11 } },
+        tickfont: { color: '#94a3b8', size: 9 },
+        gridcolor: 'rgba(245, 158, 11, 0.15)',
+        zerolinecolor: 'rgba(245, 158, 11, 0.3)'
+      },
+      zaxis: {
+        title: { text: '預估年化 EPS (NT$)', font: { color: '#10b981', size: 11 } },
+        tickfont: { color: '#94a3b8', size: 9 },
+        gridcolor: 'rgba(16, 185, 129, 0.15)',
+        zerolinecolor: 'rgba(16, 185, 129, 0.3)'
+      },
+      camera: {
+        eye: { x: 1.5, y: -1.7, z: 1.15 }
+      }
+    }
+  };
+
+  const config = {
+    responsive: true,
+    displayModeBar: false
+  };
+
+  Plotly.newPlot('plotly3dSurfaceContainer', [surfaceTrace, markerTrace], layout, config);
+}
+
+function switch3DSurfaceStock(stockKey) {
+  current3DSurfaceStockKey = stockKey;
+  const cfg = SURFACE_STOCK_CONFIGS[stockKey];
+  if (!cfg) return;
+
+  ['2603', '2609', '2615'].forEach(key => {
+    const btn = document.getElementById(`btn-surface-${key}`);
+    if (btn) {
+      if (key === stockKey) {
+        btn.classList.add('active', 'bg-emerald-600', 'text-white');
+        btn.classList.remove('text-slate-400');
+        if (key === '2609') btn.classList.replace('bg-emerald-600', 'bg-blue-600');
+        if (key === '2615') btn.classList.replace('bg-emerald-600', 'bg-purple-600');
+      } else {
+        btn.classList.remove('active', 'bg-emerald-600', 'bg-blue-600', 'bg-purple-600', 'text-white');
+        btn.classList.add('text-slate-400');
+      }
+    }
+  });
+
+  const titleEl = document.getElementById('surface-stock-title');
+  const epsEl = document.getElementById('surface-stock-eps');
+  if (titleEl) {
+    titleEl.textContent = cfg.title;
+    titleEl.className = 'font-bold ' + (stockKey === '2603' ? 'text-emerald-400' : stockKey === '2609' ? 'text-blue-400' : 'text-purple-400');
+  }
+  if (epsEl) epsEl.textContent = cfg.baseEpsText;
+
+  render3DSurfacePlot(stockKey);
+}
+
+function reset3DSurfaceView() {
+  if (typeof Plotly !== 'undefined' && document.getElementById('plotly3dSurfaceContainer')) {
+    Plotly.relayout('plotly3dSurfaceContainer', {
+      'scene.camera': { eye: { x: 1.5, y: -1.7, z: 1.15 } }
+    });
   }
 }
 

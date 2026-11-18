@@ -40,13 +40,14 @@
   </script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.29.1.min.js"></script>
   <!-- Three.js & OrbitControls for 3D Interactive Visualizations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261118_3d">
+  <link rel="stylesheet" href="style.css?v=20261118_3d2">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -1218,6 +1219,61 @@
           </div>
           <div class="h-64 w-full relative">
             <canvas id="supplyDemandBalanceChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Surface & Scatter: Freight (SCFI) vs Capacity Growth vs EPS & Stock Price -->
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-700/60 rounded-xl p-5 shadow-2xl relative overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-rose-600 flex items-center justify-center text-white text-lg shadow-lg shadow-rose-500/20">
+              <i class="fa-solid fa-cubes-stacked"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">Plotly 3D Surface & Scatter</span>
+                <h3 class="text-base font-black text-white">海運景氣三維立體評價曲面（運價 SCFI × 運力增長率 × 三雄 EPS 獲利模型）</h3>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">X軸：SCFI 運價指數 • Y軸：全球供給淨增率(%) • Z軸：長榮/陽明/萬海年化預估 EPS，以立體熱力曲面揭示景氣反轉拐點</p>
+            </div>
+          </div>
+
+          <!-- Controls for 3D Surface -->
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <div class="flex items-center bg-slate-950/80 p-1 rounded-lg border border-slate-800">
+              <button id="btn-surface-2603" class="surface-stock-btn active px-3 py-1 rounded font-bold text-white bg-emerald-600 transition" onclick="switch3DSurfaceStock('2603')">
+                長榮 (2603)
+              </button>
+              <button id="btn-surface-2609" class="surface-stock-btn px-3 py-1 rounded font-bold text-slate-400 hover:text-white transition" onclick="switch3DSurfaceStock('2609')">
+                陽明 (2609)
+              </button>
+              <button id="btn-surface-2615" class="surface-stock-btn px-3 py-1 rounded font-bold text-slate-400 hover:text-white transition" onclick="switch3DSurfaceStock('2615')">
+                萬海 (2615)
+              </button>
+            </div>
+            <button class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-slate-700 font-semibold transition flex items-center gap-1" onclick="reset3DSurfaceView()">
+              <i class="fa-solid fa-camera-rotate"></i> 視角重設
+            </button>
+          </div>
+        </div>
+
+        <!-- 3D Plotly Surface Container -->
+        <div class="relative w-full h-[450px] md:h-[500px] rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
+          <div id="plotly3dSurfaceContainer" class="w-full h-full"></div>
+          
+          <!-- Bottom Legend Tag -->
+          <div class="absolute bottom-3 left-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-lg px-3 py-2 text-xs pointer-events-none">
+            <div class="flex items-center gap-4">
+              <div>
+                <span class="text-[10px] text-slate-400 block">目前顯示模型</span>
+                <span id="surface-stock-title" class="font-bold text-emerald-400">長榮 (2603) 敏感度三維獲利曲面</span>
+              </div>
+              <div class="border-l border-slate-700 pl-3">
+                <span class="text-[10px] text-slate-400 block">基準情境預估 EPS</span>
+                <span id="surface-stock-eps" class="font-black text-white font-mono">NT$ 62.5 元 (運價2,400點/繞道)</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2995,6 +3051,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261118_3d"></script>
+  <script src="app.js?v=20261118_3d2"></script>
 </body>
 </html>
