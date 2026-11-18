@@ -47,7 +47,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261118_vol">
+  <link rel="stylesheet" href="style.css?v=20261118_rebalanced">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -74,67 +74,81 @@
   <!-- Top Global Market & Shipping Ticker Bar -->
   <div class="bg-white/85 border-b border-sky-200/90 text-xs py-1.5 px-4 sticky top-0 z-50 shadow-sm backdrop-blur-md">
     <div class="max-w-7xl mx-auto space-y-1.5">
-      <!-- Live Indicators Marquee/Ticker (Ultra Compact Wrap) -->
-      <div class="flex flex-wrap items-center gap-1.5 py-0.5 text-[11px]">
-        <span class="inline-flex items-center gap-1 font-bold text-sky-400 uppercase text-[10px] shrink-0 mr-0.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-          三雄與大盤
-        </span>
+      <!-- Row 1: Shipping Trio + Global Indices + Live Sync Controls on the right (No Blank Space) -->
+      <div class="flex flex-wrap items-center justify-between gap-1.5 py-0.5 text-[11px]">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="inline-flex items-center gap-1 font-bold text-sky-400 uppercase text-[10px] shrink-0 mr-0.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+            三雄與大盤
+          </span>
 
-        <!-- 2603 Ticker (長榮) -->
-        <div class="flex items-center gap-1 shrink-0 bg-slate-800/90 px-1.5 py-0.5 rounded border border-emerald-900/50">
-          <span class="font-bold text-emerald-400">長榮</span>
-          <span class="font-mono font-bold text-white text-xs" id="ticker-2603-price">266.5</span>
-          <span class="text-emerald-400 font-mono text-[10px]" id="ticker-2603-change">-2.91%</span>
+          <!-- 2603 Ticker (長榮) -->
+          <div class="flex items-center gap-1 shrink-0 bg-slate-800/90 px-1.5 py-0.5 rounded border border-emerald-900/50">
+            <span class="font-bold text-emerald-400">長榮</span>
+            <span class="font-mono font-bold text-white text-xs" id="ticker-2603-price">257.5</span>
+            <span class="text-rose-400 font-mono text-[10px]" id="ticker-2603-change">+0.39%</span>
+          </div>
+
+          <!-- 2609 Ticker (陽明) -->
+          <div class="flex items-center gap-1 shrink-0 bg-slate-800/90 px-1.5 py-0.5 rounded border border-blue-900/50">
+            <span class="font-bold text-blue-400">陽明</span>
+            <span class="font-mono font-bold text-white text-xs" id="ticker-2609-price">60.5</span>
+            <span class="text-rose-400 font-mono text-[10px]" id="ticker-2609-change">+1.00%</span>
+          </div>
+
+          <!-- 2615 Ticker (萬海) -->
+          <div class="flex items-center gap-1 shrink-0 bg-slate-800/90 px-1.5 py-0.5 rounded border border-purple-900/50">
+            <span class="font-bold text-purple-400">萬海</span>
+            <span class="font-mono font-bold text-white text-xs" id="ticker-2615-price">111.0</span>
+            <span class="text-rose-400 font-mono text-[10px]" id="ticker-2615-change">+4.23%</span>
+          </div>
+
+          <span class="text-slate-600 hidden sm:inline">|</span>
+
+          <!-- Taiwan TAIEX -->
+          <div class="flex items-center gap-1 shrink-0 bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/60">
+            <span class="text-slate-300 font-medium">🇹🇼加權</span>
+            <span class="font-mono font-semibold text-white" id="ticker-idx-tw">40,195</span>
+            <span class="text-rose-400 font-mono text-[10px]" id="ticker-idx-tw-change">+0.26%</span>
+          </div>
+
+          <!-- US S&P 500 -->
+          <div class="flex items-center gap-1 shrink-0 bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/60">
+            <span class="text-slate-300 font-medium">🇺🇸標普</span>
+            <span class="font-mono font-semibold text-white" id="ticker-idx-us">7,341</span>
+            <span class="text-emerald-400 font-mono text-[10px]" id="ticker-idx-us-change">-1.03%</span>
+          </div>
+
+          <!-- Japan Nikkei 225 -->
+          <div class="flex items-center gap-1 shrink-0 bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/60">
+            <span class="text-slate-300 font-medium">🇯🇵日經</span>
+            <span class="font-mono font-semibold text-white" id="ticker-idx-jp">59,024</span>
+            <span class="text-rose-400 font-mono text-[10px]" id="ticker-idx-jp-change">+0.28%</span>
+          </div>
+
+          <!-- Europe Stoxx 50 -->
+          <div class="flex items-center gap-1 shrink-0 bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/60">
+            <span class="text-slate-300 font-medium">🇪🇺歐股</span>
+            <span class="font-mono font-semibold text-white" id="ticker-idx-eu">6,221</span>
+            <span class="text-emerald-400 font-mono text-[10px]" id="ticker-idx-eu-change">-2.00%</span>
+          </div>
         </div>
 
-        <!-- 2609 Ticker (陽明) -->
-        <div class="flex items-center gap-1 shrink-0 bg-slate-800/90 px-1.5 py-0.5 rounded border border-blue-900/50">
-          <span class="font-bold text-blue-400">陽明</span>
-          <span class="font-mono font-bold text-white text-xs" id="ticker-2609-price">62.1</span>
-          <span class="text-emerald-400 font-mono text-[10px]" id="ticker-2609-change">-2.97%</span>
-        </div>
-
-        <!-- 2615 Ticker (萬海) -->
-        <div class="flex items-center gap-1 shrink-0 bg-slate-800/90 px-1.5 py-0.5 rounded border border-purple-900/50">
-          <span class="font-bold text-purple-400">萬海</span>
-          <span class="font-mono font-bold text-white text-xs" id="ticker-2615-price">115.5</span>
-          <span class="text-emerald-400 font-mono text-[10px]" id="ticker-2615-change">-3.35%</span>
-        </div>
-
-        <span class="text-slate-600 hidden sm:inline">|</span>
-
-        <!-- Taiwan TAIEX -->
-        <div class="flex items-center gap-1 shrink-0 bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/60">
-          <span class="text-slate-300 font-medium">🇹🇼加權</span>
-          <span class="font-mono font-semibold text-white" id="ticker-idx-tw">43,307</span>
-          <span class="text-emerald-400 font-mono text-[10px]" id="ticker-idx-tw-change">-3.59%</span>
-        </div>
-
-        <!-- US S&P 500 -->
-        <div class="flex items-center gap-1 shrink-0 bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/60">
-          <span class="text-slate-300 font-medium">🇺🇸標普</span>
-          <span class="font-mono font-semibold text-white" id="ticker-idx-us">7,541</span>
-          <span class="text-emerald-400 font-mono text-[10px]" id="ticker-idx-us-change">-0.51%</span>
-        </div>
-
-        <!-- Japan Nikkei 225 -->
-        <div class="flex items-center gap-1 shrink-0 bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/60">
-          <span class="text-slate-300 font-medium">🇯🇵日經</span>
-          <span class="font-mono font-semibold text-white" id="ticker-idx-jp">63,081</span>
-          <span class="text-emerald-400 font-mono text-[10px]" id="ticker-idx-jp-change">-0.33%</span>
-        </div>
-
-        <!-- Europe Stoxx 50 -->
-        <div class="flex items-center gap-1 shrink-0 bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/60">
-          <span class="text-slate-300 font-medium">🇪🇺歐股</span>
-          <span class="font-mono font-semibold text-white" id="ticker-idx-eu">6,176</span>
-          <span class="text-rose-400 font-mono text-[10px]" id="ticker-idx-eu-change">+0.73%</span>
+        <!-- Sync controls now fill the right side of Row 1! -->
+        <div class="flex items-center gap-2 shrink-0 ml-auto">
+          <button id="live-sync-toggle" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-600 border border-emerald-500/30 hover:bg-emerald-500/25 transition" title="每15秒自動連線更新即時股價">
+            <span id="live-sync-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="live-sync-label">即時連動 15s</span>
+          </button>
+          <span class="text-[11px] text-slate-500">更新: <span id="last-update-time">讀取中...</span></span>
+          <button id="refresh-data-btn" class="p-1 text-slate-500 hover:text-slate-800 rounded hover:bg-slate-200 transition" title="立即連線更新即時股價">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
         </div>
       </div>
 
-      <!-- Row 2: Taiwan Benchmark Stocks & Sector Indices (Compact Wrap) -->
-      <div class="flex flex-wrap items-center justify-between gap-1.5 pt-1 border-t border-slate-800/70 text-[11px]">
+      <!-- Row 2: Taiwan Benchmark Stocks & Sector Indices (Full Width) -->
+      <div class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-slate-800/70 text-[11px]">
         <div id="benchmark-row-content" class="flex flex-wrap items-center gap-1.5 py-0.5">
           <span class="inline-flex items-center gap-1 font-bold text-amber-400 text-[10px] shrink-0 mr-0.5">
             <i class="fa-solid fa-star text-[9px]"></i> 權值/指數
@@ -172,21 +186,8 @@
             <span class="text-slate-400 text-[10px] border-l border-slate-700 pl-1 font-mono" id="ticker-idx-fin-vol">額: 338億</span>
           </div>
         </div>
-      <div class="flex items-center gap-2 shrink-0">
-        <button id="live-sync-toggle" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition" title="每15秒自動連線更新即時股價（點擊可暫停/恢復）">
-          <span id="live-sync-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="live-sync-label">即時連動 15s</span>
-        </button>
-        <span class="text-[11px] text-slate-400">更新: <span id="last-update-time">讀取中...</span></span>
-        <button id="toggle-benchmark-bar" class="md:hidden px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white text-[10px] border border-slate-700 transition">
-          收合基準
-        </button>
-        <button id="refresh-data-btn" class="p-1.5 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition" title="立即連線更新即時股價">
-          <i class="fa-solid fa-arrows-rotate"></i>
-        </button>
       </div>
     </div>
-  </div>
 
   </div>
 
@@ -3107,6 +3108,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261118_vol"></script>
+  <script src="app.js?v=20261118_rebalanced"></script>
 </body>
 </html>
