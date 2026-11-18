@@ -3076,7 +3076,33 @@ function build3DShip(shipKey) {
   scrubberPipe.position.set(1.2 * cfg.scale.x, 9.2, -17 * cfg.scale.z);
   shipGroup.add(scrubberPipe);
 
-  // 8. Loaded TEU Container Stacks
+  // 8. Loaded TEU Container Stacks with Realistic Cargo Category Proportions
+  // Categorical Colors:
+  // - 石油 / 化工 (Black / #18181b) -> 15%
+  // - 食物 / 冷鏈生鮮 (Yellow / #eab308) -> 20%
+  // - 高科技 / 晶片電子 (Cyan / #06b6d4) -> 25%
+  // - 汽車 / 機械重工 (Royal Blue / #2563eb) -> 20%
+  // - 民生 / 成衣消費品 (Red / #dc2626) -> 15%
+  // - 空櫃 / 空箱調度 (Slate Grey / #64748b) -> 5%
+  const CARGO_PALETTE = [
+    { color: 0x18181b, ratio: 15 }, // 石油/化學黑櫃
+    { color: 0xeab308, ratio: 20 }, // 食物/冷鏈黃櫃
+    { color: 0x06b6d4, ratio: 25 }, // 高科技晶片青藍櫃
+    { color: 0x2563eb, ratio: 20 }, // 汽車機械深藍櫃
+    { color: 0xdc2626, ratio: 15 }, // 民生成衣紅櫃
+    { color: 0x64748b, ratio: 5 }   // 空箱調度灰櫃
+  ];
+
+  // Build weighted pool for sampling
+  const cargoColorPool = [];
+  CARGO_PALETTE.forEach(item => {
+    for (let i = 0; i < item.ratio; i++) cargoColorPool.push(item.color);
+  });
+
+  const getProportionalCargoColor = () => {
+    return cargoColorPool[Math.floor(Math.random() * cargoColorPool.length)];
+  };
+
   const boxLength = 2.4;
   const boxWidth = 1.1;
   const boxHeight = 1.1;
@@ -3086,17 +3112,15 @@ function build3DShip(shipKey) {
   const endZ = 19 * cfg.scale.z;
   const zStep = 2.8;
 
-  let colorIdx = 0;
   for (let z = startZ; z < endZ; z += zStep) {
     for (let row = -cfg.stackRows / 2; row < cfg.stackRows / 2; row++) {
       const currentStackH = Math.floor(Math.random() * 2) + (cfg.stackHeight - 1);
       for (let h = 0; h < currentStackH; h++) {
-        const cHex = cfg.boxColors[colorIdx % cfg.boxColors.length];
-        colorIdx++;
+        const cHex = getProportionalCargoColor();
         const boxMat = new THREE.MeshStandardMaterial({
           color: cHex,
-          roughness: 0.45,
-          metalness: 0.2
+          roughness: 0.35,
+          metalness: 0.25
         });
         const containerBox = new THREE.Mesh(boxGeo, boxMat);
         const xPos = row * (boxWidth + 0.15) + (boxWidth / 2);
@@ -3112,9 +3136,8 @@ function build3DShip(shipKey) {
   // Aft Container Stacks (behind bridge)
   for (let z = -20 * cfg.scale.z; z < -12 * cfg.scale.z; z += zStep) {
     for (let row = -3; row < 3; row++) {
-      const cHex = cfg.boxColors[colorIdx % cfg.boxColors.length];
-      colorIdx++;
-      const boxMat = new THREE.MeshStandardMaterial({ color: cHex, roughness: 0.45 });
+      const cHex = getProportionalCargoColor();
+      const boxMat = new THREE.MeshStandardMaterial({ color: cHex, roughness: 0.35, metalness: 0.25 });
       const containerBox = new THREE.Mesh(boxGeo, boxMat);
       containerBox.position.set(row * 1.25 + 0.6, 5.8, z);
       containerBox.castShadow = true;
