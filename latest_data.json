@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-19 16:39:02",
+  "last_updated": "2026-11-19 18:41:25",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
@@ -90,21 +90,21 @@
     "0050": {
       "symbol": "0050.TW",
       "price": 90.2,
-      "prev_close": 94.0,
-      "change": -3.8,
-      "change_percent": -4.04,
+      "prev_close": 94.1,
+      "change": -3.9,
+      "change_percent": -4.14,
       "high": 94.5,
       "low": 89.8,
       "volume": 467675924,
       "status": "success",
       "technicals": {
-        "ma5": 96.82,
-        "ma20": 101.4,
-        "ma60": 106.89,
-        "ma240": 90.9,
-        "bias_20": -11.05,
-        "bias_60": -15.61,
-        "rsi14": 30.8,
+        "ma5": 95.45,
+        "ma20": 100.7,
+        "ma60": 106.72,
+        "ma240": 91.04,
+        "bias_20": -10.43,
+        "bias_60": -15.48,
+        "rsi14": 30.6,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -145,12 +145,12 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 6192.03,
+      "price": 6195.92,
       "prev_close": 6154.39,
-      "change": 37.64,
-      "change_percent": 0.61,
-      "high": 6205.22,
-      "low": 6184.55,
+      "change": 41.53,
+      "change_percent": 0.67,
+      "high": 6214.69,
+      "low": 6184.06,
       "volume": 0,
       "status": "success"
     }
@@ -158,77 +158,77 @@
   "commodities": {
     "brent": {
       "symbol": "BZ=F",
-      "price": 89.58,
+      "price": 89.78,
       "prev_close": 89.17,
-      "change": 0.41,
-      "change_percent": 0.46,
+      "change": 0.61,
+      "change_percent": 0.68,
       "high": 90.21,
       "low": 88.51,
-      "volume": 3391,
+      "volume": 6510,
       "status": "success"
     }
   },
   "fundamentals": {
     "2330": {
-      "date": "1151118",
-      "pe": 22.14,
-      "yield": 1.01,
-      "pb": 8.06
+      "date": "1151119",
+      "pe": 21.37,
+      "yield": 1.05,
+      "pb": 7.78
     },
     "2603": {
-      "date": "1151118",
-      "pe": 7.01,
-      "yield": 6.21,
-      "pb": 0.92
+      "date": "1151119",
+      "pe": 6.73,
+      "yield": 6.48,
+      "pb": 0.88
     },
     "2609": {
-      "date": "1151118",
-      "pe": 7.54,
-      "yield": 3.31,
-      "pb": 0.61
+      "date": "1151119",
+      "pe": 7.14,
+      "yield": 3.49,
+      "pb": 0.58
     },
     "2615": {
-      "date": "1151118",
-      "pe": 6.11,
-      "yield": 2.7,
-      "pb": 1.01
+      "date": "1151119",
+      "pe": 5.69,
+      "yield": 2.9,
+      "pb": 0.94
     }
   },
   "institutional": {
     "2609": {
-      "date": "20261119",
-      "foreign_lots": 2178.2,
-      "trust_lots": -1636.0,
-      "dealer_lots": -350.8,
-      "total_lots": 191.4
+      "date": "20261118",
+      "foreign_lots": 4815.3,
+      "trust_lots": -2294.0,
+      "dealer_lots": 20.4,
+      "total_lots": 2541.7
     },
     "2615": {
-      "date": "20261119",
-      "foreign_lots": 1592.0,
-      "trust_lots": -1522.0,
-      "dealer_lots": -264.6,
-      "total_lots": -194.6
+      "date": "20261118",
+      "foreign_lots": 3633.6,
+      "trust_lots": -1493.0,
+      "dealer_lots": 47.3,
+      "total_lots": 2187.9
     },
     "2603": {
-      "date": "20261119",
-      "foreign_lots": -661.0,
-      "trust_lots": -263.0,
-      "dealer_lots": 381.4,
-      "total_lots": -542.5
+      "date": "20261118",
+      "foreign_lots": 344.0,
+      "trust_lots": -239.0,
+      "dealer_lots": 382.4,
+      "total_lots": 487.4
     },
     "2330": {
-      "date": "20261119",
-      "foreign_lots": -8634.8,
-      "trust_lots": 865.2,
-      "dealer_lots": 4551.7,
-      "total_lots": -3217.9
+      "date": "20261118",
+      "foreign_lots": -15452.9,
+      "trust_lots": 3383.1,
+      "dealer_lots": 5184.9,
+      "total_lots": -6884.9
     },
     "0050": {
-      "date": "20261119",
-      "foreign_lots": -58255.3,
-      "trust_lots": 5700.0,
-      "dealer_lots": -183153.0,
-      "total_lots": -235708.4
+      "date": "20261118",
+      "foreign_lots": -26381.5,
+      "trust_lots": 5008.0,
+      "dealer_lots": -93710.3,
+      "total_lots": -115083.8
     }
   },
   "history": {
@@ -782,7 +782,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6191.91
+          6195.92
         ]
       }
     },
@@ -1856,7 +1856,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6191.91
+          6195.92
         ]
       }
     }
@@ -1963,10 +1963,10 @@
     },
     {
       "id": "live-10",
-      "title": "「貨櫃3雄」EPS、毛利率大比拚！最強不是長榮？法人目標價一次揭曉",
-      "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1LRGlYbWUzSE5zSkJaSHBmZWpmRW1EU3lKRGowakh5Q2N5NUFxbHpvRGNpVUZienNub1N3NXAtendfNlBtZnJtU0R2VQ?oc=5",
-      "pubDate": "Sun, 15 Nov 2026 00:40:00 GMT",
-      "source": "FTNN",
+      "title": "貨櫃三雄逆勢起航！長榮(2603)、萬海(2615)漲逾6%，9月營收與運價題材點火",
+      "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9FaWV5Z1lmN2xEOF9qSUZaSnVLWHVUbWplRkdzZGtfeU9TTEpmT2FDSE1fc0dQd3RnUjdBdlVaOG9pUDBvZ0JkeEExNTlqOE0?oc=5",
+      "pubDate": "Mon, 12 Oct 2026 07:00:00 GMT",
+      "source": "鉅亨網",
       "sentiment": "bull",
       "sentimentLabel": "偏多利多",
       "category": "freight",
