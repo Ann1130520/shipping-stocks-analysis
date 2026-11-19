@@ -1,66 +1,66 @@
 {
-  "last_updated": "2026-11-19 23:31:40",
+  "last_updated": "2026-11-20 03:51:30",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
       "price": 247.0,
-      "prev_close": 257.5,
-      "change": -10.5,
-      "change_percent": -4.08,
+      "prev_close": 256.5,
+      "change": -9.5,
+      "change_percent": -3.7,
       "high": 259.5,
       "low": 243.0,
       "volume": 12670280,
       "status": "success",
       "technicals": {
-        "ma5": 255.1,
-        "ma20": 258.85,
-        "ma60": 247.44,
-        "ma240": 212.51,
-        "bias_20": -4.58,
-        "bias_60": -0.18,
-        "rsi14": 43.5,
+        "ma5": 256.0,
+        "ma20": 259.38,
+        "ma60": 247.52,
+        "ma240": 212.23,
+        "bias_20": -4.77,
+        "bias_60": -0.21,
+        "rsi14": 52.0,
         "trend": "均線下方弱勢整理"
       }
     },
     "2609": {
       "symbol": "2609.TW",
       "price": 57.3,
-      "prev_close": 60.5,
-      "change": -3.2,
-      "change_percent": -5.29,
+      "prev_close": 59.9,
+      "change": -2.6,
+      "change_percent": -4.34,
       "high": 60.8,
       "low": 56.8,
       "volume": 19438072,
       "status": "success",
       "technicals": {
-        "ma5": 59.6,
-        "ma20": 60.59,
-        "ma60": 60.3,
-        "ma240": 54.8,
-        "bias_20": -5.43,
-        "bias_60": -4.98,
-        "rsi14": 39.9,
+        "ma5": 59.78,
+        "ma20": 60.83,
+        "ma60": 60.41,
+        "ma240": 54.77,
+        "bias_20": -5.8,
+        "bias_60": -5.15,
+        "rsi14": 50.2,
         "trend": "均線下方弱勢整理"
       }
     },
     "2615": {
       "symbol": "2615.TW",
       "price": 103.5,
-      "prev_close": 111.0,
-      "change": -7.5,
-      "change_percent": -6.76,
+      "prev_close": 106.5,
+      "change": -3.0,
+      "change_percent": -2.82,
       "high": 110.5,
       "low": 101.5,
       "volume": 18479034,
       "status": "success",
       "technicals": {
-        "ma5": 107.6,
-        "ma20": 112.72,
-        "ma60": 114.69,
-        "ma240": 88.79,
-        "bias_20": -8.18,
-        "bias_60": -9.76,
-        "rsi14": 39.1,
+        "ma5": 108.3,
+        "ma20": 113.38,
+        "ma60": 115.04,
+        "ma240": 88.69,
+        "bias_20": -8.71,
+        "bias_60": -10.03,
+        "rsi14": 47.7,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -69,42 +69,42 @@
     "2330": {
       "symbol": "2330.TW",
       "price": 2100.0,
-      "prev_close": 2175.0,
-      "change": -75.0,
-      "change_percent": -3.45,
+      "prev_close": 2170.0,
+      "change": -70.0,
+      "change_percent": -3.23,
       "high": 2190.0,
       "low": 2085.0,
       "volume": 52381317,
       "status": "success",
       "technicals": {
-        "ma5": 2202.0,
-        "ma20": 2295.25,
-        "ma60": 2400.67,
-        "ma240": 2113.9,
-        "bias_20": -8.51,
-        "bias_60": -12.52,
-        "rsi14": 32.4,
+        "ma5": 2250.0,
+        "ma20": 2311.25,
+        "ma60": 2405.83,
+        "ma240": 2110.92,
+        "bias_20": -9.14,
+        "bias_60": -12.71,
+        "rsi14": 36.7,
         "trend": "均線下方弱勢整理"
       }
     },
     "0050": {
       "symbol": "0050.TW",
       "price": 90.2,
-      "prev_close": 94.1,
-      "change": -3.9,
-      "change_percent": -4.14,
+      "prev_close": 94.0,
+      "change": -3.8,
+      "change_percent": -4.04,
       "high": 94.5,
       "low": 89.8,
       "volume": 467675924,
       "status": "success",
       "technicals": {
-        "ma5": 95.45,
-        "ma20": 100.7,
-        "ma60": 106.72,
-        "ma240": 91.04,
-        "bias_20": -10.43,
-        "bias_60": -15.48,
-        "rsi14": 30.6,
+        "ma5": 97.6,
+        "ma20": 101.6,
+        "ma60": 106.96,
+        "ma240": 90.92,
+        "bias_20": -11.22,
+        "bias_60": -15.67,
+        "rsi14": 35.0,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -123,13 +123,13 @@
     },
     "us": {
       "symbol": "^GSPC",
-      "price": 7315.3,
+      "price": 7205.23,
       "prev_close": 7323.63,
-      "change": -8.33,
-      "change_percent": -0.11,
+      "change": -118.4,
+      "change_percent": -1.62,
       "high": 7415.64,
-      "low": 7313.97,
-      "volume": 635820478,
+      "low": 7193.83,
+      "volume": 1984973000,
       "status": "success"
     },
     "jp": {
@@ -145,12 +145,12 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 6159.48,
+      "price": 6113.86,
       "prev_close": 6154.39,
-      "change": 5.09,
-      "change_percent": 0.08,
+      "change": -40.53,
+      "change_percent": -0.66,
       "high": 6214.69,
-      "low": 6158.01,
+      "low": 6113.86,
       "volume": 0,
       "status": "success"
     }
@@ -158,13 +158,13 @@
   "commodities": {
     "brent": {
       "symbol": "BZ=F",
-      "price": 90.08,
+      "price": 89.61,
       "prev_close": 89.17,
-      "change": 0.91,
-      "change_percent": 1.02,
+      "change": 0.44,
+      "change_percent": 0.49,
       "high": 90.7,
       "low": 88.51,
-      "volume": 14223,
+      "volume": 21432,
       "status": "success"
     }
   },
@@ -672,7 +672,7 @@
           7580.07,
           7376.86,
           7561.67,
-          7313.73
+          7205.55
         ],
         "jp": [
           50253.91,
@@ -782,7 +782,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6159.48
+          6113.86
         ]
       }
     },
@@ -1642,7 +1642,7 @@
           7580.07,
           7376.86,
           7561.67,
-          7313.33
+          7205.33
         ],
         "jp": [
           38208.03,
@@ -1856,7 +1856,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6159.48
+          6113.86
         ]
       }
     }
