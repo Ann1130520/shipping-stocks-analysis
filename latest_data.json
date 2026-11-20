@@ -1,66 +1,66 @@
 {
-  "last_updated": "2026-11-20 03:51:30",
+  "last_updated": "2026-11-20 16:23:00",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
-      "price": 247.0,
-      "prev_close": 256.5,
-      "change": -9.5,
-      "change_percent": -3.7,
-      "high": 259.5,
-      "low": 243.0,
-      "volume": 12670280,
+      "price": 233.0,
+      "prev_close": 247.0,
+      "change": -14.0,
+      "change_percent": -5.67,
+      "high": 244.0,
+      "low": 230.5,
+      "volume": 16718403,
       "status": "success",
       "technicals": {
-        "ma5": 256.0,
-        "ma20": 259.38,
-        "ma60": 247.52,
-        "ma240": 212.23,
-        "bias_20": -4.77,
-        "bias_60": -0.21,
-        "rsi14": 52.0,
+        "ma5": 250.2,
+        "ma20": 257.5,
+        "ma60": 247.15,
+        "ma240": 212.74,
+        "bias_20": -9.51,
+        "bias_60": -5.73,
+        "rsi14": 35.2,
         "trend": "均線下方弱勢整理"
       }
     },
     "2609": {
       "symbol": "2609.TW",
-      "price": 57.3,
-      "prev_close": 59.9,
-      "change": -2.6,
-      "change_percent": -4.34,
-      "high": 60.8,
-      "low": 56.8,
-      "volume": 19438072,
+      "price": 53.0,
+      "prev_close": 57.3,
+      "change": -4.3,
+      "change_percent": -7.5,
+      "high": 56.4,
+      "low": 52.7,
+      "volume": 20439573,
       "status": "success",
       "technicals": {
-        "ma5": 59.78,
-        "ma20": 60.83,
-        "ma60": 60.41,
-        "ma240": 54.77,
-        "bias_20": -5.8,
-        "bias_60": -5.15,
-        "rsi14": 50.2,
+        "ma5": 58.14,
+        "ma20": 60.14,
+        "ma60": 60.11,
+        "ma240": 54.8,
+        "bias_20": -11.87,
+        "bias_60": -11.83,
+        "rsi14": 30.8,
         "trend": "均線下方弱勢整理"
       }
     },
     "2615": {
       "symbol": "2615.TW",
-      "price": 103.5,
-      "prev_close": 106.5,
-      "change": -3.0,
-      "change_percent": -2.82,
-      "high": 110.5,
-      "low": 101.5,
-      "volume": 18479034,
+      "price": 95.0,
+      "prev_close": 103.5,
+      "change": -8.5,
+      "change_percent": -8.21,
+      "high": 101.0,
+      "low": 93.6,
+      "volume": 21135237,
       "status": "success",
       "technicals": {
-        "ma5": 108.3,
-        "ma20": 113.38,
-        "ma60": 115.04,
-        "ma240": 88.69,
-        "bias_20": -8.71,
-        "bias_60": -10.03,
-        "rsi14": 47.7,
+        "ma5": 105.1,
+        "ma20": 111.5,
+        "ma60": 114.2,
+        "ma240": 88.85,
+        "bias_20": -14.8,
+        "bias_60": -16.81,
+        "rsi14": 32.0,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -68,43 +68,43 @@
   "tw_benchmarks": {
     "2330": {
       "symbol": "2330.TW",
-      "price": 2100.0,
-      "prev_close": 2170.0,
-      "change": -70.0,
-      "change_percent": -3.23,
-      "high": 2190.0,
-      "low": 2085.0,
-      "volume": 52381317,
+      "price": 2000.0,
+      "prev_close": 2100.0,
+      "change": -100.0,
+      "change_percent": -4.76,
+      "high": 2060.0,
+      "low": 1970.0,
+      "volume": 87213933,
       "status": "success",
       "technicals": {
-        "ma5": 2250.0,
-        "ma20": 2311.25,
-        "ma60": 2405.83,
-        "ma240": 2110.92,
-        "bias_20": -9.14,
-        "bias_60": -12.71,
-        "rsi14": 36.7,
+        "ma5": 2132.0,
+        "ma20": 2276.0,
+        "ma60": 2394.42,
+        "ma240": 2116.5,
+        "bias_20": -12.13,
+        "bias_60": -16.47,
+        "rsi14": 27.8,
         "trend": "均線下方弱勢整理"
       }
     },
     "0050": {
       "symbol": "0050.TW",
-      "price": 90.2,
-      "prev_close": 94.0,
-      "change": -3.8,
-      "change_percent": -4.04,
-      "high": 94.5,
-      "low": 89.8,
-      "volume": 467675924,
+      "price": 84.45,
+      "prev_close": 94.1,
+      "change": -9.65,
+      "change_percent": -10.26,
+      "high": 88.05,
+      "low": 83.95,
+      "volume": 872914919,
       "status": "success",
       "technicals": {
-        "ma5": 97.6,
-        "ma20": 101.6,
-        "ma60": 106.96,
-        "ma240": 90.92,
-        "bias_20": -11.22,
-        "bias_60": -15.67,
-        "rsi14": 35.0,
+        "ma5": 94.3,
+        "ma20": 100.41,
+        "ma60": 106.62,
+        "ma240": 91.02,
+        "bias_20": -15.89,
+        "bias_60": -20.79,
+        "rsi14": 25.9,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -112,45 +112,45 @@
   "global_indices": {
     "tw": {
       "symbol": "^TWII",
-      "price": 38426.89,
-      "prev_close": 40092.1,
-      "change": -1665.21,
-      "change_percent": -4.15,
-      "high": 40315.53,
-      "low": 38259.7,
+      "price": 36033.29,
+      "prev_close": 40194.9,
+      "change": -4161.61,
+      "change_percent": -10.35,
+      "high": 37646.13,
+      "low": 35738.68,
       "volume": 0,
       "status": "success"
     },
     "us": {
       "symbol": "^GSPC",
-      "price": 7205.23,
+      "price": 7175.83,
       "prev_close": 7323.63,
-      "change": -118.4,
-      "change_percent": -1.62,
+      "change": -147.8,
+      "change_percent": -2.02,
       "high": 7415.64,
-      "low": 7193.83,
-      "volume": 1984973000,
+      "low": 7173.63,
+      "volume": 3341008000,
       "status": "success"
     },
     "jp": {
       "symbol": "^N225",
-      "price": 59444.21,
-      "prev_close": 59024.28,
-      "change": 419.93,
-      "change_percent": 0.71,
-      "high": 59660.61,
-      "low": 58750.53,
+      "price": 56436.65,
+      "prev_close": 59444.21,
+      "change": -3007.56,
+      "change_percent": -5.06,
+      "high": 58707.48,
+      "low": 56436.65,
       "volume": 0,
       "status": "success"
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 6113.86,
-      "prev_close": 6154.39,
-      "change": -40.53,
-      "change_percent": -0.66,
-      "high": 6214.69,
-      "low": 6113.86,
+      "price": 6025.76,
+      "prev_close": 6113.86,
+      "change": -88.1,
+      "change_percent": -1.44,
+      "high": 6064.76,
+      "low": 6024.39,
       "volume": 0,
       "status": "success"
     }
@@ -158,13 +158,13 @@
   "commodities": {
     "brent": {
       "symbol": "BZ=F",
-      "price": 89.61,
-      "prev_close": 89.17,
-      "change": 0.44,
-      "change_percent": 0.49,
-      "high": 90.7,
-      "low": 88.51,
-      "volume": 21432,
+      "price": 89.49,
+      "prev_close": 89.44,
+      "change": 0.05,
+      "change_percent": 0.06,
+      "high": 90.25,
+      "low": 89.33,
+      "volume": 2984,
       "status": "success"
     }
   },
@@ -195,40 +195,40 @@
     }
   },
   "institutional": {
-    "2609": {
-      "date": "20261119",
-      "foreign_lots": 2178.2,
-      "trust_lots": -1636.0,
-      "dealer_lots": -350.8,
-      "total_lots": 191.4
-    },
     "2615": {
-      "date": "20261119",
-      "foreign_lots": 1592.0,
-      "trust_lots": -1522.0,
-      "dealer_lots": -264.6,
-      "total_lots": -194.6
+      "date": "20261120",
+      "foreign_lots": 4538.6,
+      "trust_lots": -1498.6,
+      "dealer_lots": -215.0,
+      "total_lots": 2825.0
     },
     "2603": {
-      "date": "20261119",
-      "foreign_lots": -661.0,
-      "trust_lots": -263.0,
-      "dealer_lots": 381.4,
-      "total_lots": -542.5
+      "date": "20261120",
+      "foreign_lots": 4441.1,
+      "trust_lots": -4014.6,
+      "dealer_lots": 185.4,
+      "total_lots": 611.9
+    },
+    "2609": {
+      "date": "20261120",
+      "foreign_lots": 534.5,
+      "trust_lots": -335.0,
+      "dealer_lots": -763.0,
+      "total_lots": -563.5
     },
     "2330": {
-      "date": "20261119",
-      "foreign_lots": -8634.8,
-      "trust_lots": 1579.2,
-      "dealer_lots": 4551.7,
-      "total_lots": -2503.9
+      "date": "20261120",
+      "foreign_lots": -11862.5,
+      "trust_lots": -3848.7,
+      "dealer_lots": 4809.6,
+      "total_lots": -10901.5
     },
     "0050": {
-      "date": "20261119",
-      "foreign_lots": -58255.3,
-      "trust_lots": 5700.0,
-      "dealer_lots": -183153.0,
-      "total_lots": -235708.4
+      "date": "20261120",
+      "foreign_lots": -110454.6,
+      "trust_lots": 4100.0,
+      "dealer_lots": -301659.3,
+      "total_lots": -408013.9
     }
   },
   "history": {
@@ -286,7 +286,7 @@
         "26/10/26",
         "26/11/02",
         "26/11/09",
-        "26/11/19"
+        "26/11/20"
       ],
       "raw": {
         "evergreen": [
@@ -342,7 +342,7 @@
           271.5,
           246.5,
           257.5,
-          247.0
+          233.0
         ],
         "yangming": [
           51.0,
@@ -397,7 +397,7 @@
           63.5,
           57.1,
           60.3,
-          57.3
+          53.0
         ],
         "wanhai": [
           79.7,
@@ -452,7 +452,7 @@
           120.0,
           107.5,
           107.5,
-          103.5
+          95.0
         ],
         "tsmc": [
           1385.0,
@@ -507,7 +507,7 @@
           2370.0,
           2135.0,
           2350.0,
-          2100.0
+          2000.0
         ],
         "etf0050": [
           59.85,
@@ -562,7 +562,7 @@
           104.95,
           92.5,
           102.5,
-          90.2
+          84.45
         ],
         "tw": [
           26434.94,
@@ -617,7 +617,7 @@
           45211.83,
           39701.64,
           43675.12,
-          38426.89
+          36033.29
         ],
         "us": [
           6602.99,
@@ -672,7 +672,7 @@
           7580.07,
           7376.86,
           7561.67,
-          7205.55
+          7175.83
         ],
         "jp": [
           50253.91,
@@ -726,8 +726,8 @@
           63290.11,
           57434.77,
           61142.35,
-          59024.28,
-          59444.21
+          59444.21,
+          56436.65
         ],
         "eu": [
           5515.09,
@@ -782,7 +782,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6113.86
+          6025.76
         ]
       }
     },
@@ -892,7 +892,7 @@
         "26/10/26",
         "26/11/02",
         "26/11/09",
-        "26/11/19"
+        "26/11/20"
       ],
       "raw": {
         "evergreen": [
@@ -1000,7 +1000,7 @@
           271.5,
           246.5,
           257.5,
-          247.0
+          233.0
         ],
         "yangming": [
           77.5,
@@ -1107,7 +1107,7 @@
           63.5,
           57.1,
           60.3,
-          57.3
+          53.0
         ],
         "wanhai": [
           93.6,
@@ -1214,7 +1214,7 @@
           120.0,
           107.5,
           107.5,
-          103.5
+          95.0
         ],
         "tsmc": [
           1040.0,
@@ -1321,7 +1321,7 @@
           2370.0,
           2135.0,
           2350.0,
-          2100.0
+          2000.0
         ],
         "etf0050": [
           48.26,
@@ -1428,7 +1428,7 @@
           104.95,
           92.5,
           102.5,
-          90.2
+          84.45
         ],
         "tw": [
           22904.32,
@@ -1535,7 +1535,7 @@
           45211.83,
           39701.64,
           43675.12,
-          38426.89
+          36033.29
         ],
         "us": [
           5969.34,
@@ -1642,7 +1642,7 @@
           7580.07,
           7376.86,
           7561.67,
-          7205.33
+          7175.83
         ],
         "jp": [
           38208.03,
@@ -1748,8 +1748,8 @@
           63290.11,
           57434.77,
           61142.35,
-          59024.28,
-          59444.21
+          59444.21,
+          56436.65
         ],
         "eu": [
           4789.08,
@@ -1856,7 +1856,7 @@
           6131.31,
           6170.49,
           6386.86,
-          6113.86
+          6025.76
         ]
       }
     }
@@ -1864,23 +1864,23 @@
   "live_news": [
     {
       "id": "live-1",
-      "title": "貨櫃3雄Q4淡季不淡！長榮、陽明、萬海目標價1次看官股挺他：毛利率超車老大哥- 上市櫃",
-      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1PRHZfR19vTXZZczNEanpnOFo5Umc1Z2h1b1hnYkx5LWJwd0lTWHcyR25Vd01vTWRva2dHTW5VR0ZrY201Y21fbnJoUGVNR2laLUlwTC1NNHdOS1VJS2ZaSWRPaEhrLWxyY3c?oc=5",
-      "pubDate": "Sat, 14 Nov 2026 21:03:01 GMT",
-      "source": "旺得富理財網",
-      "sentiment": "neutral",
-      "sentimentLabel": "中立觀察",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
-    },
-    {
-      "id": "live-2",
       "title": "地緣政治攪動全球航運，SCFI連3漲，貨櫃三雄長榮、萬海、陽明怎麼看？｜股市話題｜豐雲學堂2026 年 11 月",
       "link": "https://news.google.com/rss/articles/CBMi5wNBVV95cUxQRVptZmdtbmQyTERzME1ZMHc1RVRFZk1CcDdjVnFTOG9zb28ybmdIdnhqNGZjamRBc0ZkNFp4ZmNRcl9SRjZXSF9wYUowM296U29IY2F5WnowSlVHMFR3T0NHTEs1RmJPeHg3RmJaNjEwTk1MRkVBdUs3WnYyMmNfenBMNXBmMUQwSHY1NFlmUzhJV0RrY2VkbkR5a24tZ1ExNXlxanFkTGd0VmlDWkg1VjFGWU5tbFJZd2IzVzJ5V1lld0xidjlBQnBWbFlEYkhpdEE1aTBKTWYyUVFSRlNuMFhMZzZQWFVqdmxad2pfVTJPbXg2eTdraG9peF9OTDZXRzRaTjBWTnBXZXEwTktvenJHbThkaGNlYlRDZ05GOFd1a2k0VTQ3TnlfeUE5RFdEdFdvcEdJcEFXc1kyaDZFT2xCQk5ZUEdPNjkweVBUVkVOOWlScXV1cmZIT3VzSVhpN3BrQk1ReWdKZHBGdnJJQU1pUEtIQW9aazhRdDJoeXZyVmVSbHp2TFBjNTYzYlc3ZHU2WW4ySml4QmVjdEdwMW5IYXk4S1U5WnFPdzNKTzAtRUwzR2lMdmJQTzF4U196ejM5cTZvaXR5UXdvTHpENXVacU9fdlhNUFZnV0lPVXVCaS1PeHVv?oc=5",
       "pubDate": "Wed, 19 Aug 2026 08:14:30 GMT",
       "source": "永豐金證券",
       "sentiment": "bull",
       "sentimentLabel": "偏多利多",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-2",
+      "title": "貨櫃3雄Q4淡季不淡！長榮、陽明、萬海目標價1次看官股挺他：毛利率超車老大哥- 上市櫃",
+      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1PRHZfR19vTXZZczNEanpnOFo5Umc1Z2h1b1hnYkx5LWJwd0lTWHcyR25Vd01vTWRva2dHTW5VR0ZrY201Y21fbnJoUGVNR2laLUlwTC1NNHdOS1VJS2ZaSWRPaEhrLWxyY3c?oc=5",
+      "pubDate": "Sat, 14 Nov 2026 21:03:01 GMT",
+      "source": "旺得富理財網",
+      "sentiment": "neutral",
+      "sentimentLabel": "中立觀察",
       "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
@@ -1908,28 +1908,6 @@
     },
     {
       "id": "live-5",
-      "title": "【11/16 產業即時新聞】貨櫃航運即時強彈逾2%，資金點火短線轉強，萬海領頭上攻",
-      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOZnZuODE3YU9KWVNxb1Q0NmJwVFFhcGNTTGpXdHoxb1Z0YUJPZVZaLXFtNVkwZjAyUlFEeldPdEUxS3NYUWJZYWtpd1ZBZnh4czlvMTNBcUo4M1JNOGtRY25XWEhQNGVDWmlvdV9iZ2tuT1pVMEpmbnBwWktvS1BQa3lJZEJjZGZjclJuaUhB?oc=5",
-      "pubDate": "Mon, 16 Nov 2026 01:40:51 GMT",
-      "source": "CMoney投資網誌",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
-    },
-    {
-      "id": "live-6",
-      "title": "黃仁勳效應衝擊科技股　籌碼入航海3強",
-      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE80Z0N6bnVQRFZfdVluYjB5MVhLUDFPWUV2d1ZQREdTV01ZR1JzMXFDM1h6OFNITWdQbURzekhCNHNraHNMd1JnQ1gtUTV2SGtpdGtTTXFGaXZpOHNL0gFiQVVfeXFMT080c0NObDlIS0UzV0lBRjVzTENNNnA5OHRDWVFmNDFzcWx2V0NaZ05KZVNWUGJHVlJ2cjBJWnFVTWV4RXpmNmpQSDhTbHAwc0RBd3oxbnR0bTJPRDhWRWhOTlE?oc=5",
-      "pubDate": "Mon, 16 Nov 2026 19:00:00 GMT",
-      "source": "鏡週刊Mirror Media",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
-      "category": "corporate",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
-    },
-    {
-      "id": "live-7",
       "title": "「三大原因」讓貨櫃三雄持續噴出 萬海創一年新高 陽明衝上成交量第一",
       "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5LeXFaaHU4UmJza2FFYWlYd19Tb2M0S3pmY19EdmJZN18zTTVPWl9jbFBKdXRjamhrV01EdHVNa0IwUFR6bkpjOWlraVNhSXFaWEVWdzg2MVhfQdIBX0FVX3lxTE5LM2ZmTkVrRlVTXzhJQTJERUlENkRaWl9paTVVQnN0U2lLeFZYVW5Nc2JRc2tIVEc4R0k0NVRQN0l4dEVBbVFLQ00zY1BoQllhVklGY0dKemMyWFAxemVn?oc=5",
       "pubDate": "Fri, 21 Aug 2026 07:00:00 GMT",
@@ -1940,7 +1918,18 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
-      "id": "live-8",
+      "id": "live-6",
+      "title": "【11/16 產業即時新聞】貨櫃航運即時強彈逾2%，資金點火短線轉強，萬海領頭上攻",
+      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOZnZuODE3YU9KWVNxb1Q0NmJwVFFhcGNTTGpXdHoxb1Z0YUJPZVZaLXFtNVkwZjAyUlFEeldPdEUxS3NYUWJZYWtpd1ZBZnh4czlvMTNBcUo4M1JNOGtRY25XWEhQNGVDWmlvdV9iZ2tuT1pVMEpmbnBwWktvS1BQa3lJZEJjZGZjclJuaUhB?oc=5",
+      "pubDate": "Mon, 16 Nov 2026 01:40:51 GMT",
+      "source": "CMoney投資網誌",
+      "sentiment": "bull",
+      "sentimentLabel": "偏多利多",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-7",
       "title": "旺季貨載、高檔運價挹注 長榮、萬海7月營收齊衝高！後市緊盯2變數",
       "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5mY1RXUDAtZ2l5aG0xdG50N3RZUUs3Z0ExWXQzZzc4MTI5RVdwamp0blRhTG1ZV2JCTlQxWXg4OWtfRkF4YWc2X1JxWFl5ZUdPZDFBTHAyTkZiMUVlZzF3?oc=5",
       "pubDate": "Sat, 08 Aug 2026 07:00:00 GMT",
@@ -1948,6 +1937,17 @@
       "sentiment": "bull",
       "sentimentLabel": "偏多利多",
       "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
+    },
+    {
+      "id": "live-8",
+      "title": "黃仁勳效應衝擊科技股　籌碼入航海3強",
+      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE80Z0N6bnVQRFZfdVluYjB5MVhLUDFPWUV2d1ZQREdTV01ZR1JzMXFDM1h6OFNITWdQbURzekhCNHNraHNMd1JnQ1gtUTV2SGtpdGtTTXFGaXZpOHNL0gFiQVVfeXFMT080c0NObDlIS0UzV0lBRjVzTENNNnA5OHRDWVFmNDFzcWx2V0NaZ05KZVNWUGJHVlJ2cjBJWnFVTWV4RXpmNmpQSDhTbHAwc0RBd3oxbnR0bTJPRDhWRWhOTlE?oc=5",
+      "pubDate": "Mon, 16 Nov 2026 19:00:00 GMT",
+      "source": "鏡週刊Mirror Media",
+      "sentiment": "bull",
+      "sentimentLabel": "偏多利多",
+      "category": "corporate",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
     },
     {
