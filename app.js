@@ -4765,18 +4765,19 @@ function renderKlineStudio(stockCode, subIndicator) {
     });
   }
 
-  // --- Layout Configuration ---
+  // --- Layout Configuration (精簡緊湊高度 380px) ---
   const layout = {
+    height: 380,
     dragmode: 'zoom',
     showlegend: true,
     legend: {
       orientation: 'h',
       x: 0,
-      y: 1.08,
+      y: 1.12,
       font: { color: '#94a3b8', size: 10 },
       bgcolor: 'transparent'
     },
-    margin: { t: 30, r: 20, b: 35, l: 55 },
+    margin: { t: 25, r: 15, b: 25, l: 45 },
     plot_bgcolor: '#090d16',
     paper_bgcolor: '#090d16',
     xaxis: {
@@ -4784,30 +4785,30 @@ function renderKlineStudio(stockCode, subIndicator) {
       rangeslider: { visible: false },
       gridcolor: '#1e293b',
       tickcolor: '#1e293b',
-      tickfont: { color: '#64748b', size: 10 },
-      nticks: 10
+      tickfont: { color: '#64748b', size: 9 },
+      nticks: 8
     },
     yaxis: {
       domain: [0.38, 1],
       gridcolor: '#1e293b',
       tickcolor: '#1e293b',
-      tickfont: { color: '#94a3b8', size: 10 },
-      title: { text: '價格 (TWD)', font: { color: '#64748b', size: 11 } }
+      tickfont: { color: '#94a3b8', size: 9 },
+      title: { text: '價格', font: { color: '#64748b', size: 10 } }
     },
     yaxis2: {
       domain: [0.20, 0.35],
       gridcolor: '#1e293b',
       tickcolor: '#1e293b',
-      tickfont: { color: '#64748b', size: 9 },
+      tickfont: { color: '#64748b', size: 8 },
       showticklabels: false,
-      title: { text: '成交量', font: { color: '#64748b', size: 10 } }
+      title: { text: '量', font: { color: '#64748b', size: 9 } }
     },
     yaxis3: {
       domain: [0, 0.17],
       gridcolor: '#1e293b',
       tickcolor: '#1e293b',
-      tickfont: { color: '#94a3b8', size: 9 },
-      title: { text: currentKlineSub, font: { color: '#64748b', size: 10 } }
+      tickfont: { color: '#94a3b8', size: 8 },
+      title: { text: currentKlineSub, font: { color: '#64748b', size: 9 } }
     }
   };
 
