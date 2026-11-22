@@ -1,3 +1,4 @@
+import math
 import os
 import csv
 import io
@@ -230,7 +231,7 @@ def fetch_twse_t86():
 
 
 def fetch_twse_t86_3days():
-    """Fetch T86 institutional data for the last 3 trading days and return cumulative sums."""
+    """Fetch T86 institutional data for the last 3 trading days and return both cumulative and daily data."""
     from datetime import date as _date, timedelta as _td
     targets = {"2603", "2609", "2615", "2330", "0050"}
 
@@ -279,9 +280,18 @@ def fetch_twse_t86_3days():
         check -= _td(days=1)
 
     if not found_dates:
-        return {}
+        return {}, []
 
-    # Accumulate sums
+    # Sort chronological: oldest to newest
+    found_dates.sort(key=lambda x: x[0])
+
+    daily_list = []
+    for dt, day_data in found_dates:
+        daily_list.append({
+            "date": dt,
+            "data": day_data
+        })
+
     cumulative = {}
     date_labels = [d for d, _ in found_dates]
     for _, day_data in found_dates:
@@ -289,16 +299,146 @@ def fetch_twse_t86_3days():
             if code not in cumulative:
                 cumulative[code] = {"foreign_lots_3d": 0.0, "trust_lots_3d": 0.0,
                                     "dealer_lots_3d": 0.0, "total_lots_3d": 0.0}
-            cumulative[code]["foreign_lots_3d"] += vals.get("foreign_lots", 0.0)
-            cumulative[code]["trust_lots_3d"]  += vals.get("trust_lots", 0.0)
-            cumulative[code]["dealer_lots_3d"] += vals.get("dealer_lots", 0.0)
-            cumulative[code]["total_lots_3d"]  += vals.get("total_lots", 0.0)
+            cumulative[code]["foreign_lots_3d"] = round(cumulative[code]["foreign_lots_3d"] + vals.get("foreign_lots", 0.0), 1)
+            cumulative[code]["trust_lots_3d"]  = round(cumulative[code]["trust_lots_3d"] + vals.get("trust_lots", 0.0), 1)
+            cumulative[code]["dealer_lots_3d"] = round(cumulative[code]["dealer_lots_3d"] + vals.get("dealer_lots", 0.0), 1)
+            cumulative[code]["total_lots_3d"]  = round(cumulative[code]["total_lots_3d"] + vals.get("total_lots", 0.0), 1)
 
     for code in cumulative:
         cumulative[code]["dates"] = date_labels
 
-    print(f"  T86 3-day cumulative: {len(cumulative)} stocks over {date_labels}")
-    return cumulative
+    print(f"  T86 3 days: {len(daily_list)} days {date_labels}")
+    return cumulative, daily_list
+
+
+def fetch_ohlcv_and_indicators(symbol):
+    """Fetch 6-month daily OHLCV and compute 5MA, 20MA, 60MA, Bollinger Bands, KD(9,3,3), MACD(12,26,9)."""
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1d&range=6mo"
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode())
+            res = data['chart']['result'][0]
+            timestamps = res.get('timestamp', [])
+            quote = res.get('indicators', {}).get('quote', [{}])[0]
+            opens = quote.get('open', [])
+            highs = quote.get('high', [])
+            lows = quote.get('low', [])
+            closes = quote.get('close', [])
+            volumes = quote.get('volume', [])
+
+            clean = []
+            tz_tw = timezone(timedelta(hours=8))
+            for i in range(len(timestamps)):
+                o, h, l, c, v = opens[i], highs[i], lows[i], closes[i], volumes[i]
+                if o is not None and h is not None and l is not None and c is not None and v is not None:
+                    dt = datetime.fromtimestamp(timestamps[i], tz=tz_tw).strftime("%Y-%m-%d")
+                    clean.append({
+                        "date": dt,
+                        "open": round(float(o), 2),
+                        "high": round(float(h), 2),
+                        "low": round(float(l), 2),
+                        "close": round(float(c), 2),
+                        "volume": int(v)
+                    })
+
+            if len(clean) < 30:
+                return None
+
+            closes_arr = [x['close'] for x in clean]
+            highs_arr = [x['high'] for x in clean]
+            lows_arr = [x['low'] for x in clean]
+            n = len(clean)
+
+            ma5 = [None] * n
+            ma20 = [None] * n
+            ma60 = [None] * n
+            bb_upper = [None] * n
+            bb_lower = [None] * n
+
+            for i in range(n):
+                if i >= 4:
+                    ma5[i] = round(sum(closes_arr[i-4:i+1]) / 5.0, 2)
+                if i >= 19:
+                    sub = closes_arr[i-19:i+1]
+                    m = sum(sub) / 20.0
+                    ma20[i] = round(m, 2)
+                    variance = sum((x - m) ** 2 for x in sub) / 20.0
+                    sd = math.sqrt(variance)
+                    bb_upper[i] = round(m + 2 * sd, 2)
+                    bb_lower[i] = round(m - 2 * sd, 2)
+                if i >= 59:
+                    ma60[i] = round(sum(closes_arr[i-59:i+1]) / 60.0, 2)
+
+            k_val = [50.0] * n
+            d_val = [50.0] * n
+            for i in range(n):
+                if i >= 8:
+                    highest_9 = max(highs_arr[i-8:i+1])
+                    lowest_9 = min(lows_arr[i-8:i+1])
+                    if highest_9 == lowest_9:
+                        rsv = 50.0
+                    else:
+                        rsv = ((closes_arr[i] - lowest_9) / (highest_9 - lowest_9)) * 100.0
+                    prev_k = k_val[i-1] if i > 0 else 50.0
+                    prev_d = d_val[i-1] if i > 0 else 50.0
+                    cur_k = (2.0 / 3.0) * prev_k + (1.0 / 3.0) * rsv
+                    cur_d = (2.0 / 3.0) * prev_d + (1.0 / 3.0) * cur_k
+                    k_val[i] = round(cur_k, 2)
+                    d_val[i] = round(cur_d, 2)
+
+            ema12 = [0.0] * n
+            ema26 = [0.0] * n
+            dif = [0.0] * n
+            dem = [0.0] * n
+            osc = [0.0] * n
+
+            k12 = 2.0 / 13.0
+            k26 = 2.0 / 27.0
+            k9 = 2.0 / 10.0
+
+            for i in range(n):
+                if i == 0:
+                    ema12[i] = closes_arr[i]
+                    ema26[i] = closes_arr[i]
+                else:
+                    ema12[i] = closes_arr[i] * k12 + ema12[i-1] * (1.0 - k12)
+                    ema26[i] = closes_arr[i] * k26 + ema26[i-1] * (1.0 - k26)
+                dif[i] = round(ema12[i] - ema26[i], 2)
+
+            for i in range(n):
+                if i == 0:
+                    dem[i] = dif[i]
+                else:
+                    dem[i] = round(dif[i] * k9 + dem[i-1] * (1.0 - k9), 2)
+                osc[i] = round(dif[i] - dem[i], 2)
+
+            result_bars = []
+            start_idx = max(0, n - 60)
+            for i in range(start_idx, n):
+                result_bars.append({
+                    "date": clean[i]["date"],
+                    "open": clean[i]["open"],
+                    "high": clean[i]["high"],
+                    "low": clean[i]["low"],
+                    "close": clean[i]["close"],
+                    "volume": clean[i]["volume"],
+                    "ma5": ma5[i],
+                    "ma20": ma20[i],
+                    "ma60": ma60[i],
+                    "bb_upper": bb_upper[i],
+                    "bb_lower": bb_lower[i],
+                    "k": k_val[i],
+                    "d": d_val[i],
+                    "macd_dif": dif[i],
+                    "macd_dem": dem[i],
+                    "macd_osc": osc[i]
+                })
+
+            return result_bars
+    except Exception as e:
+        print(f"Error fetching OHLCV for {symbol}: {e}")
+        return None
 
 def fetch_shipping_news():
     queries = [
@@ -422,7 +562,9 @@ def main():
     if not institutional and prev_data.get("institutional"):
         institutional = prev_data["institutional"]
     print("3b. Fetching T86 3-day cumulative...")
-    institutional_3d = fetch_twse_t86_3days()
+    institutional_3d, institutional_daily = fetch_twse_t86_3days()
+    if not institutional_daily and prev_data.get("institutional_daily"):
+        institutional_daily = prev_data["institutional_daily"]
     if not institutional_3d and prev_data.get("institutional_3d"):
         institutional_3d = prev_data["institutional_3d"]
     if not fundamentals and prev_data.get("fundamentals"):
@@ -432,6 +574,13 @@ def main():
     history_1y = build_aligned_history("1y") or prev_data.get("history", {}).get("1Y")
     history_2y = build_aligned_history("2y") or prev_data.get("history", {}).get("2Y")
 
+    print("4.5 Fetching OHLCV and Technical Indicator series for K-line chart...")
+    tech_charts = {
+        "2603": fetch_ohlcv_and_indicators("2603.TW") or prev_data.get("tech_charts", {}).get("2603"),
+        "2609": fetch_ohlcv_and_indicators("2609.TW") or prev_data.get("tech_charts", {}).get("2609"),
+        "2615": fetch_ohlcv_and_indicators("2615.TW") or prev_data.get("tech_charts", {}).get("2615"),
+        "2330": fetch_ohlcv_and_indicators("2330.TW") or prev_data.get("tech_charts", {}).get("2330")
+    }
     print("5. Fetching live shipping news...")
     news = fetch_shipping_news()
 
@@ -458,6 +607,8 @@ def main():
         "fundamentals": fundamentals,
         "institutional": institutional,
         "institutional_3d": institutional_3d,
+        "institutional_daily": institutional_daily,
+        "tech_charts": tech_charts,
         "history": {
             "1Y": history_1y,
             "2Y": history_2y

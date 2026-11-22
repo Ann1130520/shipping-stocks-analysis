@@ -2768,6 +2768,58 @@
     <!-- SECTION 9: TECHNICALS & CHIPS (技術與籌碼面 - NEW) -->
     <!-- ========================================== -->
     <div id="tab-technicals" class="tab-content hidden space-y-6">
+        <!-- 專業技術線圖工作室 (K線、成交量、均線、布林通道、KD、MACD、RSI) -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-2xl relative">
+          <!-- 頂部控制面板 -->
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  <i class="fa-solid fa-chart-candlestick mr-1"></i> 旗艦技術分析
+                </span>
+                <h2 class="text-lg font-black text-white flex items-center gap-2">
+                  專業 K 線型態與指標工作室
+                </h2>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">完整提供日 K 線、成交量柱狀、均線群 (5/20/60MA)、布林通道及副圖指標 (MACD / KD / RSI)</p>
+            </div>
+
+            <!-- 控制列：股票切換 + 副圖指標切換 -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <!-- 股票選擇 -->
+              <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800" id="kline-stock-selector">
+                <button data-code="2603" class="kline-stock-btn active px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition">長榮 2603</button>
+                <button data-code="2609" class="kline-stock-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">陽明 2609</button>
+                <button data-code="2615" class="kline-stock-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">萬海 2615</button>
+                <button data-code="2330" class="kline-stock-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">台積電 2330</button>
+              </div>
+
+              <!-- 指標切換 -->
+              <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800" id="kline-sub-selector">
+                <button data-sub="MACD" class="kline-sub-btn active px-2.5 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">MACD</button>
+                <button data-sub="KD" class="kline-sub-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white">KD</button>
+                <button data-sub="RSI" class="kline-sub-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white">RSI</button>
+              </div>
+
+              <!-- 主圖布林通道開關 -->
+              <button id="toggle-bollinger-btn" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-950 text-slate-300 border border-slate-800 hover:border-amber-500/50 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-layer-group text-amber-400"></i>
+                <span>布林通道: <b class="text-emerald-400 font-mono">開</b></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 即時報價與技術指標即時數值摘要列 -->
+          <div id="kline-summary-bar" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 my-3 text-xs">
+            <!-- 動態填入最新收盤、5MA、20MA、布林上軌、下軌、KD、MACD -->
+          </div>
+
+          <!-- Plotly 圖表繪製容器 -->
+          <div id="kline-plotly-container" class="w-full rounded-xl overflow-hidden bg-slate-950/60 border border-slate-800/60" style="min-height: 520px;">
+            <!-- 繪製區 -->
+          </div>
+        </div>
+
       <div class="bg-gradient-to-r from-emerald-950/35 via-slate-900 to-cyan-950/35 border border-slate-800 rounded-xl p-6">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
@@ -2815,10 +2867,19 @@
         </div>
 
         <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
-          <h3 class="text-sm font-bold text-white mb-1 flex items-center gap-2">
-            <i class="fa-solid fa-building-columns text-amber-400"></i> 三大法人近3個交易日累計買賣超對比 (外資 / 投信 / 自營商)
-          </h3>
-          <p class="text-xs text-slate-400 mb-3">近3個交易日累計籌碼流向對比：長榮、陽明、萬海與台積電 (2330)</p>
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-building-columns text-amber-400"></i> 三大法人近三個交易日分別買賣超 (外資 / 投信 / 自營商)
+            </h3>
+            <!-- 股票切換按鈕 -->
+            <div id="inst-stock-tabs" class="flex items-center gap-1 bg-slate-950/70 p-1 rounded-lg border border-slate-800 text-xs">
+              <button data-code="2603" class="inst-tab-btn active px-2.5 py-1 rounded font-bold text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">長榮 2603</button>
+              <button data-code="2609" class="inst-tab-btn px-2.5 py-1 rounded font-bold text-xs text-slate-400 hover:text-white">陽明 2609</button>
+              <button data-code="2615" class="inst-tab-btn px-2.5 py-1 rounded font-bold text-xs text-slate-400 hover:text-white">萬海 2615</button>
+              <button data-code="2330" class="inst-tab-btn px-2.5 py-1 rounded font-bold text-xs text-slate-400 hover:text-white">台積電 2330</button>
+            </div>
+          </div>
+          <p id="inst-chart-subtitle" class="text-xs text-slate-400 mb-2">展示長榮 (2603) 近三個交易日外資、投信、自營商個別買賣超張數</p>
           <div class="h-64 w-full relative">
             <canvas id="techInstChart"></canvas>
           </div>
@@ -3029,6 +3090,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261122_inst_3d_v1"></script>
+  <script src="app.js?v=20261122_kline_studio_v2"></script>
 </body>
 </html>

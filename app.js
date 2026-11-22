@@ -2726,6 +2726,7 @@ function renderTechnicalsPanel(data, redrawCharts = true) {
 }
 
 function renderTechnicalsCharts() {
+  renderKlineStudio();
   const data = window.latestPayloadCache;
   if (!data) return;
 
@@ -2777,59 +2778,122 @@ function renderTechnicalsCharts() {
     });
   }
 
-  // Chart 2: Institutional Investors Breakdown (近3個交易日累計)
+  // Chart 2: Institutional Investors Breakdown (近三個交易日分別資料)
+  renderInstDailyChart('2603');
+}
+
+let activeInstStock = '2603';
+
+function renderInstDailyChart(stockCode) {
+  activeInstStock = stockCode || activeInstStock;
+  const data = window.latestPayloadCache;
+  if (!data) return;
+
   const ctxInst = document.getElementById('techInstChart');
-  const instSrc = data.institutional_3d || data.institutional;
-  if (ctxInst && instSrc) {
-    if (techInstChartInstance) techInstChartInstance.destroy();
-    const codes = ['2603', '2609', '2615', '2330'];
-    const labels = ['長榮 (2603)', '陽明 (2609)', '萬海 (2615)', '台積電 (2330)'];
-    const is3d = !!data.institutional_3d;
-    // Use 3-day cumulative keys if available, else fallback to single-day
-    const foreign = codes.map(c => Math.round(is3d
-      ? (instSrc[c]?.foreign_lots_3d || 0)
-      : (instSrc[c]?.foreign_lots || 0)));
-    const trust = codes.map(c => Math.round(is3d
-      ? (instSrc[c]?.trust_lots_3d || 0)
-      : (instSrc[c]?.trust_lots || 0)));
-    const dealer = codes.map(c => Math.round(is3d
-      ? (instSrc[c]?.dealer_lots_3d || 0)
-      : (instSrc[c]?.dealer_lots || 0)));
+  if (!ctxInst) return;
 
-    // Build date range subtitle from 3d data if available
-    const dates3d = is3d ? (Object.values(instSrc)[0]?.dates || []) : [];
-    const dateSubtitle = dates3d.length >= 2
-      ? `${dates3d[dates3d.length-1]} ～ ${dates3d[0]} 累計`
-      : (is3d ? '近3個交易日累計' : '最新單日');
+  const stockNames = {
+    '2603': '長榮 (2603)',
+    '2609': '陽明 (2609)',
+    '2615': '萬海 (2615)',
+    '2330': '台積電 (2330)'
+  };
+  const currentName = stockNames[activeInstStock] || activeInstStock;
 
-    techInstChartInstance = new Chart(ctxInst, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          { label: '外資 (張)', data: foreign, backgroundColor: '#ef4444', borderRadius: 3 },
-          { label: '投信 (張)', data: trust, backgroundColor: '#f59e0b', borderRadius: 3 },
-          { label: '自營商 (張)', data: dealer, backgroundColor: '#38bdf8', borderRadius: 3 }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { labels: { color: '#1e4e6e', font: { size: 11 } } },
-          title: {
-            display: true,
-            text: dateSubtitle,
-            color: '#64748b',
-            font: { size: 11 },
-            padding: { bottom: 4 }
-          }
+  // 更新副標題文字
+  const subtitleEl = document.getElementById('inst-chart-subtitle');
+  if (subtitleEl) {
+    subtitleEl.textContent = `展示 ${currentName} 近三個交易日外資、投信、自營商個別買賣超張數`;
+  }
+
+  // 取得近三個交易日資料 (institutional_daily 為由舊到新的清單)
+  const dailyList = data.institutional_daily || [];
+  let labels = [];
+  let foreignData = [];
+  let trustData = [];
+  let dealerData = [];
+
+  if (dailyList.length > 0) {
+    dailyList.forEach(item => {
+      // 格式化日期：20261118 -> 11/18
+      const dStr = String(item.date);
+      const formattedDate = dStr.length === 8 ? `${dStr.slice(4,6)}/${dStr.slice(6,8)}` : dStr;
+      labels.push(formattedDate);
+
+      const st = item.data ? item.data[activeInstStock] : null;
+      foreignData.push(st ? Math.round(st.foreign_lots || 0) : 0);
+      trustData.push(st ? Math.round(st.trust_lots || 0) : 0);
+      dealerData.push(st ? Math.round(st.dealer_lots || 0) : 0);
+    });
+  } else if (data.institutional) {
+    // 退回單日備份
+    const st = data.institutional[activeInstStock];
+    labels = ['最新單日'];
+    foreignData = [st ? Math.round(st.foreign_lots || 0) : 0];
+    trustData = [st ? Math.round(st.trust_lots || 0) : 0];
+    dealerData = [st ? Math.round(st.dealer_lots || 0) : 0];
+  }
+
+  if (techInstChartInstance) {
+    techInstChartInstance.destroy();
+  }
+
+  techInstChartInstance = new Chart(ctxInst, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        { label: '外資 (張)', data: foreignData, backgroundColor: '#ef4444', borderRadius: 4 },
+        { label: '投信 (張)', data: trustData, backgroundColor: '#f59e0b', borderRadius: 4 },
+        { label: '自營商 (張)', data: dealerData, backgroundColor: '#38bdf8', borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: '#1e4e6e', font: { size: 11, weight: 'bold' } }
         },
-        scales: {
-          x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 11 } } },
-          y: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, callback: v => `${v}張` } }
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const val = context.parsed.y;
+              const sign = val > 0 ? '+' : '';
+              return `${context.dataset.label}: ${sign}${val.toLocaleString()} 張`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: chartColors.slateGrid },
+          ticks: { color: chartColors.slateText, font: { size: 12, weight: 'bold' } }
+        },
+        y: {
+          grid: { color: chartColors.slateGrid },
+          ticks: {
+            color: chartColors.slateText,
+            callback: v => `${v.toLocaleString()}張`
+          }
         }
       }
+    }
+  });
+
+  // 綁定股票切換按鈕事件（若尚未綁定）
+  const tabContainer = document.getElementById('inst-stock-tabs');
+  if (tabContainer && !tabContainer.dataset.bound) {
+    tabContainer.dataset.bound = 'true';
+    tabContainer.querySelectorAll('.inst-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetCode = btn.getAttribute('data-code');
+        tabContainer.querySelectorAll('.inst-tab-btn').forEach(b => {
+          b.className = 'inst-tab-btn px-2.5 py-1 rounded font-bold text-xs text-slate-400 hover:text-white';
+        });
+        btn.className = 'inst-tab-btn active px-2.5 py-1 rounded font-bold text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        renderInstDailyChart(targetCode);
+      });
     });
   }
 }
@@ -4436,6 +4500,366 @@ function reset3DSurfaceView() {
   if (typeof Plotly !== 'undefined' && document.getElementById('plotly3dSurfaceContainer')) {
     Plotly.relayout('plotly3dSurfaceContainer', {
       'scene.camera': { eye: { x: 1.5, y: -1.7, z: 1.15 } }
+    });
+  }
+}
+
+
+/* ========================================================
+   16. ADVANCED K-LINE & TECHNICAL INDICATORS STUDIO
+   ======================================================== */
+let currentKlineStock = '2603';
+let currentKlineSub = 'MACD';
+let showBollinger = true;
+
+function renderKlineStudio(stockCode, subIndicator) {
+  if (stockCode) currentKlineStock = stockCode;
+  if (subIndicator) currentKlineSub = subIndicator;
+
+  const data = window.latestPayloadCache;
+  const container = document.getElementById('kline-plotly-container');
+  if (!container || !window.Plotly) return;
+
+  const techCharts = data?.tech_charts || {};
+  const bars = techCharts[currentKlineStock] || [];
+
+  if (!bars || bars.length === 0) {
+    container.innerHTML = '<div class="p-8 text-center text-slate-500">暫無 K 線歷史資料</div>';
+    return;
+  }
+
+  // Bind controls once
+  bindKlineControls();
+
+  // Extract arrays
+  const dates = bars.map(b => b.date);
+  const opens = bars.map(b => b.open);
+  const highs = bars.map(b => b.high);
+  const lows = bars.map(b => b.low);
+  const closes = bars.map(b => b.close);
+  const volumes = bars.map(b => b.volume);
+  const ma5 = bars.map(b => b.ma5);
+  const ma20 = bars.map(b => b.ma20);
+  const ma60 = bars.map(b => b.ma60);
+  const bbUpper = bars.map(b => b.bb_upper);
+  const bbLower = bars.map(b => b.bb_lower);
+
+  // Update Summary Bar
+  const lastBar = bars[bars.length - 1];
+  const prevBar = bars.length > 1 ? bars[bars.length - 2] : lastBar;
+  const change = lastBar.close - prevBar.close;
+  const changePct = ((change / prevBar.close) * 100).toFixed(2);
+  const isUp = change >= 0;
+
+  const summaryEl = document.getElementById('kline-summary-bar');
+  if (summaryEl) {
+    summaryEl.innerHTML = `
+      <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block text-[10px]">最新收盤</span>
+        <span class="text-sm font-black ${isUp ? 'text-red-400' : 'text-emerald-400'}">
+          NT$ ${lastBar.close} <span class="text-[10px] font-normal">(${isUp ? '+' : ''}${changePct}%)</span>
+        </span>
+      </div>
+      <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block text-[10px]">5MA (週線)</span>
+        <span class="text-sm font-bold text-amber-300">${lastBar.ma5 ?? '--'}</span>
+      </div>
+      <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block text-[10px]">20MA (月線)</span>
+        <span class="text-sm font-bold text-blue-400">${lastBar.ma20 ?? '--'}</span>
+      </div>
+      <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block text-[10px]">布林上軌</span>
+        <span class="text-sm font-bold text-purple-300">${lastBar.bb_upper ?? '--'}</span>
+      </div>
+      <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block text-[10px]">布林下軌</span>
+        <span class="text-sm font-bold text-purple-400">${lastBar.bb_lower ?? '--'}</span>
+      </div>
+      <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block text-[10px]">KD (9,3,3)</span>
+        <span class="text-sm font-bold text-amber-400">K:${lastBar.k ?? '--'} / D:${lastBar.d ?? '--'}</span>
+      </div>
+      <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block text-[10px]">MACD (柱狀)</span>
+        <span class="text-sm font-bold ${(lastBar.macd_osc || 0) >= 0 ? 'text-red-400' : 'text-emerald-400'}">${lastBar.macd_osc ?? '--'}</span>
+      </div>
+    `;
+  }
+
+  // --- Plotly Traces ---
+  const traces = [];
+
+  // Trace 1: Candlestick (台灣習慣：紅漲綠跌)
+  traces.push({
+    type: 'candlestick',
+    x: dates,
+    open: opens,
+    high: highs,
+    low: lows,
+    close: closes,
+    name: '日 K 線',
+    increasing: { line: { color: '#ef4444' }, fillcolor: '#ef4444' },
+    decreasing: { line: { color: '#10b981' }, fillcolor: '#10b981' },
+    xaxis: 'x',
+    yaxis: 'y'
+  });
+
+  // Trace 2: 5MA (黃)
+  traces.push({
+    type: 'scatter',
+    mode: 'lines',
+    x: dates,
+    y: ma5,
+    name: '5MA',
+    line: { color: '#facc15', width: 1.5 },
+    xaxis: 'x',
+    yaxis: 'y'
+  });
+
+  // Trace 3: 20MA (藍)
+  traces.push({
+    type: 'scatter',
+    mode: 'lines',
+    x: dates,
+    y: ma20,
+    name: '20MA (月線)',
+    line: { color: '#38bdf8', width: 2 },
+    xaxis: 'x',
+    yaxis: 'y'
+  });
+
+  // Trace 4: 60MA (綠)
+  traces.push({
+    type: 'scatter',
+    mode: 'lines',
+    x: dates,
+    y: ma60,
+    name: '60MA (季線)',
+    line: { color: '#34d399', width: 1.5 },
+    xaxis: 'x',
+    yaxis: 'y'
+  });
+
+  // Bollinger Bands
+  if (showBollinger) {
+    traces.push({
+      type: 'scatter',
+      mode: 'lines',
+      x: dates,
+      y: bbUpper,
+      name: '布林上軌 (+2σ)',
+      line: { color: 'rgba(192, 132, 252, 0.7)', width: 1, dash: 'dot' },
+      xaxis: 'x',
+      yaxis: 'y'
+    });
+    traces.push({
+      type: 'scatter',
+      mode: 'lines',
+      x: dates,
+      y: bbLower,
+      name: '布林下軌 (-2σ)',
+      line: { color: 'rgba(192, 132, 252, 0.7)', width: 1, dash: 'dot' },
+      fill: 'tonexty',
+      fillcolor: 'rgba(168, 85, 247, 0.06)',
+      xaxis: 'x',
+      yaxis: 'y'
+    });
+  }
+
+  // Volume Bar Chart (中間圖層 y2)
+  const volColors = closes.map((c, i) => {
+    if (i === 0) return '#ef4444';
+    return c >= closes[i - 1] ? 'rgba(239, 68, 68, 0.65)' : 'rgba(16, 185, 129, 0.65)';
+  });
+  traces.push({
+    type: 'bar',
+    x: dates,
+    y: volumes,
+    name: '成交量 (股)',
+    marker: { color: volColors },
+    xaxis: 'x',
+    yaxis: 'y2'
+  });
+
+  // Sub Indicator (底層圖層 y3)
+  if (currentKlineSub === 'MACD') {
+    const oscColors = bars.map(b => (b.macd_osc || 0) >= 0 ? '#ef4444' : '#10b981');
+    traces.push({
+      type: 'bar',
+      x: dates,
+      y: bars.map(b => b.macd_osc),
+      name: 'MACD 柱狀 (OSC)',
+      marker: { color: oscColors },
+      xaxis: 'x',
+      yaxis: 'y3'
+    });
+    traces.push({
+      type: 'scatter',
+      mode: 'lines',
+      x: dates,
+      y: bars.map(b => b.macd_dif),
+      name: 'DIF 快線',
+      line: { color: '#f59e0b', width: 1.5 },
+      xaxis: 'x',
+      yaxis: 'y3'
+    });
+    traces.push({
+      type: 'scatter',
+      mode: 'lines',
+      x: dates,
+      y: bars.map(b => b.macd_dem),
+      name: 'DEM 慢線',
+      line: { color: '#06b6d4', width: 1.5 },
+      xaxis: 'x',
+      yaxis: 'y3'
+    });
+  } else if (currentKlineSub === 'KD') {
+    traces.push({
+      type: 'scatter',
+      mode: 'lines',
+      x: dates,
+      y: bars.map(b => b.k),
+      name: 'K 值 (9)',
+      line: { color: '#f59e0b', width: 2 },
+      xaxis: 'x',
+      yaxis: 'y3'
+    });
+    traces.push({
+      type: 'scatter',
+      mode: 'lines',
+      x: dates,
+      y: bars.map(b => b.d),
+      name: 'D 值 (9)',
+      line: { color: '#38bdf8', width: 2 },
+      xaxis: 'x',
+      yaxis: 'y3'
+    });
+  } else if (currentKlineSub === 'RSI') {
+    // 簡單計算 14 日 RSI
+    const closesArr = bars.map(b => b.close);
+    const rsi14 = [];
+    for (let i = 0; i < bars.length; i++) {
+      if (i < 14) {
+        rsi14.push(50);
+      } else {
+        let gains = 0, losses = 0;
+        for (let j = i - 13; j <= i; j++) {
+          const diff = closesArr[j] - closesArr[j - 1];
+          if (diff >= 0) gains += diff;
+          else losses += Math.abs(diff);
+        }
+        const rs = losses === 0 ? 100 : gains / losses;
+        rsi14.push(Number((100 - (100 / (1 + rs))).toFixed(1)));
+      }
+    }
+    traces.push({
+      type: 'scatter',
+      mode: 'lines',
+      x: dates,
+      y: rsi14,
+      name: 'RSI (14)',
+      line: { color: '#ec4899', width: 2 },
+      xaxis: 'x',
+      yaxis: 'y3'
+    });
+  }
+
+  // --- Layout Configuration ---
+  const layout = {
+    dragmode: 'zoom',
+    showlegend: true,
+    legend: {
+      orientation: 'h',
+      x: 0,
+      y: 1.08,
+      font: { color: '#94a3b8', size: 10 },
+      bgcolor: 'transparent'
+    },
+    margin: { t: 30, r: 20, b: 35, l: 55 },
+    plot_bgcolor: '#090d16',
+    paper_bgcolor: '#090d16',
+    xaxis: {
+      type: 'category',
+      rangeslider: { visible: false },
+      gridcolor: '#1e293b',
+      tickcolor: '#1e293b',
+      tickfont: { color: '#64748b', size: 10 },
+      nticks: 10
+    },
+    yaxis: {
+      domain: [0.38, 1],
+      gridcolor: '#1e293b',
+      tickcolor: '#1e293b',
+      tickfont: { color: '#94a3b8', size: 10 },
+      title: { text: '價格 (TWD)', font: { color: '#64748b', size: 11 } }
+    },
+    yaxis2: {
+      domain: [0.20, 0.35],
+      gridcolor: '#1e293b',
+      tickcolor: '#1e293b',
+      tickfont: { color: '#64748b', size: 9 },
+      showticklabels: false,
+      title: { text: '成交量', font: { color: '#64748b', size: 10 } }
+    },
+    yaxis3: {
+      domain: [0, 0.17],
+      gridcolor: '#1e293b',
+      tickcolor: '#1e293b',
+      tickfont: { color: '#94a3b8', size: 9 },
+      title: { text: currentKlineSub, font: { color: '#64748b', size: 10 } }
+    }
+  };
+
+  const config = {
+    responsive: true,
+    displayModeBar: true,
+    displaylogo: false,
+    modeBarButtonsToRemove: ['lasso2d', 'select2d']
+  };
+
+  Plotly.newPlot('kline-plotly-container', traces, layout, config);
+}
+
+function bindKlineControls() {
+  const stockContainer = document.getElementById('kline-stock-selector');
+  if (stockContainer && !stockContainer.dataset.bound) {
+    stockContainer.dataset.bound = 'true';
+    stockContainer.querySelectorAll('.kline-stock-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        stockContainer.querySelectorAll('.kline-stock-btn').forEach(b => {
+          b.className = 'kline-stock-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+        });
+        btn.className = 'kline-stock-btn active px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition';
+        renderKlineStudio(btn.getAttribute('data-code'), currentKlineSub);
+      });
+    });
+  }
+
+  const subContainer = document.getElementById('kline-sub-selector');
+  if (subContainer && !subContainer.dataset.bound) {
+    subContainer.dataset.bound = 'true';
+    subContainer.querySelectorAll('.kline-sub-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        subContainer.querySelectorAll('.kline-sub-btn').forEach(b => {
+          b.className = 'kline-sub-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white';
+        });
+        btn.className = 'kline-sub-btn active px-2.5 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
+        renderKlineStudio(currentKlineStock, btn.getAttribute('data-sub'));
+      });
+    });
+  }
+
+  const bbBtn = document.getElementById('toggle-bollinger-btn');
+  if (bbBtn && !bbBtn.dataset.bound) {
+    bbBtn.dataset.bound = 'true';
+    bbBtn.addEventListener('click', () => {
+      showBollinger = !showBollinger;
+      bbBtn.innerHTML = `
+        <i class="fa-solid fa-layer-group text-amber-400"></i>
+        <span>布林通道: <b class="${showBollinger ? 'text-emerald-400' : 'text-slate-500'} font-mono">${showBollinger ? '開' : '關'}</b></span>
+      `;
+      renderKlineStudio(currentKlineStock, currentKlineSub);
     });
   }
 }
