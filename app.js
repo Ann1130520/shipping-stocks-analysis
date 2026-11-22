@@ -2933,14 +2933,23 @@ let shipAutoRotate = true;
 const SHIP_MODELS_DATA = {
   '2603': {
     name: '長榮 長範輪 (EVER ACE)',
+    company: '長榮海運 (遠洋跨洋霸主)',
+    legendTitle: '長榮全球遠洋幹線貨物結構 (TEU)',
     type: '24,000 TEU A級超大型貨櫃旗艦輪 (ULCV)',
     load: '96.8%',
-    loadSub: '(遠洋長約鎖定，近乎滿載)',
+    loadSub: '(歐美長約鎖定，高裝載率)',
     scrubber: '配備開放式脫硫塔洗滌器 (Scrubber) + 甲醇雙燃料預留 (高低硫油價差擴大受惠最多)',
     colorHull: 0x047857,   // Evergreen Vibrant Emerald
     colorDeck: 0x1f2937,
     colorBridge: 0xf8fafc,
-    boxColors: [0x059669, 0x10b981, 0x34d399, 0xd97706, 0x2563eb, 0xdc2626],
+    cargoPalette: [
+      { name: '高科技/半導體', color: 0x22d3ee, badgeBg: 'bg-cyan-400', textColor: 'text-cyan-300', ratio: 30, icon: '🔵' },
+      { name: '民生消費/電商', color: 0xf43f5e, badgeBg: 'bg-rose-600', textColor: 'text-rose-300', ratio: 25, icon: '🔴' },
+      { name: '機械/汽車零組件', color: 0x3b82f6, badgeBg: 'bg-blue-600', textColor: 'text-blue-300', ratio: 20, icon: '🔷' },
+      { name: '生鮮冷鏈 (超低溫)', color: 0xfacc15, badgeBg: 'bg-amber-400', textColor: 'text-amber-300', ratio: 15, icon: '🟡' },
+      { name: '精細化工/特化品', color: 0x27272a, badgeBg: 'bg-zinc-800 border border-zinc-500', textColor: 'text-slate-200', ratio: 6, icon: '⚫' },
+      { name: '全球空櫃調度', color: 0x94a3b8, badgeBg: 'bg-slate-500', textColor: 'text-slate-400', ratio: 4, icon: '⚪' }
+    ],
     scale: { x: 1.2, y: 1.1, z: 1.25 },
     stackRows: 6,
     stackCols: 14,
@@ -2948,6 +2957,8 @@ const SHIP_MODELS_DATA = {
   },
   '2609': {
     name: '陽明 碩明輪 (YM WELLHEAD)',
+    company: '陽明海運 (歐地航線主力)',
+    legendTitle: '陽明歐地及地中海航線貨物結構 (TEU)',
     type: '14,000 TEU 歐洲航線旗艦主力輪',
     load: '92.4%',
     loadSub: '(歐洲線繞道好望角滿載航行)',
@@ -2955,7 +2966,14 @@ const SHIP_MODELS_DATA = {
     colorHull: 0x1d4ed8,   // Yang Ming Vibrant Marine Blue
     colorDeck: 0x1f2937,
     colorBridge: 0xf8fafc,
-    boxColors: [0x2563eb, 0x3b82f6, 0x60a5fa, 0xef4444, 0x059669, 0xf59e0b],
+    cargoPalette: [
+      { name: '機械重工/工業設備', color: 0x3b82f6, badgeBg: 'bg-blue-600', textColor: 'text-blue-300', ratio: 30, icon: '🔷' },
+      { name: '歐洲成衣/精品零售', color: 0xf43f5e, badgeBg: 'bg-rose-600', textColor: 'text-rose-300', ratio: 25, icon: '🔴' },
+      { name: '綠能組件/車用電子', color: 0x22d3ee, badgeBg: 'bg-cyan-400', textColor: 'text-cyan-300', ratio: 20, icon: '🔵' },
+      { name: '特用化學/石化原料', color: 0x27272a, badgeBg: 'bg-zinc-800 border border-zinc-500', textColor: 'text-slate-200', ratio: 12, icon: '⚫' },
+      { name: '精緻食品/酒類冷鏈', color: 0xfacc15, badgeBg: 'bg-amber-400', textColor: 'text-amber-300', ratio: 8, icon: '🟡' },
+      { name: '歐亞空箱迴流', color: 0x94a3b8, badgeBg: 'bg-slate-500', textColor: 'text-slate-400', ratio: 5, icon: '⚪' }
+    ],
     scale: { x: 1.0, y: 1.0, z: 1.0 },
     stackRows: 5,
     stackCols: 11,
@@ -2963,6 +2981,8 @@ const SHIP_MODELS_DATA = {
   },
   '2615': {
     name: '萬海 亮春輪 (WAN HAI 305)',
+    company: '萬海航運 (近洋亞洲霸主 & 美西快航)',
+    legendTitle: '萬海亞洲近洋及美西快線貨物結構 (TEU)',
     type: '3,055 TEU 亞洲近洋與美西快航主力輪',
     load: '88.5%',
     loadSub: '(亞洲區間高頻航線週轉)',
@@ -2970,7 +2990,14 @@ const SHIP_MODELS_DATA = {
     colorHull: 0x7e22ce,   // Wan Hai Vibrant Purple
     colorDeck: 0x1f2937,
     colorBridge: 0xf8fafc,
-    boxColors: [0x7c3aed, 0x9333ea, 0xa855f7, 0x10b981, 0x3b82f6, 0xf97316],
+    cargoPalette: [
+      { name: '東南亞農產/熱帶冷鏈', color: 0xfacc15, badgeBg: 'bg-amber-400', textColor: 'text-amber-300', ratio: 35, icon: '🟡' },
+      { name: '組裝代工/電子零組件', color: 0x22d3ee, badgeBg: 'bg-cyan-400', textColor: 'text-cyan-300', ratio: 25, icon: '🔵' },
+      { name: '紡織原料/成衣半成品', color: 0xf43f5e, badgeBg: 'bg-rose-600', textColor: 'text-rose-300', ratio: 18, icon: '🔴' },
+      { name: '塑膠/化學原物料', color: 0x27272a, badgeBg: 'bg-zinc-800 border border-zinc-500', textColor: 'text-slate-200', ratio: 12, icon: '⚫' },
+      { name: '小型汽機車/五金件', color: 0x3b82f6, badgeBg: 'bg-blue-600', textColor: 'text-blue-300', ratio: 6, icon: '🔷' },
+      { name: '高頻空櫃調度週轉', color: 0x94a3b8, badgeBg: 'bg-slate-500', textColor: 'text-slate-400', ratio: 4, icon: '⚪' }
+    ],
     scale: { x: 0.85, y: 0.9, z: 0.75 },
     stackRows: 4,
     stackCols: 7,
@@ -3192,26 +3219,34 @@ function build3DShip(shipKey) {
   scrubberPipe.position.set(1.2 * cfg.scale.x, 9.2, -17 * cfg.scale.z);
   shipGroup.add(scrubberPipe);
 
-  // 8. Loaded TEU Container Stacks with Realistic Cargo Category Proportions
-  // Categorical Colors:
-  // - 石油 / 化工 (Black / #18181b) -> 15%
-  // - 食物 / 冷鏈生鮮 (Yellow / #eab308) -> 20%
-  // - 高科技 / 晶片電子 (Cyan / #06b6d4) -> 25%
-  // - 汽車 / 機械重工 (Royal Blue / #2563eb) -> 20%
-  // - 民生 / 成衣消費品 (Red / #dc2626) -> 15%
-  // - 空櫃 / 空箱調度 (Slate Grey / #64748b) -> 5%
-  const CARGO_PALETTE = [
-    { color: 0x27272a, ratio: 15 }, // 石油/化學黑櫃 (亮曜石黑)
-    { color: 0xfacc15, ratio: 20 }, // 食物/冷鏈黃櫃 (高明度亮鮮黃)
-    { color: 0x22d3ee, ratio: 25 }, // 高科技晶片青藍櫃 (高亮霓虹青)
-    { color: 0x3b82f6, ratio: 20 }, // 汽車機械深藍櫃 (躍動湛藍)
-    { color: 0xf43f5e, ratio: 15 }, // 民生成衣紅櫃 (高飽和亮紅)
-    { color: 0x94a3b8, ratio: 5 }   // 空箱調度灰櫃 (銀白冷灰)
+  // 8. Loaded TEU Container Stacks with Company-Specific Cargo Category Proportions
+  const palette = cfg.cargoPalette || [
+    { name: '科技/晶片', color: 0x22d3ee, ratio: 25 },
+    { name: '食物/冷鏈', color: 0xfacc15, ratio: 20 },
+    { name: '汽車/機械', color: 0x3b82f6, ratio: 20 },
+    { name: '民生/成衣', color: 0xf43f5e, ratio: 15 },
+    { name: '石油/化工', color: 0x27272a, ratio: 15 },
+    { name: '空櫃調度', color: 0x94a3b8, ratio: 5 }
   ];
 
-  // Build weighted pool for sampling
+  // Update Top-Left Cargo Legend in HUD
+  const legendTitleEl = document.getElementById('cargo-legend-title');
+  const legendGridEl = document.getElementById('cargo-legend-grid');
+  if (legendTitleEl && cfg.legendTitle) {
+    legendTitleEl.textContent = cfg.legendTitle;
+  }
+  if (legendGridEl) {
+    legendGridEl.innerHTML = palette.map(item => `
+      <div class="flex items-center gap-1.5 ${item.textColor || 'text-slate-300'}">
+        <span class="w-2.5 h-2.5 rounded shrink-0 ${item.badgeBg || 'bg-cyan-400'}"></span>
+        <span class="truncate">${item.icon || '📦'} ${item.name} (${item.ratio}%)</span>
+      </div>
+    `).join('');
+  }
+
+  // Build weighted pool for sampling individual 3D container mesh colors
   const cargoColorPool = [];
-  CARGO_PALETTE.forEach(item => {
+  palette.forEach(item => {
     for (let i = 0; i < item.ratio; i++) cargoColorPool.push(item.color);
   });
 

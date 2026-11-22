@@ -47,7 +47,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261122_dynamic_zones_v1">
+  <link rel="stylesheet" href="style.css?v=20261122_distinct_cargo_v1">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -755,36 +755,13 @@
         <div class="relative w-full h-[380px] md:h-[420px] rounded-xl bg-gradient-to-b from-[#0c2238] to-[#08182b] border border-sky-900/50 shadow-2xl overflow-hidden">
           <div id="ship3dContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
 
-          <!-- Top-Left Cargo Type Legend (貨櫃分類比例圖例) -->
-          <div class="absolute top-3 left-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-lg p-2.5 text-xs pointer-events-none max-w-xs shadow-xl">
+          <!-- Top-Left Cargo Type Legend (貨櫃分類比例動態圖例) -->
+          <div class="absolute top-3 left-3 bg-slate-900/95 backdrop-blur border border-slate-800 rounded-lg p-2.5 text-xs pointer-events-none max-w-[280px] shadow-2xl">
             <div class="text-[11px] font-bold text-white mb-1.5 flex items-center justify-between">
-              <span class="flex items-center gap-1.5"><i class="fa-solid fa-boxes-stacked text-amber-400"></i> 貨物分類比例分配 (TEU)</span>
+              <span class="flex items-center gap-1.5"><i class="fa-solid fa-boxes-stacked text-amber-400"></i> <span id="cargo-legend-title">長榮主力航線裝載特徵 (TEU)</span></span>
             </div>
-            <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[10px]">
-              <div class="flex items-center gap-1.5 text-slate-200">
-                <span class="w-2.5 h-2.5 rounded bg-zinc-900 border border-zinc-500 shrink-0"></span>
-                <span>⚫ 石油/化工 (15%)</span>
-              </div>
-              <div class="flex items-center gap-1.5 text-amber-300">
-                <span class="w-2.5 h-2.5 rounded bg-amber-400 shrink-0"></span>
-                <span>🟡 食物/冷鏈 (20%)</span>
-              </div>
-              <div class="flex items-center gap-1.5 text-cyan-300">
-                <span class="w-2.5 h-2.5 rounded bg-cyan-400 shrink-0"></span>
-                <span>🔵 科技/晶片 (25%)</span>
-              </div>
-              <div class="flex items-center gap-1.5 text-blue-300">
-                <span class="w-2.5 h-2.5 rounded bg-blue-600 shrink-0"></span>
-                <span>🔷 汽車/機械 (20%)</span>
-              </div>
-              <div class="flex items-center gap-1.5 text-rose-300">
-                <span class="w-2.5 h-2.5 rounded bg-rose-600 shrink-0"></span>
-                <span>🔴 民生/成衣 (15%)</span>
-              </div>
-              <div class="flex items-center gap-1.5 text-slate-400">
-                <span class="w-2.5 h-2.5 rounded bg-slate-500 shrink-0"></span>
-                <span>⚪ 空櫃調度 (5%)</span>
-              </div>
+            <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[10px]" id="cargo-legend-grid">
+              <!-- Dynamically populated per company -->
             </div>
           </div>
           
@@ -3014,6 +2991,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261122_dynamic_zones_v1"></script>
+  <script src="app.js?v=20261122_distinct_cargo_v1"></script>
 </body>
 </html>
