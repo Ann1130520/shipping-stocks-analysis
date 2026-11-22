@@ -3243,10 +3243,10 @@ function build3DShip(shipKey) {
   }
   if (legendGridEl) {
     legendGridEl.innerHTML = palette.map(item => `
-      <div class="flex items-center gap-1.5 py-0.5 text-white font-medium">
-        <span class="w-3 h-3 rounded-sm shrink-0 ${item.badgeBg || 'bg-cyan-400'} shadow-sm"></span>
-        <span class="text-[10px] text-slate-100 whitespace-nowrap">${item.icon || '📦'} ${item.name}</span>
-        <span class="text-[10px] font-bold text-amber-300 ml-auto pl-1 font-mono">${item.ratio}%</span>
+      <div class="flex items-center gap-1.5 py-0.5 text-slate-800 font-semibold">
+        <span class="w-3 h-3 rounded-sm shrink-0 ${item.badgeBg || 'bg-cyan-500'} shadow border border-slate-300/80"></span>
+        <span class="text-[11px] text-slate-800 font-bold whitespace-nowrap">${item.icon || '📦'} ${item.name}</span>
+        <span class="text-[11px] font-black text-blue-700 ml-auto pl-1 font-mono">${item.ratio}%</span>
       </div>
     `).join('');
   }
