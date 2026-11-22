@@ -47,7 +47,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261122_distinct_cargo_v1">
+  <link rel="stylesheet" href="style.css?v=20261122_action_advisor_fix">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -755,12 +755,15 @@
         <div class="relative w-full h-[380px] md:h-[420px] rounded-xl bg-gradient-to-b from-[#0c2238] to-[#08182b] border border-sky-900/50 shadow-2xl overflow-hidden">
           <div id="ship3dContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
 
-          <!-- Top-Left Cargo Type Legend (貨櫃分類比例動態圖例) -->
-          <div class="absolute top-3 left-3 bg-slate-900/95 backdrop-blur border border-slate-800 rounded-lg p-2.5 text-xs pointer-events-none max-w-[280px] shadow-2xl">
-            <div class="text-[11px] font-bold text-white mb-1.5 flex items-center justify-between">
-              <span class="flex items-center gap-1.5"><i class="fa-solid fa-boxes-stacked text-amber-400"></i> <span id="cargo-legend-title">長榮主力航線裝載特徵 (TEU)</span></span>
+          <!-- Top-Left Cargo Type Legend (高對比清楚易讀動態圖例) -->
+          <div class="absolute top-3 left-3 bg-slate-950/95 backdrop-blur-md border border-slate-700/80 rounded-xl p-3 text-xs pointer-events-none max-w-sm sm:max-w-md shadow-2xl">
+            <div class="text-xs font-bold text-white mb-2 flex items-center justify-between border-b border-slate-800 pb-1.5">
+              <span class="flex items-center gap-1.5 text-amber-300">
+                <i class="fa-solid fa-boxes-stacked"></i>
+                <span id="cargo-legend-title" class="font-extrabold text-white tracking-wide">長榮全球遠洋幹線貨物結構 (TEU)</span>
+              </span>
             </div>
-            <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[10px]" id="cargo-legend-grid">
+            <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-[11px]" id="cargo-legend-grid">
               <!-- Dynamically populated per company -->
             </div>
           </div>
@@ -2991,6 +2994,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261122_distinct_cargo_v1"></script>
+  <script src="app.js?v=20261122_action_advisor_fix"></script>
 </body>
 </html>

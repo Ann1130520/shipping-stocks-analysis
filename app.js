@@ -715,7 +715,13 @@ function renderOverviewMomentumReason(data) {
 }
 
 function getStockActionDecision(code, s, inst) {
-  const rule = SHIPPING_ZONE_RULES[code];
+  const dyn = calculateDynamicZones(code, null, Number(s.price || 0));
+  const rule = {
+    buyMax: dyn.buyMax,
+    nearBuy: dyn.holdMin,
+    sellMin: dyn.sellMin,
+    name: code === '2603' ? '長榮' : (code === '2609' ? '陽明' : '萬海')
+  };
   const price = Number(s.price || 0);
   const pct = Number(s.change_percent || 0);
   const ma20 = s.technicals?.ma20 ? Number(s.technicals.ma20) : null;
@@ -723,7 +729,7 @@ function getStockActionDecision(code, s, inst) {
   const totLots = inst ? Math.round(inst.total_lots || 0) : 0;
   const aboveMa20 = ma20 ? price >= ma20 : false;
 
-  if (!rule || price <= 0) {
+  if (price <= 0) {
     return { action: 'wait', label: '觀察等待', badgeCls: 'bg-blue-500/20 text-blue-300 border-blue-500/30', borderCls: 'border-slate-800', summary: '資料同步中，暫以觀望為主。', rule };
   }
 
@@ -3237,9 +3243,10 @@ function build3DShip(shipKey) {
   }
   if (legendGridEl) {
     legendGridEl.innerHTML = palette.map(item => `
-      <div class="flex items-center gap-1.5 ${item.textColor || 'text-slate-300'}">
-        <span class="w-2.5 h-2.5 rounded shrink-0 ${item.badgeBg || 'bg-cyan-400'}"></span>
-        <span class="truncate">${item.icon || '📦'} ${item.name} (${item.ratio}%)</span>
+      <div class="flex items-center gap-1.5 py-0.5 text-white font-medium">
+        <span class="w-3 h-3 rounded-sm shrink-0 ${item.badgeBg || 'bg-cyan-400'} shadow-sm"></span>
+        <span class="text-[10px] text-slate-100 whitespace-nowrap">${item.icon || '📦'} ${item.name}</span>
+        <span class="text-[10px] font-bold text-amber-300 ml-auto pl-1 font-mono">${item.ratio}%</span>
       </div>
     `).join('');
   }
