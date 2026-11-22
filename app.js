@@ -560,6 +560,7 @@ function applyMarketDataToUI(data, options = {}) {
   }
 
   if (typeof window.triggerCalculatorUpdate === 'function') window.triggerCalculatorUpdate();
+  if (typeof window.calculatePortfolioMetrics === 'function') window.calculatePortfolioMetrics();
 }
 
 function renderOverviewMomentumReason(data) {
@@ -1740,6 +1741,62 @@ function applyNewsFilter(filter, query) {
   renderNewsCards(filtered);
 }
 
+// Intelligent AI Sentiment & Impact Classifier
+function getAINewsAnalysis(item) {
+  const text = ((item.title || '') + ' ' + (item.summary || '') + ' ' + (item.impact || '')).toLowerCase();
+  
+  // Bullish keywords (利多)
+  const bullTerms = ['漲', '走揚', '新高', '暴衝', '滿載', '受惠', '噴發', '強勁', '利多', '大賺', '上修', '吃緊', '長約', '跳升', '回升', '擴建', '高檔', '加碼', '分紅', '超額', '飆', '支撐'];
+  // Bearish keywords (利空)
+  const bearTerms = ['跌', '走跌', '重挫', '復航', '下修', '暴跌', '砍單', '過剩', '衰退', '利空', '疲軟', '塞港緩解', '承壓', '驟降', '罷工結束', '降價'];
+  
+  let bullScore = 0;
+  let bearScore = 0;
+  bullTerms.forEach(t => { if (text.includes(t)) bullScore++; });
+  bearTerms.forEach(t => { if (text.includes(t)) bearScore++; });
+  
+  // Stock mentions
+  const mentionsEvergreen = text.includes('長榮') || text.includes('2603');
+  const mentionsYangming = text.includes('陽明') || text.includes('2609');
+  const mentionsWanhai = text.includes('萬海') || text.includes('2615');
+  
+  let sentimentType = 'bull'; // default
+  let sentimentLabel = '🟢 偏多利多';
+  let badgeClass = 'bg-rose-500/20 text-rose-400 border border-rose-500/40';
+  let impactSummary = '運價與營收獲利預期獲得堅實正面支撐';
+  let affectedStocks = [];
+
+  if (mentionsEvergreen) affectedStocks.push('長榮 (2603)');
+  if (mentionsYangming) affectedStocks.push('陽明 (2609)');
+  if (mentionsWanhai) affectedStocks.push('萬海 (2615)');
+  if (affectedStocks.length === 0) affectedStocks = ['長榮', '陽明', '萬海三雄'];
+
+  if (bearScore > bullScore) {
+    sentimentType = 'bear';
+    sentimentLabel = '🔴 偏空警戒';
+    badgeClass = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
+    impactSummary = '短期運價或需求承壓，留意回檔整理與停利警訊';
+  } else if (bullScore >= 1) {
+    sentimentType = 'bull';
+    sentimentLabel = '🟢 偏多利多';
+    badgeClass = 'bg-rose-500/20 text-rose-400 border border-rose-500/40';
+    impactSummary = '歐美拉貨或繞道效應支撐，有利季報毛利率與股利發放';
+  } else {
+    sentimentType = 'neutral';
+    sentimentLabel = '⚪ 市場觀察';
+    badgeClass = 'bg-sky-500/20 text-sky-300 border border-sky-500/40';
+    impactSummary = '常態產業動態追蹤，觀察後續現貨報價連動';
+  }
+
+  return {
+    sentimentType,
+    sentimentLabel,
+    badgeClass,
+    impactSummary,
+    affectedStocks: affectedStocks.join('、')
+  };
+}
+
 function renderNewsCards(items) {
   const container = document.getElementById('news-container');
   if (!container) return;
@@ -1757,42 +1814,52 @@ function renderNewsCards(items) {
   container.innerHTML = items.map(news => {
     // Generate fallback direct link if not provided
     const targetUrl = news.link || `https://news.google.com/search?q=${encodeURIComponent(news.title)}&hl=zh-TW&gl=TW&ceid=TW%3Azh-Hant`;
-
-    const sentimentBadge = news.sentiment === 'bull'
-      ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up"></i> ${news.sentimentLabel || '偏多利多'}</span>`
-      : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center gap-1"><i class="fa-solid fa-shield"></i> ${news.sentimentLabel || '即時市場'}</span>`;
+    const aiAnalysis = getAINewsAnalysis(news);
 
     return `
       <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-sky-500/60 transition flex flex-col justify-between group shadow-sm hover:shadow-md">
         <div>
+          <!-- Header: Date, Source and AI Sentiment Badge -->
           <div class="flex items-center justify-between text-xs mb-2">
             <span class="text-slate-400 flex items-center gap-1.5 font-mono text-[11px]">
               <i class="fa-regular fa-calendar text-[11px]"></i> ${news.date || news.pubDate || '即時'}
               <span class="mx-1">•</span>
               <span class="text-sky-400 font-semibold">${news.source || '財經新聞'}</span>
             </span>
-            ${sentimentBadge}
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold ${aiAnalysis.badgeClass} flex items-center gap-1">
+              ${aiAnalysis.sentimentLabel}
+            </span>
           </div>
+
+          <!-- Title -->
           <h3 class="text-sm font-bold text-white group-hover:text-sky-400 transition leading-snug mb-2">
             <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-start justify-between gap-2" title="點擊前往該新聞網站">
               <span>${news.title}</span>
               <i class="fa-solid fa-arrow-up-right-from-square text-[11px] text-sky-400 shrink-0 mt-1"></i>
             </a>
           </h3>
-          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+
+          <!-- AI Impact & Key Stock Tags Strip -->
+          <div class="bg-slate-950/90 p-2.5 rounded-lg border border-slate-800 my-2.5 space-y-1.5">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="text-slate-400 flex items-center gap-1">
+                <i class="fa-solid fa-microchip text-sky-400"></i> AI 標的影響：
+                <strong class="text-sky-300 font-semibold">${aiAnalysis.affectedStocks}</strong>
+              </span>
+              <span class="text-amber-400 font-bold">${news.impact ? '重點關注' : '大盤連動'}</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed">
+              <strong class="text-indigo-400">研判解讀：</strong>${news.impact || aiAnalysis.impactSummary}
+            </p>
+          </div>
+
+          <!-- Summary -->
+          <p class="text-xs text-slate-400 leading-relaxed mb-3">
             ${news.summary || '點擊下方連結可前往該報導網站閱讀完整新聞全文。'}
           </p>
         </div>
 
-        <div class="space-y-2 mt-2">
-          ${news.impact ? `
-          <div class="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80 text-[11px] text-slate-300">
-            <strong class="text-amber-400 flex items-center gap-1 mb-0.5">
-              <i class="fa-solid fa-lightbulb"></i> 核心標的衝擊解讀：
-            </strong>
-            <span class="text-slate-400">${news.impact}</span>
-          </div>` : ''}
-
+        <div class="space-y-2 mt-1">
           <!-- Direct Article Action Link Button -->
           <div class="flex items-center justify-end pt-1">
             <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-sky-600/20 text-sky-300 border border-sky-500/40 hover:bg-sky-600 hover:text-white transition">
@@ -2107,10 +2174,23 @@ function initPortfolioTracker() {
     };
 
     const prices = {
-      '2603': liveMarketData.price2603 || 255.5,
-      '2609': liveMarketData.price2609 || 58.2,
-      '2615': liveMarketData.price2615 || 111.5
+      '2603': (baseMarketPayload?.stocks?.['2603']?.price) || liveMarketData.price2603 || 233,
+      '2609': (baseMarketPayload?.stocks?.['2609']?.price) || liveMarketData.price2609 || 53,
+      '2615': (baseMarketPayload?.stocks?.['2615']?.price) || liveMarketData.price2615 || 95
     };
+
+    // Update real-time price displays in portfolio inputs
+    ['2603', '2609', '2615'].forEach(c => {
+      const curDisplay = document.getElementById(`pf-${c}-cur`);
+      if (curDisplay) curDisplay.textContent = `現價 ${prices[c].toFixed(1)}`;
+    });
+
+    const estDividendsPerShare = {
+      '2603': 16.0,
+      '2609': 2.0,
+      '2615': 3.0
+    };
+    let totalDividends = 0;
 
     codes.forEach(code => {
       const costEl = document.getElementById(`pf-${code}-cost`);
@@ -2156,17 +2236,20 @@ function initPortfolioTracker() {
           ? '<span class="text-rose-400 font-bold">已達停利賣區!</span>'
           : (cur <= buyTargets[code] ? '<span class="text-emerald-400">處於強力買區</span>' : `距停利區 +${distSell}%`);
 
+        const stockDiv = shares * (estDividendsPerShare[code] || 0);
+        totalDividends += stockDiv;
+
         resEl.innerHTML = `
           <div class="flex justify-between">
             <span>淨損益(扣費稅): <strong class="${pnlClass} font-mono">${sign}${Math.round(pnl).toLocaleString()}元</strong></span>
             <span class="${pnlClass} font-mono font-bold">${sign}${roi.toFixed(2)}%</span>
           </div>
           <div class="text-[10px] text-slate-400 mt-1 flex justify-between">
-            <span>手續費+稅: <strong class="text-amber-400 font-mono">-${feesAndTax.toLocaleString()}元</strong></span>
+            <span>預估現金股利: <strong class="text-emerald-400 font-mono">${Math.round(stockDiv).toLocaleString()}元 (${estDividendsPerShare[code]}元/股)</strong></span>
             <span>兩平價: <strong class="text-white font-mono">${breakevenPrice.toFixed(2)}元</strong></span>
           </div>
           <div class="text-[10px] text-slate-400 mt-0.5 flex justify-between">
-            <span>預估淨入帳: ${Math.round(netProceeds).toLocaleString()}元</span>
+            <span>手續費+稅: <strong class="text-amber-400 font-mono">-${feesAndTax.toLocaleString()}元</strong></span>
             <span>${sellHint}</span>
           </div>
         `;
@@ -2194,6 +2277,11 @@ function initPortfolioTracker() {
       totPnlEl.className = totalCost === 0
         ? 'text-slate-300 font-mono'
         : (totalPnl >= 0 ? 'text-rose-400 font-mono font-bold' : 'text-emerald-400 font-mono font-bold');
+    }
+
+    const totDivEl = document.getElementById('pf-total-dividends');
+    if (totDivEl) {
+      totDivEl.textContent = `NT$ ${Math.round(totalDividends).toLocaleString()}`;
     }
   }
 
@@ -3843,32 +3931,174 @@ function init3DMaritimeRoutesSandbox() {
 
   // 4. Deploy Identifiable Ships for Evergreen, Yang Ming, and Wan Hai with Headings
   routeParticles = [];
+  let activeFollowShip = null;
 
-  function addActiveFleetShip(curve, companyKey, name, colorHex, speed, initialProgress = 0) {
+  function addActiveFleetShip(curve, companyKey, name, colorHex, speed, initialProgress = 0, meta = {}) {
     const shipModel = buildRealisticShip3D(companyKey, name, colorHex);
     routes3DScene.add(shipModel);
 
-    routeParticles.push({
+    const shipObj = {
       model: shipModel,
       curve: curve,
       speed: speed,
       progress: initialProgress,
-      name: name
+      name: name,
+      companyKey: companyKey,
+      meta: meta
+    };
+
+    // Store shipObj reference on mesh children for raycasting
+    shipModel.traverse(child => {
+      if (child.isMesh) child.userData.shipObj = shipObj;
     });
+
+    routeParticles.push(shipObj);
   }
 
   // 🚢 長榮海運 (2603) 旗艦綠：在好望角遠洋線與美西線上高速航行
-  addActiveFleetShip(routeCape.curve, '2603', '🟢 長榮 24,000 TEU (好望角繞道)', 0x059669, 0.0015, 0.12);
-  addActiveFleetShip(routeCape.curve, '2603', '🟢 長榮 歐洲返程輪 (好望角)', 0x059669, 0.0015, 0.65);
-  addActiveFleetShip(routePacific.curve, '2603', '🟢 長榮 美西快航 (LA線)', 0x059669, 0.0025, 0.25);
+  addActiveFleetShip(routeCape.curve, '2603', '🟢 長榮 24,000 TEU (好望角繞道)', 0x059669, 0.0015, 0.12, {
+    fullName: '長榮 24,000 TEU (長範輪 Ever Ace)',
+    route: '好望角大繞道 • 歐地遠洋線',
+    speedStr: '18.6 節 / 94% 超高裝載率',
+    etaStr: '荷蘭鹿特丹港 (預計8天後抵達)',
+    equip: '甲醇雙燃料主機 + 混合型脫硫塔',
+    dotColor: 'bg-emerald-500'
+  });
+  addActiveFleetShip(routeCape.curve, '2603', '🟢 長榮 歐洲返程輪 (好望角)', 0x059669, 0.0015, 0.65, {
+    fullName: '長榮 20,000 TEU (長益輪 Ever Glory)',
+    route: '好望角繞道 • 回程空櫃與高價冷鏈',
+    speedStr: '17.8 節 / 88% 裝載率',
+    etaStr: '台灣高雄港 (預計14天後靠泊)',
+    equip: '高效壓載水管理 + 脫硫塔節約',
+    dotColor: 'bg-emerald-500'
+  });
+  addActiveFleetShip(routePacific.curve, '2603', '🟢 長榮 美西快航 (LA線)', 0x059669, 0.0025, 0.25, {
+    fullName: '長榮 12,000 TEU (長富輪 Ever Forever)',
+    route: '跨太平洋極速快航 (Transpacific)',
+    speedStr: '20.5 節 / 98% 搶運滿載',
+    etaStr: '美國洛杉磯港 (預計4天後進港)',
+    equip: '專用碼頭快速裝卸 + 岸電受電',
+    dotColor: 'bg-emerald-500'
+  });
 
   // 🚢 陽明海運 (2609) 主力藍：在地中海與好望角歐洲線上航行
-  addActiveFleetShip(routeCape.curve, '2609', '🔵 陽明 14,000 TEU (歐線好望角)', 0x0284c7, 0.0016, 0.38);
-  addActiveFleetShip(routeSuez.curve, '2609', '🔵 陽明 特約船 (蘇伊士觀察線)', 0x0284c7, 0.0020, 0.45);
+  addActiveFleetShip(routeCape.curve, '2609', '🔵 陽明 14,000 TEU (歐線好望角)', 0x0284c7, 0.0016, 0.38, {
+    fullName: '陽明 14,000 TEU (鮮明輪 YM Wellness)',
+    route: '歐洲好望角鐘擺線 (THE/Premier聯盟)',
+    speedStr: '17.2 節 / 91% 裝載率',
+    etaStr: '德國漢堡港 (預計10天後抵達)',
+    equip: '電子噴射極低油耗柴油機',
+    dotColor: 'bg-blue-500'
+  });
+  addActiveFleetShip(routeSuez.curve, '2609', '🔵 陽明 特約船 (蘇伊士觀察線)', 0x0284c7, 0.0020, 0.45, {
+    fullName: '陽明 11,000 TEU (世明輪 YM World)',
+    route: '地中海支線 / 蘇伊士動態觀察航次',
+    speedStr: '16.5 節 / 85% 裝載率',
+    etaStr: '埃及賽得港 (預計3天後抵港)',
+    equip: '高規格護航雷達與避險通訊系統',
+    dotColor: 'bg-blue-500'
+  });
 
   // 🚢 萬海航運 (2615) 快航紫：在亞洲近洋麻六甲與美西直航線上航行
-  addActiveFleetShip(routePacific.curve, '2615', '🟣 萬海 3,055 TEU (美西快線 AP1)', 0x9333ea, 0.0030, 0.72);
-  addActiveFleetShip(routeIntraAsia.curve, '2615', '🟣 萬海 亞洲區間穿梭輪 (麻六甲)', 0x9333ea, 0.0035, 0.15);
+  addActiveFleetShip(routePacific.curve, '2615', '🟣 萬海 3,055 TEU (美西快線 AP1)', 0x9333ea, 0.0030, 0.72, {
+    fullName: '萬海 3,055 TEU (寬春輪 Wan Hai 315)',
+    route: '美西直達快航 AP1 (亞洲直通長灘)',
+    speedStr: '19.8 節 / 96% 滿載直達',
+    etaStr: '美國長灘港 (預計5天後抵達)',
+    equip: '新型流體力學節能螺槳+降阻塗裝',
+    dotColor: 'bg-purple-500'
+  });
+  addActiveFleetShip(routeIntraAsia.curve, '2615', '🟣 萬海 亞洲區間穿梭輪 (麻六甲)', 0x9333ea, 0.0035, 0.15, {
+    fullName: '萬海 2,038 TEU (春春輪 Wan Hai 285)',
+    route: '麻六甲走廊 • 亞洲近洋高頻穿梭',
+    speedStr: '18.0 節 / 95% 密集迴轉',
+    etaStr: '新加坡港 (預計明日下午靠泊)',
+    equip: '高密度冷藏插座 (生鮮冷鏈專用)',
+    dotColor: 'bg-purple-500'
+  });
+
+  // 5. Interactive Raycaster for Ship Clicking & HUD Inspection
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+
+  function onShipCanvasClick(event) {
+    const rect = routes3DRenderer.domElement.getBoundingClientRect();
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, routes3DCamera);
+
+    const meshes = [];
+    routeParticles.forEach(p => {
+      p.model.traverse(ch => { if (ch.isMesh) meshes.push(ch); });
+    });
+
+    const intersects = raycaster.intersectObjects(meshes, false);
+    if (intersects.length > 0) {
+      const hit = intersects[0].object;
+      if (hit.userData && hit.userData.shipObj) {
+        showShipInspector(hit.userData.shipObj);
+      }
+    }
+  }
+  routes3DRenderer.domElement.addEventListener('click', onShipCanvasClick);
+
+  function showShipInspector(shipObj) {
+    const card = document.getElementById('ship3d-inspector-card');
+    if (!card) return;
+
+    activeFollowShip = shipObj;
+
+    const m = shipObj.meta || {};
+    const nameEl = document.getElementById('inspect-ship-name');
+    const routeEl = document.getElementById('inspect-ship-route');
+    const speedEl = document.getElementById('inspect-ship-speed');
+    const etaEl = document.getElementById('inspect-ship-eta');
+    const equipEl = document.getElementById('inspect-ship-equip');
+    const dotEl = document.getElementById('inspect-ship-dot');
+
+    if (nameEl) nameEl.textContent = m.fullName || shipObj.name;
+    if (routeEl) routeEl.textContent = m.route || '常態幹線航道';
+    if (speedEl) speedEl.textContent = m.speedStr || '18.0 節';
+    if (etaEl) etaEl.textContent = m.etaStr || '航行中';
+    if (equipEl) equipEl.textContent = m.equip || '節能柴油引擎';
+    if (dotEl && m.dotColor) dotEl.className = `w-2.5 h-2.5 rounded-full ${m.dotColor} animate-pulse`;
+
+    card.classList.remove('hidden');
+
+    // Smoothly fly camera to close up view of ship
+    const shipPos = shipObj.model.position.clone();
+    routeCameraLerp = {
+      startCam: routes3DCamera.position.clone(),
+      endCam: shipPos.clone().add(new THREE.Vector3(0, 18, 22)),
+      startTarget: routes3DControls.target.clone(),
+      endTarget: shipPos,
+      startTime: performance.now(),
+      duration: 1000
+    };
+  }
+
+  // Close & Unlock buttons
+  const closeBtn = document.getElementById('inspect-close-btn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('ship3d-inspector-card')?.classList.add('hidden');
+      activeFollowShip = null;
+    });
+  }
+
+  const resetCamBtn = document.getElementById('inspect-reset-cam-btn');
+  if (resetCamBtn) {
+    resetCamBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      activeFollowShip = null;
+      document.getElementById('ship3d-inspector-card')?.classList.add('hidden');
+      routes3DCamera.position.set(0, 160, 190);
+      routes3DControls.target.set(0, 0, 5);
+      routes3DControls.update();
+    });
+  }
 
   // Resize handler
   window.resize3DRoutes = function() {
@@ -3901,7 +4131,13 @@ function init3DMaritimeRoutesSandbox() {
       p.model.lookAt(pos.clone().add(tangent));
     });
 
-    // 2. Smooth Camera Fly-to Lerp
+    // 2. Camera tracking active clicked ship
+    if (activeFollowShip && !routeCameraLerp && routes3DControls) {
+      const shipPos = activeFollowShip.model.position.clone();
+      routes3DControls.target.copy(shipPos);
+    }
+
+    // 3. Smooth Camera Fly-to Lerp
     if (routeCameraLerp && routes3DControls) {
       const elapsed = performance.now() - routeCameraLerp.startTime;
       const t = Math.min(elapsed / routeCameraLerp.duration, 1.0);
@@ -3916,7 +4152,7 @@ function init3DMaritimeRoutesSandbox() {
       }
     }
 
-    if (routeAutoRotate && routes3DControls && !routeCameraLerp) {
+    if (routeAutoRotate && routes3DControls && !routeCameraLerp && !activeFollowShip) {
       routes3DControls.autoRotate = true;
       routes3DControls.autoRotateSpeed = 0.5;
     } else if (routes3DControls) {
@@ -4179,4 +4415,3 @@ function reset3DSurfaceView() {
     });
   }
 }
-

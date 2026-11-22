@@ -1379,6 +1379,41 @@
           <div class="relative w-full h-[380px] md:h-[430px] rounded-xl bg-gradient-to-b from-[#0c2238] to-[#08182b] border border-sky-900/50 shadow-2xl overflow-hidden">
             <div id="routes3dContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
 
+            <!-- Dynamic 3D Ship Inspector HUD Popup (點擊船隻即時跟隨與彈出資訊卡) -->
+            <div id="ship3d-inspector-card" class="hidden absolute bottom-10 left-3 max-w-sm bg-slate-900/95 backdrop-blur-md border border-sky-500/60 rounded-xl p-3.5 shadow-2xl z-20 text-xs transition-all">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                  <span id="inspect-ship-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span id="inspect-ship-name" class="font-black text-white text-sm">長榮 24,000 TEU (長範輪)</span>
+                </div>
+                <button id="inspect-close-btn" class="text-slate-400 hover:text-white px-1.5 py-0.5 rounded bg-slate-800 text-[10px]">✕</button>
+              </div>
+              <div class="grid grid-cols-2 gap-2 my-2 text-[11px]">
+                <div class="bg-slate-950 p-2 rounded border border-slate-800/80">
+                  <span class="text-slate-400 block text-[10px]">執航路線</span>
+                  <strong id="inspect-ship-route" class="text-sky-300">好望角遠洋歐地線</strong>
+                </div>
+                <div class="bg-slate-950 p-2 rounded border border-slate-800/80">
+                  <span class="text-slate-400 block text-[10px]">巡航航速 / 載重率</span>
+                  <strong id="inspect-ship-speed" class="text-amber-400">18.5 節 / 94% 滿載</strong>
+                </div>
+                <div class="bg-slate-950 p-2 rounded border border-slate-800/80">
+                  <span class="text-slate-400 block text-[10px]">預計抵達 (ETA)</span>
+                  <strong id="inspect-ship-eta" class="text-emerald-400">荷蘭鹿特丹港 (8天後)</strong>
+                </div>
+                <div class="bg-slate-950 p-2 rounded border border-slate-800/80">
+                  <span class="text-slate-400 block text-[10px]">節能配備</span>
+                  <strong id="inspect-ship-equip" class="text-purple-300">雙燃料+混合式脫硫塔</strong>
+                </div>
+              </div>
+              <div class="flex items-center justify-between pt-1">
+                <span class="text-[10px] text-slate-400 flex items-center gap-1">
+                  <i class="fa-solid fa-video text-sky-400"></i> 視角即時追蹤中
+                </span>
+                <button id="inspect-reset-cam-btn" class="text-[10px] text-sky-400 hover:underline">解除鎖定視角</button>
+              </div>
+            </div>
+
             <!-- Dynamic 3D Maritime HUD Indicator (Active Chokepoint Tag) -->
             <div class="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-lg px-2.5 py-1.5 text-[11px] pointer-events-none shadow-lg">
               <div class="flex items-center gap-2">
@@ -1632,7 +1667,6 @@
     <!-- SECTION 6: CALCULATOR TAB (獲利與情境模擬器) -->
     <!-- ========================================== -->
     <div id="tab-calculator" class="tab-content hidden space-y-6">
-      
       <div class="bg-gradient-to-r from-slate-900 via-blue-950/40 to-slate-900 border border-slate-800 rounded-xl p-6">
         <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
           <i class="fa-solid fa-sliders text-blue-400"></i>
@@ -1941,6 +1975,7 @@
         <div id="pf-total-summary" class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs">
           <span class="text-slate-400">總投入成本(含買費): <strong id="pf-total-cost" class="text-white font-mono">NT$ 0</strong></span>
           <span class="text-slate-400">預估總稅費(買賣費+稅): <strong id="pf-total-fees-tax" class="text-amber-400 font-mono">NT$ 0</strong></span>
+          <span class="text-slate-400">預估合計現金股利: <strong id="pf-total-dividends" class="text-emerald-400 font-mono font-bold">NT$ 0</strong></span>
           <span class="text-slate-400">賣出淨入帳(扣稅費): <strong id="pf-total-value" class="text-white font-mono">NT$ 0</strong></span>
           <span class="text-slate-400">真實合計淨損益: <strong id="pf-total-pnl" class="text-slate-300 font-mono">NT$ 0 (0.0%)</strong></span>
         </div>
@@ -2994,6 +3029,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261122_3d_routes_realistic_v1"></script>
+  <script src="app.js?v=20261122_3d_ship_inspector_and_portfolio_v2"></script>
 </body>
 </html>
