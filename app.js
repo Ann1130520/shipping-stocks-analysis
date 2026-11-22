@@ -490,8 +490,14 @@ function applyMarketDataToUI(data, options = {}) {
   }
 
   if (redrawNews && data.live_news && Array.isArray(data.live_news) && data.live_news.length > 0) {
-    const combined = [...data.live_news, ...newsDatabase];
-    renderNewsCards(combined);
+    const existingTitles = new Set(newsDatabase.map(n => n.title));
+    const freshNews = data.live_news.filter(n => !existingTitles.has(n.title));
+    masterNewsList = [...freshNews, ...newsDatabase];
+    const activeBtn = document.querySelector('.news-filter-btn.active');
+    const activeFilter = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+    const searchInput = document.getElementById('news-search-input');
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    applyNewsFilter(activeFilter, query);
   }
 
   if (typeof window.triggerCalculatorUpdate === 'function') window.triggerCalculatorUpdate();
@@ -1612,10 +1618,11 @@ const newsDatabase = [
   }
 ];
 
+let masterNewsList = [...newsDatabase];
 let allActiveNews = [...newsDatabase];
 
 function initNewsCenter() {
-  renderNewsCards(allActiveNews);
+  renderNewsCards(masterNewsList);
 
   const filterButtons = document.querySelectorAll('.news-filter-btn');
   filterButtons.forEach(btn => {
@@ -1644,7 +1651,7 @@ function initNewsCenter() {
 }
 
 function applyNewsFilter(filter, query) {
-  const filtered = allActiveNews.filter(item => {
+  const filtered = masterNewsList.filter(item => {
     const matchesCategory = (filter === 'all' || item.category === filter);
     const matchesSearch = query === '' || 
       item.title.toLowerCase().includes(query) || 
@@ -1658,7 +1665,6 @@ function applyNewsFilter(filter, query) {
 function renderNewsCards(items) {
   const container = document.getElementById('news-container');
   if (!container) return;
-  allActiveNews = items;
 
   if (items.length === 0) {
     container.innerHTML = `
