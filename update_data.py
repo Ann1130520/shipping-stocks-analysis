@@ -228,6 +228,78 @@ def fetch_twse_t86():
         print(f"Error fetching TWSE T86: {e}")
     return inst_data
 
+
+def fetch_twse_t86_3days():
+    """Fetch T86 institutional data for the last 3 trading days and return cumulative sums."""
+    from datetime import date as _date, timedelta as _td
+    targets = {"2603", "2609", "2615", "2330", "0050"}
+
+    def _fetch_one(date_str):
+        url = f"https://www.twse.com.tw/rwd/zh/fund/T86?response=json&selectType=ALLBUT0999&date={date_str}"
+        req = __import__('urllib.request', fromlist=['Request']).Request(
+            url, headers={'User-Agent': 'Mozilla/5.0'})
+        import urllib.request as _ur
+        try:
+            data = __import__('json').loads(_ur.urlopen(req, timeout=12).read().decode('utf-8'))
+            if data.get("stat") != "OK":
+                return None, None
+            report_date = data.get("date", date_str)
+            result = {}
+            for row in data.get("data", []):
+                code = row[0].strip()
+                if code in targets:
+                    def to_lots(v):
+                        try:
+                            return round(int(v.replace(",", "").strip()) / 1000.0, 1)
+                        except Exception:
+                            return 0.0
+                    result[code] = {
+                        "foreign_lots": to_lots(row[4]),
+                        "trust_lots": to_lots(row[10]),
+                        "dealer_lots": to_lots(row[11]),
+                        "total_lots": to_lots(row[-1])
+                    }
+            return report_date, result
+        except Exception as e:
+            print(f"  T86 3day fetch {date_str}: {e}")
+            return None, None
+
+    # Walk backward finding 3 trading days (skip weekends)
+    today = _date.today()
+    found_dates = []
+    check = today
+    for _ in range(14):  # look back up to 2 weeks
+        if len(found_dates) >= 3:
+            break
+        if check.weekday() < 5:  # Mon-Fri only
+            d_str = check.strftime("%Y%m%d")
+            dt, result = _fetch_one(d_str)
+            if result:
+                found_dates.append((dt or d_str, result))
+        check -= _td(days=1)
+
+    if not found_dates:
+        return {}
+
+    # Accumulate sums
+    cumulative = {}
+    date_labels = [d for d, _ in found_dates]
+    for _, day_data in found_dates:
+        for code, vals in day_data.items():
+            if code not in cumulative:
+                cumulative[code] = {"foreign_lots_3d": 0.0, "trust_lots_3d": 0.0,
+                                    "dealer_lots_3d": 0.0, "total_lots_3d": 0.0}
+            cumulative[code]["foreign_lots_3d"] += vals.get("foreign_lots", 0.0)
+            cumulative[code]["trust_lots_3d"]  += vals.get("trust_lots", 0.0)
+            cumulative[code]["dealer_lots_3d"] += vals.get("dealer_lots", 0.0)
+            cumulative[code]["total_lots_3d"]  += vals.get("total_lots", 0.0)
+
+    for code in cumulative:
+        cumulative[code]["dates"] = date_labels
+
+    print(f"  T86 3-day cumulative: {len(cumulative)} stocks over {date_labels}")
+    return cumulative
+
 def fetch_shipping_news():
     queries = [
         "長榮海運 OR 陽明海運 OR 萬海航運",
@@ -349,6 +421,10 @@ def main():
     institutional = fetch_twse_t86()
     if not institutional and prev_data.get("institutional"):
         institutional = prev_data["institutional"]
+    print("3b. Fetching T86 3-day cumulative...")
+    institutional_3d = fetch_twse_t86_3days()
+    if not institutional_3d and prev_data.get("institutional_3d"):
+        institutional_3d = prev_data["institutional_3d"]
     if not fundamentals and prev_data.get("fundamentals"):
         fundamentals = prev_data["fundamentals"]
 
@@ -381,6 +457,7 @@ def main():
         },
         "fundamentals": fundamentals,
         "institutional": institutional,
+        "institutional_3d": institutional_3d,
         "history": {
             "1Y": history_1y,
             "2Y": history_2y

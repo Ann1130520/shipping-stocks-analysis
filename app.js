@@ -2777,15 +2777,30 @@ function renderTechnicalsCharts() {
     });
   }
 
-  // Chart 2: Institutional Investors Breakdown
+  // Chart 2: Institutional Investors Breakdown (近3個交易日累計)
   const ctxInst = document.getElementById('techInstChart');
-  if (ctxInst && data.institutional) {
+  const instSrc = data.institutional_3d || data.institutional;
+  if (ctxInst && instSrc) {
     if (techInstChartInstance) techInstChartInstance.destroy();
     const codes = ['2603', '2609', '2615', '2330'];
     const labels = ['長榮 (2603)', '陽明 (2609)', '萬海 (2615)', '台積電 (2330)'];
-    const foreign = codes.map(c => Math.round(data.institutional[c]?.foreign_lots || 0));
-    const trust = codes.map(c => Math.round(data.institutional[c]?.trust_lots || 0));
-    const dealer = codes.map(c => Math.round(data.institutional[c]?.dealer_lots || 0));
+    const is3d = !!data.institutional_3d;
+    // Use 3-day cumulative keys if available, else fallback to single-day
+    const foreign = codes.map(c => Math.round(is3d
+      ? (instSrc[c]?.foreign_lots_3d || 0)
+      : (instSrc[c]?.foreign_lots || 0)));
+    const trust = codes.map(c => Math.round(is3d
+      ? (instSrc[c]?.trust_lots_3d || 0)
+      : (instSrc[c]?.trust_lots || 0)));
+    const dealer = codes.map(c => Math.round(is3d
+      ? (instSrc[c]?.dealer_lots_3d || 0)
+      : (instSrc[c]?.dealer_lots || 0)));
+
+    // Build date range subtitle from 3d data if available
+    const dates3d = is3d ? (Object.values(instSrc)[0]?.dates || []) : [];
+    const dateSubtitle = dates3d.length >= 2
+      ? `${dates3d[dates3d.length-1]} ～ ${dates3d[0]} 累計`
+      : (is3d ? '近3個交易日累計' : '最新單日');
 
     techInstChartInstance = new Chart(ctxInst, {
       type: 'bar',
@@ -2800,7 +2815,16 @@ function renderTechnicalsCharts() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: '#1e4e6e', font: { size: 11 } } } },
+        plugins: {
+          legend: { labels: { color: '#1e4e6e', font: { size: 11 } } },
+          title: {
+            display: true,
+            text: dateSubtitle,
+            color: '#64748b',
+            font: { size: 11 },
+            padding: { bottom: 4 }
+          }
+        },
         scales: {
           x: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, font: { size: 11 } } },
           y: { grid: { color: chartColors.slateGrid }, ticks: { color: chartColors.slateText, callback: v => `${v}張` } }
