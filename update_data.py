@@ -443,7 +443,11 @@ def fetch_ohlcv_and_indicators(symbol):
 def fetch_shipping_news():
     queries = [
         "長榮海運 OR 陽明海運 OR 萬海航運",
-        "貨櫃 運價 OR SCFI"
+        "貨櫃 運價 OR SCFI",
+        "陽明 蔡豐明 OR 陽明 航運",
+        "萬海 營收 OR 萬海 航運",
+        "貨櫃三雄",
+        "海運 運價 連跌 OR 繞道 好望角"
     ]
     seen_titles = set()
     news_items = []
