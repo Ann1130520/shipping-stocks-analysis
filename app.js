@@ -2123,39 +2123,141 @@ function initMobileBenchmarkToggle() {
    8. PERSONAL PORTFOLIO P&L TRACKER (localStorage)
    ======================================================== */
 function initPortfolioTracker() {
-  const STORAGE_KEY = 'shipping_portfolio_v1';
+  const STORAGE_KEY = 'shipping_portfolio_multibatch_v2';
+  const OLD_STORAGE_KEY = 'shipping_portfolio_v1';
   const FEE_RATE = 0.001425;
   const codes = ['2603', '2609', '2615'];
   const sellTargets = { '2603': 310, '2609': 82, '2615': 135 };
   const buyTargets = { '2603': 255, '2609': 63, '2615': 108 };
+  const estDividendsPerShare = { '2603': 16.0, '2609': 2.0, '2615': 3.0 };
 
   const discountEl = document.getElementById('pf-fee-discount');
   const minFeeEl = document.getElementById('pf-min-fee');
   const taxRateEl = document.getElementById('pf-tax-rate');
 
-  // Load saved values
+  // Load saved state: { _settings: {...}, '2603': [ {cost: 220, lots: 2}, ... ], ... }
   let saved = {};
   try {
-    saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      saved = JSON.parse(raw);
+    } else {
+      // Migrate from old single-cost storage if exists
+      const oldRaw = localStorage.getItem(OLD_STORAGE_KEY);
+      if (oldRaw) {
+        const oldSaved = JSON.parse(oldRaw);
+        saved._settings = oldSaved._settings;
+        codes.forEach(c => {
+          if (oldSaved[c] && oldSaved[c].cost && oldSaved[c].lots) {
+            saved[c] = [{ cost: parseFloat(oldSaved[c].cost), lots: parseFloat(oldSaved[c].lots) }];
+          }
+        });
+      }
+    }
   } catch (e) {
     saved = {};
   }
+
+  // Fallback defaults if empty
+  if (!saved['2603']) saved['2603'] = [{ cost: 220, lots: 2 }];
+  if (!saved['2609']) saved['2609'] = [{ cost: 66, lots: 1 }];
+  if (!saved['2615']) saved['2615'] = [{ cost: 104, lots: 3 }];
 
   if (discountEl && saved._settings?.feeDiscount !== undefined) discountEl.value = saved._settings.feeDiscount;
   if (minFeeEl && saved._settings?.minFee !== undefined) minFeeEl.value = saved._settings.minFee;
   if (taxRateEl && saved._settings?.taxRate !== undefined) taxRateEl.value = saved._settings.taxRate;
 
-  codes.forEach(code => {
-    const costEl = document.getElementById(`pf-${code}-cost`);
-    const lotsEl = document.getElementById(`pf-${code}-lots`);
-    if (costEl && saved[code]?.cost !== undefined) costEl.value = saved[code].cost;
-    if (lotsEl && saved[code]?.lots !== undefined) lotsEl.value = saved[code].lots;
-  });
-
   function calcFee(amount, discount, minFee) {
     if (amount <= 0) return 0;
     return Math.max(minFee, Math.floor(amount * FEE_RATE * discount));
   }
+
+  // Render batches DOM for each stock
+  function renderBatches() {
+    codes.forEach(code => {
+      const container = document.getElementById(`pf-${code}-batches-container`);
+      if (!container) return;
+      container.innerHTML = '';
+      const batches = saved[code] || [];
+
+      batches.forEach((b, idx) => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-lg border border-slate-800 text-xs';
+        row.innerHTML = `
+          <div class="flex-1">
+            <span class="text-[9px] text-slate-500 block">買價 (元)</span>
+            <input type="number" step="0.1" min="0" value="${b.cost ?? ''}" placeholder="價格"
+              class="pf-batch-cost w-full bg-slate-950 border border-slate-700/80 rounded px-1.5 py-1 text-white font-mono text-xs focus:outline-none focus:border-cyan-500"
+              data-code="${code}" data-idx="${idx}">
+          </div>
+          <div class="flex-1">
+            <span class="text-[9px] text-slate-500 block">張數 (張)</span>
+            <input type="number" step="0.1" min="0" value="${b.lots ?? ''}" placeholder="張數"
+              class="pf-batch-lots w-full bg-slate-950 border border-slate-700/80 rounded px-1.5 py-1 text-white font-mono text-xs focus:outline-none focus:border-cyan-500"
+              data-code="${code}" data-idx="${idx}">
+          </div>
+          <div class="pt-3">
+            <button class="pf-del-batch-btn w-6 h-6 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center transition"
+              data-code="${code}" data-idx="${idx}" title="刪除此筆">
+              <i class="fa-solid fa-xmark text-[10px]"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    });
+
+    bindBatchEvents();
+    calculatePortfolio();
+  }
+
+  function bindBatchEvents() {
+    // Bind cost & lots changes
+    document.querySelectorAll('.pf-batch-cost').forEach(input => {
+      input.oninput = (e) => {
+        const c = e.target.dataset.code;
+        const i = parseInt(e.target.dataset.idx, 10);
+        if (saved[c] && saved[c][i]) {
+          saved[c][i].cost = parseFloat(e.target.value) || 0;
+          calculatePortfolio();
+        }
+      };
+    });
+
+    document.querySelectorAll('.pf-batch-lots').forEach(input => {
+      input.oninput = (e) => {
+        const c = e.target.dataset.code;
+        const i = parseInt(e.target.dataset.idx, 10);
+        if (saved[c] && saved[c][i]) {
+          saved[c][i].lots = parseFloat(e.target.value) || 0;
+          calculatePortfolio();
+        }
+      };
+    });
+
+    // Bind delete batch buttons
+    document.querySelectorAll('.pf-del-batch-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        const c = btn.dataset.code;
+        const i = parseInt(btn.dataset.idx, 10);
+        if (saved[c]) {
+          saved[c].splice(i, 1);
+          renderBatches();
+        }
+      };
+    });
+  }
+
+  // Bind Add Batch buttons
+  document.querySelectorAll('.pf-add-batch-btn').forEach(btn => {
+    btn.onclick = () => {
+      const c = btn.dataset.code;
+      if (!saved[c]) saved[c] = [];
+      const curP = (baseMarketPayload?.stocks?.[c]?.price) || (c === '2603' ? 233 : c === '2609' ? 53 : 95);
+      saved[c].push({ cost: curP, lots: 1 });
+      renderBatches();
+    };
+  });
 
   function calculatePortfolio() {
     const feeDiscount = discountEl ? (parseFloat(discountEl.value) || 0.6) : 0.6;
@@ -2165,149 +2267,164 @@ function initPortfolioTracker() {
     let totalCost = 0;
     let totalNetValue = 0;
     let totalFeesAndTax = 0;
-    const newSaved = {
-      _settings: {
-        feeDiscount: String(feeDiscount),
-        minFee: String(minFee),
-        taxRate: String(taxRate)
-      }
+    let totalDividends = 0;
+
+    saved._settings = {
+      feeDiscount: String(feeDiscount),
+      minFee: String(minFee),
+      taxRate: String(taxRate)
     };
 
     const prices = {
-      '2603': (baseMarketPayload?.stocks?.['2603']?.price) || liveMarketData.price2603 || 233,
-      '2609': (baseMarketPayload?.stocks?.['2609']?.price) || liveMarketData.price2609 || 53,
-      '2615': (baseMarketPayload?.stocks?.['2615']?.price) || liveMarketData.price2615 || 95
+      '2603': (baseMarketPayload?.stocks?.['2603']?.price) || (window.liveMarketData?.price2603) || 233,
+      '2609': (baseMarketPayload?.stocks?.['2609']?.price) || (window.liveMarketData?.price2609) || 53,
+      '2615': (baseMarketPayload?.stocks?.['2615']?.price) || (window.liveMarketData?.price2615) || 95
     };
 
-    // Update real-time price displays in portfolio inputs
-    ['2603', '2609', '2615'].forEach(c => {
+    // Update real-time price displays
+    codes.forEach(c => {
       const curDisplay = document.getElementById(`pf-${c}-cur`);
       if (curDisplay) curDisplay.textContent = `現價 ${prices[c].toFixed(1)}`;
     });
 
-    const estDividendsPerShare = {
-      '2603': 16.0,
-      '2609': 2.0,
-      '2615': 3.0
-    };
-    let totalDividends = 0;
-
     codes.forEach(code => {
-      const costEl = document.getElementById(`pf-${code}-cost`);
-      const lotsEl = document.getElementById(`pf-${code}-lots`);
       const resEl = document.getElementById(`pf-${code}-result`);
-      if (!costEl || !lotsEl || !resEl) return;
+      const batches = saved[code] || [];
 
-      const cost = parseFloat(costEl.value);
-      const lots = parseFloat(lotsEl.value);
-      newSaved[code] = {
-        cost: costEl.value,
-        lots: lotsEl.value
-      };
+      let stockTotalShares = 0;
+      let stockTotalInvested = 0;
+      let stockTotalBuyFee = 0;
 
-      if (!isNaN(cost) && cost > 0 && !isNaN(lots) && lots > 0) {
+      batches.forEach(b => {
+        const cost = parseFloat(b.cost);
+        const lots = parseFloat(b.lots);
+        if (!isNaN(cost) && cost > 0 && !isNaN(lots) && lots > 0) {
+          const shares = Math.round(lots * 1000);
+          const buyAmt = cost * shares;
+          const buyFee = calcFee(buyAmt, feeDiscount, minFee);
+          stockTotalShares += shares;
+          stockTotalInvested += (buyAmt + buyFee);
+          stockTotalBuyFee += buyFee;
+        }
+      });
+
+      if (stockTotalShares > 0 && resEl) {
         const cur = prices[code];
-        const shares = Math.round(lots * 1000);
-        const buyAmt = cost * shares;
-        const buyFee = calcFee(buyAmt, feeDiscount, minFee);
-        const investedWithFee = buyAmt + buyFee;
-
-        const sellAmt = cur * shares;
+        const sellAmt = cur * stockTotalShares;
         const sellFee = calcFee(sellAmt, feeDiscount, minFee);
         const sellTax = Math.floor(sellAmt * taxRate);
-        const feesAndTax = buyFee + sellFee + sellTax;
-        const netProceeds = sellAmt - sellFee - sellTax;
-        const pnl = netProceeds - investedWithFee;
-        const roi = investedWithFee > 0 ? (pnl / investedWithFee) * 100 : 0;
+        const netSellValue = sellAmt - sellFee - sellTax;
 
-        const breakevenNormal = investedWithFee / (shares * (1 - FEE_RATE * feeDiscount - taxRate));
-        const breakevenMinFee = (investedWithFee + minFee) / (shares * (1 - taxRate));
-        const breakevenPrice = Math.max(breakevenNormal, breakevenMinFee);
+        const netPnl = netSellValue - stockTotalInvested;
+        const pnlPct = (netPnl / stockTotalInvested) * 100;
+        const totalFeeTax = stockTotalBuyFee + sellFee + sellTax;
 
-        totalCost += investedWithFee;
-        totalNetValue += netProceeds;
-        totalFeesAndTax += feesAndTax;
+        // 加權平均成本
+        const weightedCost = (stockTotalInvested / stockTotalShares);
+        // 保本損益兩平價
+        const breakeven = ((stockTotalInvested + minFee) / (stockTotalShares * (1 - FEE_RATE * feeDiscount - taxRate)));
 
-        const isProfit = pnl >= 0;
-        const pnlClass = isProfit ? 'text-rose-400' : 'text-emerald-400';
+        // 預估股利
+        const estDivPerShare = estDividendsPerShare[code] || 0;
+        const estDivTotal = Math.round(stockTotalShares * estDivPerShare);
+        totalDividends += estDivTotal;
+
+        const isProfit = netPnl >= 0;
+        const colorCls = isProfit ? 'text-rose-400' : 'text-emerald-400';
         const sign = isProfit ? '+' : '';
-        const distSell = (((sellTargets[code] - cur) / cur) * 100).toFixed(1);
-        const sellHint = cur >= sellTargets[code]
-          ? '<span class="text-rose-400 font-bold">已達停利賣區!</span>'
-          : (cur <= buyTargets[code] ? '<span class="text-emerald-400">處於強力買區</span>' : `距停利區 +${distSell}%`);
 
-        const stockDiv = shares * (estDividendsPerShare[code] || 0);
-        totalDividends += stockDiv;
+        // 出場評估判斷
+        const sellTgt = sellTargets[code];
+        const buyTgt = buyTargets[code];
+        let adviceHtml = '';
+        if (cur >= sellTgt) {
+          adviceHtml = `<span class="text-rose-400 font-bold">已達壓力區，建議分批獲利了結</span>`;
+        } else if (cur <= buyTgt) {
+          adviceHtml = `<span class="text-emerald-400 font-bold">處於強力買區</span>`;
+        } else {
+          adviceHtml = `<span class="text-slate-400">距離目標 ${sellTgt} 還差 ${(sellTgt - cur).toFixed(1)} 元</span>`;
+        }
 
         resEl.innerHTML = `
-          <div class="flex justify-between">
-            <span>淨損益(扣費稅): <strong class="${pnlClass} font-mono">${sign}${Math.round(pnl).toLocaleString()}元</strong></span>
-            <span class="${pnlClass} font-mono font-bold">${sign}${roi.toFixed(2)}%</span>
-          </div>
-          <div class="text-[10px] text-slate-400 mt-1 flex justify-between">
-            <span>預估現金股利: <strong class="text-emerald-400 font-mono">${Math.round(stockDiv).toLocaleString()}元 (${estDividendsPerShare[code]}元/股)</strong></span>
-            <span>兩平價: <strong class="text-white font-mono">${breakevenPrice.toFixed(2)}元</strong></span>
-          </div>
-          <div class="text-[10px] text-slate-400 mt-0.5 flex justify-between">
-            <span>手續費+稅: <strong class="text-amber-400 font-mono">-${feesAndTax.toLocaleString()}元</strong></span>
-            <span>${sellHint}</span>
+          <div class="space-y-1 text-[11px]">
+            <div class="flex justify-between items-center text-slate-300">
+              <span>合計: <b class="text-white font-mono">${(stockTotalShares / 1000).toFixed(1)} 張</b> (均價 <b class="text-white font-mono">${weightedCost.toFixed(1)}元</b>)</span>
+              <span class="text-xs ${colorCls} font-bold font-mono">${sign}${pnlPct.toFixed(2)}%</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>淨損益 (扣費稅): <strong class="${colorCls} font-mono">${sign}${Math.round(netPnl).toLocaleString()}元</strong></span>
+              <span class="text-slate-400">兩平價: <b class="font-mono text-slate-200">${breakeven.toFixed(2)}元</b></span>
+            </div>
+            <div class="flex justify-between items-center text-slate-400">
+              <span>預估現金股利: <strong class="text-emerald-400 font-mono">${estDivTotal.toLocaleString()}元</strong> (${estDivPerShare}元/股)</span>
+              <span>${adviceHtml}</span>
+            </div>
+            <div class="text-[10px] text-slate-500">
+              手續費+稅: -NT$ ${totalFeeTax.toLocaleString()}
+            </div>
           </div>
         `;
-      } else {
-        resEl.innerHTML = '<span class="text-slate-500">輸入均價與張數後自動計算含費稅淨損益</span>';
+
+        totalCost += stockTotalInvested;
+        totalNetValue += netSellValue;
+        totalFeesAndTax += totalFeeTax;
+      } else if (resEl) {
+        resEl.innerHTML = '<span class="text-slate-500 text-[11px]">請點擊上方按鈕新增買進紀錄</span>';
       }
     });
 
+    // Update Grand Total Strip
+    const grandPnl = totalNetValue - totalCost;
+    const grandPnlPct = totalCost > 0 ? ((grandPnl / totalCost) * 100).toFixed(2) : '0.00';
+    const isGrandProfit = grandPnl >= 0;
+    const grandColor = isGrandProfit ? 'text-rose-400' : 'text-emerald-400';
+    const grandSign = isGrandProfit ? '+' : '';
+
+    const setTotal = (id, text, color) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = text;
+        if (color) el.className = `${color} font-mono font-bold`;
+      }
+    };
+
+    setTotal('pf-total-cost', `NT$ ${Math.round(totalCost).toLocaleString()}`);
+    setTotal('pf-total-fees-tax', `-NT$ ${Math.round(totalFeesAndTax).toLocaleString()}`);
+    setTotal('pf-total-dividends', `NT$ ${Math.round(totalDividends).toLocaleString()}`, 'text-emerald-400');
+    setTotal('pf-total-value', `NT$ ${Math.round(totalNetValue).toLocaleString()}`);
+    setTotal('pf-total-pnl', `NT$ ${grandSign}${Math.round(grandPnl).toLocaleString()} (${grandSign}${grandPnlPct}%)`, grandColor);
+
+    // Save to LocalStorage
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newSaved));
-    } catch (e) {}
-
-    const totCostEl = document.getElementById('pf-total-cost');
-    const totFeesTaxEl = document.getElementById('pf-total-fees-tax');
-    const totValEl = document.getElementById('pf-total-value');
-    const totPnlEl = document.getElementById('pf-total-pnl');
-    if (totCostEl) totCostEl.textContent = `NT$ ${Math.round(totalCost).toLocaleString()}`;
-    if (totFeesTaxEl) totFeesTaxEl.textContent = totalFeesAndTax > 0 ? `-NT$ ${Math.round(totalFeesAndTax).toLocaleString()}` : 'NT$ 0';
-    if (totValEl) totValEl.textContent = `NT$ ${Math.round(totalNetValue).toLocaleString()}`;
-    if (totPnlEl) {
-      const totalPnl = totalNetValue - totalCost;
-      const totalRoi = totalCost > 0 ? (totalPnl / totalCost) * 100 : 0;
-      const sign = totalPnl >= 0 ? '+' : '';
-      totPnlEl.textContent = `NT$ ${sign}${Math.round(totalPnl).toLocaleString()} (${sign}${totalRoi.toFixed(2)}%)`;
-      totPnlEl.className = totalCost === 0
-        ? 'text-slate-300 font-mono'
-        : (totalPnl >= 0 ? 'text-rose-400 font-mono font-bold' : 'text-emerald-400 font-mono font-bold');
-    }
-
-    const totDivEl = document.getElementById('pf-total-dividends');
-    if (totDivEl) {
-      totDivEl.textContent = `NT$ ${Math.round(totalDividends).toLocaleString()}`;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    } catch (e) {
+      console.warn('Portfolio LocalStorage save failed:', e);
     }
   }
 
-  window.triggerPortfolioUpdate = calculatePortfolio;
-
-  document.querySelectorAll('.pf-input').forEach(el => {
-    el.addEventListener('input', calculatePortfolio);
-  });
-  document.querySelectorAll('.pf-setting').forEach(el => {
-    el.addEventListener('change', calculatePortfolio);
-  });
-
+  // Reset Button
   const resetBtn = document.getElementById('reset-portfolio-btn');
-  if (resetBtn) {
+  if (resetBtn && !resetBtn.dataset.bound) {
+    resetBtn.dataset.bound = 'true';
     resetBtn.addEventListener('click', () => {
-      codes.forEach(code => {
-        const c = document.getElementById(`pf-${code}-cost`);
-        const l = document.getElementById(`pf-${code}-lots`);
-        if (c) c.value = '';
-        if (l) l.value = '';
-      });
-      calculatePortfolio();
+      if (confirm('確定要清空所有股票的分筆持股紀錄嗎？')) {
+        codes.forEach(c => { saved[c] = []; });
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(OLD_STORAGE_KEY);
+        renderBatches();
+      }
     });
   }
 
-  calculatePortfolio();
+  // Setting changes (discount, minFee, taxRate)
+  [discountEl, minFeeEl, taxRateEl].forEach(el => {
+    if (el && !el.dataset.bound) {
+      el.dataset.bound = 'true';
+      el.addEventListener('change', calculatePortfolio);
+    }
+  });
+
+  renderBatches();
 }
 
 /* ========================================================
