@@ -229,65 +229,94 @@ def fetch_twse_t86():
     return inst_data
 
 def fetch_shipping_news():
-    query = urllib.parse.quote("長榮 陽明 萬海 貨櫃 運價")
-    url = f"https://news.google.com/rss/search?q={query}&hl=zh-TW&gl=TW&ceid=TW:zh-Hant"
-    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-
+    queries = [
+        "長榮海運 OR 陽明海運 OR 萬海航運",
+        "貨櫃 運價 OR SCFI"
+    ]
+    seen_titles = set()
     news_items = []
-    try:
-        with urllib.request.urlopen(req, timeout=12) as resp:
-            xml_data = resp.read()
-            root = ET.fromstring(xml_data)
-            items = root.findall('.//item')[:10]
 
-            for idx, item in enumerate(items):
-                title = item.find('title').text if item.find('title') is not None else ""
-                link = item.find('link').text if item.find('link') is not None else ""
-                pubDate = item.find('pubDate').text if item.find('pubDate') is not None else ""
-                source_elem = item.find('source')
-                source = source_elem.text if source_elem is not None else "財經新聞"
+    for q in queries:
+        url = f"https://news.google.com/rss/search?q={urllib.parse.quote(q)}&hl=zh-TW&gl=TW&ceid=TW:zh-Hant"
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+        try:
+            with urllib.request.urlopen(req, timeout=12) as resp:
+                xml_data = resp.read()
+                root = ET.fromstring(xml_data)
+                items = root.findall('.//item')[:15]
+                for item in items:
+                    raw_title = item.find('title').text if item.find('title') is not None else ""
+                    link = item.find('link').text if item.find('link') is not None else ""
+                    raw_pubDate = item.find('pubDate').text if item.find('pubDate') is not None else ""
+                    source_elem = item.find('source')
+                    source = source_elem.text if source_elem is not None else "財經新聞"
 
-                clean_title = title
-                if " - " in title:
-                    parts = title.rsplit(" - ", 1)
-                    clean_title = parts[0]
-                    if source == "財經新聞":
-                        source = parts[1]
+                    clean_title = raw_title
+                    if " - " in raw_title:
+                        parts = raw_title.rsplit(" - ", 1)
+                        clean_title = parts[0]
+                        if source == "財經新聞":
+                            source = parts[1]
 
-                if any(w in clean_title for w in ["跌", "降", "虧", "破底", "壓力", "風險", "警", "減"]):
-                    sentiment = "bear"
-                    sentiment_label = "偏空警訊"
-                elif any(w in clean_title for w in ["漲", "飆", "新高", "旺", "賺", "紅利", "利多", "揚", "強", "突破", "按讚", "買超"]):
-                    sentiment = "bull"
-                    sentiment_label = "偏多利多"
-                else:
-                    sentiment = "neutral"
-                    sentiment_label = "中立觀察"
+                    if clean_title in seen_titles:
+                        continue
+                    seen_titles.add(clean_title)
 
-                if any(k in clean_title for k in ["紅海", "蘇伊士", "巴拿馬", "關稅", "美東", "罷工"]):
-                    category = "geopolitics"
-                elif any(k in clean_title for k in ["聯盟", "MSC", "ONE", "馬士基"]):
-                    category = "alliances"
-                elif any(k in clean_title for k in ["運價", "SCFI", "貨櫃", "運費"]):
-                    category = "freight"
-                else:
-                    category = "corporate"
+                    formatted_date = ""
+                    sort_ts = 0
+                    if raw_pubDate:
+                        try:
+                            import email.utils
+                            dt = email.utils.parsedate_to_datetime(raw_pubDate)
+                            tz_tw = timezone(timedelta(hours=8))
+                            dt_tw = dt.astimezone(tz_tw)
+                            formatted_date = dt_tw.strftime("%Y-%m-%d %H:%M")
+                            sort_ts = int(dt.timestamp())
+                        except Exception:
+                            formatted_date = raw_pubDate
 
-                news_items.append({
-                    "id": f"live-{idx+1}",
-                    "title": clean_title,
-                    "link": link,
-                    "pubDate": pubDate,
-                    "source": source,
-                    "sentiment": sentiment,
-                    "sentimentLabel": sentiment_label,
-                    "category": category,
-                    "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運與籌碼影響"
-                })
-    except Exception as e:
-        print(f"Error fetching news RSS: {e}")
+                    if any(w in clean_title for w in ["跌", "降", "虧", "破底", "壓力", "風險", "警", "減", "疲軟", "縮水"]):
+                        sentiment = "bear"
+                        sentiment_label = "偏空警訊"
+                    elif any(w in clean_title for w in ["漲", "飆", "新高", "旺", "賺", "紅利", "利多", "揚", "強", "突破", "按讚", "買超", "噴出", "大賺", "獲利王"]):
+                        sentiment = "bull"
+                        sentiment_label = "偏多利多"
+                    else:
+                        sentiment = "neutral"
+                        sentiment_label = "即時市場"
 
-    return news_items
+                    if any(k in clean_title for k in ["紅海", "蘇伊士", "巴拿馬", "關稅", "美東", "罷工", "地緣", "衝突", "胡塞", "好望角", "繞行"]):
+                        category = "geopolitics"
+                    elif any(k in clean_title for k in ["聯盟", "MSC", "ONE", "馬士基", "聯營"]):
+                        category = "alliances"
+                    elif any(k in clean_title for k in ["法說", "財報", "EPS", "獲利", "毛利", "股利", "營收", "大賺", "獲利王", "目標價", "買超", "大樓"]):
+                        category = "corporate"
+                    elif any(k in clean_title for k in ["運價", "SCFI", "貨櫃", "運費", "集裝箱"]):
+                        category = "freight"
+                    else:
+                        category = "freight"
+
+                    news_items.append({
+                        "id": f"live-{len(news_items)+1}",
+                        "title": clean_title,
+                        "link": link,
+                        "pubDate": formatted_date or raw_pubDate,
+                        "date": formatted_date or raw_pubDate,
+                        "source": source,
+                        "sentiment": sentiment,
+                        "sentimentLabel": sentiment_label,
+                        "category": category,
+                        "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響",
+                        "_sort_ts": sort_ts
+                    })
+        except Exception as e:
+            print(f"Error fetching news for query '{q}': {e}")
+
+    news_items.sort(key=lambda x: x.get("_sort_ts", 0), reverse=True)
+    for item in news_items:
+        item.pop("_sort_ts", None)
+
+    return news_items[:20]
 
 def main():
     json_path = os.path.join(DIR, "latest_data.json")

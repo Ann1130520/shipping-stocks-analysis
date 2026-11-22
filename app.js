@@ -873,6 +873,19 @@ async function loadLiveExternalData(options = {}) {
       const data = await res.json();
       baseMarketPayload = data;
       captureBaseValuationSnapshot(data);
+
+      // Explicitly load and merge live news from latest_data.json immediately
+      if (data.live_news && Array.isArray(data.live_news) && data.live_news.length > 0) {
+        const existingTitles = new Set(newsDatabase.map(n => n.title));
+        const freshNews = data.live_news.filter(n => !existingTitles.has(n.title));
+        masterNewsList = [...freshNews, ...newsDatabase];
+        const activeBtn = document.querySelector('.news-filter-btn.active');
+        const activeFilter = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+        const searchInput = document.getElementById('news-search-input');
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        applyNewsFilter(activeFilter, query);
+      }
+
       const merged = buildMergedPayload();
       applyMarketDataToUI(merged, {
         redrawOverviewChart: true,
@@ -1841,7 +1854,10 @@ function initTickerUpdater() {
       const icon = refreshBtn.querySelector('i');
       if (icon) icon.classList.add('fa-spin');
       setUpdateTimestamp(formatLocalTimestamp(new Date()), true);
-      fetchCnyesRealtimeQuotes({ redrawTechCharts: true, highlightTime: true }).finally(() => {
+      Promise.all([
+        fetchCnyesRealtimeQuotes({ redrawTechCharts: true, highlightTime: true }),
+        loadLiveExternalData({ useCurrentTime: true })
+      ]).finally(() => {
         setTimeout(() => {
           if (icon) icon.classList.remove('fa-spin');
         }, 450);
