@@ -47,7 +47,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css?v=20261122_live_news_v2">
+  <link rel="stylesheet" href="style.css?v=20261122_dynamic_zones_v1">
 </head>
 <body class="ocean-body sunny-ocean-theme text-slate-900 min-h-screen font-sans antialiased selection:bg-sky-500 selection:text-white">
 
@@ -332,19 +332,19 @@
             <div class="space-y-2 text-xs bg-slate-950/80 p-3 rounded-lg border border-slate-800/80 my-2">
               <div class="flex justify-between items-center text-emerald-400">
                 <span class="flex items-center gap-1 font-semibold"><i class="fa-solid fa-arrow-down"></i> 強力買進區</span>
-                <strong class="font-mono text-sm">240 ~ 255 元</strong>
+                <strong class="font-mono text-sm" id="zone-2603-buy">211 ~ 253 元</strong>
               </div>
-              <div class="text-[10px] text-slate-400 pl-4 pb-1 border-b border-slate-800">跌破每股淨值 (255元)，殖利率逼近 9%，下檔防禦性極高</div>
+              <div class="text-[10px] text-slate-400 pl-4 pb-1 border-b border-slate-800"><span id="zone-2603-desc">每股淨值約 281 元，跌破 0.9x PB 安全防護網，下檔防禦性極高</span></div>
               
               <div class="flex justify-between items-center text-blue-400">
                 <span class="flex items-center gap-1 font-semibold"><i class="fa-solid fa-arrows-left-right"></i> 合理續抱區</span>
-                <strong class="font-mono text-sm">256 ~ 285 元</strong>
+                <strong class="font-mono text-sm" id="zone-2603-hold">254 ~ 295 元</strong>
               </div>
               <div class="text-[10px] text-slate-400 pl-4 pb-1 border-b border-slate-800">獲利穩健換手整理，紅海繞行常態化支撐獲利</div>
 
               <div class="flex justify-between items-center text-rose-400">
                 <span class="flex items-center gap-1 font-semibold"><i class="fa-solid fa-arrow-up"></i> 分批停利 / 警戒賣出區</span>
-                <strong class="font-mono text-sm">310 ~ 330 元 以上</strong>
+                <strong class="font-mono text-sm" id="zone-2603-sell">323 ~ 351 元 以上</strong>
               </div>
               <div class="text-[10px] text-slate-400 pl-4">本益比達 7.5x 以上且接近景氣循環高檔，宜分批獲利了結</div>
             </div>
@@ -397,19 +397,19 @@
             <div class="space-y-2 text-xs bg-slate-950/80 p-3 rounded-lg border border-slate-800/80 my-2">
               <div class="flex justify-between items-center text-emerald-400">
                 <span class="flex items-center gap-1 font-semibold"><i class="fa-solid fa-arrow-down"></i> 強力買進區</span>
-                <strong class="font-mono text-sm">58 ~ 63 元</strong>
+                <strong class="font-mono text-sm" id="zone-2609-buy">54 ~ 69 元</strong>
               </div>
-              <div class="text-[10px] text-slate-400 pl-4 pb-1 border-b border-slate-800">現價就在強力買進區！股價僅淨值 7 折，下檔具備鋼底保護</div>
+              <div class="text-[10px] text-slate-400 pl-4 pb-1 border-b border-slate-800"><span id="zone-2609-desc">每股淨值約 98 元，股價處於 0.7x PB 以下深度折價，下檔具備鋼底保護</span></div>
               
               <div class="flex justify-between items-center text-blue-400">
                 <span class="flex items-center gap-1 font-semibold"><i class="fa-solid fa-arrows-left-right"></i> 合理續抱區</span>
-                <strong class="font-mono text-sm">64 ~ 75 元</strong>
+                <strong class="font-mono text-sm" id="zone-2609-hold">70 ~ 86 元</strong>
               </div>
               <div class="text-[10px] text-slate-400 pl-4 pb-1 border-b border-slate-800">歐洲線運價回升帶動本業獲利，挑戰回歸淨值</div>
 
               <div class="flex justify-between items-center text-rose-400">
                 <span class="flex items-center gap-1 font-semibold"><i class="fa-solid fa-arrow-up"></i> 分批停利 / 警戒賣出區</span>
-                <strong class="font-mono text-sm">82 ~ 88 元 以上</strong>
+                <strong class="font-mono text-sm" id="zone-2609-sell">93 ~ 103 元 以上</strong>
               </div>
               <div class="text-[10px] text-slate-400 pl-4">回到每股淨值 (88元) 附近時，波段獲利已達 30-40%，宜調節落袋</div>
             </div>
@@ -462,19 +462,19 @@
             <div class="space-y-2 text-xs bg-slate-950/80 p-3 rounded-lg border border-slate-800/80 my-2">
               <div class="flex justify-between items-center text-emerald-400">
                 <span class="flex items-center gap-1 font-semibold"><i class="fa-solid fa-arrow-down"></i> 強力買進區</span>
-                <strong class="font-mono text-sm">98 ~ 108 元</strong>
+                <strong class="font-mono text-sm" id="zone-2615-buy">83 ~ 100 元</strong>
               </div>
-              <div class="text-[10px] text-slate-400 pl-4 pb-1 border-b border-slate-800">回測每股淨值 (102元) 支撐，大波段安全進場甜蜜點</div>
+              <div class="text-[10px] text-slate-400 pl-4 pb-1 border-b border-slate-800"><span id="zone-2615-desc">每股淨值約 110 元，回測 0.9x PB 以下支撐，大波段安全進場甜蜜點</span></div>
               
               <div class="flex justify-between items-center text-amber-400">
                 <span class="flex items-center gap-1 font-semibold"><i class="fa-solid fa-arrows-left-right"></i> 現階段操作區</span>
-                <strong class="font-mono text-sm">110 ~ 125 元</strong>
+                <strong class="font-mono text-sm" id="zone-2615-hold">101 ~ 122 元</strong>
               </div>
               <div class="text-[10px] text-slate-400 pl-4 pb-1 border-b border-slate-800">近洋貨量旺季 + 美西線滿載，沿著 10 日線來回區間操作</div>
 
               <div class="flex justify-between items-center text-rose-400">
                 <span class="flex items-center gap-1 font-semibold"><i class="fa-solid fa-arrow-up"></i> 分批停利 / 警戒賣出區</span>
-                <strong class="font-mono text-sm">135 ~ 145 元 以上</strong>
+                <strong class="font-mono text-sm" id="zone-2615-sell">138 ~ 155 元 以上</strong>
               </div>
               <div class="text-[10px] text-slate-400 pl-4">短線漲幅超過 30% 或美西運價鬆動時，應果斷獲利入袋</div>
             </div>
@@ -3014,6 +3014,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261122_live_news_v2"></script>
+  <script src="app.js?v=20261122_dynamic_zones_v1"></script>
 </body>
 </html>

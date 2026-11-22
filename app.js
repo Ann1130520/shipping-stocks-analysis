@@ -64,11 +64,58 @@ const CNYES_REALTIME_SYMBOLS = [
 let baseMarketPayload = null;
 let baseValuationSnapshot = {};
 let latestCnyesMap = null;
-const SHIPPING_ZONE_RULES = {
-  '2603': { buyMax: 255, nearBuy: 262, sellMin: 310, name: '長榮', badgeColor: 'text-emerald-400' },
-  '2609': { buyMax: 63,  nearBuy: 65,  sellMin: 82,  name: '陽明', badgeColor: 'text-blue-400' },
-  '2615': { buyMax: 108, nearBuy: 113, sellMin: 135, name: '萬海', badgeColor: 'text-purple-400' }
+// Base Book Value Per Share (BPS 每股淨值基準)
+const SHIPPING_BASE_BPS = {
+  '2603': 280.7, // 長榮最新每股淨值約 280.7 元
+  '2609': 98.1,  // 陽明最新每股淨值約 98.1 元
+  '2615': 110.5  // 萬海最新每股淨值約 110.5 元
 };
+
+// Function to calculate dynamic valuation zone thresholds based on current BPS & PB
+function calculateDynamicZones(code, currentPb = null, currentPrice = null) {
+  let bps = SHIPPING_BASE_BPS[code] || 100;
+  if (currentPrice && currentPb && currentPb > 0) {
+    const derivedBps = currentPrice / currentPb;
+    if (derivedBps >= 30 && derivedBps <= 500) {
+      bps = derivedBps;
+    }
+  }
+
+  if (code === '2609') {
+    // 陽明歷史評價折價較深 (PB 0.55x ~ 0.70x 為強力買進, 0.70x ~ 0.88x 為合理, > 0.95x 為停利)
+    return {
+      bps: Math.round(bps),
+      buyMin: Math.round(bps * 0.55),
+      buyMax: Math.round(bps * 0.70),
+      holdMin: Math.round(bps * 0.71),
+      holdMax: Math.round(bps * 0.88),
+      sellMin: Math.round(bps * 0.95),
+      sellMax: Math.round(bps * 1.05)
+    };
+  } else if (code === '2615') {
+    // 萬海波動較大 (PB 0.75x ~ 0.90x 為強力買進, 0.91x ~ 1.10x 為合理, > 1.25x 為停利)
+    return {
+      bps: Math.round(bps),
+      buyMin: Math.round(bps * 0.75),
+      buyMax: Math.round(bps * 0.90),
+      holdMin: Math.round(bps * 0.91),
+      holdMax: Math.round(bps * 1.10),
+      sellMin: Math.round(bps * 1.25),
+      sellMax: Math.round(bps * 1.40)
+    };
+  } else {
+    // 長榮獲利護城河最高 (PB 0.75x ~ 0.90x 為強力買進, 0.91x ~ 1.05x 為合理, > 1.15x 為停利)
+    return {
+      bps: Math.round(bps),
+      buyMin: Math.round(bps * 0.75),
+      buyMax: Math.round(bps * 0.90),
+      holdMin: Math.round(bps * 0.91),
+      holdMax: Math.round(bps * 1.05),
+      sellMin: Math.round(bps * 1.15),
+      sellMax: Math.round(bps * 1.25)
+    };
+  }
+}
 let autoSyncEnabled = true;
 let autoSyncTimer = null;
 let userAdjustedFxSlider = false;
@@ -271,8 +318,7 @@ function applyMarketDataToUI(data, options = {}) {
       : 'px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
   }
 
-  const zoneRules = SHIPPING_ZONE_RULES;
-
+  
   ['2603', '2609', '2615'].forEach(code => {
     const s = data.stocks && data.stocks[code];
     const f = data.fundamentals && data.fundamentals[code];
@@ -311,16 +357,29 @@ function applyMarketDataToUI(data, options = {}) {
     const sigMetric = document.getElementById(`signals-${code}-metric`);
     if (sigMetric) sigMetric.textContent = `${yldTxt} / PB ${pbTxt}`;
 
+    // Dynamic Price Zones Calculation linked with real-time PB & Price
+    const dynZones = calculateDynamicZones(code, f?.pb, s.price);
+
+    // Update ladder text elements dynamically
+    const buyEl = document.getElementById(`zone-${code}-buy`);
+    const holdEl = document.getElementById(`zone-${code}-hold`);
+    const sellEl = document.getElementById(`zone-${code}-sell`);
+    const descEl = document.getElementById(`zone-${code}-desc`);
+
+    if (buyEl) buyEl.textContent = `${dynZones.buyMin} ~ ${dynZones.buyMax} 元`;
+    if (holdEl) holdEl.textContent = `${dynZones.holdMin} ~ ${dynZones.holdMax} 元`;
+    if (sellEl) sellEl.textContent = `${dynZones.sellMin} ~ ${dynZones.sellMax} 元 以上`;
+    if (descEl) descEl.textContent = `每股淨值(BPS)約 ${dynZones.bps} 元，下檔具備堅實安全邊際支撐`;
+
     const sigBadge = document.getElementById(`signals-${code}-badge`);
-    if (sigBadge && zoneRules[code]) {
-      const rule = zoneRules[code];
-      if (s.price <= rule.buyMax) {
+    if (sigBadge) {
+      if (s.price <= dynZones.buyMax) {
         sigBadge.textContent = '🟢 已進入強力買進區';
         sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
-      } else if (s.price <= rule.nearBuy) {
+      } else if (s.price <= dynZones.holdMin) {
         sigBadge.textContent = '🟡 緊鄰買進區 / 分批承接';
         sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40';
-      } else if (s.price >= rule.sellMin) {
+      } else if (s.price >= dynZones.sellMin) {
         sigBadge.textContent = '🔴 已達停利警戒賣出區';
         sigBadge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40';
       } else {
