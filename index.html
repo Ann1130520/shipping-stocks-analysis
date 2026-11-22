@@ -2891,100 +2891,287 @@
     <!-- SECTION 10: MACRO FX & BULK (匯率與散裝對比 - NEW) -->
     <!-- ========================================== -->
     <div id="tab-macro" class="tab-content hidden space-y-6">
-      <div class="bg-gradient-to-r from-cyan-950/35 via-slate-900 to-blue-950/35 border border-slate-800 rounded-xl p-6">
-        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-          <i class="fa-solid fa-globe mr-1"></i> 總體經濟與航運次產業對照
-        </span>
-        <h2 class="text-xl font-black text-white mt-1.5">新台幣匯率 (USD/TWD) 匯兌敏感度 & 貨櫃 vs 散裝航運百科</h2>
-        <p class="text-xs text-slate-400 mt-1">航商運費以美元計價且帳上美元現金部位龐大，匯率波動直接牽動單季業外匯兌損益</p>
+      <!-- 頁面頂部看板 -->
+      <div class="bg-gradient-to-r from-cyan-950/40 via-slate-900 to-blue-950/40 border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              <i class="fa-solid fa-earth-americas mr-1"></i> 全球總體經濟與航運次產業深度戰情
+            </span>
+            <h2 class="text-xl font-black text-white mt-1.5 flex items-center gap-2">
+              新台幣匯率敏感度、美元指數與「貨櫃 vs 散裝」全方位情報
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">實時連線 USD/TWD 匯率與美元指數，深度剖析三大航商單季業外匯兌爆發力與散裝航運聯動機制</p>
+          </div>
+          <!-- 頂部即時匯率膠囊 -->
+          <div class="flex items-center gap-3 bg-slate-950/80 px-4 py-2.5 rounded-xl border border-cyan-900/40 text-xs">
+            <div>
+              <span class="text-slate-400 block text-[10px]">即時美元兌台幣 (USD/TWD)</span>
+              <strong id="macro-live-usdtwd" class="text-sm font-black text-cyan-300 font-mono">32.96 元</strong>
+            </div>
+            <div class="w-px h-7 bg-slate-800"></div>
+            <div>
+              <span class="text-slate-400 block text-[10px]">美元指數 (DXY)</span>
+              <strong id="macro-live-dxy" class="text-sm font-black text-amber-300 font-mono">103.84</strong>
+            </div>
+          </div>
+        </div>
       </div>
 
+      <!-- 四大核心總經即時動態卡片 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 卡片 1: 即時 USD/TWD -->
+        <div class="bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 transition rounded-xl p-4 space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-400 font-semibold"><i class="fa-solid fa-dollar-sign text-emerald-400 mr-1"></i> 新台幣匯率 (USD/TWD)</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300">實時連線</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span id="macro-card-usdtwd" class="text-2xl font-black text-white font-mono">32.96</span>
+            <span class="text-xs text-rose-400 font-bold">+0.03% (台幣趨貶)</span>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-tight">目前匯率突破 32.5 元大關，長榮與陽明龐大美元現金迎來匯兌暴賺甜蜜期。</p>
+        </div>
+
+        <!-- 卡片 2: 美元指數 DXY -->
+        <div class="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 transition rounded-xl p-4 space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-400 font-semibold"><i class="fa-solid fa-chart-line text-amber-400 mr-1"></i> 美元指數 (DXY)</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300">全球指標</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span id="macro-card-dxy" class="text-2xl font-black text-amber-400 font-mono">103.84</span>
+            <span class="text-xs text-slate-400">強勢震盪</span>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-tight">聯準會降息放緩預期支撐美元高檔，全球海運貿易美元購買力維持穩定。</p>
+        </div>
+
+        <!-- 卡片 3: 布蘭特原油 (燃油成本) -->
+        <div class="bg-slate-900/90 border border-slate-800 hover:border-rose-500/40 transition rounded-xl p-4 space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-400 font-semibold"><i class="fa-solid fa-oil-well text-rose-400 mr-1"></i> 布蘭特原油 (Brent)</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300">航商燃料</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span id="macro-card-oil" class="text-2xl font-black text-rose-400 font-mono">$89.95</span>
+            <span class="text-xs text-slate-400">美元 / 桶</span>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-tight">燃油占航商營業成本 18%~25%，長榮逾 80% 脫硫塔船隊可使用平價高硫油獲利擴大。</p>
+        </div>
+
+        <!-- 卡片 4: 散裝代表股即時行情報導 -->
+        <div class="bg-slate-900/90 border border-slate-800 hover:border-blue-500/40 transition rounded-xl p-4 space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-400 font-semibold"><i class="fa-solid fa-anchor text-blue-400 mr-1"></i> 散裝航運代表股 (裕民/慧洋)</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300">散裝脈動</span>
+          </div>
+          <div class="flex items-center justify-between text-xs pt-1">
+            <span class="text-slate-300">裕民 (2606): <b id="macro-bulk-2606" class="text-emerald-400 font-mono">63.1</b></span>
+            <span class="text-slate-300">慧洋 (2637): <b id="macro-bulk-2637" class="text-emerald-400 font-mono">83.5</b></span>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-tight">散裝受南美穀物與澳洲鐵礦砂出貨旺季帶動，中長線現貨運價維持高檔支撐。</p>
+        </div>
+      </div>
+
+      <!-- 第一排：匯率敏感度試算 + 匯率獲利推估矩陣 -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- FX Sensitivity Simulator -->
-        <div class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
-          <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-money-bill-transfer text-cyan-400"></i> USD/TWD 匯率對三雄單季 EPS 影響試算
-          </h3>
-          <div class="space-y-2 text-xs">
-            <div class="flex justify-between">
-              <label for="fx-rate-slider" class="text-slate-300 font-semibold">台幣兌美元匯率預期：</label>
-              <span id="fx-rate-val" class="font-mono font-bold text-cyan-400 text-sm">32.20 元</span>
+        <!-- 左側：匯率敏感度互動滑桿 -->
+        <div class="lg:col-span-6 bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4 shadow-lg">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-money-bill-transfer text-cyan-400"></i> USD/TWD 匯率對三雄單季 EPS 影響動態試算
+            </h3>
+            <span class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">基準: 32.0 元</span>
+          </div>
+          
+          <div class="space-y-2 text-xs bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+            <div class="flex justify-between items-center">
+              <label for="fx-rate-slider" class="text-slate-300 font-semibold">拖曳設定台幣兌美元匯率：</label>
+              <span id="fx-rate-val" class="font-mono font-black text-cyan-400 text-base bg-cyan-950/80 px-2.5 py-0.5 rounded border border-cyan-800/50">32.90 元</span>
             </div>
-            <input type="range" id="fx-rate-slider" min="29.5" max="34.0" step="0.1" value="32.2" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500">
-            <div class="flex justify-between text-[10px] text-slate-500">
-              <span>29.5 (台幣強升/匯損壓力)</span>
-              <span>32.0 (基準)</span>
+            <input type="range" id="fx-rate-slider" min="29.5" max="34.0" step="0.1" value="32.9" class="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+            <div class="flex justify-between text-[10px] text-slate-500 pt-1">
+              <span>29.5 (台幣強升/匯損警戒)</span>
+              <span>32.0 (財報平準基準)</span>
               <span>34.0 (台幣重貶/匯兌大賺)</span>
             </div>
           </div>
 
-          <div class="space-y-2 text-xs bg-slate-950/90 p-3.5 rounded-lg border border-slate-800">
-            <div class="flex justify-between">
-              <span class="text-emerald-400 font-bold">長榮 (2603) 匯兌 EPS 貢獻</span>
-              <strong id="fx-2603-impact" class="font-mono text-rose-400">+0.18 元 / 季</strong>
+          <div class="grid grid-cols-3 gap-3 text-xs">
+            <div class="bg-slate-950/90 p-3 rounded-xl border border-emerald-900/40 text-center">
+              <span class="text-emerald-400 font-bold block text-[11px] mb-1">長榮 (2603)</span>
+              <strong id="fx-2603-impact" class="font-mono text-rose-400 text-sm block">+0.79 元 / 季</strong>
+              <span class="text-[10px] text-slate-500 block mt-1">美元現金逾千億</span>
             </div>
-            <div class="flex justify-between">
-              <span class="text-blue-400 font-bold">陽明 (2609) 匯兌 EPS 貢獻</span>
-              <strong id="fx-2609-impact" class="font-mono text-rose-400">+0.12 元 / 季</strong>
+            <div class="bg-slate-950/90 p-3 rounded-xl border border-blue-900/40 text-center">
+              <span class="text-blue-400 font-bold block text-[11px] mb-1">陽明 (2609)</span>
+              <strong id="fx-2609-impact" class="font-mono text-rose-400 text-sm block">+0.51 元 / 季</strong>
+              <span class="text-[10px] text-slate-500 block mt-1">官股背景保守配置</span>
             </div>
-            <div class="flex justify-between">
-              <span class="text-purple-400 font-bold">萬海 (2615) 匯兌 EPS 貢獻</span>
-              <strong id="fx-2615-impact" class="font-mono text-rose-400">+0.10 元 / 季</strong>
+            <div class="bg-slate-950/90 p-3 rounded-xl border border-purple-900/40 text-center">
+              <span class="text-purple-400 font-bold block text-[11px] mb-1">萬海 (2615)</span>
+              <strong id="fx-2615-impact" class="font-mono text-rose-400 text-sm block">+0.45 元 / 季</strong>
+              <span class="text-[10px] text-slate-500 block mt-1">亞洲線新造美金船</span>
             </div>
-            <p id="fx-summary-note" class="text-[11px] text-slate-400 border-t border-slate-800 pt-2 leading-relaxed">
-              台幣每貶值 1%，三雄美元資產與營收換算台幣約可額外貢獻單季稅前獲利 2%~4%。
+          </div>
+
+          <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80 text-[11px] text-slate-400 leading-relaxed">
+            <p id="fx-summary-note">
+              <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i>
+              <b>獲利放大效應：</b>航運業營收 90%+ 以美元收取，而主要支出（折舊、部分燃油、行政費用）多固定。台幣每貶值 1 元，單季營業利益率約可實質增益 1.5%~2.2%，並享有期末外幣資產帳面評價回升。
             </p>
           </div>
         </div>
 
-        <!-- Container vs Bulk Shipping Comparison -->
-        <div class="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-xl p-5">
-          <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
-            <i class="fa-solid fa-ship text-blue-400"></i> 投資人必懂：貨櫃航運 vs 散裝航運 (BDI) 關鍵差異
+        <!-- 右側：三大航商美元資產部位與匯率影響情境表 -->
+        <div class="lg:col-span-6 bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-3 shadow-lg">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-table-list text-emerald-400"></i> 三雄美元曝險部位與情境試算表
           </h3>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
-                <tr class="bg-slate-950/70 text-slate-400 border-b border-slate-800">
-                  <th class="py-2.5 px-3">比較項目</th>
-                  <th class="py-2.5 px-3 text-emerald-400">貨櫃航運 (定期船)</th>
-                  <th class="py-2.5 px-3 text-amber-400">散裝航運 (不定期船)</th>
+                <tr class="bg-slate-950/80 text-slate-400 border-b border-slate-800 text-[11px]">
+                  <th class="py-2.5 px-3">情境 / 匯率水準</th>
+                  <th class="py-2.5 px-3 text-emerald-400">長榮 (2603) 單季</th>
+                  <th class="py-2.5 px-3 text-blue-400">陽明 (2609) 單季</th>
+                  <th class="py-2.5 px-3 text-purple-400">萬海 (2615) 單季</th>
+                  <th class="py-2.5 px-3">產業評價影響</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-800/80 text-[11px]">
-                <tr class="hover:bg-slate-800/40">
-                  <td class="py-2.5 px-3 font-bold text-white">台灣代表股</td>
-                  <td class="py-2.5 px-3 text-slate-200">長榮 (2603)、陽明 (2609)、萬海 (2615)</td>
-                  <td class="py-2.5 px-3 text-slate-200">裕民 (2606)、慧洋-KY (2637)、新興 (2605)</td>
+              <tbody class="divide-y divide-slate-800/70 text-[11px]">
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-bold text-rose-400">33.50 (深度貶值)</td>
+                  <td class="py-2.5 px-3 font-mono font-bold text-rose-400">+1.31 元</td>
+                  <td class="py-2.5 px-3 font-mono font-bold text-rose-400">+0.84 元</td>
+                  <td class="py-2.5 px-3 font-mono font-bold text-rose-400">+0.75 元</td>
+                  <td class="py-2.5 px-3 text-emerald-400">極度利多 (匯兌超額暴賺)</td>
                 </tr>
-                <tr class="hover:bg-slate-800/40">
-                  <td class="py-2.5 px-3 font-bold text-white">主要載運貨物</td>
-                  <td class="py-2.5 px-3 text-slate-300">消費品、電子零組件、服飾家電、工業製品</td>
-                  <td class="py-2.5 px-3 text-slate-300">鐵礦砂、煤炭、穀物、鋼材等大宗原物料</td>
+                <tr class="hover:bg-slate-800/30 bg-slate-950/40">
+                  <td class="py-2.5 px-3 font-bold text-cyan-300">32.90 (目前現狀)</td>
+                  <td class="py-2.5 px-3 font-mono font-bold text-rose-400">+0.79 元</td>
+                  <td class="py-2.5 px-3 font-mono font-bold text-rose-400">+0.51 元</td>
+                  <td class="py-2.5 px-3 font-mono font-bold text-rose-400">+0.45 元</td>
+                  <td class="py-2.5 px-3 text-cyan-300">實質加分 (優於財測預估)</td>
                 </tr>
-                <tr class="hover:bg-slate-800/40">
-                  <td class="py-2.5 px-3 font-bold text-white">核心追蹤指數</td>
-                  <td class="py-2.5 px-3 text-emerald-400 font-mono">SCFI / CCFI / WCI</td>
-                  <td class="py-2.5 px-3 text-amber-400 font-mono">BDI / BCI (海岬型) / BPI</td>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-bold text-slate-400">32.00 (原預算基準)</td>
+                  <td class="py-2.5 px-3 font-mono text-slate-400">0.00 元</td>
+                  <td class="py-2.5 px-3 font-mono text-slate-400">0.00 元</td>
+                  <td class="py-2.5 px-3 font-mono text-slate-400">0.00 元</td>
+                  <td class="py-2.5 px-3 text-slate-400">中性持平</td>
                 </tr>
-                <tr class="hover:bg-slate-800/40">
-                  <td class="py-2.5 px-3 font-bold text-white">市場結構與聯盟</td>
-                  <td class="py-2.5 px-3 text-slate-300">高度寡占，三大航運聯盟掌控 80%+ 運力</td>
-                  <td class="py-2.5 px-3 text-slate-300">完全競爭市場，無聯盟，極度受中國基建與烏俄/南美糧食影響</td>
-                </tr>
-                <tr class="hover:bg-slate-800/40">
-                  <td class="py-2.5 px-3 font-bold text-white">旺季與週期特徵</td>
-                  <td class="py-2.5 px-3 text-slate-300">Q3 歐美開學/聖誕補庫存旺季、農曆年前拉貨</td>
-                  <td class="py-2.5 px-3 text-slate-300">Q2/Q4 南美與北美穀物收成季、冬季煤炭補庫</td>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-2.5 px-3 font-bold text-emerald-400">31.00 (強勢回升)</td>
+                  <td class="py-2.5 px-3 font-mono text-emerald-400">-0.88 元</td>
+                  <td class="py-2.5 px-3 font-mono text-emerald-400">-0.56 元</td>
+                  <td class="py-2.5 px-3 font-mono text-emerald-400">-0.50 元</td>
+                  <td class="py-2.5 px-3 text-amber-400">產生部分匯損回沖</td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-1">
+            <p>• <b>長榮</b>：約有 65%~70% 現金與約當現金為美元計價定存，外幣資產規模高居台股前五大。</p>
+            <p>• <b>避險機制</b>：三大航商均設有美元借款及外幣合約自然對沖（Natural Hedge），能顯著平滑急升風險。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 第二排：貨櫃航運 vs 散裝航運 全方位大對決百科 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4 shadow-lg">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-ship text-blue-400"></i> 投資人必懂：貨櫃航運 (Container) vs 散裝航運 (Dry Bulk) 全維度剖析
+          </h3>
+          <span class="text-xs text-slate-400">避免混淆兩種完全不同的航運運營邏輯與運價指數</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-950/80 text-slate-400 border-b border-slate-800">
+                <th class="py-3 px-3 w-1/6">比較構面</th>
+                <th class="py-3 px-4 w-5/12 text-emerald-400 font-bold bg-emerald-950/20 rounded-t-lg">貨櫃航運 (定期船 Liner)</th>
+                <th class="py-3 px-4 w-5/12 text-amber-400 font-bold bg-amber-950/20 rounded-t-lg">散裝航運 (不定期船 Tramp)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/80 text-[11px]">
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-bold text-white">台灣代表航商</td>
+                <td class="py-3 px-4 text-slate-200 bg-emerald-950/10"><b>長榮 (2603)、陽明 (2609)、萬海 (2615)</b></td>
+                <td class="py-3 px-4 text-slate-200 bg-amber-950/10"><b>裕民 (2606)、慧洋-KY (2637)、新興 (2605)、中航 (2612)</b></td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-bold text-white">主要載運標的</td>
+                <td class="py-3 px-4 text-slate-300 bg-emerald-950/10">成箱高附加價值貨物：電子產品、汽車零組件、服飾、家電、冷凍食品</td>
+                <td class="py-3 px-4 text-slate-300 bg-amber-950/10">未包裝大宗原物料：鐵礦砂、煤炭、穀物 (大豆/小麥)、鋁礬土、水泥</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-bold text-white">關鍵追蹤指數</td>
+                <td class="py-3 px-4 bg-emerald-950/10">
+                  <span class="text-emerald-400 font-mono font-bold">SCFI (上海出口集裝箱運價)</span>、<span class="text-slate-300 font-mono">CCFI、WCI</span>
+                </td>
+                <td class="py-3 px-4 bg-amber-950/10">
+                  <span class="text-amber-400 font-mono font-bold">BDI (波羅的海乾散貨指數)</span>、<span class="text-slate-300 font-mono">BCI (海岬型)、BPI (巴拿馬型)</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-bold text-white">營運模式與班表</td>
+                <td class="py-3 px-4 text-slate-300 bg-emerald-950/10">如同「海上班機」：固定航線、固定靠港港口、固定每週班次，準點率要求極高</td>
+                <td class="py-3 px-4 text-slate-300 bg-amber-950/10">如同「海上計程車」：無固定航線，全球哪裡有貨主出價即空船開往裝卸載貨</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-bold text-white">聯盟與市場寡占</td>
+                <td class="py-3 px-4 text-slate-300 bg-emerald-950/10"><b>高度寡占</b>：Ocean Alliance、Premier Alliance 等三大聯盟控制全球 80%+ 運力</td>
+                <td class="py-3 px-4 text-slate-300 bg-amber-950/10"><b>完全競爭</b>：全球數千家獨立中小船東，無聯盟定價權，運價暴漲暴跌頻率更高</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-bold text-white">景氣驅動因子</td>
+                <td class="py-3 px-4 text-slate-300 bg-emerald-950/10">歐美民間終端消費力道、庫存回補週期、地緣政治（紅海繞道耗損運力）</td>
+                <td class="py-3 px-4 text-slate-300 bg-amber-950/10">中國鋼鐵與基礎建設需求、巴西澳洲礦場開採進度、南北美農作物豐歉</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-bold text-white">傳統季節性旺季</td>
+                <td class="py-3 px-4 text-slate-300 bg-emerald-950/10"><b>Q3（7~10月）</b>：歐美返校潮與黑五/聖誕備貨；農曆年前年前搶出貨</td>
+                <td class="py-3 px-4 text-slate-300 bg-amber-950/10"><b>Q2/Q4</b>：春夏季南美穀物出口旺季、冬季北半球燃煤發電補庫存</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 第三排：散裝三大主力船型小百科 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <strong class="text-amber-400 font-bold">海岬型 (Capesize, BCI)</strong>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">10萬~40萬噸</span>
+          </div>
+          <p class="text-xs text-white font-medium">代表台股：裕民 (2606)、新興 (2605)</p>
+          <p class="text-[11px] text-slate-400 leading-relaxed">船體巨大無法通過巴拿馬運河，必須繞行好望角或合恩角。主要運送鐵礦砂與燃煤，運價彈性最大（日租金波動可由 1 萬跳至 4 萬美元）。</p>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <strong class="text-cyan-400 font-bold">巴拿馬型 (Panamax, BPI)</strong>
+            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">6萬~10萬噸</span>
+          </div>
+          <p class="text-xs text-white font-medium">代表台股：慧洋-KY (2637)、裕民 (2606)</p>
+          <p class="text-[11px] text-slate-400 leading-relaxed">專為通過傳統巴拿馬運河船閘設計。主要承載大豆、玉米、小麥等民生糧食原物料與化肥，是南北美穀物出口的主力支柱。</p>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <strong class="text-purple-400 font-bold">超輕便型 (Supramax/Handysize)</strong>
+            <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">2萬~6萬噸</span>
+          </div>
+          <p class="text-xs text-white font-medium">代表台股：慧洋-KY (2637) 為全球中小型散裝龍頭</p>
+          <p class="text-[11px] text-slate-400 leading-relaxed">船上自帶吊桿吊具（Gear），可靠泊裝卸設備不發達的開發中國家港口。運載水泥、木材、鋼鐵製品與農產，獲利穩定度最高。</p>
         </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
     <!-- SECTION 11: CHECKLIST & NOTES (進場檢核與筆記 - NEW) -->
     <!-- ========================================== -->
     <div id="tab-checklist" class="tab-content hidden space-y-6">
@@ -3090,6 +3277,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261122_kline_compact_v3"></script>
+  <script src="app.js?v=20261122_macro_rich_v4"></script>
 </body>
 </html>

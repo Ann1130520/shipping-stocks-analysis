@@ -545,6 +545,12 @@ def main():
     stock_2609 = fetch_quote_with_technicals("2609.TW", include_technicals=True)
     stock_2615 = fetch_quote_with_technicals("2615.TW", include_technicals=True)
 
+    print("2b. Fetching Macro FX (USD/TWD, DXY) and Bulk Shipping (2606, 2637, 2605)...")
+    fx_usdtwd = fetch_quote_with_technicals("USDTWD=X", include_technicals=False)
+    dxy_index = fetch_quote_with_technicals("DX-Y.NYB", include_technicals=False)
+    bulk_2606 = fetch_quote_with_technicals("2606.TW", include_technicals=False)
+    bulk_2637 = fetch_quote_with_technicals("2637.TW", include_technicals=False)
+    bulk_2605 = fetch_quote_with_technicals("2605.TW", include_technicals=False)
     print("2. Fetching Global Market Indices & Brent Oil...")
     idx_tw = fetch_quote_with_technicals("^TWII", include_technicals=False)
     idx_us = fetch_quote_with_technicals("^GSPC", include_technicals=False)
@@ -603,6 +609,15 @@ def main():
         },
         "commodities": {
             "brent": brent_oil
+        },
+        "macro_indicators": {
+            "usdtwd": fx_usdtwd,
+            "dxy": dxy_index
+        },
+        "bulk_stocks": {
+            "2606": bulk_2606,
+            "2637": bulk_2637,
+            "2605": bulk_2605
         },
         "fundamentals": fundamentals,
         "institutional": institutional,

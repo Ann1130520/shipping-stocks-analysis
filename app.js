@@ -2904,12 +2904,49 @@ function renderInstDailyChart(stockCode) {
 function initMacroFxSimulator() {
   const slider = document.getElementById('fx-rate-slider');
   const valEl = document.getElementById('fx-rate-val');
+
+  // 注入即時匯率與散裝行情數據
+  const data = window.latestPayloadCache;
+  if (data) {
+    const fxPrice = data.macro_indicators?.usdtwd?.price;
+    const dxyPrice = data.macro_indicators?.dxy?.price;
+    const oilPrice = data.commodities?.brent?.price;
+    const b2606 = data.bulk_stocks?.['2606']?.price;
+    const b2637 = data.bulk_stocks?.['2637']?.price;
+
+    if (fxPrice) {
+      const liveUsdEl = document.getElementById('macro-live-usdtwd');
+      const cardUsdEl = document.getElementById('macro-card-usdtwd');
+      if (liveUsdEl) liveUsdEl.textContent = `${fxPrice} 元`;
+      if (cardUsdEl) cardUsdEl.textContent = fxPrice;
+      if (slider) slider.value = fxPrice;
+    }
+    if (dxyPrice) {
+      const liveDxyEl = document.getElementById('macro-live-dxy');
+      const cardDxyEl = document.getElementById('macro-card-dxy');
+      if (liveDxyEl) liveDxyEl.textContent = dxyPrice;
+      if (cardDxyEl) cardDxyEl.textContent = dxyPrice;
+    }
+    if (oilPrice) {
+      const cardOilEl = document.getElementById('macro-card-oil');
+      if (cardOilEl) cardOilEl.textContent = `$${oilPrice}`;
+    }
+    if (b2606) {
+      const el2606 = document.getElementById('macro-bulk-2606');
+      if (el2606) el2606.textContent = b2606;
+    }
+    if (b2637) {
+      const el2637 = document.getElementById('macro-bulk-2637');
+      if (el2637) el2637.textContent = b2637;
+    }
+  }
+
   if (!slider || !valEl) return;
 
   function calcFx() {
     const rate = parseFloat(slider.value);
     valEl.textContent = `${rate.toFixed(2)} 元`;
-    const deltaPct = (rate - 32.0) / 32.0; // relative to 32.0 baseline
+    const deltaPct = (rate - 32.0) / 32.0;
 
     const eps3 = (deltaPct * 28.0).toFixed(2);
     const eps9 = (deltaPct * 18.0).toFixed(2);
@@ -2920,7 +2957,7 @@ function initMacroFxSimulator() {
       if (!el) return;
       const num = parseFloat(v);
       el.textContent = `${num >= 0 ? '+' : ''}${num.toFixed(2)} 元 / 季`;
-      el.className = num >= 0 ? 'font-mono text-rose-400' : 'font-mono text-emerald-400';
+      el.className = num >= 0 ? 'font-mono text-rose-400 text-sm font-black block' : 'font-mono text-emerald-400 text-sm font-black block';
     };
 
     fmt('fx-2603-impact', eps3);
@@ -2928,11 +2965,7 @@ function initMacroFxSimulator() {
     fmt('fx-2615-impact', eps5);
   }
 
-  window.triggerMacroFxUpdate = calcFx;
-  slider.addEventListener('input', () => {
-    userAdjustedFxSlider = true;
-    calcFx();
-  });
+  slider.addEventListener('input', calcFx);
   calcFx();
 }
 
