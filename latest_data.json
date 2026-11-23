@@ -1,66 +1,66 @@
 {
-  "last_updated": "2026-11-23 07:33:45",
+  "last_updated": "2026-11-23 16:40:03",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
-      "price": 233.0,
-      "prev_close": 247.0,
-      "change": -14.0,
-      "change_percent": -5.67,
-      "high": 244.0,
-      "low": 230.5,
-      "volume": 16739534,
+      "price": 234.5,
+      "prev_close": 233.0,
+      "change": 1.5,
+      "change_percent": 0.64,
+      "high": 241.0,
+      "low": 230.0,
+      "volume": 24214122,
       "status": "success",
       "technicals": {
-        "ma5": 250.2,
-        "ma20": 257.5,
-        "ma60": 247.15,
-        "ma240": 212.74,
-        "bias_20": -9.51,
-        "bias_60": -5.73,
-        "rsi14": 35.2,
+        "ma5": 245.7,
+        "ma20": 256.23,
+        "ma60": 246.96,
+        "ma240": 212.96,
+        "bias_20": -8.48,
+        "bias_60": -5.05,
+        "rsi14": 36.6,
         "trend": "均線下方弱勢整理"
       }
     },
     "2609": {
       "symbol": "2609.TW",
-      "price": 53.0,
-      "prev_close": 57.3,
-      "change": -4.3,
-      "change_percent": -7.5,
-      "high": 56.4,
-      "low": 52.7,
-      "volume": 20474747,
+      "price": 54.5,
+      "prev_close": 53.0,
+      "change": 1.5,
+      "change_percent": 2.83,
+      "high": 54.9,
+      "low": 52.1,
+      "volume": 12386322,
       "status": "success",
       "technicals": {
-        "ma5": 58.14,
-        "ma20": 60.14,
-        "ma60": 60.11,
-        "ma240": 54.8,
-        "bias_20": -11.87,
-        "bias_60": -11.83,
-        "rsi14": 30.8,
+        "ma5": 57.04,
+        "ma20": 59.77,
+        "ma60": 59.96,
+        "ma240": 54.81,
+        "bias_20": -8.82,
+        "bias_60": -9.11,
+        "rsi14": 36.3,
         "trend": "均線下方弱勢整理"
       }
     },
     "2615": {
       "symbol": "2615.TW",
-      "price": 95.0,
-      "prev_close": 103.5,
-      "change": -8.5,
-      "change_percent": -8.21,
-      "high": 101.0,
-      "low": 93.6,
-      "volume": 21157298,
+      "price": 96.1,
+      "prev_close": 95.0,
+      "change": 1.1,
+      "change_percent": 1.16,
+      "high": 96.7,
+      "low": 91.4,
+      "volume": 13034659,
       "status": "success",
       "technicals": {
-        "ma5": 105.1,
-        "ma20": 111.5,
-        "ma60": 114.2,
-        "ma240": 88.85,
-        "bias_20": -14.8,
-        "bias_60": -16.81,
-        "rsi14": 32.0,
+        "ma5": 102.42,
+        "ma20": 110.33,
+        "ma60": 113.69,
+        "ma240": 88.93,
+        "bias_20": -12.9,
+        "bias_60": -15.47,
+        "rsi14": 33.7,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -68,43 +68,43 @@
   "tw_benchmarks": {
     "2330": {
       "symbol": "2330.TW",
-      "price": 2000.0,
-      "prev_close": 2100.0,
-      "change": -100.0,
-      "change_percent": -4.76,
-      "high": 2060.0,
+      "price": 2030.0,
+      "prev_close": 2000.0,
+      "change": 30.0,
+      "change_percent": 1.5,
+      "high": 2050.0,
       "low": 1970.0,
-      "volume": 87546393,
+      "volume": 68861769,
       "status": "success",
       "technicals": {
-        "ma5": 2132.0,
-        "ma20": 2276.0,
-        "ma60": 2394.42,
-        "ma240": 2116.5,
-        "bias_20": -12.13,
-        "bias_60": -16.47,
-        "rsi14": 27.8,
+        "ma5": 2095.0,
+        "ma20": 2258.25,
+        "ma60": 2388.25,
+        "ma240": 2119.06,
+        "bias_20": -10.11,
+        "bias_60": -15.0,
+        "rsi14": 31.0,
         "trend": "均線下方弱勢整理"
       }
     },
     "0050": {
       "symbol": "0050.TW",
-      "price": 84.45,
-      "prev_close": 90.2,
-      "change": -5.75,
-      "change_percent": -6.37,
-      "high": 88.05,
-      "low": 83.95,
-      "volume": 874056273,
+      "price": 87.0,
+      "prev_close": 84.45,
+      "change": 2.55,
+      "change_percent": 3.02,
+      "high": 87.5,
+      "low": 83.5,
+      "volume": 507682681,
       "status": "success",
       "technicals": {
-        "ma5": 91.84,
-        "ma20": 99.58,
-        "ma60": 106.39,
-        "ma240": 91.15,
-        "bias_20": -15.19,
-        "bias_60": -20.62,
-        "rsi14": 25.6,
+        "ma5": 89.95,
+        "ma20": 98.58,
+        "ma60": 106.1,
+        "ma240": 91.26,
+        "bias_20": -11.75,
+        "bias_60": -18.0,
+        "rsi14": 31.0,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -112,12 +112,12 @@
   "global_indices": {
     "tw": {
       "symbol": "^TWII",
-      "price": 36033.29,
-      "prev_close": 40194.9,
-      "change": -4161.61,
-      "change_percent": -10.35,
-      "high": 37646.13,
-      "low": 35738.68,
+      "price": 36811.89,
+      "prev_close": 36033.29,
+      "change": 778.6,
+      "change_percent": 2.16,
+      "high": 37108.2,
+      "low": 35442.41,
       "volume": 0,
       "status": "success"
     },
@@ -145,12 +145,12 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 5941.95,
-      "prev_close": 6113.86,
-      "change": -171.91,
-      "change_percent": -2.81,
-      "high": 0.0,
-      "low": 0.0,
+      "price": 5969.92,
+      "prev_close": 5941.95,
+      "change": 27.97,
+      "change_percent": 0.47,
+      "high": 5979.07,
+      "low": 5959.13,
       "volume": 0,
       "status": "success"
     }
@@ -162,32 +162,32 @@
       "prev_close": 89.95,
       "change": -0.83,
       "change_percent": -0.92,
-      "high": 89.94,
-      "low": 89.05,
-      "volume": 287,
+      "high": 90.5,
+      "low": 89.04,
+      "volume": 4022,
       "status": "success"
     }
   },
   "macro_indicators": {
     "usdtwd": {
       "symbol": "USDTWD=X",
-      "price": 32.95,
-      "prev_close": 32.95,
-      "change": 0.0,
-      "change_percent": 0.0,
-      "high": 32.97,
-      "low": 32.95,
+      "price": 32.86,
+      "prev_close": 32.96,
+      "change": -0.1,
+      "change_percent": -0.3,
+      "high": 32.99,
+      "low": 32.84,
       "volume": 0,
       "status": "success"
     },
     "dxy": {
       "symbol": "DX-Y.NYB",
-      "price": 103.81,
+      "price": 103.69,
       "prev_close": 103.81,
-      "change": 0.0,
-      "change_percent": 0.0,
-      "high": 103.84,
-      "low": 103.79,
+      "change": -0.12,
+      "change_percent": -0.12,
+      "high": 103.85,
+      "low": 103.59,
       "volume": 0,
       "status": "success"
     }
@@ -195,35 +195,35 @@
   "bulk_stocks": {
     "2606": {
       "symbol": "2606.TW",
-      "price": 63.1,
-      "prev_close": 69.1,
-      "change": -6.0,
-      "change_percent": -8.68,
-      "high": 68.0,
-      "low": 62.7,
-      "volume": 3653535,
+      "price": 65.1,
+      "prev_close": 63.1,
+      "change": 2.0,
+      "change_percent": 3.17,
+      "high": 66.3,
+      "low": 61.9,
+      "volume": 6306452,
       "status": "success"
     },
     "2637": {
       "symbol": "2637.TW",
-      "price": 83.5,
-      "prev_close": 90.3,
-      "change": -6.8,
-      "change_percent": -7.53,
-      "high": 89.5,
-      "low": 81.3,
-      "volume": 2630657,
+      "price": 84.5,
+      "prev_close": 83.5,
+      "change": 1.0,
+      "change_percent": 1.2,
+      "high": 85.0,
+      "low": 81.1,
+      "volume": 1786414,
       "status": "success"
     },
     "2605": {
       "symbol": "2605.TW",
-      "price": 28.7,
-      "prev_close": 30.75,
-      "change": -2.05,
-      "change_percent": -6.67,
-      "high": 30.45,
-      "low": 28.7,
-      "volume": 4922383,
+      "price": 29.25,
+      "prev_close": 28.7,
+      "change": 0.55,
+      "change_percent": 1.92,
+      "high": 29.45,
+      "low": 28.0,
+      "volume": 2753108,
       "status": "success"
     }
   },
@@ -254,135 +254,100 @@
     }
   },
   "institutional": {
+    "2609": {
+      "date": "20261123",
+      "foreign_lots": 812.4,
+      "trust_lots": -3.0,
+      "dealer_lots": 100.3,
+      "total_lots": 909.6
+    },
     "2615": {
-      "date": "20261120",
-      "foreign_lots": 4538.6,
-      "trust_lots": -1498.6,
-      "dealer_lots": -215.0,
-      "total_lots": 2825.0
+      "date": "20261123",
+      "foreign_lots": 1167.8,
+      "trust_lots": -1197.0,
+      "dealer_lots": -8.0,
+      "total_lots": -37.2
     },
     "2603": {
-      "date": "20261120",
-      "foreign_lots": 4441.1,
-      "trust_lots": -4014.6,
-      "dealer_lots": 185.4,
-      "total_lots": 611.9
-    },
-    "2609": {
-      "date": "20261120",
-      "foreign_lots": 534.5,
-      "trust_lots": -335.0,
-      "dealer_lots": -763.0,
-      "total_lots": -563.5
+      "date": "20261123",
+      "foreign_lots": 9965.1,
+      "trust_lots": -11367.8,
+      "dealer_lots": 572.7,
+      "total_lots": -830.0
     },
     "2330": {
-      "date": "20261120",
-      "foreign_lots": -11862.5,
-      "trust_lots": -3848.4,
-      "dealer_lots": 4809.6,
-      "total_lots": -10901.2
+      "date": "20261123",
+      "foreign_lots": -11039.2,
+      "trust_lots": 1275.3,
+      "dealer_lots": 2665.4,
+      "total_lots": -7098.6
     },
     "0050": {
-      "date": "20261120",
-      "foreign_lots": -110454.6,
-      "trust_lots": 4100.0,
-      "dealer_lots": -301659.3,
-      "total_lots": -408013.9
+      "date": "20261123",
+      "foreign_lots": -37983.3,
+      "trust_lots": 6550.0,
+      "dealer_lots": -126834.8,
+      "total_lots": -158268.1
     }
   },
   "institutional_3d": {
     "2609": {
-      "foreign_lots_3d": 7528.0,
-      "trust_lots_3d": -4265.0,
-      "dealer_lots_3d": -1093.4,
-      "total_lots_3d": 2169.6,
+      "foreign_lots_3d": 3525.1,
+      "trust_lots_3d": -1974.0,
+      "dealer_lots_3d": -1013.5,
+      "total_lots_3d": 537.5,
       "dates": [
-        "20261118",
         "20261119",
-        "20261120"
+        "20261120",
+        "20261123"
       ]
     },
     "2615": {
-      "foreign_lots_3d": 9764.2,
-      "trust_lots_3d": -4513.6,
-      "dealer_lots_3d": -432.3,
-      "total_lots_3d": 4818.3,
+      "foreign_lots_3d": 7298.4,
+      "trust_lots_3d": -4217.6,
+      "dealer_lots_3d": -487.6,
+      "total_lots_3d": 2593.2,
       "dates": [
-        "20261118",
         "20261119",
-        "20261120"
+        "20261120",
+        "20261123"
       ]
     },
     "2603": {
-      "foreign_lots_3d": 4124.1,
-      "trust_lots_3d": -4516.6,
-      "dealer_lots_3d": 949.2,
-      "total_lots_3d": 556.8,
+      "foreign_lots_3d": 13745.2,
+      "trust_lots_3d": -15645.4,
+      "dealer_lots_3d": 1139.5,
+      "total_lots_3d": -760.6,
       "dates": [
-        "20261118",
         "20261119",
-        "20261120"
+        "20261120",
+        "20261123"
       ]
     },
     "2330": {
-      "foreign_lots_3d": -35950.2,
-      "trust_lots_3d": 1113.9,
-      "dealer_lots_3d": 14546.2,
-      "total_lots_3d": -20290.0,
+      "foreign_lots_3d": -31536.5,
+      "trust_lots_3d": -993.9,
+      "dealer_lots_3d": 12026.7,
+      "total_lots_3d": -20503.7,
       "dates": [
-        "20261118",
         "20261119",
-        "20261120"
+        "20261120",
+        "20261123"
       ]
     },
     "0050": {
-      "foreign_lots_3d": -195091.4,
-      "trust_lots_3d": 14808.0,
-      "dealer_lots_3d": -578522.6,
-      "total_lots_3d": -758806.1,
+      "foreign_lots_3d": -206693.2,
+      "trust_lots_3d": 16350.0,
+      "dealer_lots_3d": -611647.1,
+      "total_lots_3d": -801990.4,
       "dates": [
-        "20261118",
         "20261119",
-        "20261120"
+        "20261120",
+        "20261123"
       ]
     }
   },
   "institutional_daily": [
-    {
-      "date": "20261118",
-      "data": {
-        "2609": {
-          "foreign_lots": 4815.3,
-          "trust_lots": -2294.0,
-          "dealer_lots": 20.4,
-          "total_lots": 2541.7
-        },
-        "2615": {
-          "foreign_lots": 3633.6,
-          "trust_lots": -1493.0,
-          "dealer_lots": 47.3,
-          "total_lots": 2187.9
-        },
-        "2603": {
-          "foreign_lots": 344.0,
-          "trust_lots": -239.0,
-          "dealer_lots": 382.4,
-          "total_lots": 487.4
-        },
-        "2330": {
-          "foreign_lots": -15452.9,
-          "trust_lots": 3383.1,
-          "dealer_lots": 5184.9,
-          "total_lots": -6884.9
-        },
-        "0050": {
-          "foreign_lots": -26381.5,
-          "trust_lots": 5008.0,
-          "dealer_lots": -93710.3,
-          "total_lots": -115083.8
-        }
-      }
-    },
     {
       "date": "20261119",
       "data": {
@@ -452,28 +417,45 @@
           "total_lots": -408013.9
         }
       }
+    },
+    {
+      "date": "20261123",
+      "data": {
+        "2609": {
+          "foreign_lots": 812.4,
+          "trust_lots": -3.0,
+          "dealer_lots": 100.3,
+          "total_lots": 909.6
+        },
+        "2615": {
+          "foreign_lots": 1167.8,
+          "trust_lots": -1197.0,
+          "dealer_lots": -8.0,
+          "total_lots": -37.2
+        },
+        "2603": {
+          "foreign_lots": 9965.1,
+          "trust_lots": -11367.8,
+          "dealer_lots": 572.7,
+          "total_lots": -830.0
+        },
+        "2330": {
+          "foreign_lots": -11039.2,
+          "trust_lots": 1275.3,
+          "dealer_lots": 2665.4,
+          "total_lots": -7098.6
+        },
+        "0050": {
+          "foreign_lots": -37983.3,
+          "trust_lots": 6550.0,
+          "dealer_lots": -126834.8,
+          "total_lots": -158268.1
+        }
+      }
     }
   ],
   "tech_charts": {
     "2603": [
-      {
-        "date": "2026-08-25",
-        "open": 251.0,
-        "high": 253.0,
-        "low": 242.5,
-        "close": 246.0,
-        "volume": 23768783,
-        "ma5": 246.9,
-        "ma20": 221.07,
-        "ma60": 209.74,
-        "bb_upper": 256.2,
-        "bb_lower": 185.95,
-        "k": 86.09,
-        "d": 88.86,
-        "macd_dif": 12.13,
-        "macd_dem": 8.72,
-        "macd_osc": 3.41
-      },
       {
         "date": "2026-08-26",
         "open": 243.0,
@@ -542,9 +524,9 @@
         "bb_lower": 196.0,
         "k": 39.58,
         "d": 57.09,
-        "macd_dif": 8.43,
+        "macd_dif": 8.42,
         "macd_dem": 9.11,
-        "macd_osc": -0.68
+        "macd_osc": -0.69
       },
       {
         "date": "2026-09-01",
@@ -560,9 +542,9 @@
         "bb_lower": 198.79,
         "k": 39.83,
         "d": 51.34,
-        "macd_dif": 8.17,
+        "macd_dif": 8.16,
         "macd_dem": 8.92,
-        "macd_osc": -0.75
+        "macd_osc": -0.76
       },
       {
         "date": "2026-09-02",
@@ -614,9 +596,9 @@
         "bb_lower": 210.23,
         "k": 34.87,
         "d": 40.8,
-        "macd_dif": 6.71,
+        "macd_dif": 6.7,
         "macd_dem": 8.06,
-        "macd_osc": -1.35
+        "macd_osc": -1.36
       },
       {
         "date": "2026-09-07",
@@ -740,8 +722,8 @@
         "bb_lower": 224.04,
         "k": 53.75,
         "d": 47.51,
-        "macd_dif": 3.72,
-        "macd_dem": 5.1,
+        "macd_dif": 3.71,
+        "macd_dem": 5.09,
         "macd_osc": -1.38
       },
       {
@@ -759,8 +741,8 @@
         "k": 64.4,
         "d": 53.14,
         "macd_dif": 3.85,
-        "macd_dem": 4.85,
-        "macd_osc": -1.0
+        "macd_dem": 4.84,
+        "macd_osc": -0.99
       },
       {
         "date": "2026-09-17",
@@ -776,8 +758,8 @@
         "bb_lower": 224.27,
         "k": 76.27,
         "d": 60.85,
-        "macd_dif": 4.19,
-        "macd_dem": 4.72,
+        "macd_dif": 4.18,
+        "macd_dem": 4.71,
         "macd_osc": -0.53
       },
       {
@@ -848,9 +830,9 @@
         "bb_lower": 227.72,
         "k": 81.13,
         "d": 75.48,
-        "macd_dif": 4.5,
+        "macd_dif": 4.49,
         "macd_dem": 4.53,
-        "macd_osc": -0.03
+        "macd_osc": -0.04
       },
       {
         "date": "2026-09-24",
@@ -1100,8 +1082,8 @@
         "bb_lower": 224.02,
         "k": 77.15,
         "d": 66.32,
-        "macd_dif": 6.94,
-        "macd_dem": 4.56,
+        "macd_dif": 6.93,
+        "macd_dem": 4.55,
         "macd_osc": 2.38
       },
       {
@@ -1535,27 +1517,27 @@
         "macd_dif": -1.34,
         "macd_dem": 1.44,
         "macd_osc": -2.78
+      },
+      {
+        "date": "2026-11-23",
+        "open": 233.0,
+        "high": 241.0,
+        "low": 230.0,
+        "close": 234.5,
+        "volume": 24214122,
+        "ma5": 245.7,
+        "ma20": 256.23,
+        "ma60": 246.96,
+        "bb_upper": 277.44,
+        "bb_lower": 235.01,
+        "k": 27.13,
+        "d": 39.98,
+        "macd_dif": -2.63,
+        "macd_dem": 0.63,
+        "macd_osc": -3.26
       }
     ],
     "2609": [
-      {
-        "date": "2026-08-25",
-        "open": 65.9,
-        "high": 67.3,
-        "low": 62.9,
-        "close": 63.6,
-        "volume": 191999498,
-        "ma5": 62.28,
-        "ma20": 54.24,
-        "ma60": 52.37,
-        "bb_upper": 64.2,
-        "bb_lower": 44.28,
-        "k": 85.79,
-        "d": 86.88,
-        "macd_dif": 3.12,
-        "macd_dem": 1.72,
-        "macd_osc": 1.4
-      },
       {
         "date": "2026-08-26",
         "open": 63.5,
@@ -1570,8 +1552,8 @@
         "bb_lower": 44.74,
         "k": 71.05,
         "d": 81.6,
-        "macd_dif": 2.84,
-        "macd_dem": 1.94,
+        "macd_dif": 2.83,
+        "macd_dem": 1.93,
         "macd_osc": 0.9
       },
       {
@@ -1588,8 +1570,8 @@
         "bb_lower": 45.27,
         "k": 60.61,
         "d": 74.6,
-        "macd_dif": 2.61,
-        "macd_dem": 2.07,
+        "macd_dif": 2.6,
+        "macd_dem": 2.06,
         "macd_osc": 0.54
       },
       {
@@ -1607,8 +1589,8 @@
         "k": 44.61,
         "d": 64.6,
         "macd_dif": 2.26,
-        "macd_dem": 2.11,
-        "macd_osc": 0.15
+        "macd_dem": 2.1,
+        "macd_osc": 0.16
       },
       {
         "date": "2026-08-31",
@@ -1624,8 +1606,8 @@
         "bb_lower": 46.23,
         "k": 42.11,
         "d": 57.1,
-        "macd_dif": 2.23,
-        "macd_dem": 2.13,
+        "macd_dif": 2.22,
+        "macd_dem": 2.12,
         "macd_osc": 0.1
       },
       {
@@ -1642,8 +1624,8 @@
         "bb_lower": 46.78,
         "k": 33.29,
         "d": 49.16,
-        "macd_dif": 2.03,
-        "macd_dem": 2.11,
+        "macd_dif": 2.02,
+        "macd_dem": 2.1,
         "macd_osc": -0.08
       },
       {
@@ -1660,8 +1642,8 @@
         "bb_lower": 47.45,
         "k": 27.12,
         "d": 41.81,
-        "macd_dif": 1.84,
-        "macd_dem": 2.06,
+        "macd_dif": 1.83,
+        "macd_dem": 2.05,
         "macd_osc": -0.22
       },
       {
@@ -1679,8 +1661,8 @@
         "k": 23.88,
         "d": 35.83,
         "macd_dif": 1.69,
-        "macd_dem": 1.99,
-        "macd_osc": -0.3
+        "macd_dem": 1.98,
+        "macd_osc": -0.29
       },
       {
         "date": "2026-09-04",
@@ -1697,8 +1679,8 @@
         "k": 22.88,
         "d": 31.51,
         "macd_dif": 1.59,
-        "macd_dem": 1.91,
-        "macd_osc": -0.32
+        "macd_dem": 1.9,
+        "macd_osc": -0.31
       },
       {
         "date": "2026-09-07",
@@ -1804,9 +1786,9 @@
         "bb_lower": 54.36,
         "k": 54.52,
         "d": 43.83,
-        "macd_dif": 1.21,
+        "macd_dif": 1.2,
         "macd_dem": 1.42,
-        "macd_osc": -0.21
+        "macd_osc": -0.22
       },
       {
         "date": "2026-09-15",
@@ -1894,9 +1876,9 @@
         "bb_lower": 55.44,
         "k": 71.76,
         "d": 66.77,
-        "macd_dif": 1.45,
+        "macd_dif": 1.44,
         "macd_dem": 1.38,
-        "macd_osc": 0.07
+        "macd_osc": 0.06
       },
       {
         "date": "2026-09-22",
@@ -2617,27 +2599,27 @@
         "macd_dif": -1.08,
         "macd_dem": -0.5,
         "macd_osc": -0.58
+      },
+      {
+        "date": "2026-11-23",
+        "open": 53.0,
+        "high": 54.9,
+        "low": 52.1,
+        "close": 54.5,
+        "volume": 12386322,
+        "ma5": 57.04,
+        "ma20": 59.77,
+        "ma60": 59.96,
+        "bb_upper": 65.55,
+        "bb_lower": 53.99,
+        "k": 26.96,
+        "d": 36.15,
+        "macd_dif": -1.32,
+        "macd_dem": -0.66,
+        "macd_osc": -0.66
       }
     ],
     "2615": [
-      {
-        "date": "2026-08-25",
-        "open": 128.5,
-        "high": 134.5,
-        "low": 124.5,
-        "close": 126.5,
-        "volume": 89896125,
-        "ma5": 119.1,
-        "ma20": 96.04,
-        "ma60": 86.46,
-        "bb_upper": 125.53,
-        "bb_lower": 66.55,
-        "k": 89.28,
-        "d": 89.33,
-        "macd_dif": 10.12,
-        "macd_dem": 6.12,
-        "macd_osc": 4.0
-      },
       {
         "date": "2026-08-26",
         "open": 127.0,
@@ -2652,8 +2634,8 @@
         "bb_lower": 67.4,
         "k": 79.17,
         "d": 85.94,
-        "macd_dif": 9.94,
-        "macd_dem": 6.88,
+        "macd_dif": 9.93,
+        "macd_dem": 6.87,
         "macd_osc": 3.06
       },
       {
@@ -2670,8 +2652,8 @@
         "bb_lower": 68.73,
         "k": 70.1,
         "d": 80.66,
-        "macd_dif": 9.56,
-        "macd_dem": 7.42,
+        "macd_dif": 9.55,
+        "macd_dem": 7.41,
         "macd_osc": 2.14
       },
       {
@@ -2688,8 +2670,8 @@
         "bb_lower": 70.34,
         "k": 58.53,
         "d": 73.28,
-        "macd_dif": 9.0,
-        "macd_dem": 7.74,
+        "macd_dif": 8.99,
+        "macd_dem": 7.73,
         "macd_osc": 1.26
       },
       {
@@ -2706,8 +2688,8 @@
         "bb_lower": 71.92,
         "k": 52.66,
         "d": 66.41,
-        "macd_dif": 8.65,
-        "macd_dem": 7.92,
+        "macd_dif": 8.64,
+        "macd_dem": 7.91,
         "macd_osc": 0.73
       },
       {
@@ -2724,8 +2706,8 @@
         "bb_lower": 73.75,
         "k": 45.45,
         "d": 59.42,
-        "macd_dif": 8.33,
-        "macd_dem": 8.0,
+        "macd_dif": 8.32,
+        "macd_dem": 7.99,
         "macd_osc": 0.33
       },
       {
@@ -2778,9 +2760,9 @@
         "bb_lower": 81.84,
         "k": 29.78,
         "d": 39.83,
-        "macd_dif": 7.22,
+        "macd_dif": 7.21,
         "macd_dem": 7.74,
-        "macd_osc": -0.52
+        "macd_osc": -0.53
       },
       {
         "date": "2026-09-07",
@@ -2796,9 +2778,9 @@
         "bb_lower": 84.76,
         "k": 29.38,
         "d": 36.35,
-        "macd_dif": 6.85,
+        "macd_dif": 6.84,
         "macd_dem": 7.56,
-        "macd_osc": -0.71
+        "macd_osc": -0.72
       },
       {
         "date": "2026-09-08",
@@ -2832,9 +2814,9 @@
         "bb_lower": 92.2,
         "k": 45.83,
         "d": 38.38,
-        "macd_dif": 6.09,
+        "macd_dif": 6.08,
         "macd_dem": 7.06,
-        "macd_osc": -0.97
+        "macd_osc": -0.98
       },
       {
         "date": "2026-09-10",
@@ -2886,9 +2868,9 @@
         "bb_lower": 103.98,
         "k": 46.76,
         "d": 42.69,
-        "macd_dif": 4.63,
+        "macd_dif": 4.62,
         "macd_dem": 6.03,
-        "macd_osc": -1.4
+        "macd_osc": -1.41
       },
       {
         "date": "2026-09-15",
@@ -2904,9 +2886,9 @@
         "bb_lower": 105.19,
         "k": 46.45,
         "d": 43.94,
-        "macd_dif": 4.23,
+        "macd_dif": 4.22,
         "macd_dem": 5.67,
-        "macd_osc": -1.44
+        "macd_osc": -1.45
       },
       {
         "date": "2026-09-16",
@@ -2922,9 +2904,9 @@
         "bb_lower": 106.4,
         "k": 54.58,
         "d": 47.49,
-        "macd_dif": 4.11,
+        "macd_dif": 4.1,
         "macd_dem": 5.36,
-        "macd_osc": -1.25
+        "macd_osc": -1.26
       },
       {
         "date": "2026-09-17",
@@ -2940,9 +2922,9 @@
         "bb_lower": 106.51,
         "k": 68.57,
         "d": 54.52,
-        "macd_dif": 4.41,
+        "macd_dif": 4.4,
         "macd_dem": 5.17,
-        "macd_osc": -0.76
+        "macd_osc": -0.77
       },
       {
         "date": "2026-09-18",
@@ -3699,27 +3681,27 @@
         "macd_dif": -3.34,
         "macd_dem": -1.89,
         "macd_osc": -1.45
+      },
+      {
+        "date": "2026-11-23",
+        "open": 94.2,
+        "high": 96.7,
+        "low": 91.4,
+        "close": 96.1,
+        "volume": 13034659,
+        "ma5": 102.42,
+        "ma20": 110.33,
+        "ma60": 113.69,
+        "bb_upper": 123.78,
+        "bb_lower": 96.88,
+        "k": 21.95,
+        "d": 28.61,
+        "macd_dif": -3.98,
+        "macd_dem": -2.31,
+        "macd_osc": -1.67
       }
     ],
     "2330": [
-      {
-        "date": "2026-08-25",
-        "open": 2355.0,
-        "high": 2400.0,
-        "low": 2350.0,
-        "close": 2400.0,
-        "volume": 12843032,
-        "ma5": 2382.0,
-        "ma20": 2368.5,
-        "ma60": 2382.25,
-        "bb_upper": 2490.49,
-        "bb_lower": 2246.51,
-        "k": 49.65,
-        "d": 49.54,
-        "macd_dif": 5.53,
-        "macd_dem": 3.95,
-        "macd_osc": 1.58
-      },
       {
         "date": "2026-08-26",
         "open": 2375.0,
@@ -3734,9 +3716,9 @@
         "bb_lower": 2283.48,
         "k": 58.5,
         "d": 52.53,
-        "macd_dif": 7.49,
-        "macd_dem": 4.66,
-        "macd_osc": 2.83
+        "macd_dif": 6.77,
+        "macd_dem": 3.59,
+        "macd_osc": 3.18
       },
       {
         "date": "2026-08-27",
@@ -3752,9 +3734,9 @@
         "bb_lower": 2335.94,
         "k": 64.0,
         "d": 56.35,
-        "macd_dif": 8.55,
-        "macd_dem": 5.44,
-        "macd_osc": 3.11
+        "macd_dif": 7.88,
+        "macd_dem": 4.45,
+        "macd_osc": 3.43
       },
       {
         "date": "2026-08-28",
@@ -3770,9 +3752,9 @@
         "bb_lower": 2336.31,
         "k": 68.42,
         "d": 60.37,
-        "macd_dif": 10.08,
-        "macd_dem": 6.37,
-        "macd_osc": 3.71
+        "macd_dif": 9.45,
+        "macd_dem": 5.45,
+        "macd_osc": 4.0
       },
       {
         "date": "2026-08-31",
@@ -3788,9 +3770,9 @@
         "bb_lower": 2338.41,
         "k": 66.83,
         "d": 62.52,
-        "macd_dif": 9.96,
-        "macd_dem": 7.09,
-        "macd_osc": 2.87
+        "macd_dif": 9.39,
+        "macd_dem": 6.24,
+        "macd_osc": 3.15
       },
       {
         "date": "2026-09-01",
@@ -3806,9 +3788,9 @@
         "bb_lower": 2351.24,
         "k": 76.13,
         "d": 67.06,
-        "macd_dif": 12.55,
-        "macd_dem": 8.18,
-        "macd_osc": 4.37
+        "macd_dif": 12.02,
+        "macd_dem": 7.4,
+        "macd_osc": 4.62
       },
       {
         "date": "2026-09-02",
@@ -3824,9 +3806,9 @@
         "bb_lower": 2350.11,
         "k": 63.03,
         "d": 65.72,
-        "macd_dif": 10.05,
-        "macd_dem": 8.55,
-        "macd_osc": 1.5
+        "macd_dif": 9.55,
+        "macd_dem": 7.83,
+        "macd_osc": 1.72
       },
       {
         "date": "2026-09-03",
@@ -3842,9 +3824,9 @@
         "bb_lower": 2353.49,
         "k": 56.06,
         "d": 62.5,
-        "macd_dif": 8.37,
-        "macd_dem": 8.51,
-        "macd_osc": -0.14
+        "macd_dif": 7.91,
+        "macd_dem": 7.85,
+        "macd_osc": 0.06
       },
       {
         "date": "2026-09-04",
@@ -3860,9 +3842,9 @@
         "bb_lower": 2357.03,
         "k": 58.43,
         "d": 61.14,
-        "macd_dif": 8.56,
-        "macd_dem": 8.52,
-        "macd_osc": 0.04
+        "macd_dif": 8.14,
+        "macd_dem": 7.91,
+        "macd_osc": 0.23
       },
       {
         "date": "2026-09-07",
@@ -3878,9 +3860,9 @@
         "bb_lower": 2354.44,
         "k": 72.29,
         "d": 64.86,
-        "macd_dif": 12.6,
-        "macd_dem": 9.34,
-        "macd_osc": 3.26
+        "macd_dif": 12.2,
+        "macd_dem": 8.77,
+        "macd_osc": 3.43
       },
       {
         "date": "2026-09-08",
@@ -3896,9 +3878,9 @@
         "bb_lower": 2350.4,
         "k": 72.55,
         "d": 67.42,
-        "macd_dif": 16.41,
-        "macd_dem": 10.75,
-        "macd_osc": 5.66
+        "macd_dif": 16.05,
+        "macd_dem": 10.23,
+        "macd_osc": 5.82
       },
       {
         "date": "2026-09-09",
@@ -3914,9 +3896,9 @@
         "bb_lower": 2347.54,
         "k": 71.44,
         "d": 68.76,
-        "macd_dif": 18.82,
-        "macd_dem": 12.36,
-        "macd_osc": 6.46
+        "macd_dif": 18.48,
+        "macd_dem": 11.88,
+        "macd_osc": 6.6
       },
       {
         "date": "2026-09-10",
@@ -3932,9 +3914,9 @@
         "bb_lower": 2346.73,
         "k": 66.86,
         "d": 68.13,
-        "macd_dif": 19.29,
-        "macd_dem": 13.75,
-        "macd_osc": 5.54
+        "macd_dif": 18.98,
+        "macd_dem": 13.3,
+        "macd_osc": 5.68
       },
       {
         "date": "2026-09-11",
@@ -3950,9 +3932,9 @@
         "bb_lower": 2347.87,
         "k": 52.57,
         "d": 62.94,
-        "macd_dif": 16.25,
-        "macd_dem": 14.25,
-        "macd_osc": 2.0
+        "macd_dif": 15.96,
+        "macd_dem": 13.83,
+        "macd_osc": 2.13
       },
       {
         "date": "2026-09-14",
@@ -3968,9 +3950,9 @@
         "bb_lower": 2345.58,
         "k": 35.05,
         "d": 53.64,
-        "macd_dif": 11.29,
-        "macd_dem": 13.66,
-        "macd_osc": -2.37
+        "macd_dif": 11.02,
+        "macd_dem": 13.27,
+        "macd_osc": -2.25
       },
       {
         "date": "2026-09-15",
@@ -3986,9 +3968,9 @@
         "bb_lower": 2346.26,
         "k": 24.7,
         "d": 43.99,
-        "macd_dif": 7.68,
-        "macd_dem": 12.46,
-        "macd_osc": -4.78
+        "macd_dif": 7.43,
+        "macd_dem": 12.1,
+        "macd_osc": -4.67
       },
       {
         "date": "2026-09-16",
@@ -4004,9 +3986,9 @@
         "bb_lower": 2352.23,
         "k": 17.75,
         "d": 35.24,
-        "macd_dif": 4.36,
-        "macd_dem": 10.84,
-        "macd_osc": -6.48
+        "macd_dif": 4.13,
+        "macd_dem": 10.51,
+        "macd_osc": -6.38
       },
       {
         "date": "2026-09-17",
@@ -4022,9 +4004,9 @@
         "bb_lower": 2356.95,
         "k": 24.65,
         "d": 31.71,
-        "macd_dif": 5.3,
-        "macd_dem": 9.73,
-        "macd_osc": -4.43
+        "macd_dif": 5.08,
+        "macd_dem": 9.42,
+        "macd_osc": -4.34
       },
       {
         "date": "2026-09-18",
@@ -4040,9 +4022,9 @@
         "bb_lower": 2356.15,
         "k": 38.23,
         "d": 33.88,
-        "macd_dif": 8.76,
-        "macd_dem": 9.54,
-        "macd_osc": -0.78
+        "macd_dif": 8.57,
+        "macd_dem": 9.25,
+        "macd_osc": -0.68
       },
       {
         "date": "2026-09-21",
@@ -4058,9 +4040,9 @@
         "bb_lower": 2358.64,
         "k": 55.92,
         "d": 41.23,
-        "macd_dif": 12.98,
-        "macd_dem": 10.23,
-        "macd_osc": 2.75
+        "macd_dif": 12.79,
+        "macd_dem": 9.96,
+        "macd_osc": 2.83
       },
       {
         "date": "2026-09-22",
@@ -4076,9 +4058,9 @@
         "bb_lower": 2360.42,
         "k": 58.27,
         "d": 46.91,
-        "macd_dif": 14.53,
-        "macd_dem": 11.09,
-        "macd_osc": 3.44
+        "macd_dif": 14.36,
+        "macd_dem": 10.84,
+        "macd_osc": 3.52
       },
       {
         "date": "2026-09-23",
@@ -4094,9 +4076,9 @@
         "bb_lower": 2357.12,
         "k": 69.71,
         "d": 54.51,
-        "macd_dif": 18.78,
-        "macd_dem": 12.63,
-        "macd_osc": 6.15
+        "macd_dif": 18.62,
+        "macd_dem": 12.4,
+        "macd_osc": 6.22
       },
       {
         "date": "2026-09-24",
@@ -4112,9 +4094,9 @@
         "bb_lower": 2358.3,
         "k": 71.16,
         "d": 60.06,
-        "macd_dif": 19.9,
-        "macd_dem": 14.08,
-        "macd_osc": 5.82
+        "macd_dif": 19.75,
+        "macd_dem": 13.87,
+        "macd_osc": 5.88
       },
       {
         "date": "2026-09-29",
@@ -4130,9 +4112,9 @@
         "bb_lower": 2359.06,
         "k": 72.13,
         "d": 64.08,
-        "macd_dif": 20.54,
-        "macd_dem": 15.37,
-        "macd_osc": 5.17
+        "macd_dif": 20.41,
+        "macd_dem": 15.18,
+        "macd_osc": 5.23
       },
       {
         "date": "2026-09-30",
@@ -4148,9 +4130,9 @@
         "bb_lower": 2361.76,
         "k": 74.01,
         "d": 67.39,
-        "macd_dif": 21.22,
-        "macd_dem": 16.54,
-        "macd_osc": 4.68
+        "macd_dif": 21.09,
+        "macd_dem": 16.36,
+        "macd_osc": 4.73
       },
       {
         "date": "2026-10-01",
@@ -4166,9 +4148,9 @@
         "bb_lower": 2359.28,
         "k": 82.67,
         "d": 72.48,
-        "macd_dif": 23.9,
-        "macd_dem": 18.01,
-        "macd_osc": 5.89
+        "macd_dif": 23.78,
+        "macd_dem": 17.84,
+        "macd_osc": 5.94
       },
       {
         "date": "2026-10-02",
@@ -4184,9 +4166,9 @@
         "bb_lower": 2365.83,
         "k": 82.2,
         "d": 75.72,
-        "macd_dif": 24.93,
-        "macd_dem": 19.39,
-        "macd_osc": 5.54
+        "macd_dif": 24.82,
+        "macd_dem": 19.24,
+        "macd_osc": 5.58
       },
       {
         "date": "2026-10-05",
@@ -4202,9 +4184,9 @@
         "bb_lower": 2362.71,
         "k": 86.9,
         "d": 79.45,
-        "macd_dif": 31.43,
-        "macd_dem": 21.8,
-        "macd_osc": 9.63
+        "macd_dif": 31.33,
+        "macd_dem": 21.66,
+        "macd_osc": 9.67
       },
       {
         "date": "2026-10-06",
@@ -4220,9 +4202,9 @@
         "bb_lower": 2359.11,
         "k": 89.98,
         "d": 82.96,
-        "macd_dif": 36.97,
-        "macd_dem": 24.83,
-        "macd_osc": 12.14
+        "macd_dif": 36.88,
+        "macd_dem": 24.7,
+        "macd_osc": 12.18
       },
       {
         "date": "2026-10-07",
@@ -4238,9 +4220,9 @@
         "bb_lower": 2353.61,
         "k": 91.93,
         "d": 85.95,
-        "macd_dif": 40.88,
-        "macd_dem": 28.04,
-        "macd_osc": 12.84
+        "macd_dif": 40.8,
+        "macd_dem": 27.92,
+        "macd_osc": 12.88
       },
       {
         "date": "2026-10-08",
@@ -4256,9 +4238,9 @@
         "bb_lower": 2352.92,
         "k": 83.51,
         "d": 85.14,
-        "macd_dif": 40.69,
-        "macd_dem": 30.57,
-        "macd_osc": 10.12
+        "macd_dif": 40.61,
+        "macd_dem": 30.46,
+        "macd_osc": 10.15
       },
       {
         "date": "2026-10-12",
@@ -4274,9 +4256,9 @@
         "bb_lower": 2353.78,
         "k": 74.51,
         "d": 81.6,
-        "macd_dif": 39.28,
-        "macd_dem": 32.31,
-        "macd_osc": 6.97
+        "macd_dif": 39.21,
+        "macd_dem": 32.21,
+        "macd_osc": 7.0
       },
       {
         "date": "2026-10-13",
@@ -4292,9 +4274,9 @@
         "bb_lower": 2356.49,
         "k": 52.7,
         "d": 71.97,
-        "macd_dif": 33.74,
-        "macd_dem": 32.6,
-        "macd_osc": 1.14
+        "macd_dif": 33.67,
+        "macd_dem": 32.5,
+        "macd_osc": 1.17
       },
       {
         "date": "2026-10-14",
@@ -4310,9 +4292,9 @@
         "bb_lower": 2364.93,
         "k": 36.72,
         "d": 60.22,
-        "macd_dif": 29.02,
-        "macd_dem": 31.88,
-        "macd_osc": -2.86
+        "macd_dif": 28.95,
+        "macd_dem": 31.79,
+        "macd_osc": -2.84
       },
       {
         "date": "2026-10-15",
@@ -4328,9 +4310,9 @@
         "bb_lower": 2375.88,
         "k": 28.4,
         "d": 49.61,
-        "macd_dif": 20.99,
-        "macd_dem": 29.7,
-        "macd_osc": -8.71
+        "macd_dif": 20.94,
+        "macd_dem": 29.62,
+        "macd_osc": -8.68
       },
       {
         "date": "2026-10-16",
@@ -4346,9 +4328,9 @@
         "bb_lower": 2383.18,
         "k": 18.93,
         "d": 39.38,
-        "macd_dif": 12.87,
-        "macd_dem": 26.33,
-        "macd_osc": -13.46
+        "macd_dif": 12.82,
+        "macd_dem": 26.26,
+        "macd_osc": -13.44
       },
       {
         "date": "2026-10-19",
@@ -4364,9 +4346,9 @@
         "bb_lower": 2392.23,
         "k": 17.62,
         "d": 32.13,
-        "macd_dif": 6.37,
-        "macd_dem": 22.34,
-        "macd_osc": -15.97
+        "macd_dif": 6.32,
+        "macd_dem": 22.27,
+        "macd_osc": -15.95
       },
       {
         "date": "2026-10-20",
@@ -4382,9 +4364,9 @@
         "bb_lower": 2388.2,
         "k": 14.31,
         "d": 26.19,
-        "macd_dif": -0.0,
-        "macd_dem": 17.87,
-        "macd_osc": -17.87
+        "macd_dif": -0.05,
+        "macd_dem": 17.81,
+        "macd_osc": -17.86
       },
       {
         "date": "2026-10-21",
@@ -4400,9 +4382,9 @@
         "bb_lower": 2382.34,
         "k": 14.95,
         "d": 22.44,
-        "macd_dif": -3.8,
-        "macd_dem": 13.54,
-        "macd_osc": -17.34
+        "macd_dif": -3.84,
+        "macd_dem": 13.48,
+        "macd_osc": -17.32
       },
       {
         "date": "2026-10-22",
@@ -4418,9 +4400,9 @@
         "bb_lower": 2368.27,
         "k": 9.97,
         "d": 18.28,
-        "macd_dif": -9.52,
-        "macd_dem": 8.93,
-        "macd_osc": -18.45
+        "macd_dif": -9.55,
+        "macd_dem": 8.87,
+        "macd_osc": -18.42
       },
       {
         "date": "2026-10-23",
@@ -4436,9 +4418,9 @@
         "bb_lower": 2356.96,
         "k": 6.65,
         "d": 14.4,
-        "macd_dif": -13.89,
-        "macd_dem": 4.37,
-        "macd_osc": -18.26
+        "macd_dif": -13.92,
+        "macd_dem": 4.31,
+        "macd_osc": -18.23
       },
       {
         "date": "2026-10-27",
@@ -4454,9 +4436,9 @@
         "bb_lower": 2347.38,
         "k": 8.73,
         "d": 12.51,
-        "macd_dif": -15.96,
-        "macd_dem": 0.3,
-        "macd_osc": -16.26
+        "macd_dif": -15.99,
+        "macd_dem": 0.25,
+        "macd_osc": -16.24
       },
       {
         "date": "2026-10-28",
@@ -4472,9 +4454,9 @@
         "bb_lower": 2342.94,
         "k": 27.25,
         "d": 17.42,
-        "macd_dif": -15.41,
-        "macd_dem": -2.84,
-        "macd_osc": -12.57
+        "macd_dif": -15.44,
+        "macd_dem": -2.89,
+        "macd_osc": -12.55
       },
       {
         "date": "2026-10-29",
@@ -4490,9 +4472,9 @@
         "bb_lower": 2337.45,
         "k": 36.12,
         "d": 23.65,
-        "macd_dif": -15.6,
-        "macd_dem": -5.39,
-        "macd_osc": -10.21
+        "macd_dif": -15.62,
+        "macd_dem": -5.44,
+        "macd_osc": -10.18
       },
       {
         "date": "2026-10-30",
@@ -4508,9 +4490,9 @@
         "bb_lower": 2325.0,
         "k": 28.52,
         "d": 25.27,
-        "macd_dif": -19.16,
-        "macd_dem": -8.14,
-        "macd_osc": -11.02
+        "macd_dif": -19.18,
+        "macd_dem": -8.19,
+        "macd_osc": -10.99
       },
       {
         "date": "2026-11-02",
@@ -4526,9 +4508,9 @@
         "bb_lower": 2305.86,
         "k": 24.35,
         "d": 24.96,
-        "macd_dif": -24.92,
-        "macd_dem": -11.5,
-        "macd_osc": -13.42
+        "macd_dif": -24.94,
+        "macd_dem": -11.54,
+        "macd_osc": -13.4
       },
       {
         "date": "2026-11-03",
@@ -4544,9 +4526,9 @@
         "bb_lower": 2281.6,
         "k": 19.46,
         "d": 23.13,
-        "macd_dif": -31.94,
-        "macd_dem": -15.59,
-        "macd_osc": -16.35
+        "macd_dif": -31.96,
+        "macd_dem": -15.62,
+        "macd_osc": -16.34
       },
       {
         "date": "2026-11-04",
@@ -4562,8 +4544,8 @@
         "bb_lower": 2258.05,
         "k": 17.14,
         "d": 21.13,
-        "macd_dif": -39.87,
-        "macd_dem": -20.45,
+        "macd_dif": -39.89,
+        "macd_dem": -20.47,
         "macd_osc": -19.42
       },
       {
@@ -4580,8 +4562,8 @@
         "bb_lower": 2237.09,
         "k": 12.28,
         "d": 18.18,
-        "macd_dif": -47.22,
-        "macd_dem": -25.8,
+        "macd_dif": -47.24,
+        "macd_dem": -25.82,
         "macd_osc": -21.42
       },
       {
@@ -4598,8 +4580,8 @@
         "bb_lower": 2194.3,
         "k": 17.54,
         "d": 17.97,
-        "macd_dif": -60.82,
-        "macd_dem": -32.8,
+        "macd_dif": -60.84,
+        "macd_dem": -32.82,
         "macd_osc": -28.02
       },
       {
@@ -4616,9 +4598,9 @@
         "bb_lower": 2181.66,
         "k": 29.17,
         "d": 21.7,
-        "macd_dif": -62.81,
-        "macd_dem": -38.8,
-        "macd_osc": -24.01
+        "macd_dif": -62.82,
+        "macd_dem": -38.82,
+        "macd_osc": -24.0
       },
       {
         "date": "2026-11-10",
@@ -4634,9 +4616,9 @@
         "bb_lower": 2180.85,
         "k": 41.26,
         "d": 28.22,
-        "macd_dif": -59.66,
-        "macd_dem": -42.97,
-        "macd_osc": -16.69
+        "macd_dif": -59.67,
+        "macd_dem": -42.99,
+        "macd_osc": -16.68
       },
       {
         "date": "2026-11-11",
@@ -4652,9 +4634,9 @@
         "bb_lower": 2184.97,
         "k": 60.84,
         "d": 39.09,
-        "macd_dif": -47.74,
-        "macd_dem": -43.92,
-        "macd_osc": -3.82
+        "macd_dif": -47.75,
+        "macd_dem": -43.94,
+        "macd_osc": -3.81
       },
       {
         "date": "2026-11-12",
@@ -4670,9 +4652,9 @@
         "bb_lower": 2188.48,
         "k": 69.0,
         "d": 49.06,
-        "macd_dif": -42.24,
-        "macd_dem": -43.58,
-        "macd_osc": 1.34
+        "macd_dif": -42.25,
+        "macd_dem": -43.6,
+        "macd_osc": 1.35
       },
       {
         "date": "2026-11-13",
@@ -4688,9 +4670,9 @@
         "bb_lower": 2189.33,
         "k": 75.33,
         "d": 57.82,
-        "macd_dif": -36.65,
-        "macd_dem": -42.19,
-        "macd_osc": 5.54
+        "macd_dif": -36.66,
+        "macd_dem": -42.21,
+        "macd_osc": 5.55
       },
       {
         "date": "2026-11-16",
@@ -4706,9 +4688,9 @@
         "bb_lower": 2173.19,
         "k": 67.55,
         "d": 61.06,
-        "macd_dif": -42.63,
-        "macd_dem": -42.28,
-        "macd_osc": -0.35
+        "macd_dif": -42.64,
+        "macd_dem": -42.3,
+        "macd_osc": -0.34
       },
       {
         "date": "2026-11-17",
@@ -4724,8 +4706,8 @@
         "bb_lower": 2150.52,
         "k": 58.37,
         "d": 60.16,
-        "macd_dif": -50.41,
-        "macd_dem": -43.91,
+        "macd_dif": -50.42,
+        "macd_dem": -43.92,
         "macd_osc": -6.5
       },
       {
@@ -4742,8 +4724,8 @@
         "bb_lower": 2131.95,
         "k": 52.69,
         "d": 57.67,
-        "macd_dif": -55.54,
-        "macd_dem": -46.24,
+        "macd_dif": -55.55,
+        "macd_dem": -46.25,
         "macd_osc": -9.3
       },
       {
@@ -4760,8 +4742,8 @@
         "bb_lower": 2101.12,
         "k": 36.74,
         "d": 50.69,
-        "macd_dif": -64.9,
-        "macd_dem": -49.97,
+        "macd_dif": -64.91,
+        "macd_dem": -49.98,
         "macd_osc": -14.93
       },
       {
@@ -4778,16 +4760,33 @@
         "bb_lower": 2047.91,
         "k": 26.85,
         "d": 42.74,
-        "macd_dif": -79.48,
-        "macd_dem": -55.87,
+        "macd_dif": -79.49,
+        "macd_dem": -55.88,
         "macd_osc": -23.61
+      },
+      {
+        "date": "2026-11-23",
+        "open": 1990.0,
+        "high": 2050.0,
+        "low": 1970.0,
+        "close": 2030.0,
+        "volume": 68861769,
+        "ma5": 2095.0,
+        "ma20": 2258.25,
+        "ma60": 2388.25,
+        "bb_upper": 2504.2,
+        "bb_lower": 2012.3,
+        "k": 22.61,
+        "d": 36.03,
+        "macd_dif": -87.61,
+        "macd_dem": -62.23,
+        "macd_osc": -25.38
       }
     ]
   },
   "history": {
     "1Y": {
       "labels": [
-        "25/11/17",
         "25/11/24",
         "25/12/01",
         "25/12/08",
@@ -4839,11 +4838,11 @@
         "26/10/26",
         "26/11/02",
         "26/11/09",
-        "26/11/20"
+        "26/11/16",
+        "26/11/23"
       ],
       "raw": {
         "evergreen": [
-          180.0,
           179.5,
           183.0,
           183.0,
@@ -4895,10 +4894,10 @@
           271.5,
           246.5,
           257.5,
-          233.0
+          233.0,
+          234.5
         ],
         "yangming": [
-          51.0,
           52.0,
           51.7,
           50.8,
@@ -4950,10 +4949,10 @@
           63.5,
           57.1,
           60.3,
-          53.0
+          53.0,
+          54.5
         ],
         "wanhai": [
-          79.7,
           80.6,
           79.7,
           78.2,
@@ -5005,10 +5004,10 @@
           120.0,
           107.5,
           107.5,
-          95.0
+          95.0,
+          96.1
         ],
         "tsmc": [
-          1385.0,
           1440.0,
           1460.0,
           1480.0,
@@ -5060,10 +5059,10 @@
           2370.0,
           2135.0,
           2350.0,
-          2000.0
+          2000.0,
+          2030.0
         ],
         "etf0050": [
-          59.85,
           62.35,
           62.75,
           63.45,
@@ -5115,10 +5114,10 @@
           104.95,
           92.5,
           102.5,
-          84.45
+          84.45,
+          87.0
         ],
         "tw": [
-          26434.94,
           27626.48,
           27980.89,
           28198.02,
@@ -5170,10 +5169,10 @@
           45211.83,
           39701.64,
           43675.12,
-          36033.29
+          36033.29,
+          36811.89
         ],
         "us": [
-          6602.99,
           6849.09,
           6870.4,
           6827.41,
@@ -5225,10 +5224,10 @@
           7580.07,
           7376.86,
           7561.67,
+          6910.39,
           6910.39
         ],
         "jp": [
-          50253.91,
           50491.87,
           50836.55,
           49507.21,
@@ -5280,10 +5279,10 @@
           57434.77,
           61142.35,
           56436.65,
+          56436.65,
           56436.65
         ],
         "eu": [
-          5515.09,
           5668.17,
           5723.93,
           5720.71,
@@ -5335,13 +5334,13 @@
           6131.31,
           6170.49,
           6386.86,
-          5941.95
+          5941.95,
+          5971.63
         ]
       }
     },
     "2Y": {
       "labels": [
-        "24/11/18",
         "24/11/25",
         "24/12/02",
         "24/12/09",
@@ -5445,11 +5444,11 @@
         "26/10/26",
         "26/11/02",
         "26/11/09",
-        "26/11/20"
+        "26/11/16",
+        "26/11/23"
       ],
       "raw": {
         "evergreen": [
-          236.0,
           217.0,
           228.0,
           230.0,
@@ -5553,10 +5552,10 @@
           271.5,
           246.5,
           257.5,
-          233.0
+          233.0,
+          234.5
         ],
         "yangming": [
-          77.5,
           73.2,
           75.6,
           80.4,
@@ -5660,10 +5659,10 @@
           63.5,
           57.1,
           60.3,
-          53.0
+          53.0,
+          54.5
         ],
         "wanhai": [
-          93.6,
           83.0,
           84.0,
           82.2,
@@ -5767,10 +5766,10 @@
           120.0,
           107.5,
           107.5,
-          95.0
+          95.0,
+          96.1
         ],
         "tsmc": [
-          1040.0,
           996.0,
           1065.0,
           1065.0,
@@ -5874,10 +5873,10 @@
           2370.0,
           2135.0,
           2350.0,
-          2000.0
+          2000.0,
+          2030.0
         ],
         "etf0050": [
-          48.26,
           46.81,
           48.94,
           48.83,
@@ -5981,10 +5980,10 @@
           104.95,
           92.5,
           102.5,
-          84.45
+          84.45,
+          87.0
         ],
         "tw": [
-          22904.32,
           22262.5,
           23193.27,
           23020.48,
@@ -6088,10 +6087,10 @@
           45211.83,
           39701.64,
           43675.12,
-          36033.29
+          36033.29,
+          36811.89
         ],
         "us": [
-          5969.34,
           6032.38,
           6090.27,
           6051.09,
@@ -6195,10 +6194,10 @@
           7580.07,
           7376.86,
           7561.67,
+          6910.39,
           6910.39
         ],
         "jp": [
-          38208.03,
           39091.17,
           39470.44,
           38701.9,
@@ -6302,10 +6301,10 @@
           57434.77,
           61142.35,
           56436.65,
+          56436.65,
           56436.65
         ],
         "eu": [
-          4789.08,
           4804.4,
           4977.78,
           4967.95,
@@ -6409,14 +6408,51 @@
           6131.31,
           6170.49,
           6386.86,
-          5941.95
+          5941.95,
+          5971.63
         ]
       }
     }
   },
   "live_news": [
     {
+      "id": "live-46",
+      "title": "萬海印度子公司攜手CitiBank打造應收帳款對帳系統 獲國際財資大獎肯定",
+      "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9VZVFOaFF0XzEzbXBlWmV2ZDNjT0ZUOTJfcUlabFk1dTgzNnRQd0NtYm56V1B3VnRmUHdWVHJaT1hfQ241OHNzSmNqNHlTR08yTW1yNg?oc=5",
+      "pubDate": "2026-11-23 15:06",
+      "date": "2026-11-23 15:06",
+      "source": "航貿週刊",
+      "sentiment": "neutral",
+      "sentimentLabel": "即時市場",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
+    },
+    {
       "id": "live-16",
+      "title": "SCFI連3黑！法人「1原因」照挺貨櫃3雄長榮、陽明、萬海...最新目標價1次看- 上市櫃",
+      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE94OEJjNDY4U0JUaFUtTTZYU2FOcG1Ja3hvU2Mxc0FHdjNlVkEtamVFMXVsV0dqTlI5YUJNTm1GYml5RElweEE0MWdhdGFKbG9XOVloMTZHcU5kNUdxLTZ3MXQxMnRTdzBhTGc?oc=5",
+      "pubDate": "2026-11-23 13:00",
+      "date": "2026-11-23 13:00",
+      "source": "旺得富理財網",
+      "sentiment": "neutral",
+      "sentimentLabel": "即時市場",
+      "category": "corporate",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
+    },
+    {
+      "id": "live-17",
+      "title": "東南亞緊張抵銷北亞緩解 亞洲區內貨櫃指數升 4 美元至 1,444 美元 - 新聞與統計",
+      "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPbWVIejJsanJWYlpNcmZ5SUcwSjJwcTh0aVVFc2hxZUROaVFVMVhRVlRnS3kwa2hscGMtX3hUR3c4T2xQRUNYVFlzeXA4YU1nSWxCQTZjMHhQcmptZktNN3BpUHN5N0xMWTk0ZlBkVl9fYmQzSUExbWtlWk1zN1FyeVpYSkVGZ0Mya1lwZTdlQUZ2SlZfLWEtZXc0WG9FRmh1ZGNISHRWQVc0dw?oc=5",
+      "pubDate": "2026-11-23 12:20",
+      "date": "2026-11-23 12:20",
+      "source": "IndexBox",
+      "sentiment": "neutral",
+      "sentimentLabel": "即時市場",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
+    },
+    {
+      "id": "live-20",
       "title": "全球10%運力消失、運價狂飆！大咖法人首選「1台廠」 年前旺季反彈在即",
       "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTFBVdjNJdUpHNlNnZllvcXk0SDR0bEZZZUU1TEJIaEIwQnkyZ1MtY2Z5LVlDcS1xWXBqcjlIbmIxQVpMQ2VlZUdCTFNlaw?oc=5",
       "pubDate": "2026-11-22 21:25",
@@ -6424,6 +6460,18 @@
       "source": "FTNN 新聞網",
       "sentiment": "bull",
       "sentimentLabel": "偏多利多",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
+    },
+    {
+      "id": "live-22",
+      "title": "討論牆 | SCFI指數連三跌 貨櫃三雄股價表現疲軟",
+      "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5LdVRKSXpUVWc5bDY3UjU4Qkt0QmxKVzVZc2NHVWE4Mmk0UmVYQXhhLVF0a1RkRlpIZmVJN0ZxYlBMUzd3V1F1OHRZd2N5R0FTRHVFeEFZS2dRN3I5M1lNQkV1Smc?oc=5",
+      "pubDate": "2026-11-22 12:23",
+      "date": "2026-11-22 12:23",
+      "source": "LINE TODAY",
+      "sentiment": "bear",
+      "sentimentLabel": "偏空警訊",
       "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
@@ -6440,7 +6488,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-23",
+      "id": "live-27",
       "title": "貨櫃三雄新戰局2》新船越造越多 運價卻有三大支撐",
       "link": "https://news.google.com/rss/articles/CBMi0wJBVV95cUxPNGUwaFRGY2FiVS1VMVRSX1V2OTNROUJIODdkYnZqcTl1MXNwVW0wbTRmMjBWTDRHNzJ3czBLY1h3b3AtTGFMaURsYndEYmpKQXhRNnhHWHd6ZkZsMDJUY3ozcU53WWVNcEdjNlVjWldaYzh1OVZRRU1ERjcwbVlmRDJWdE5DTEVwV3pRZnhNVHBVa3M3X3loYlBDX1JieC1pSWdrSjRNQm1KSUw0d2ZmRUZfNmo5STg5cjZkZFBDRTdDR1VHcHBTY0xlazVVcmNyNGhmN0hRQ0lvYnlyZF9TMHBqMWd5TUpsRDBpTVJSTlU0WXpVY1VCSURhYm5Fbmc1cWNfcmJDa2pMSG9CWGhoTHJsdmZWalRRTHlVcTVNejVyLUVjQmhucVEtY2NjczFaX0p2VUFzUlZqd1BteVBNSkl3LVIySFYtcFByUS1Tbzdfajg?oc=5",
       "pubDate": "2026-11-22 06:01",
@@ -6452,7 +6500,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-17",
+      "id": "live-18",
       "title": "貨櫃三雄新戰局1》長榮穩坐獲利王 三雄賺錢能力差在哪？",
       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFAzeFBjTzhxT1NaV3lxSElSVDMtM1I1V3czRllCQTFtdlFidXhDUHd4M0pSTkhrVFpLMS0wQXZOYWFKQTZYZDlyVEVkdnB1RU5EYTczcGM0QnZ2SGdCTnJoMktQVzU?oc=5",
       "pubDate": "2026-11-22 06:00",
@@ -6464,7 +6512,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-18",
+      "id": "live-19",
       "title": "SCFI指數連三跌 貨櫃三雄股價表現疲軟",
       "link": "https://news.google.com/rss/articles/CBMijgJBVV95cUxPZGdUYlY4c05TWlRiMmJMMUw2QnI4QWtTaGNNY0FGWTVqRjIxU29CcGRsNFdYd0NYY3ptVXpZQUF5c3ptdDAwbU8tWl8yQ2RKRkhfcWMzQjZzZWQyQmlJZjQ2RlpqWVIybmxReDJJV0JtYmZncVFyM0daWWlnSTJyQ0dKSDZQVnBIQjU0MjZJQUpCMEFndVZjM1Q5VWpzTGFKaFpNdmpvZzdOX1g4d0RfNGE5NHBPRXpUUTNLczNsc21JOHpiYnlXQUtFaVhUTzhRMXk5aDQtR19QMnBxUm9WRnBjRUtqelljQ2NwR2VieTIxeE9EdFJCWklvb29Qa19oWUN1QWw4UnFpaDVYLUE?oc=5",
       "pubDate": "2026-11-21 12:18",
@@ -6476,19 +6524,31 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-20",
-      "title": "SCFI連三跌靜待年前備貨潮- 財經要聞- 工商時報",
-      "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9SdlRKLVpVNlZHaUE4ZDZVZFcwSkF4aXhzVUxzRVhmaHhkT1ZnVm93b0hlQUlidGhxT2Y0NElkY29qTU5NbFh2S1pPb19WX3JJdWZlS0F0TXBRc0I5ZldZaGhaTUFwTUVjOGNR?oc=5",
-      "pubDate": "2026-11-21 04:10",
-      "date": "2026-11-21 04:10",
-      "source": "中時新聞網",
+      "id": "live-24",
+      "title": "SCFI指數連三跌　貨櫃三雄股價表現疲軟 | 財經 | CTWANT",
+      "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9xaDZ1bkQ5UHlKYm81ODYxeDNkRml1YUtoVHVyVU9lNVFtaDBtSHJJb01ud09TVFVxZ3pyQS02N3MtSEZmVmxGWktGV3NMWmpGYVEzWtIBVEFVX3lxTE9xaDZ1bkQ5UHlKYm81ODYxeDNkRml1YUtoVHVyVU9lNVFtaDBtSHJJb01ud09TVFVxZ3pyQS02N3MtSEZmVmxGWktGV3NMWmpGYVEzWg?oc=5",
+      "pubDate": "2026-11-21 12:08",
+      "date": "2026-11-21 12:08",
+      "source": "CTWANT",
       "sentiment": "bear",
       "sentimentLabel": "偏空警訊",
       "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-48",
+      "id": "live-30",
+      "title": "Drewry世界貨櫃指數下跌3%至4,176美元，跨太平洋運價連七週走弱 - 新聞與統計",
+      "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOSUsyelIyLWVOT3RXOGJtUVBnUElCV3lNcDAxaGRkYmlfc3lXNTNjV240R0RYLThTMHc2eURSVGFsOUtkbXVxY0ktMUZ2OWtUYU1XSHY3QW1lV3YxMkRlTDF2TkhMUFFKYUV2NnVkc2ZlSmdVTWFVYV9OeUVlUzVYLVloX09Jb3ZqaGkyOFR4NUNXM195cTlZWFVxX1I2bU5yY2VNN253?oc=5",
+      "pubDate": "2026-11-21 12:00",
+      "date": "2026-11-21 12:00",
+      "source": "IndexBox",
+      "sentiment": "bear",
+      "sentimentLabel": "偏空警訊",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
+    },
+    {
+      "id": "live-49",
       "title": "萬海印度公司與花旗打造AI應收帳款對帳系統　獲國際財資大獎",
       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9KMkZTc1pkeU5ZVUlYckJPSHdfZjhkVWU2R0NWUnpUTlJQS0JDMjlTb013RUxMWi14bmJfdmVfMmJFZ21VRV9WMkNBY3VJLVlibVHSAVBBVV95cUxNZXFGb29Xa0JwMmEzUGJ2NGFvZVg5UllpNVBRTVVZZHNlcVBYaGhyTlJEQ2NYUnF4ekFqMnNFSUhJTkNHTmEweUtRdnRtN1JXUA?oc=5",
       "pubDate": "2026-11-20 19:15",
@@ -6500,7 +6560,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-38",
+      "id": "live-56",
       "title": "美西或有局部罷工風險　陽明與萬海所使用碼頭未入列",
       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9HOHpnVHp4WTJkM0p5WFFsY0tJZU1PU3lfbWlrUmpabkRUZE40T2RaejJEd2FuT2VsbWt1TjZZaWl4bEx2R28zUlNzSnl5aXZnblHSAVBBVV95cUxOSmlhWEp4RmE5a3BHWFc4NnZrQTlpVEstZXJ6TE53Si1hTTJNWW0zZXBnby04OU00SHB4VFNJQlU2TUVZbXN5VExUUUJkanNadQ?oc=5",
       "pubDate": "2026-11-20 18:55",
@@ -6512,7 +6572,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-46",
+      "id": "live-48",
       "title": "萬海陳柏廷難得現身 從羽球攻防妙喻航運變數",
       "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTFAxeklkaDdpLUp3OE5FYkRMcUJDVnRORHZDZTlYN2N3Y0dMQW81LV9DYzQ0MGZPWGE1Tl9HekRSbFBpcWtsTVdUM1ZaTVBGWG8tbWRRSUlLZDNQTmgtRmpGWEpieE8zdDEtOXdyMm8yRFdZWVZpU0R3dkpzNA?oc=5",
       "pubDate": "2026-11-20 16:55",
@@ -6524,7 +6584,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-49",
+      "id": "live-51",
       "title": "《航運股》萬海印度子公司導入AI應收帳款對帳系統",
       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQdlpUWGRILXNqM1VPZjBjX0VwdXBzYkQ0OWJDU3lsVXhLbGNRWGNpeTdZMnpsRy01ZGJ4NjhfSXlPNWlZeTFqaDVXZHQ0YkN4WURWWkxINEdGMHBBYUZ4eXFoeW42MjRZcFM2MnhrSC05OWJRZUd2UFZ5MTJPQXlFZkE0TjB2blR0?oc=5",
       "pubDate": "2026-11-20 16:06",
@@ -6536,7 +6596,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-19",
+      "id": "live-21",
       "title": "德魯里：美線運價12周新低、下周空班倍增　歐地線12月擬大漲價",
       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFByd0haMXB1MVlBYnFLdThRa3FUZkc4azdLOHhkVUVOWDF0YzBJdDdtWDVVVGs1UC1tOXlndDVDd3JRX1AzUXZRZTJqMFJxU1EwZ3fSAVBBVV95cUxOY2hoMzRRakJKWVJMUDJQaS1XOG5YZVY1bXV3c0xFZmRweW9TSkNabDFjZkhjcXZ3RW5TNlUzTU9CU1dfaVRiRGFGQzBSd3k1bQ?oc=5",
       "pubDate": "2026-11-20 07:00",
@@ -6548,7 +6608,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-3",
+      "id": "live-4",
       "title": "2603 長榮 - 股票配置長榮海運+ETF🚢📈💰💰💰 - 股市爆料同學會",
       "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9LelhKdWQ4R3NkSThydzBDM2Q2Y2M5dTlWU1Iyc2M4UEpNOVBldnR1TUtqMlVxQ1ZMWGhJNEg1UU9YcnoyZ1N6el9TRlpQXzBMT1BGQlBOSHE?oc=5",
       "pubDate": "2026-11-19 23:23",
@@ -6560,7 +6620,31 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-32",
+      "id": "live-2",
+      "title": "萬海航運造樹海認植養護破110萬棵| 產經",
+      "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9xbnRiZkduTHhqSVJaUnZIcHFPUmdsYWg2N0o3aFZsQWVIOWd0bjRtbmViMVgwLVc5Q3BkSU5zZEp6bEdacnhDcTRfNGo4VEZKYndiZTJ4VS14b0VTWVE?oc=5",
+      "pubDate": "2026-11-18 17:50",
+      "date": "2026-11-18 17:50",
+      "source": "中央社 CNA",
+      "sentiment": "neutral",
+      "sentimentLabel": "即時市場",
+      "category": "freight",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
+    },
+    {
+      "id": "live-26",
+      "title": "紅海風暴未歇、船隊卻暴增：全球貨櫃海運陷「高價＋供給爆量」雙重風險",
+      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNaHBpUUJvdVhkaWtwb0JYSVFXd0dXSk9DZnVkVWYzTTNzS1dQSlcxdGZrNm42LWNwaTFSTDBxUzVqSVA1UTltTzZYVnhaal9oUjZrWVBLVTFuekxfcnVMZC1mZEkzdzVJNlV0c3BGczNLN211MVNUWngzZUh5b3NQZGQ3Q0pQRk5xTS1WTFF3?oc=5",
+      "pubDate": "2026-11-18 01:00",
+      "date": "2026-11-18 01:00",
+      "source": "CMoney投資網誌",
+      "sentiment": "bear",
+      "sentimentLabel": "偏空警訊",
+      "category": "geopolitics",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
+    },
+    {
+      "id": "live-37",
       "title": "陽明Q3EPS5.32元較市場預估值高21%　有法人估Q4EPS4.15元",
       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5yTGl5Qmw5MzNJRTZzMnI0T0ExVmJ3ZHViQ3Z6ZXEwYU9UamlUWDhOcXdYemNMT0NERWNWUlJQbTczWDFKcDk1cFVlTndITEhCTlHSAVBBVV95cUxOc0ZCbkczd3NnS0NoaUdIT2FlRGhYUzF5UjlFajZPVGs4dGVjN1JjdHBfeE5PSllsalJVajF5NVVkM2w2eTFRZkE4WTE4RWxUNA?oc=5",
       "pubDate": "2026-11-17 07:00",
@@ -6568,90 +6652,6 @@
       "source": "ETtoday財經雲",
       "sentiment": "neutral",
       "sentimentLabel": "即時市場",
-      "category": "corporate",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
-    },
-    {
-      "id": "live-47",
-      "title": "【即時新聞】最新宣布萬海前三季大賺逾400億元，EPS衝上14.61元展現驚人爆發力！",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQY2RDdzVlNk16cTI2Z3R5OWFhSnFJanhRNWxfX09vZldFRERvX0s3MTRWRXBFSmpyeXRsQ1A2WFg0RFdRU0hnRGhoN3BvRDljdXZFWEtlY2w1dXp1Yy1rd2JpQV81Z2JvY1lBTFFNLW5lTW1TNmRTTXZQcFVISDA0YnFUVHJtbTF6RmgwcmRWYUk?oc=5",
-      "pubDate": "2026-11-17 06:19",
-      "date": "2026-11-17 06:19",
-      "source": "CMoney投資網誌",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
-      "category": "corporate",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
-    },
-    {
-      "id": "live-22",
-      "title": "【即時新聞】長榮展望2027運價高檔有撐，年底前備貨潮有望帶動需求回溫！",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPXzF6M2ZxU2E1eVZuVWJNbGo0NWo2WmxYNktGZjZYdllTaWwyNFY0TFU4V1RBRlZoQzZaM3JUc3ZlVU9WY1NFRTZDLXNkTW4yVnNFUFhQcjJDNVdUMW80ZkFobXZsRnBqbWxmMmNXdDZsdllkTGhLdVFadzlFelZ0a0MzUzBNZ21HSHcxUl82RHQ?oc=5",
-      "pubDate": "2026-11-17 06:18",
-      "date": "2026-11-17 06:18",
-      "source": "CMoney投資網誌",
-      "sentiment": "neutral",
-      "sentimentLabel": "即時市場",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
-    },
-    {
-      "id": "live-41",
-      "title": "長榮、陽明 四檔動能強",
-      "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE1fT0o0cHpCNFQydE5HSndxTFp4SS1BeWtONGlSWDJibzRmSVNiY21qODMza2EwSDZSSlRxZ3pSUnVkYi1TcXE0cF9PSzU5Nmdm0gFWQVVfeXFMUHBCXy1yZ0txbC1kZWJ2UF9kNFZqcHgtZUhFMGotVmIwQWRoMDVVMm44UjJfN1J1YWxTbGVncklSemx1NzdGX2FleEp5MHFoOWhSM0NLSlE?oc=5",
-      "pubDate": "2026-11-17 00:15",
-      "date": "2026-11-17 00:15",
-      "source": "UDN",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
-    },
-    {
-      "id": "live-2",
-      "title": "萬海航運看好未來貨櫃航運 預計明年運量還將向上提升",
-      "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBTWEJpUWUwbi0ycElIUUxoUEF6bHdFXzNyTzNKLXFjME9MM0U1R0xFN3I5QlR1QXZUNE9KZlRyU2M5NnBzOXZpVnFKWUhTalhXZk1pWA?oc=5",
-      "pubDate": "2026-11-16 15:18",
-      "date": "2026-11-16 15:18",
-      "source": "航貿週刊",
-      "sentiment": "neutral",
-      "sentimentLabel": "即時市場",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
-    },
-    {
-      "id": "live-54",
-      "title": "萬海看好第4季量價優於去年 貨櫃輪逆勢走揚",
-      "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFB0cFROcG9YRmxicEhBU0RCU3dvd05QbWtaMnZ5bHBnX2Q2T1hPVmZZcG1fYURDU3FXd1JjM0lzRHhBNHotOElvMEw5a1RQNmVQ0gFWQVVfeXFMTzhmMUpKcjhGYllEWHZKcVdNMjh1dV9lenowSU5OeVpyY3Nob0pCQWNEVVhFTExLb2FQQVdKUlRpQjJjNFU0TlI4RXVsLVUyZ1pqQmViSmc?oc=5",
-      "pubDate": "2026-11-16 13:04",
-      "date": "2026-11-16 13:04",
-      "source": "UDN",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
-    },
-    {
-      "id": "live-60",
-      "title": "貨櫃三雄有志一同看旺年底至農曆年業績| 經濟日報",
-      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBKdEx5LV9LYmZjN0FjRG95aUQ0UkhLQ2YzMmZnUUI0aTcwUV85TjgwZXJuMXJOcHZxTHNRWmotcWNRSEpyU2RBZmtXYjF5SG8yS2l3NjhB?oc=5",
-      "pubDate": "2026-11-16 12:09",
-      "date": "2026-11-16 12:09",
-      "source": "LINE TODAY",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
-    },
-    {
-      "id": "live-56",
-      "title": "【10:57 即時新聞】萬海(2615)股價走強，貨櫃航運獲利與船隊布局受關注",
-      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNeUVvNzA2U203Q1ltQWtpUmNpS1NGSXkzamNGelY5VTMtbGh4RnFxUDBrUmlocS1UcVFuMHBwcW5xdUpZQzZuVkVyTTRvSjZTSnNFQmVJcHRnZXB1SFhlVUVlMVI2LXo3Nmx3OUJzTXpXczBTdWR2d2FvX0d4S0dyXzhYM3FhVzJ5Mk5UWEF3?oc=5",
-      "pubDate": "2026-11-16 10:58",
-      "date": "2026-11-16 10:58",
-      "source": "CMoney投資網誌",
-      "sentiment": "bull",
-      "sentimentLabel": "偏多利多",
       "category": "corporate",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     }
