@@ -1,66 +1,66 @@
 {
-  "last_updated": "2026-11-25 20:22:44",
+  "last_updated": "2026-11-26 01:02:04",
   "stocks": {
     "2603": {
       "symbol": "2603.TW",
       "price": 252.5,
-      "prev_close": 257.0,
-      "change": -4.5,
-      "change_percent": -1.75,
+      "prev_close": 234.5,
+      "change": 18.0,
+      "change_percent": 7.68,
       "high": 256.5,
       "low": 244.5,
       "volume": 29592401,
       "status": "success",
       "technicals": {
-        "ma5": 244.8,
-        "ma20": 255.47,
-        "ma60": 247.72,
-        "ma240": 213.57,
-        "bias_20": -1.16,
-        "bias_60": 1.93,
-        "rsi14": 50.2,
+        "ma5": 245.8,
+        "ma20": 256.0,
+        "ma60": 247.39,
+        "ma240": 213.28,
+        "bias_20": -1.37,
+        "bias_60": 2.07,
+        "rsi14": 52.9,
         "trend": "回測季線震盪整理"
       }
     },
     "2609": {
       "symbol": "2609.TW",
       "price": 55.8,
-      "prev_close": 56.3,
-      "change": -0.5,
-      "change_percent": -0.89,
+      "prev_close": 54.5,
+      "change": 1.3,
+      "change_percent": 2.39,
       "high": 57.3,
       "low": 54.2,
       "volume": 19233641,
       "status": "success",
       "technicals": {
-        "ma5": 55.38,
-        "ma20": 59.08,
-        "ma60": 59.9,
-        "ma240": 54.84,
-        "bias_20": -5.55,
-        "bias_60": -6.84,
-        "rsi14": 41.0,
+        "ma5": 56.32,
+        "ma20": 59.43,
+        "ma60": 59.93,
+        "ma240": 54.83,
+        "bias_20": -6.11,
+        "bias_60": -6.89,
+        "rsi14": 42.2,
         "trend": "均線下方弱勢整理"
       }
     },
     "2615": {
       "symbol": "2615.TW",
       "price": 100.5,
-      "prev_close": 97.1,
-      "change": 3.4,
-      "change_percent": 3.5,
+      "prev_close": 96.1,
+      "change": 4.4,
+      "change_percent": 4.58,
       "high": 103.5,
       "low": 95.5,
       "volume": 25952443,
       "status": "success",
       "technicals": {
-        "ma5": 98.44,
-        "ma20": 108.46,
-        "ma60": 113.18,
-        "ma240": 89.07,
-        "bias_20": -7.34,
-        "bias_60": -11.2,
-        "rsi14": 40.4,
+        "ma5": 100.54,
+        "ma20": 109.36,
+        "ma60": 113.39,
+        "ma240": 88.99,
+        "bias_20": -8.1,
+        "bias_60": -11.37,
+        "rsi14": 35.3,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -69,42 +69,42 @@
     "2330": {
       "symbol": "2330.TW",
       "price": 2150.0,
-      "prev_close": 2230.0,
-      "change": -80.0,
-      "change_percent": -3.59,
+      "prev_close": 2030.0,
+      "change": 120.0,
+      "change_percent": 5.91,
       "high": 2170.0,
       "low": 2020.0,
       "volume": 83805034,
       "status": "success",
       "technicals": {
-        "ma5": 2102.0,
-        "ma20": 2236.0,
-        "ma60": 2380.83,
-        "ma240": 2125.33,
-        "bias_20": -3.85,
-        "bias_60": -9.7,
-        "rsi14": 43.1,
+        "ma5": 2107.0,
+        "ma20": 2249.75,
+        "ma60": 2385.17,
+        "ma240": 2122.35,
+        "bias_20": -4.43,
+        "bias_60": -9.86,
+        "rsi14": 47.6,
         "trend": "均線下方弱勢整理"
       }
     },
     "0050": {
       "symbol": "0050.TW",
       "price": 90.3,
-      "prev_close": 95.7,
-      "change": -5.4,
-      "change_percent": -5.64,
+      "prev_close": 87.0,
+      "change": 3.3,
+      "change_percent": 3.79,
       "high": 91.85,
       "low": 86.2,
       "volume": 463136021,
       "status": "success",
       "technicals": {
-        "ma5": 89.53,
-        "ma20": 97.12,
-        "ma60": 105.67,
-        "ma240": 91.52,
-        "bias_20": -7.02,
-        "bias_60": -14.55,
-        "rsi14": 39.9,
+        "ma5": 90.29,
+        "ma20": 98.04,
+        "ma60": 105.93,
+        "ma240": 91.4,
+        "bias_20": -7.89,
+        "bias_60": -14.76,
+        "rsi14": 45.6,
         "trend": "均線下方弱勢整理"
       }
     }
@@ -123,13 +123,13 @@
     },
     "us": {
       "symbol": "^GSPC",
-      "price": 7201.09,
-      "prev_close": 7237.17,
-      "change": -36.08,
-      "change_percent": -0.5,
-      "high": 7223.95,
-      "low": 7138.93,
-      "volume": 3323599000,
+      "price": 7030.94,
+      "prev_close": 7201.09,
+      "change": -170.15,
+      "change_percent": -2.36,
+      "high": 7063.54,
+      "low": 6970.11,
+      "volume": 1282376000,
       "status": "success"
     },
     "jp": {
@@ -145,12 +145,12 @@
     },
     "eu": {
       "symbol": "^STOXX50E",
-      "price": 5964.45,
+      "price": 5894.46,
       "prev_close": 6003.76,
-      "change": -39.31,
-      "change_percent": -0.65,
+      "change": -109.3,
+      "change_percent": -1.82,
       "high": 6038.75,
-      "low": 5963.67,
+      "low": 5896.4,
       "volume": 0,
       "status": "success"
     }
@@ -158,36 +158,36 @@
   "commodities": {
     "brent": {
       "symbol": "BZ=F",
-      "price": 88.61,
+      "price": 89.79,
       "prev_close": 88.78,
-      "change": -0.17,
-      "change_percent": -0.19,
-      "high": 88.74,
+      "change": 1.01,
+      "change_percent": 1.14,
+      "high": 90.37,
       "low": 86.95,
-      "volume": 8941,
+      "volume": 23237,
       "status": "success"
     }
   },
   "macro_indicators": {
     "usdtwd": {
       "symbol": "USDTWD=X",
-      "price": 33.13,
+      "price": 33.24,
       "prev_close": 32.96,
-      "change": 0.17,
-      "change_percent": 0.52,
-      "high": 33.18,
+      "change": 0.28,
+      "change_percent": 0.85,
+      "high": 33.28,
       "low": 32.92,
       "volume": 0,
       "status": "success"
     },
     "dxy": {
       "symbol": "DX-Y.NYB",
-      "price": 103.97,
+      "price": 103.76,
       "prev_close": 103.81,
-      "change": 0.16,
-      "change_percent": 0.15,
+      "change": -0.05,
+      "change_percent": -0.05,
       "high": 104.1,
-      "low": 103.81,
+      "low": 103.74,
       "volume": 0,
       "status": "success"
     }
@@ -536,6 +536,24 @@
   ],
   "tech_charts": {
     "2603": [
+      {
+        "date": "2026-08-27",
+        "open": 226.0,
+        "high": 233.0,
+        "low": 225.5,
+        "close": 232.5,
+        "volume": 20650680,
+        "ma5": 242.3,
+        "ma20": 224.12,
+        "ma60": 209.88,
+        "bb_upper": 257.06,
+        "bb_lower": 191.19,
+        "k": 60.03,
+        "d": 75.52,
+        "macd_dif": 10.01,
+        "macd_dem": 9.33,
+        "macd_osc": 0.68
+      },
       {
         "date": "2026-08-28",
         "open": 231.0,
@@ -1597,27 +1615,27 @@
         "macd_dif": -1.82,
         "macd_dem": 0.14,
         "macd_osc": -1.96
-      },
-      {
-        "date": "2026-11-25",
-        "open": 250.0,
-        "high": 256.5,
-        "low": 244.5,
-        "close": 252.5,
-        "volume": 29592401,
-        "ma5": 244.8,
-        "ma20": 255.47,
-        "ma60": 247.72,
-        "bb_upper": 276.35,
-        "bb_lower": 234.6,
-        "k": 51.77,
-        "d": 44.93,
-        "macd_dif": -1.53,
-        "macd_dem": -0.19,
-        "macd_osc": -1.34
       }
     ],
     "2609": [
+      {
+        "date": "2026-08-27",
+        "open": 56.7,
+        "high": 58.4,
+        "low": 56.5,
+        "close": 57.9,
+        "volume": 60163740,
+        "ma5": 61.52,
+        "ma20": 55.01,
+        "ma60": 52.49,
+        "bb_upper": 64.75,
+        "bb_lower": 45.27,
+        "k": 60.61,
+        "d": 74.6,
+        "macd_dif": 2.6,
+        "macd_dem": 2.06,
+        "macd_osc": 0.54
+      },
       {
         "date": "2026-08-28",
         "open": 57.5,
@@ -2679,27 +2697,27 @@
         "macd_dif": -1.36,
         "macd_dem": -0.8,
         "macd_osc": -0.56
-      },
-      {
-        "date": "2026-11-25",
-        "open": 54.6,
-        "high": 57.3,
-        "low": 54.2,
-        "close": 55.8,
-        "volume": 19233641,
-        "ma5": 55.38,
-        "ma20": 59.08,
-        "ma60": 59.9,
-        "bb_upper": 64.83,
-        "bb_lower": 53.33,
-        "k": 34.79,
-        "d": 34.93,
-        "macd_dif": -1.41,
-        "macd_dem": -0.92,
-        "macd_osc": -0.49
       }
     ],
     "2615": [
+      {
+        "date": "2026-08-27",
+        "open": 113.0,
+        "high": 116.5,
+        "low": 110.5,
+        "close": 113.5,
+        "volume": 45240374,
+        "ma5": 120.8,
+        "ma20": 99.0,
+        "ma60": 87.46,
+        "bb_upper": 129.26,
+        "bb_lower": 68.73,
+        "k": 70.1,
+        "d": 80.66,
+        "macd_dif": 9.55,
+        "macd_dem": 7.41,
+        "macd_osc": 2.14
+      },
       {
         "date": "2026-08-28",
         "open": 113.5,
@@ -3761,27 +3779,27 @@
         "macd_dif": -4.36,
         "macd_dem": -2.72,
         "macd_osc": -1.64
-      },
-      {
-        "date": "2026-11-25",
-        "open": 95.8,
-        "high": 103.5,
-        "low": 95.5,
-        "close": 100.5,
-        "volume": 25952443,
-        "ma5": 98.44,
-        "ma20": 108.46,
-        "ma60": 113.18,
-        "bb_upper": 122.61,
-        "bb_lower": 94.31,
-        "k": 29.66,
-        "d": 27.81,
-        "macd_dif": -4.34,
-        "macd_dem": -3.04,
-        "macd_osc": -1.3
       }
     ],
     "2330": [
+      {
+        "date": "2026-08-27",
+        "open": 2430.0,
+        "high": 2435.0,
+        "low": 2410.0,
+        "close": 2410.0,
+        "volume": 16247745,
+        "ma5": 2402.0,
+        "ma20": 2389.5,
+        "ma60": 2383.75,
+        "bb_upper": 2443.06,
+        "bb_lower": 2335.94,
+        "k": 64.0,
+        "d": 56.35,
+        "macd_dif": 7.88,
+        "macd_dem": 4.45,
+        "macd_osc": 3.43
+      },
       {
         "date": "2026-08-28",
         "open": 2440.0,
@@ -4843,24 +4861,6 @@
         "macd_dif": -77.02,
         "macd_dem": -65.19,
         "macd_osc": -11.83
-      },
-      {
-        "date": "2026-11-25",
-        "open": 2150.0,
-        "high": 2170.0,
-        "low": 2020.0,
-        "close": 2150.0,
-        "volume": 83805034,
-        "ma5": 2102.0,
-        "ma20": 2236.0,
-        "ma60": 2380.83,
-        "bb_upper": 2462.8,
-        "bb_lower": 2009.2,
-        "k": 37.93,
-        "d": 36.54,
-        "macd_dif": -74.22,
-        "macd_dem": -67.0,
-        "macd_osc": -7.22
       }
     ]
   },
@@ -5305,7 +5305,7 @@
           7376.86,
           7561.67,
           6910.39,
-          7201.09
+          7037.23
         ],
         "jp": [
           50491.87,
@@ -5415,7 +5415,7 @@
           6170.49,
           6386.86,
           5941.95,
-          5964.55
+          5894.46
         ]
       }
     },
@@ -6275,7 +6275,7 @@
           7376.86,
           7561.67,
           6910.39,
-          7201.09
+          7037.81
         ],
         "jp": [
           39091.17,
@@ -6489,14 +6489,14 @@
           6170.49,
           6386.86,
           5941.95,
-          5964.55
+          5894.46
         ]
       }
     }
   },
   "live_news": [
     {
-      "id": "live-2",
+      "id": "live-17",
       "title": "陽明獲TCSA台灣企業永續獎雙獎　去年船隊碳強度較基準年降63%",
       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5ILU02c2tIT1drQ1lmU0dfazJHOWdMUFNwT3VDZDdaZ3V2Q0VTY1dLRW1wVUhtbENLbF91T1IyRmhPUl9Ga3FleXJHalpFeW1qNUHSAVBBVV95cUxQWE1NQm9jMmtMdXQzZ2ZueV9NZWIybUxpa2FnNEZHZGRJQ200dzA1VnlUbV9YZVN4blJqRTUzNnl1NVVmLTcxcVB0R2h2RktQdw?oc=5",
       "pubDate": "2026-11-25 17:52",
@@ -6508,7 +6508,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-1",
+      "id": "live-16",
       "title": "陽明海運推動永續榮獲TCSA台灣企業永續獎雙重肯定- 商情",
       "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE8zdThuSDZDWUx3QUNFZE80UXkyRjZ0c2FKOFNWZ0ZqWFktWDlTckFGWnZhQ1Q4Zmluc1VyaTgxRHdGenZ2dlFLVnVqQ3R6OEVZanpxR05Zd3BhT3JwZVdV?oc=5",
       "pubDate": "2026-11-25 17:51",
@@ -6520,7 +6520,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-43",
+      "id": "live-35",
       "title": "八大官股》台股下跌1926點！官股大舉敲進台積電逾2.5萬張、聯電近1.5萬張，買賣超前10名一次看| 下班經濟學| 財經",
       "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9tOEJZR3doSWlrOWI5OVVrWkp1RzUtdWdkaktBNnBmaG5MWjFtYVlEb2dSMV95dlkwU0VMcDRUc2hyS3RZQ1NLamthY3U1dw?oc=5",
       "pubDate": "2026-11-25 17:25",
@@ -6532,7 +6532,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-33",
+      "id": "live-24",
       "title": "【即時新聞】台股狂跌逾三千點資金避險，陽明盤中逆勢翻紅展抗跌韌性！",
       "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPX1FjY19mR01ZdWk2Vy12VHIxOERONlhWcmpoMndiYXRqbE1oeDFDWGxDZXBOc2J2eGVMRy1vLXdqeDhBQlNCUjVidjl5b1FVVGtrdlBfVHBxWmRoNHczdXBfYkJhRlgzOGYzcFozQ0dGTVJyaTF1ZWNCeW05REZWNEtKd0FwZmtBNWFSemcxRFc?oc=5",
       "pubDate": "2026-11-25 14:55",
@@ -6544,7 +6544,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-41",
+      "id": "live-31",
       "title": "台股25日殺盤再現重挫1926點 萬海逆風航運股中唯一收漲",
       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1Dc1ZsR3hLS0VoekdEckt6cDB5UEFwSTdYYkJOZlltV1BDS0JKTlE4U1I4U3l6TWQ0TlA3d2J2a0lxZDRxLWFlWFhQQlBIbE9meXBNcm5hX29LeDVJZ3A5V0tBTGtEY21XeGgtRy0tYw?oc=5",
       "pubDate": "2026-11-25 14:45",
@@ -6556,9 +6556,9 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-55",
+      "id": "live-32",
       "title": "台股暴殺3440點！貨櫃三雄展現韌性 萬海逆勢走強",
-      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBBTXlNUldxaWlZRmVxbkdQdkpzRXluMDdNbDRDRjVzTEpPU0FZTnYxTXQ4V0t1ekhFeG1BZDhZU3lPVlQ5WDJkUE1JMW1mWldyc0NUcjUwbmhzUdIBX0FVX3lxTE94SjNYdTBjYXhQaE5FQXNUeDVJak8wZUl2UE8zV3k2d2lfVi1lR3MyOFZIQnBJX05OekxxTWhwTU9uUG5kQjhGWk1MNWlBQVhCbk1FTk1YeG9WbURNSVdR?oc=5",
+      "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE94SjNYdTBjYXhQaE5FQXNUeDVJak8wZUl2UE8zV3k2d2lfVi1lR3MyOFZIQnBJX05OekxxTWhwTU9uUG5kQjhGWk1MNWlBQVhCbk1FTk1YeG9WbURNSVdR0gFfQVVfeXFMT3hKM1h1MGNheFBoTkVBc1R4NUlqTzBlSXZQTzNXeTZ3aV9WLWVHczI4VkhCcElfTk56THFNaHBNT25QbmRCOEZaTUw1aUFBWEJuTUVOTVh4b1ZtRE1JV1E?oc=5",
       "pubDate": "2026-11-25 13:00",
       "date": "2026-11-25 13:00",
       "source": "經濟日報",
@@ -6568,7 +6568,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-31",
+      "id": "live-18",
       "title": "【12:15 即時新聞】陽明(2609)盤中小漲守穩五字頭，市場關注海運景氣與法人動向",
       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQZjZPWTlrQWplT2RnRko3UjZlc2cyZVZkd3BhYXlpWWVfeVM5Q3JONXJBclI3SEhtakZWZE42aFFZek1BTVlrNHJ6Z3BCTm9HOWF0aUFJQjE2eEphSXpHTU1PTVdUREdxXzZZYkY0WFJBdjZreVhOSk0zbklvSWlwWG9pQ1VjMnZrcGRPLVhB?oc=5",
       "pubDate": "2026-11-25 12:15",
@@ -6580,7 +6580,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-16",
+      "id": "live-1",
       "title": "【09:44 即時新聞】萬海(2615)盤中走強，市場聚焦貨櫃航運景氣延續",
       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQNlNCU1phZUI4RjJMQ1pZWDM4WE1XN09JU081ZUprbXJGWWVsMzNEYUZwcHhiRWF1ZEEyZXZUbktSTW9BcWl4bmY5YU5YUHBIcVk3ZUpyejR6emFDQXM1V3QtYWQtcnBudkFBX21CaGdRWHhmbGN1RVR6bjA0RDFBU0liZmFPc2FpMFEzZE9n?oc=5",
       "pubDate": "2026-11-25 09:44",
@@ -6592,19 +6592,19 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-20",
-      "title": "巴拿馬運河縮減通行量、中東危機未解 貨櫃海運迎新一波漲價潮",
-      "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE4tcUhpUkFyeE1Va1d4c2VOeW1mUnBGQ3czQlQxLTV0RHlpckZvYVdYa0dBNmM2ZU84Rlg4bDFkZ1RCckFLaThRejhpRVM4Nk5iZTVMQW4yclNLb2_SAWBBVV95cUxQX09zVFNBUUJ3MlFUekRBamJfTVNkMDlVTWJQSzdJcElXTEsxajhvSnFwV1prN29BeGFqOGpJUTdlTXFrSnNvU2pBSGlpQ1ZvdW1HRWpTb3BWblBJU0thWTU?oc=5",
-      "pubDate": "2026-11-23 16:00",
-      "date": "2026-11-23 16:00",
-      "source": "經濟日報",
-      "sentiment": "bear",
-      "sentimentLabel": "偏空警訊",
-      "category": "geopolitics",
+      "id": "live-37",
+      "title": "萬海印度子公司攜手CitiBank打造應收帳款對帳系統 獲國際財資大獎肯定",
+      "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9VZVFOaFF0XzEzbXBlWmV2ZDNjT0ZUOTJfcUlabFk1dTgzNnRQd0NtYm56V1B3VnRmUHdWVHJaT1hfQ241OHNzSmNqNHlTR08yTW1yNg?oc=5",
+      "pubDate": "2026-11-23 15:06",
+      "date": "2026-11-23 15:06",
+      "source": "航貿週刊",
+      "sentiment": "neutral",
+      "sentimentLabel": "即時市場",
+      "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-17",
+      "id": "live-2",
       "title": "MSC麥司克達飛三大歐洲航商十二月份推漲歐洲航線運價",
       "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9kSkQ5QjcwcFhkazFqVFp4aUF3czRnNzlTcWdjQ1lKcTdHMmFVODR1ZmdzSXg0VlV1dXRqb1ZEZkhtYXB1X010RnVNR1BSdk1oQ2t1dg?oc=5",
       "pubDate": "2026-11-23 15:05",
@@ -6616,19 +6616,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-21",
-      "title": "SCFI連3黑！法人「1原因」照挺貨櫃3雄長榮、陽明、萬海...最新目標價1次看- 上市櫃",
-      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE94OEJjNDY4U0JUaFUtTTZYU2FOcG1Ja3hvU2Mxc0FHdjNlVkEtamVFMXVsV0dqTlI5YUJNTm1GYml5RElweEE0MWdhdGFKbG9XOVloMTZHcU5kNUdxLTZ3MXQxMnRTdzBhTGc?oc=5",
-      "pubDate": "2026-11-23 13:00",
-      "date": "2026-11-23 13:00",
-      "source": "旺得富理財網",
-      "sentiment": "neutral",
-      "sentimentLabel": "即時市場",
-      "category": "corporate",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
-    },
-    {
-      "id": "live-22",
+      "id": "live-4",
       "title": "全球10%運力消失、運價狂飆！大咖法人首選「1台廠」 年前旺季反彈在即",
       "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTFBVdjNJdUpHNlNnZllvcXk0SDR0bEZZZUU1TEJIaEIwQnkyZ1MtY2Z5LVlDcS1xWXBqcjlIbmIxQVpMQ2VlZUdCTFNlaw?oc=5",
       "pubDate": "2026-11-22 21:25",
@@ -6640,7 +6628,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-25",
+      "id": "live-45",
       "title": "討論牆 | SCFI指數連三跌 貨櫃三雄股價表現疲軟",
       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5LdVRKSXpUVWc5bDY3UjU4Qkt0QmxKVzVZc2NHVWE4Mmk0UmVYQXhhLVF0a1RkRlpIZmVJN0ZxYlBMUzd3V1F1OHRZd2N5R0FTRHVFeEFZS2dRN3I5M1lNQkV1Smc?oc=5",
       "pubDate": "2026-11-22 12:23",
@@ -6652,7 +6640,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-32",
+      "id": "live-19",
       "title": "董事長的一句話／2027年航運市場恐震盪？陽明蔡豐明揭兩大變數：紅海復航、港口罷工牽動運價| 專題報導| 專題",
       "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1OYUlXVlpHcDZTSnJmd2tJbllwa1J4bmtZYVZtXzN6Y0VGQ1BkNXU0WFhXZGl6d1d2bXM2VkhEdWFWSjF5ajZ0RnN3TmFNU19KaXN4Si1QR3BhZDZQ?oc=5",
       "pubDate": "2026-11-22 09:00",
@@ -6664,7 +6652,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-18",
+      "id": "live-3",
       "title": "貨櫃三雄新戰局2》新船越造越多 運價卻有三大支撐",
       "link": "https://news.google.com/rss/articles/CBMi0wJBVV95cUxPNGUwaFRGY2FiVS1VMVRSX1V2OTNROUJIODdkYnZqcTl1MXNwVW0wbTRmMjBWTDRHNzJ3czBLY1h3b3AtTGFMaURsYndEYmpKQXhRNnhHWHd6ZkZsMDJUY3ozcU53WWVNcEdjNlVjWldaYzh1OVZRRU1ERjcwbVlmRDJWdE5DTEVwV3pRZnhNVHBVa3M3X3loYlBDX1JieC1pSWdrSjRNQm1KSUw0d2ZmRUZfNmo5STg5cjZkZFBDRTdDR1VHcHBTY0xlazVVcmNyNGhmN0hRQ0lvYnlyZF9TMHBqMWd5TUpsRDBpTVJSTlU0WXpVY1VCSURhYm5Fbmc1cWNfcmJDa2pMSG9CWGhoTHJsdmZWalRRTHlVcTVNejVyLUVjQmhucVEtY2NjczFaX0p2VUFzUlZqd1BteVBNSkl3LVIySFYtcFByUS1Tbzdfajg?oc=5",
       "pubDate": "2026-11-22 06:01",
@@ -6676,19 +6664,31 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-19",
+      "id": "live-14",
       "title": "貨櫃三雄新戰局1》長榮穩坐獲利王 三雄賺錢能力差在哪？",
-      "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFAzeFBjTzhxT1NaV3lxSElSVDMtM1I1V3czRllCQTFtdlFidXhDUHd4M0pSTkhrVFpLMS0wQXZOYWFKQTZYZDlyVEVkdnB1RU5EYTczcGM0QnZ2SGdCTnJoMktQVzU?oc=5",
+      "link": "https://news.google.com/rss/articles/CBMi6wJBVV95cUxPenRidFlHRkwxSTdtbS1IYnpWRFlYdWtMLU5BMHowUnJNcW9PeVRiWDJpYU5JTldWM0dZZ01oWHNGdVpJSkNLQ29tRDlpNkRESzVUT3ZGRU1SZGwxWEpBMWRhc0FtS0gyOHpFWUtmbGhZMWR4WXRjT2ZyUi1kcF9PZmlxVHFaQ0xqaW9kMl9hdXpmLWZoMGJyOU96YmVLb2RRMVJCZlNLUjVYcW9BQldqMmRYLXlTSnBWRV8zRlJHSEFvS18tSnhKM2prT2s5Nnk3dm1PaW5iQ0wxLWwwbjBrWS1oLUFXRDVFZHFkeDlZM3p1ak9ZaXVDU1RnQlpzRGoxN1B6ZmIxem1ZUl9WNnlsSGo2T01HeHdFelNGc3pfZ0VGbWhQanZDMWZDcHhTa0hwRlpaNk0yd21fbERmYWZMME5kNGR5akFXOG9GZnhWbE1wWXVSVGtMc2dpd1BNQWY1LTlQVWo3SW5Wd0U?oc=5",
       "pubDate": "2026-11-22 06:00",
       "date": "2026-11-22 06:00",
-      "source": "民報",
+      "source": "Yahoo新聞",
       "sentiment": "bull",
       "sentimentLabel": "偏多利多",
       "category": "corporate",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-30",
+      "id": "live-53",
+      "title": "貨櫃三雄拚獲利 船隊升級成關鍵",
+      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1odE9RN01iMkZYeWtYUFpfRHV4UW5BdVc0Ql8tN2Z2OU9Dc2hpOVVzTmJ2MzkybE9jMkZzLUdyUjByaGJMTVJzUnZfbXd6eHB3UG52T280NE1ZQdIBX0FVX3lxTE1WRWYyenV2ZzRxa05GbFZBNENfUEU4STBLT3pSUlBNR0VPVFdaaG4zYVI2TnF3clZVM1FjR1hkelhWNTFhaWF4Q1ZHX0E5V1JNS3hmWjhWeEQwazN2NVZN?oc=5",
+      "pubDate": "2026-11-21 16:00",
+      "date": "2026-11-21 16:00",
+      "source": "經濟日報",
+      "sentiment": "neutral",
+      "sentimentLabel": "即時市場",
+      "category": "corporate",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
+    },
+    {
+      "id": "live-52",
       "title": "SCFI指數連三跌 貨櫃三雄股價表現疲軟",
       "link": "https://news.google.com/rss/articles/CBMijgJBVV95cUxPZGdUYlY4c05TWlRiMmJMMUw2QnI4QWtTaGNNY0FGWTVqRjIxU29CcGRsNFdYd0NYY3ptVXpZQUF5c3ptdDAwbU8tWl8yQ2RKRkhfcWMzQjZzZWQyQmlJZjQ2RlpqWVIybmxReDJJV0JtYmZncVFyM0daWWlnSTJyQ0dKSDZQVnBIQjU0MjZJQUpCMEFndVZjM1Q5VWpzTGFKaFpNdmpvZzdOX1g4d0RfNGE5NHBPRXpUUTNLczNsc21JOHpiYnlXQUtFaVhUTzhRMXk5aDQtR19QMnBxUm9WRnBjRUtqelljQ2NwR2VieTIxeE9EdFJCWklvb29Qa19oWUN1QWw4UnFpaDVYLUE?oc=5",
       "pubDate": "2026-11-21 12:18",
@@ -6700,19 +6700,7 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-23",
-      "title": "Drewry世界貨櫃指數下跌3%至4,176美元，跨太平洋運價連七週走弱 - 新聞與統計",
-      "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOSUsyelIyLWVOT3RXOGJtUVBnUElCV3lNcDAxaGRkYmlfc3lXNTNjV240R0RYLThTMHc2eURSVGFsOUtkbXVxY0ktMUZ2OWtUYU1XSHY3QW1lV3YxMkRlTDF2TkhMUFFKYUV2NnVkc2ZlSmdVTWFVYV9OeUVlUzVYLVloX09Jb3ZqaGkyOFR4NUNXM195cTlZWFVxX1I2bU5yY2VNN253?oc=5",
-      "pubDate": "2026-11-21 12:00",
-      "date": "2026-11-21 12:00",
-      "source": "IndexBox",
-      "sentiment": "bear",
-      "sentimentLabel": "偏空警訊",
-      "category": "freight",
-      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
-    },
-    {
-      "id": "live-44",
+      "id": "live-38",
       "title": "萬海陳柏廷難得現身 從羽球攻防妙喻航運變數",
       "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTFAxeklkaDdpLUp3OE5FYkRMcUJDVnRORHZDZTlYN2N3Y0dMQW81LV9DYzQ0MGZPWGE1Tl9HekRSbFBpcWtsTVdUM1ZaTVBGWG8tbWRRSUlLZDNQTmgtRmpGWEpieE8zdDEtOXdyMm8yRFdZWVZpU0R3dkpzNA?oc=5",
       "pubDate": "2026-11-20 16:55",
@@ -6724,14 +6712,26 @@
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     },
     {
-      "id": "live-7",
-      "title": "2603 長榮 - 股票配置長榮海運+ETF🚢📈💰💰💰 - 股市爆料同學會",
-      "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9LelhKdWQ4R3NkSThydzBDM2Q2Y2M5dTlWU1Iyc2M4UEpNOVBldnR1TUtqMlVxQ1ZMWGhJNEg1UU9YcnoyZ1N6el9TRlpQXzBMT1BGQlBOSHE?oc=5",
-      "pubDate": "2026-11-19 23:23",
-      "date": "2026-11-19 23:23",
-      "source": "CMoney",
-      "sentiment": "neutral",
-      "sentimentLabel": "即時市場",
+      "id": "live-41",
+      "title": "【10:57 即時新聞】萬海(2615)股價走強，貨櫃航運獲利與船隊布局受關注",
+      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNeUVvNzA2U203Q1ltQWtpUmNpS1NGSXkzamNGelY5VTMtbGh4RnFxUDBrUmlocS1UcVFuMHBwcW5xdUpZQzZuVkVyTTRvSjZTSnNFQmVJcHRnZXB1SFhlVUVlMVI2LXo3Nmx3OUJzTXpXczBTdWR2d2FvX0d4S0dyXzhYM3FhVzJ5Mk5UWEF3?oc=5",
+      "pubDate": "2026-11-16 10:58",
+      "date": "2026-11-16 10:58",
+      "source": "CMoney投資網誌",
+      "sentiment": "bull",
+      "sentimentLabel": "偏多利多",
+      "category": "corporate",
+      "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
+    },
+    {
+      "id": "live-56",
+      "title": "貨櫃三雄有志一同 看旺年底至農曆年業績",
+      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9ONV9CbXlWb2QxZVBfMHJ3NlZRSzdyWF91UkNobHNsSTJBVTZWaXZCekRES2RMQW1zelk2WlBLa1VXTlA1a3A1T0ZDenU4NXlDR081MTBYSDlFZ9IBX0FVX3lxTE5ZTGNfMjZieFZ2UVdfdWh3dUFQT2lxRUhnOWp3dnVQU3JSZnpGb3NrQzlpc3FMeTNweUxLeE9BUm1MT3VHVmlaZ1JqVEFSZFlFenhhNE0xU05xTWxMeGNJ?oc=5",
+      "pubDate": "2026-11-16 01:20",
+      "date": "2026-11-16 01:20",
+      "source": "經濟日報",
+      "sentiment": "bull",
+      "sentimentLabel": "偏多利多",
       "category": "freight",
       "impact": "即時追蹤貨櫃三雄（長榮、陽明、萬海）營運、運價與法人籌碼影響"
     }
