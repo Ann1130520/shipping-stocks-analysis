@@ -1582,55 +1582,119 @@ function renderSubRouteFreightChart() {
 }
 
 // 5. Supply vs Demand Balance Chart
-function renderSupplyDemandBalanceChart() {
+let currentSupplyDemandType = 'global';
+
+const SUPPLY_DEMAND_DATA = {
+  global: {
+    title: '全球貨櫃船供需平衡模擬分析',
+    desc: '交付運力 vs 繞道吸收 vs 拆解淨增 (單位：萬TEU)',
+    unit: '萬TEU',
+    datasets: [
+      { label: '新船下水交付運力 (萬TEU)', data: [230, 295, 220, 180], backgroundColor: '#ef4444', borderRadius: 4 },
+      { label: '好望角繞道吸收運力 (萬TEU)', data: [0, 220, 215, 190], backgroundColor: '#10b981', borderRadius: 4 },
+      { label: 'IMO環保降速與拆解吸收 (萬TEU)', data: [40, 55, 60, 65], backgroundColor: '#3b82f6', borderRadius: 4 }
+    ]
+  },
+  '2603': {
+    title: '長榮海運 (2603) 船隊運力消長與繞道配置',
+    desc: '新造交船 vs 歐洲線繞道吸收 vs 老舊小船汰換 (單位：萬TEU)',
+    unit: '萬TEU',
+    datasets: [
+      { label: '新交大船投入運力 (萬TEU)', data: [18.5, 24.0, 16.5, 12.0], backgroundColor: '#ef4444', borderRadius: 4 },
+      { label: '歐美線繞道好望角吸收 (萬TEU)', data: [0, 19.5, 18.0, 15.5], backgroundColor: '#10b981', borderRadius: 4 },
+      { label: '老舊租約到期與拆解 (萬TEU)', data: [3.2, 4.5, 5.0, 5.5], backgroundColor: '#3b82f6', borderRadius: 4 }
+    ]
+  },
+  '2609': {
+    title: '陽明海運 (2609) 船隊運力消長與繞道配置',
+    desc: '新船交付 vs 歐洲線核心繞道吸收 vs 老船退租 (單位：萬TEU)',
+    unit: '萬TEU',
+    datasets: [
+      { label: '新造節能船交付 (萬TEU)', data: [7.2, 9.8, 8.5, 6.0], backgroundColor: '#ef4444', borderRadius: 4 },
+      { label: '高比重歐洲線繞道吸收 (萬TEU)', data: [0, 8.5, 8.2, 7.5], backgroundColor: '#10b981', borderRadius: 4 },
+      { label: '老舊高耗能船退租拆解 (萬TEU)', data: [1.5, 2.0, 2.4, 2.8], backgroundColor: '#3b82f6', borderRadius: 4 }
+    ]
+  },
+  '2615': {
+    title: '萬海航運 (2615) 船隊運力消長與航線配置',
+    desc: '美西大船交付 vs 遠洋美西航線吸收 vs 近洋調度 (單位：萬TEU)',
+    unit: '萬TEU',
+    datasets: [
+      { label: '新造 1.3萬TEU 大船交付', data: [8.5, 11.2, 9.0, 5.5], backgroundColor: '#ef4444', borderRadius: 4 },
+      { label: '遠洋美西/南美航線吸納運力', data: [0, 7.8, 8.0, 6.8], backgroundColor: '#10b981', borderRadius: 4 },
+      { label: '近洋老舊中小船汰換拆解', data: [2.0, 2.8, 3.2, 3.5], backgroundColor: '#3b82f6', borderRadius: 4 }
+    ]
+  }
+};
+
+function renderSupplyDemandBalanceChart(type) {
+  if (type) currentSupplyDemandType = type;
   const ctx = document.getElementById('supplyDemandBalanceChart');
   if (!ctx) return;
+
+  const conf = SUPPLY_DEMAND_DATA[currentSupplyDemandType] || SUPPLY_DEMAND_DATA.global;
+
+  const titleEl = document.getElementById('supply-demand-title');
+  const descEl = document.getElementById('supply-demand-desc');
+  if (titleEl) titleEl.textContent = conf.title;
+  if (descEl) descEl.textContent = conf.desc;
+
+  if (supplyDemandChartInstance) {
+    supplyDemandChartInstance.destroy();
+  }
 
   supplyDemandChartInstance = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: ['2023 全年', '2024 全年', '2025 全年', '2026 預估'],
-      datasets: [
-        {
-          label: '新船下水交付運力 (萬TEU)',
-          data: [230, 295, 220, 180],
-          backgroundColor: '#ef4444',
-          borderRadius: 4
-        },
-        {
-          label: '好望角繞道吸收運力 (萬TEU)',
-          data: [0, 220, 215, 190],
-          backgroundColor: '#10b981',
-          borderRadius: 4
-        },
-        {
-          label: 'IMO環保降速與拆解吸收 (萬TEU)',
-          data: [40, 55, 60, 65],
-          backgroundColor: '#3b82f6',
-          borderRadius: 4
-        }
-      ]
+      datasets: conf.datasets
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'top', labels: { color: '#1e4e6e', font: { size: 11 } } }
+        legend: {
+          labels: { color: '#1e4e6e', font: { size: 10 } }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return `${context.dataset.label}: ${context.parsed.y} ${conf.unit}`;
+            }
+          }
+        }
       },
       scales: {
         x: {
           grid: { color: chartColors.slateGrid },
-          ticks: { color: chartColors.slateText, font: { size: 11 } }
+          ticks: { color: chartColors.slateText, font: { size: 10 } }
         },
         y: {
           grid: { color: chartColors.slateGrid },
-          ticks: { color: chartColors.slateText, callback: val => `${val}萬` }
+          ticks: {
+            color: chartColors.slateText,
+            callback: v => `${v}${conf.unit}`
+          }
         }
       }
     }
   });
-}
 
+  const tabContainer = document.getElementById('supply-demand-tabs');
+  if (tabContainer && !tabContainer.dataset.bound) {
+    tabContainer.dataset.bound = 'true';
+    tabContainer.querySelectorAll('.sd-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetType = btn.getAttribute('data-type');
+        tabContainer.querySelectorAll('.sd-tab-btn').forEach(b => {
+          b.className = 'sd-tab-btn px-2.5 py-1 rounded font-bold text-[11px] text-slate-400 hover:text-white';
+        });
+        btn.className = 'sd-tab-btn active px-2.5 py-1 rounded font-bold text-[11px] bg-teal-500/20 text-teal-300 border border-teal-500/40';
+        renderSupplyDemandBalanceChart(targetType);
+      });
+    });
+  }
+}
 /* ========================================================
    3. CURATED SHIPPING NEWS & SENTIMENT CENTER
    ======================================================== */

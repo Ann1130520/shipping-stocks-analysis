@@ -1240,9 +1240,16 @@
           <div class="flex items-center justify-between mb-4">
             <div>
               <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                <i class="fa-solid fa-scale-balanced text-teal-400"></i> 全球貨櫃船供需平衡模擬分析
+                <i class="fa-solid fa-scale-balanced text-teal-400"></i> <span id="supply-demand-title">全球貨櫃船供需平衡模擬分析</span>
               </h3>
-              <p class="text-xs text-slate-400">交付運力 vs 繞道吸收 vs 老船拆解淨增加</p>
+              <p class="text-xs text-slate-400" id="supply-demand-desc">交付運力 vs 繞道吸收 vs 拆解淨增 (萬TEU)</p>
+            </div>
+            <!-- 切換全市場與三雄個別船隊 -->
+            <div id="supply-demand-tabs" class="flex items-center gap-1 bg-slate-950/80 p-1 rounded-lg border border-slate-800 text-xs">
+              <button data-type="global" class="sd-tab-btn active px-2.5 py-1 rounded font-bold text-[11px] bg-teal-500/20 text-teal-300 border border-teal-500/40">全市場</button>
+              <button data-type="2603" class="sd-tab-btn px-2.5 py-1 rounded font-bold text-[11px] text-slate-400 hover:text-white">長榮</button>
+              <button data-type="2609" class="sd-tab-btn px-2.5 py-1 rounded font-bold text-[11px] text-slate-400 hover:text-white">陽明</button>
+              <button data-type="2615" class="sd-tab-btn px-2.5 py-1 rounded font-bold text-[11px] text-slate-400 hover:text-white">萬海</button>
             </div>
           </div>
           <div class="h-64 w-full relative">
@@ -3215,7 +3222,7 @@
             </label>
             <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
               <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500">
-              <span><strong class="text-white block">5. 外資與投信近期由賣轉買</strong><span class="text-[10px] text-slate-400">三大法人合計呈現淨買超方向</span></span>
+              <span><strong class="text-white block">5. 外資與投信近 3～5 個交易日由賣轉買</strong><span class="text-[10px] text-slate-400">三大法人近 3~5 日累計轉為淨買超，或出現連續 2 日以上買超</span></span>
             </label>
             <label class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 cursor-pointer">
               <input type="checkbox" class="trade-check mt-0.5 accent-emerald-500">
@@ -3274,6 +3281,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261122_news_refresh_v6"></script>
+  <script src="app.js?v=20261125_sd_stocks_v7"></script>
 </body>
 </html>
