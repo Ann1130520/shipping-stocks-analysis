@@ -2959,7 +2959,7 @@ function renderTechnicalsCharts() {
     });
   }
 
-  // Chart 2: Institutional Investors Breakdown (近三個交易日分別資料)
+  // Chart 2: Institutional Investors Breakdown (近五個交易日分別資料)
   renderInstDailyChart('2603');
 }
 
@@ -2984,7 +2984,7 @@ function renderInstDailyChart(stockCode) {
   // 更新副標題文字
   const subtitleEl = document.getElementById('inst-chart-subtitle');
   if (subtitleEl) {
-    subtitleEl.textContent = `展示 ${currentName} 近三個交易日外資、投信、自營商個別買賣超張數`;
+    subtitleEl.textContent = `展示 ${currentName} 近五個交易日外資、投信、自營商個別買賣超張數`;
   }
 
   // 取得近三個交易日資料 (institutional_daily 為由舊到新的清單)

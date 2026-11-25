@@ -231,7 +231,7 @@ def fetch_twse_t86():
 
 
 def fetch_twse_t86_3days():
-    """Fetch T86 institutional data for the last 3 trading days and return both cumulative and daily data."""
+    """Fetch T86 institutional data for the last 5 trading days and return both cumulative and daily data."""
     from datetime import date as _date, timedelta as _td
     targets = {"2603", "2609", "2615", "2330", "0050"}
 
@@ -270,7 +270,7 @@ def fetch_twse_t86_3days():
     found_dates = []
     check = today
     for _ in range(14):  # look back up to 2 weeks
-        if len(found_dates) >= 3:
+        if len(found_dates) >= 5:
             break
         if check.weekday() < 5:  # Mon-Fri only
             d_str = check.strftime("%Y%m%d")
@@ -307,7 +307,7 @@ def fetch_twse_t86_3days():
     for code in cumulative:
         cumulative[code]["dates"] = date_labels
 
-    print(f"  T86 3 days: {len(daily_list)} days {date_labels}")
+    print(f"  T86 5 days: {len(daily_list)} days {date_labels}")
     return cumulative, daily_list
 
 
@@ -571,7 +571,7 @@ def main():
     institutional = fetch_twse_t86()
     if not institutional and prev_data.get("institutional"):
         institutional = prev_data["institutional"]
-    print("3b. Fetching T86 3-day cumulative...")
+    print("3b. Fetching T86 5-day cumulative and daily data...")
     institutional_3d, institutional_daily = fetch_twse_t86_3days()
     if not institutional_daily and prev_data.get("institutional_daily"):
         institutional_daily = prev_data["institutional_daily"]
