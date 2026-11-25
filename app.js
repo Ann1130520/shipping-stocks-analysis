@@ -2035,6 +2035,39 @@ function initSensitivityCalculator() {
     });
   }
 
+  // Preset Scenario Buttons
+  const btnBull = document.getElementById('preset-bull-btn');
+  const btnBase = document.getElementById('preset-base-btn');
+  const btnBear = document.getElementById('preset-bear-btn');
+
+  if (btnBull) {
+    btnBull.addEventListener('click', () => {
+      sliderScfi.value = 3200;
+      sliderReroute.value = 95;
+      sliderFuel.value = 180;
+      sliderPayout.value = 50;
+      recalculate();
+    });
+  }
+  if (btnBase) {
+    btnBase.addEventListener('click', () => {
+      sliderScfi.value = 2200;
+      sliderReroute.value = 85;
+      sliderFuel.value = 130;
+      sliderPayout.value = 45;
+      recalculate();
+    });
+  }
+  if (btnBear) {
+    btnBear.addEventListener('click', () => {
+      sliderScfi.value = 1300;
+      sliderReroute.value = 10;
+      sliderFuel.value = 70;
+      sliderPayout.value = 35;
+      recalculate();
+    });
+  }
+
   recalculate();
 }
 

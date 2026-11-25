@@ -1754,6 +1754,54 @@
             </button>
             <span class="text-[11px] text-slate-500">*三雄運力與航線敏感度模型</span>
           </div>
+
+          <!-- 一鍵快捷情境切換 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2">
+            <span class="text-[11px] font-bold text-slate-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-bolt text-amber-400"></i> 一鍵情境切換
+            </span>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <button id="preset-bull-btn" class="py-1.5 px-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition text-center font-bold">
+                🔥 紅海緊縮<br><span class="text-[10px] text-slate-400 font-normal">SCFI 3200 / 繞道95%</span>
+              </button>
+              <button id="preset-base-btn" class="py-1.5 px-2 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/30 transition text-center font-bold">
+                ⚖️ 當前常態<br><span class="text-[10px] text-slate-400 font-normal">SCFI 2200 / 繞道85%</span>
+              </button>
+              <button id="preset-bear-btn" class="py-1.5 px-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 transition text-center font-bold">
+                🕊️ 全面復航<br><span class="text-[10px] text-slate-400 font-normal">SCFI 1300 / 繞道10%</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 關鍵變數影響權重與獲利敏感度指南 -->
+          <div class="pt-3 border-t border-slate-800 space-y-2 text-xs">
+            <span class="text-[11px] font-bold text-slate-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-compass-drafting text-cyan-400"></i> 各變數對三雄獲利敏感度指南
+            </span>
+            <div class="space-y-1.5 text-[11px]">
+              <div class="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80 flex items-start gap-2">
+                <i class="fa-solid fa-ship text-emerald-400 mt-0.5 text-xs"></i>
+                <div>
+                  <b class="text-emerald-300">長榮 (2603) 槓桿在「運價規模」與「脫硫塔」：</b>
+                  <p class="text-slate-400 text-[10.5px] mt-0.5">全球 170 萬 TEU 大船隊，SCFI 每漲 100 點單季 EPS 增加 0.95 元。油價差擴大是其獨享護城河。</p>
+                </div>
+              </div>
+              <div class="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80 flex items-start gap-2">
+                <i class="fa-solid fa-water text-blue-400 mt-0.5 text-xs"></i>
+                <div>
+                  <b class="text-blue-300">陽明 (2609) 槓桿在「歐洲線繞道」：</b>
+                  <p class="text-slate-400 text-[10.5px] mt-0.5">歐洲線營收佔比近 40%，受紅海繞行係數高達 0.38。繞行不退，陽明單季利潤爆發力最為強烈。</p>
+                </div>
+              </div>
+              <div class="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80 flex items-start gap-2">
+                <i class="fa-solid fa-boxes-packing text-purple-400 mt-0.5 text-xs"></i>
+                <div>
+                  <b class="text-purple-300">萬海 (2615) 槓桿在「亞洲區間與美西現貨」：</b>
+                  <p class="text-slate-400 text-[10.5px] mt-0.5">亞洲近洋貨量占 6 成提供堅實防禦，新造 1.3 萬 TEU 大船投入美西航線直接捕捉現貨溢價。</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Results Projection Column (Right, 3 Cards) -->
@@ -3320,6 +3368,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261125_5d_formula_v8"></script>
+  <script src="app.js?v=20261125_calc_filled_v9"></script>
 </body>
 </html>
