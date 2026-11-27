@@ -1684,17 +1684,44 @@
         </p>
 
         <!-- 總結模型邏輯公式條 (藍色標註區) -->
-        <div class="mt-3 p-3 rounded-xl bg-slate-950/80 border border-cyan-800/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 text-xs">
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 whitespace-nowrap">
-              <i class="fa-solid fa-square-root-variable mr-1"></i> 總結模型邏輯
-            </span>
-            <div class="font-mono text-cyan-200 text-[11px] sm:text-xs">
-              總單季 EPS = <span class="text-amber-300 font-bold">基準獲利 (4.5 / 1.4 / 2.2)</span> + <span class="text-emerald-300 font-bold">ΔSCFI 運價溢價</span> × <span class="text-rose-300 font-bold">(1 + 繞行比率 × 係數)</span>
+        <div class="mt-3 p-3.5 rounded-xl bg-slate-950/90 border border-cyan-800/60 shadow-lg space-y-2.5 text-xs">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2 pb-2 border-b border-slate-800/70">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 whitespace-nowrap">
+                <i class="fa-solid fa-square-root-variable mr-1"></i> 總結模型邏輯
+              </span>
+              <div class="font-mono text-cyan-200 text-[11px] sm:text-xs font-semibold">
+                總單季 EPS = <span class="text-amber-300 font-bold">基準獲利 (4.5 / 1.4 / 2.2)</span> + <span class="text-emerald-300 font-bold">ΔSCFI 運價溢價</span> × <span class="text-rose-300 font-bold">(1 + 繞行比率 × 係數)</span>
+              </div>
+            </div>
+            <div class="text-[10px] text-slate-400">
+              以平穩市況基準為地基，疊加運價彈性與紅海繞道供需吃緊的倍數放大效應。
             </div>
           </div>
-          <div class="text-[10px] text-slate-400 leading-tight">
-            以平穩市況基準為地基，疊加運價彈性與紅海繞道供需吃緊的倍數放大效應。
+
+          <!-- 換算 EPS 算式明細 (常態基準淨利 ÷ 發行股數) -->
+          <div class="bg-cyan-950/30 border border-cyan-900/40 rounded-lg p-2.5 text-[11px] space-y-1.5">
+            <div class="flex items-center gap-2 font-bold text-cyan-300">
+              <i class="fa-solid fa-calculator text-xs"></i>
+              <span>換算單季基準 EPS 算式依據 (單季稅後淨利 ÷ 流通股數)：</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 font-mono text-[10.5px]">
+              <div class="bg-slate-950/80 p-2 rounded border border-emerald-900/40">
+                <span class="text-emerald-400 font-bold block">長榮 (2603)：</span>
+                <span class="text-slate-300">96億元 ÷ 21.4億股 ≈ <b class="text-amber-300 text-xs">4.5 元</b></span>
+                <span class="text-[9.5px] text-slate-400 block mt-0.5 font-sans">(減資後股本214億，EPS獲利集中放大)</span>
+              </div>
+              <div class="bg-slate-950/80 p-2 rounded border border-blue-900/40">
+                <span class="text-blue-400 font-bold block">陽明 (2609)：</span>
+                <span class="text-slate-300">49億元 ÷ 34.9億股 ≈ <b class="text-amber-300 text-xs">1.4 元</b></span>
+                <span class="text-[9.5px] text-slate-400 block mt-0.5 font-sans">(未減資股本349億，常態基數稀釋，但旺季彈性大)</span>
+              </div>
+              <div class="bg-slate-950/80 p-2 rounded border border-purple-900/40">
+                <span class="text-purple-400 font-bold block">萬海 (2615)：</span>
+                <span class="text-slate-300">62億元 ÷ 28.0億股 ≈ <b class="text-amber-300 text-xs">2.2 元</b></span>
+                <span class="text-[9.5px] text-slate-400 block mt-0.5 font-sans">(股本280億，亞洲近洋高頻剛需提供穩定防守底氣)</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -3401,6 +3428,6 @@
   </footer>
 
   <!-- App Logic JS -->
-  <script src="app.js?v=20261127_formulas_annotated_v10"></script>
+  <script src="app.js?v=20261127_blue_eps_v11"></script>
 </body>
 </html>
